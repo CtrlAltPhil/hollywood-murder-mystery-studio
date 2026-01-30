@@ -1,120 +1,118 @@
 
-# Hollywood Murder Mystery - SCUMM-Style Point & Click Adventure
 
-## Project Overview
-A browser-based point-and-click adventure game in the classic SCUMM style, featuring a Hollywood murder mystery set at GB Studios. The game combines retro pixel art aesthetics with classic adventure game mechanics.
+# UI Improvements: Cursor System and Compact Layout
 
----
-
-## Phase 1: Title Screen & Opening Sequence
-
-### Title Screen
-- Dramatic view of GB Studios exterior at night with the stormy sky
-- Animated lightning flashes illuminating the scene
-- Parallax cars driving by in the foreground
-- "HOLLYWOOD MURDER MYSTERY" title with retro pixel font
-- Pulsing "PRESS START" button with nostalgic glow effect
-- Ambient thunder sound effects (optional, can add later)
-
-### Transition to Party Scene
-- Fade to black transition
-- Scene opens in the Breakroom during the party
-- Characters positioned around the room enjoying the celebration
-- Brief moment to establish the atmosphere
-
-### The Murder Reveal
-- Screen goes completely dark for 2-3 seconds
-- Dramatic return of lights
-- Victim character now lying on the floor
-- Bloody dagger visible beside them
-- Game UI appears and gameplay begins
+## Overview
+This plan addresses two key changes:
+1. Remove the visible player character and use cursor-based interaction instead
+2. Redesign the UI panel to take less screen space
 
 ---
 
-## Phase 2: Core Game Engine
+## Part 1: Cursor-Based Interaction System
 
-### Classic SCUMM Verb Bar
-- Bottom panel with action verbs: **Look at**, **Pick up**, **Use**, **Open**, **Close**, **Talk to**, **Push**, **Pull**
-- Selected verb highlights and combines with clicked objects
-- Contextual cursor that changes based on hotspots
-- Text display showing current action (e.g., "Use Dagger with...")
+### Remove Player Character
+- Delete the yellow circle placeholder from GameScene
+- Remove player movement logic (no need to walk to positions)
+- The scene becomes purely point-and-click investigation
 
-### Point-and-Click Movement
-- Click anywhere in the walkable area to move the player character
-- Smooth gliding movement initially (walk animations can be added later)
-- Walk-behind objects for depth (tables, furniture)
-- Blocked areas that prevent walking through walls
+### Dynamic Cursor System
+The cursor will change based on the currently selected verb:
 
-### Inventory System
-- Scrollable inventory panel at bottom of screen (classic SCUMM style)
-- Items appear when picked up with pixel art thumbnails
-- Drag items onto scene objects or other inventory items to combine
-- "Use X with Y" puzzle solving mechanic
+| Verb | Cursor |
+|------|--------|
+| Look at | Magnifying glass |
+| Pick up | Grabbing hand |
+| Use | Open hand / pointer |
+| Open/Close | Hand with key |
+| Talk to | Speech bubble |
+| Push/Pull | Pointing hand |
+| Default (no verb) | Standard arrow |
 
----
-
-## Phase 3: Dialog & Interaction System
-
-### Dialog Trees
-- Portrait-style character dialog boxes
-- Multiple-choice responses for the player
-- Branching conversations that reveal clues
-- Characters remember previous conversations
-
-### Hotspot System
-- Interactive objects highlighted on hover
-- Each object responds to different verbs differently
-- "Look at" provides descriptions and clues
-- "Talk to" triggers character dialog
+### Implementation
+- Add custom cursor CSS classes in index.css using SVG data URIs
+- Apply cursor class to GameScene based on `selectedVerb` state
+- When hovering over hotspots, cursor may glow or highlight
 
 ---
 
-## Phase 4: Game State & Progression
+## Part 2: Compact Classic SCUMM Layout
 
-### Browser Save System
-- Auto-save at key story moments
-- Manual save/load slots (3 save slots)
-- Saves inventory, room state, story progress, and dialog flags
+### Single-Row UI Panel Design
+Reorganize the bottom panel into one efficient horizontal strip:
 
-### Scene Management
-- Room-to-room navigation (doors, exits)
-- Room state persistence (items taken, objects moved)
-- Story flag system for puzzle progression
+```text
++------------------------------------------------------------------+
+|  [Look] [Pick up] [Use] [Open] [Close] [Talk] [Push] [Pull]      |
+|  "Look at Bloody Dagger"                                          |
+|  [inv1] [inv2] [inv3] [inv4] [inv5] [inv6] [<] [>]               |
++------------------------------------------------------------------+
+```
 
----
+**Optimizations:**
+- Reduce verb button padding for a tighter grid
+- Make action text a single compact line
+- Shrink inventory slots from 64px to 48px
+- Total height target: ~120-140px (down from ~200px)
 
-## Phase 5: Demo Content
+### Alternative: Two-Column Layout
+For even more space, use a side-by-side arrangement:
 
-### Rooms in Demo
-1. **GB Studios Exterior** - Title screen location, can return to investigate outside
-2. **Breakroom** - Main crime scene, party location, where murder occurs
+```text
++------------------------------------------------------------------+
+| [Look][Pickup][Use][Open]  |  "Look at Bloody Dagger"  | [items] |
+| [Close][Talk][Push][Pull]  |                           | [items] |
++------------------------------------------------------------------+
+```
 
-### Interactive Elements
-- Props on tables that can be examined
-- Wine glasses (potential poison clue?)
-- The dagger (murder weapon)
-- Characters to interrogate
-- Doors connecting rooms
-
-### Characters
-- **El Fuego** - One of the suspects/witnesses
-- Additional characters (you'll provide sprites)
-- One character becomes the victim
-
----
-
-## Visual Style
-- 4:3 or 16:9 aspect ratio game window (classic feel)
-- Pixel art aesthetic matching your assets
-- Dark, moody color palette for the mystery atmosphere
-- Retro-styled UI elements and fonts
-- Scanline filter option for extra nostalgia (toggleable)
+This puts verbs on the left, action text centered, inventory on right - all in approximately 80-100px of height.
 
 ---
 
-## Technical Implementation
-- Built with React for the web
-- Canvas-based rendering for game scenes
-- Responsive design that works on desktop and tablets
-- No backend required - everything runs in the browser
-- Easy to add new rooms and content as you create assets
+## Technical Details
+
+### Files to Modify
+
+**src/components/game/GameScene.tsx**
+- Remove the player character div (lines 240-249)
+- Remove player movement state and effects (lines 79-111)
+- Add dynamic cursor class based on selected verb
+- Remove handleSceneClick movement logic
+
+**src/components/game/GameContainer.tsx**
+- Remove movePlayer calls
+- Pass selectedVerb to GameScene for cursor changes
+
+**src/components/game/VerbBar.tsx**
+- Reduce padding from p-2 to p-1
+- Make buttons smaller with reduced font size
+- Compress the grid layout
+
+**src/components/game/Inventory.tsx**
+- Reduce slot size from w-16 h-16 (64px) to w-12 h-12 (48px)
+- Reduce item images proportionally
+
+**src/index.css**
+- Add custom cursor definitions using SVG data URIs
+- Add cursor classes for each verb type
+- Update .verb-button styles for smaller sizing
+- Update .inventory-slot for compact display
+
+### Custom Cursor SVGs
+Will create simple pixel-art style cursors:
+- Magnifying glass (for Look)
+- Grabbing hand (for Pick up)
+- Open palm (for Use)
+- Speech bubble (for Talk)
+
+---
+
+## Visual Result
+
+After implementation:
+- Scene area will be ~80% of viewport (up from ~70%)
+- Floor of breakroom will be clearly visible
+- Cursor changes provide clear feedback on selected action
+- UI remains fully functional but more compact
+- Classic SCUMM feel with modern usability
+
