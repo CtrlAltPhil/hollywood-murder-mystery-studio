@@ -50,13 +50,18 @@ export function GameContainer() {
     );
   }
 
-  // Main gameplay - Classic SCUMM layout with letterboxing
+  // Main gameplay - Fixed Aspect Ratio Container (16:10)
   return (
-    <div className="w-full h-screen bg-black flex flex-col items-center justify-center">
-      {/* Game viewport container */}
-      <div className="w-full max-w-4xl flex flex-col">
-        {/* Game Scene Area - 4:3 aspect ratio */}
-        <div className="relative w-full aspect-[4/3] overflow-hidden">
+    <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
+      {/* Responsive Retro Container:
+        - aspect-[16/10]: Classic 320x200 ratio
+        - h-full max-h-full: Fit vertical
+        - w-auto max-w-full: Fit horizontal
+      */}
+      <div className="relative aspect-[16/10] h-full max-h-full w-auto max-w-full bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
+        
+        {/* Game Scene Area - Takes remaining space */}
+        <div className="relative flex-1 w-full overflow-hidden bg-black">
           <GameScene
             gameState={gameState}
             onHotspotHover={(text) => setActionText(
@@ -71,15 +76,17 @@ export function GameContainer() {
           />
         </div>
 
-        {/* SCUMM-style UI Panel */}
-        <ScummUI
-          selectedVerb={gameState.selectedVerb}
-          onVerbSelect={selectVerb}
-          actionText={gameState.actionText}
-          items={gameState.inventory}
-          selectedItem={gameState.selectedItem}
-          onItemSelect={selectItem}
-        />
+        {/* SCUMM-style UI Panel - Fixed height percentage */}
+        <div className="w-full h-[30%] min-h-[140px] z-10">
+          <ScummUI
+            selectedVerb={gameState.selectedVerb}
+            onVerbSelect={selectVerb}
+            actionText={gameState.actionText}
+            items={gameState.inventory}
+            selectedItem={gameState.selectedItem}
+            onItemSelect={selectItem}
+          />
+        </div>
       </div>
     </div>
   );
