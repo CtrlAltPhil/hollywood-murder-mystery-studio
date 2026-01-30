@@ -48,11 +48,11 @@ export function GameContainer() {
     );
   }
 
-  // Main gameplay
+  // Main gameplay - UI overlays the scene
   return (
-    <div className="w-full h-screen flex flex-col bg-background">
-      {/* Game Scene Area */}
-      <div className="flex-1 relative overflow-hidden">
+    <div className="w-full h-screen relative bg-background">
+      {/* Game Scene Area - Full screen */}
+      <div className="absolute inset-0">
         <GameScene
           gameState={gameState}
           onHotspotHover={(text) => setActionText(
@@ -68,8 +68,8 @@ export function GameContainer() {
         />
       </div>
 
-      {/* UI Panel */}
-      <div className="flex-shrink-0">
+      {/* UI Panel - Overlays at bottom with transparency */}
+      <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm">
         <VerbBar
           selectedVerb={gameState.selectedVerb}
           onVerbSelect={selectVerb}
