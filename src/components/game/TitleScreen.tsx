@@ -71,9 +71,9 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       {/* Stormy Sky Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,30%,8%,0.6)] via-transparent to-[hsl(220,30%,5%,0.8)]" />
 
-      {/* Car Silhouette */}
+      {/* Car Silhouette - at bottom on the street */}
       <div 
-        className="absolute bottom-[15%] h-8 transition-none"
+        className="absolute bottom-[2%] h-8 transition-none"
         style={{ left: carPosition }}
       >
         <div className="relative">
@@ -91,21 +91,21 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         </div>
       </div>
 
-      {/* Title */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="text-center space-y-2 mb-8">
-          <h1 className="text-2xl md:text-4xl font-bold tracking-wider title-glow text-[hsl(var(--game-title-gold))]">
-            HOLLYWOOD
-          </h1>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-widest title-glow text-[hsl(var(--game-title-gold))]">
-            MURDER MYSTERY
-          </h2>
-        </div>
+      {/* Title - positioned above the building */}
+      <div className="absolute top-[8%] left-0 right-0 text-center">
+        <h1 className="text-2xl md:text-4xl font-bold tracking-wider title-glow text-[hsl(var(--game-title-gold))]">
+          HOLLYWOOD
+        </h1>
+        <h2 className="text-3xl md:text-5xl font-bold tracking-widest title-glow text-[hsl(var(--game-title-gold))] mt-2">
+          MURDER MYSTERY
+        </h2>
+      </div>
 
-        {/* Press Start Button */}
+      {/* Press Start Button - below GB Studios sign, above door */}
+      <div className="absolute top-[52%] left-0 right-0 text-center">
         <button
           onClick={onStart}
-          className="mt-12 text-lg md:text-xl tracking-widest text-[hsl(var(--game-title-gold))] pulse-glow hover:scale-105 transition-transform cursor-pointer"
+          className="text-lg md:text-xl tracking-widest text-[hsl(var(--game-title-gold))] pulse-glow hover:scale-105 transition-transform cursor-pointer"
         >
           PRESS START
         </button>
