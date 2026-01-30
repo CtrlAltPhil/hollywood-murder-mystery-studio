@@ -54,15 +54,19 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
 
   useEffect(() => {
     if (phase === 'party') {
+      let innerTimer: NodeJS.Timeout;
       // Extended party scene - 10 seconds
       const timer = setTimeout(() => {
         setFadeState('out');
-        setTimeout(() => {
+        innerTimer = setTimeout(() => {
           setFadeState('black');
           setPhase('blackout');
         }, 1000);
       }, 10000);
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(innerTimer);
+      };
     }
   }, [phase, setPhase]);
 
