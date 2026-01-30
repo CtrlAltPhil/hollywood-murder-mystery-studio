@@ -118,10 +118,10 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
 
       {/* Title - positioned above the building */}
       <div className="absolute top-[8%] left-0 right-0 text-center">
-        <h1 className="text-2xl md:text-4xl font-bold tracking-wider title-glow text-[hsl(var(--game-title-gold))]">
+        <h1 className="text-4xl md:text-6xl font-bold tracking-wider title-glow text-yellow-400">
           HOLLYWOOD
         </h1>
-        <h2 className="text-3xl md:text-5xl font-bold tracking-widest title-glow text-[hsl(var(--game-title-gold))] mt-2">
+        <h2 className="text-5xl md:text-7xl font-bold tracking-widest title-glow text-yellow-400 mt-2">
           MURDER MYSTERY
         </h2>
       </div>
@@ -130,7 +130,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       <div className="absolute top-[52%] left-0 right-0 text-center">
         <button
           onClick={onStart}
-          className="text-lg md:text-xl tracking-widest text-[hsl(var(--game-title-gold))] pulse-glow hover:scale-105 transition-transform cursor-pointer"
+          className="text-2xl md:text-3xl tracking-widest text-yellow-400 pulse-glow hover:scale-105 transition-transform cursor-pointer"
         >
           PRESS START
         </button>
