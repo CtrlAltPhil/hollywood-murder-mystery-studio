@@ -2,8 +2,7 @@ import { useGameState } from '@/hooks/useGameState';
 import { TitleScreen } from './TitleScreen';
 import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
-import { VerbBar } from './VerbBar';
-import { Inventory } from './Inventory';
+import { ScummUI } from './ScummUI';
 
 export function GameContainer() {
   const {
@@ -13,7 +12,6 @@ export function GameContainer() {
     selectItem,
     setActionText,
     addToInventory,
-    movePlayer,
     setFlag,
   } = useGameState();
 
@@ -29,8 +27,10 @@ export function GameContainer() {
   // Title screen
   if (gameState.phase === 'title') {
     return (
-      <div className="w-full h-screen">
-        <TitleScreen onStart={handleStart} />
+      <div className="w-full h-screen bg-black flex items-center justify-center">
+        <div className="w-full max-w-4xl aspect-[4/3]">
+          <TitleScreen onStart={handleStart} />
+        </div>
       </div>
     );
   }
@@ -38,44 +38,44 @@ export function GameContainer() {
   // Intro sequence (party -> blackout -> murder reveal)
   if (['intro', 'party', 'blackout', 'murder-reveal'].includes(gameState.phase)) {
     return (
-      <div className="w-full h-screen">
-        <IntroSequence 
-          phase={gameState.phase} 
-          setPhase={setPhase}
-          onComplete={handleIntroComplete} 
-        />
+      <div className="w-full h-screen bg-black flex items-center justify-center">
+        <div className="w-full max-w-4xl aspect-[4/3]">
+          <IntroSequence 
+            phase={gameState.phase} 
+            setPhase={setPhase}
+            onComplete={handleIntroComplete} 
+          />
+        </div>
       </div>
     );
   }
 
-  // Main gameplay - UI overlays the scene
+  // Main gameplay - Classic SCUMM layout with letterboxing
   return (
-    <div className="w-full h-screen relative bg-background">
-      {/* Game Scene Area - Full screen */}
-      <div className="absolute inset-0">
-        <GameScene
-          gameState={gameState}
-          onHotspotHover={(text) => setActionText(
-            gameState.selectedVerb 
-              ? `${getVerbDisplayName(gameState.selectedVerb)} ${text}`
-              : text
-          )}
-          onHotspotClick={(hotspot) => {
-            // Handle interaction based on selected verb
-            console.log('Clicked hotspot:', hotspot.name, 'with verb:', gameState.selectedVerb);
-          }}
-          onAddToInventory={addToInventory}
-        />
-      </div>
+    <div className="w-full h-screen bg-black flex flex-col items-center justify-center">
+      {/* Game viewport container */}
+      <div className="w-full max-w-4xl flex flex-col">
+        {/* Game Scene Area - 4:3 aspect ratio */}
+        <div className="relative w-full aspect-[4/3] overflow-hidden">
+          <GameScene
+            gameState={gameState}
+            onHotspotHover={(text) => setActionText(
+              gameState.selectedVerb 
+                ? `${getVerbDisplayName(gameState.selectedVerb)} ${text}`
+                : text
+            )}
+            onHotspotClick={(hotspot) => {
+              console.log('Clicked hotspot:', hotspot.name, 'with verb:', gameState.selectedVerb);
+            }}
+            onAddToInventory={addToInventory}
+          />
+        </div>
 
-      {/* UI Panel - Overlays at bottom with transparency */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm">
-        <VerbBar
+        {/* SCUMM-style UI Panel */}
+        <ScummUI
           selectedVerb={gameState.selectedVerb}
           onVerbSelect={selectVerb}
           actionText={gameState.actionText}
-        />
-        <Inventory
           items={gameState.inventory}
           selectedItem={gameState.selectedItem}
           onItemSelect={selectItem}
