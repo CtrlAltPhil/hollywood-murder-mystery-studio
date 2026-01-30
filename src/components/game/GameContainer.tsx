@@ -35,11 +35,12 @@ export function GameContainer() {
     );
   }
 
-  // Intro sequence (party -> blackout -> murder reveal)
+  // Intro sequence
   if (['intro', 'party', 'blackout', 'murder-reveal'].includes(gameState.phase)) {
     return (
-      <div className="w-full h-screen bg-black flex items-center justify-center">
-        <div className="w-full max-w-4xl aspect-[4/3]">
+      <div className="w-full h-screen bg-black flex items-center justify-center p-4">
+        {/* Intro now matches the main game container size for consistency */}
+        <div className="w-full max-w-5xl aspect-[16/10] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative">
           <IntroSequence 
             phase={gameState.phase} 
             setPhase={setPhase}
@@ -50,34 +51,48 @@ export function GameContainer() {
     );
   }
 
-  // Main gameplay - Fixed Aspect Ratio Container (16:10)
+  // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
-      {/* Responsive Retro Container:
-        - aspect-[16/10]: Classic 320x200 ratio
-        - h-full max-h-full: Fit vertical
-        - w-auto max-w-full: Fit horizontal
+      {/* MASTER LAYOUT: 16:10 "Monitor" Container 
+        This contains both the 16:9 Scene and the bottom UI Bar.
       */}
-      <div className="relative aspect-[16/10] h-full max-h-full w-auto max-w-full bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
+      <div className="relative w-full max-w-5xl aspect-[16/10] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
         
-        {/* Game Scene Area - Takes remaining space */}
-        <div className="relative flex-1 w-full overflow-hidden bg-black">
+        {/* SCENE AREA: Forced 16:9 (aspect-video)
+          This ensures the floor is NEVER cut off. The scene renders exactly as drawn.
+        */}
+        <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           <GameScene
             gameState={gameState}
+            setFlag={setFlag}
             onHotspotHover={(text) => setActionText(
               gameState.selectedVerb 
                 ? `${getVerbDisplayName(gameState.selectedVerb)} ${text}`
                 : text
             )}
             onHotspotClick={(hotspot) => {
-              console.log('Clicked hotspot:', hotspot.name, 'with verb:', gameState.selectedVerb);
+              const verb = gameState.selectedVerb;
+              if (verb && hotspot.interactions[verb]) {
+                const interaction = hotspot.interactions[verb];
+                if (typeof interaction === 'function') {
+                  const resultText = interaction();
+                  if (resultText && typeof resultText === 'string') setActionText(resultText);
+                } else if (typeof interaction === 'string') {
+                  setActionText(interaction);
+                }
+              } else {
+                 setActionText(`I can't ${verb} that.`);
+              }
             }}
             onAddToInventory={addToInventory}
           />
         </div>
 
-        {/* SCUMM-style UI Panel - Fixed height percentage */}
-        <div className="w-full h-[30%] min-h-[140px] z-10">
+        {/* UI AREA: flex-1 
+          This fills the remaining "black space" at the bottom automatically.
+        */}
+        <div className="w-full flex-1 z-10 min-h-0">
           <ScummUI
             selectedVerb={gameState.selectedVerb}
             onVerbSelect={selectVerb}
