@@ -16,15 +16,15 @@ interface GameSceneProps {
   onAddToInventory: (item: InventoryItem) => void;
 }
 
-// Demo hotspots for the breakroom
+// Veteran Dev Note: Updated hotspots to match new 45% sprite heights
 const DEMO_HOTSPOTS: Hotspot[] = [
   {
     id: 'dagger',
     name: 'Bloody Dagger',
-    position: { x: 55, y: 75 },
-    width: 8,
+    position: { x: 80, y: 85 }, // Adjusted to match visual location near body
+    width: 10,
     height: 10,
-    walkToPosition: { x: 52, y: 80 },
+    walkToPosition: { x: 75, y: 85 },
     interactions: {
       look: 'A sharp dagger covered in fresh blood. The murder weapon!',
       pickup: 'You carefully pick up the dagger as evidence.',
@@ -34,10 +34,10 @@ const DEMO_HOTSPOTS: Hotspot[] = [
   {
     id: 'wine-glasses',
     name: 'Wine Glasses',
-    position: { x: 25, y: 60 },
+    position: { x: 22, y: 65 },
     width: 10,
-    height: 12,
-    walkToPosition: { x: 28, y: 75 },
+    height: 15,
+    walkToPosition: { x: 25, y: 80 },
     interactions: {
       look: 'Several wine glasses, some still half-full. One has a strange residue...',
     },
@@ -46,10 +46,10 @@ const DEMO_HOTSPOTS: Hotspot[] = [
   {
     id: 'el-fuego',
     name: 'El Fuego',
-    position: { x: 70, y: 55 },
-    width: 12,
-    height: 25,
-    walkToPosition: { x: 65, y: 80 },
+    position: { x: 35, y: 45 }, // Moved up to cover head (Top of sprite is roughly 50%)
+    width: 15,
+    height: 45, // Increased height to match sprite
+    walkToPosition: { x: 40, y: 80 },
     interactions: {
       look: 'El Fuego looks nervous. They keep glancing at the body.',
       talk: 'El Fuego: "I... I didn\'t see anything! I was getting a drink when the lights went out!"',
@@ -57,12 +57,38 @@ const DEMO_HOTSPOTS: Hotspot[] = [
     isActive: true,
   },
   {
+    id: 'carl',
+    name: 'Carl',
+    position: { x: 55, y: 45 },
+    width: 15,
+    height: 45,
+    walkToPosition: { x: 60, y: 80 },
+    interactions: {
+      look: 'Carl seems unusually calm given the circumstances.',
+      talk: 'Carl: "Terrible business. Just terrible. I hope you find who did this."',
+    },
+    isActive: true,
+  },
+  {
+    id: 'lady',
+    name: 'The Lady',
+    position: { x: 8, y: 45 },
+    width: 15,
+    height: 45,
+    walkToPosition: { x: 15, y: 80 },
+    interactions: {
+      look: 'She is trembling slightly, holding her drink tightly.',
+      talk: 'Lady: "He was just standing there... and then he fell!"',
+    },
+    isActive: true,
+  },
+  {
     id: 'body',
     name: 'The Victim',
-    position: { x: 40, y: 72 },
-    width: 15,
-    height: 12,
-    walkToPosition: { x: 38, y: 85 },
+    position: { x: 75, y: 70 },
+    width: 20,
+    height: 25,
+    walkToPosition: { x: 70, y: 85 },
     interactions: {
       look: 'The victim lies motionless on the floor. A single stab wound is visible.',
     },
@@ -123,8 +149,8 @@ export function GameScene({
         style={{ backgroundImage: `url(${breakroomBackground})` }}
       />
 
-      {/* Party decorations still visible in gameplay */}
-      <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none overflow-hidden">
+      {/* Party decorations - Background Layer */}
+      <div className="absolute top-0 left-0 right-0 h-[20%] pointer-events-none overflow-hidden">
         <svg className="absolute w-full h-full" viewBox="0 0 100 20" preserveAspectRatio="none">
           <path d="M0,5 Q10,15 20,5 T40,5 T60,5 T80,5 T100,5" 
             stroke="hsl(350, 80%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
@@ -135,74 +161,71 @@ export function GameScene({
         </svg>
       </div>
 
-      {/* Balloons */}
-      <div className="absolute top-[5%] left-[10%] animate-[float_3s_ease-in-out_infinite] pointer-events-none">
-        <div className="w-8 h-10 bg-red-500 rounded-full opacity-80" />
-        <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
-      </div>
-      <div className="absolute top-[8%] left-[85%] animate-[float_3.5s_ease-in-out_infinite_0.5s] pointer-events-none">
-        <div className="w-8 h-10 bg-blue-500 rounded-full opacity-80" />
-        <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
-      </div>
-
       {/* Banner */}
-      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 pointer-events-none">
-        <div className="bg-[hsl(45,80%,50%)] px-6 py-2 text-xs text-black font-bold tracking-wider 
-                      border-2 border-[hsl(45,90%,30%)] shadow-lg">
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 pointer-events-none z-0">
+        <div className="bg-[hsl(45,80%,50%)] px-4 py-1 lg:px-6 lg:py-2 text-[10px] lg:text-xs text-black font-bold tracking-wider 
+                      border-2 border-[hsl(45,90%,30%)] shadow-lg transform rotate-[-2deg]">
           🎉 CONGRATULATIONS! 🎉
         </div>
       </div>
 
+      {/* SCENE OBJECTS & CHARACTERS
+        Dev Note: Using % heights ensures they scale with the aspect-ratio container.
+        Characters ~45% height creates a "medium shot" feel typical of 90s adventures.
+      */}
+
       {/* Table with wine glasses */}
-      <div className="absolute bottom-[5%] left-[22%] z-10">
-        <img src={tableImage} alt="Party Table" className="h-20 pixelated object-contain"
+      <div className="absolute bottom-[5%] left-[22%] z-10 h-[25%] aspect-square">
+        <img src={tableImage} alt="Party Table" className="h-full w-auto pixelated object-contain"
           style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
-        <div className="absolute -top-6 left-1/2 -translate-x-1/2">
-          <img src={wineGlassesImage} alt="Wine Glasses" className="h-10 pixelated object-contain" />
+        <div className="absolute -top-[30%] left-1/2 -translate-x-1/2 h-[50%]">
+          <img src={wineGlassesImage} alt="Wine Glasses" className="h-full w-auto pixelated object-contain" />
         </div>
       </div>
 
-      {/* Surviving characters on the floor */}
-      <div className="absolute bottom-[3%] left-[8%] z-20 hotspot-highlight">
-        <img src={ladySprite} alt="Lady" className="h-36 pixelated object-contain"
-          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+      {/* Surviving characters */}
+      <div className="absolute bottom-[5%] left-[8%] z-20 h-[45%] hotspot-highlight">
+        <img src={ladySprite} alt="Lady" className="h-full w-auto pixelated object-contain"
+          style={{ filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.5))' }} />
       </div>
-      <div className="absolute bottom-[3%] left-[35%] z-20 hotspot-highlight">
-        <img src={elFuegoSprite} alt="El Fuego" className="h-36 pixelated object-contain"
-          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+
+      <div className="absolute bottom-[5%] left-[35%] z-20 h-[45%] hotspot-highlight">
+        <img src={elFuegoSprite} alt="El Fuego" className="h-full w-auto pixelated object-contain"
+          style={{ filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.5))' }} />
       </div>
-      <div className="absolute bottom-[3%] left-[55%] z-20 hotspot-highlight">
-        <img src={carlSprite} alt="Carl" className="h-36 pixelated object-contain"
-          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+
+      <div className="absolute bottom-[5%] left-[55%] z-20 h-[45%] hotspot-highlight">
+        <img src={carlSprite} alt="Carl" className="h-full w-auto pixelated object-contain"
+          style={{ filter: 'drop-shadow(4px 4px 8px rgba(0,0,0,0.5))' }} />
       </div>
 
       {/* Los Cabos - body on the floor (victim) */}
-      <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
+      <div className="absolute bottom-[2%] right-[15%] h-[30%] z-10 origin-bottom-right">
         <img 
           src={losCabosSprite} 
           alt="Los Cabos - Victim"
-          className="h-28 pixelated object-contain opacity-90"
+          className="h-full w-auto pixelated object-contain opacity-90 transform -rotate-90"
           style={{ filter: 'grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))' }}
         />
       </div>
 
-      {/* Blood pool effect */}
+      {/* Blood pool effect - Scaled with % */}
       <div 
-        className="absolute bottom-[2%] right-[12%] w-36 h-14 rounded-full opacity-60"
+        className="absolute bottom-[5%] right-[15%] w-[15%] h-[10%] rounded-full opacity-60 z-0"
         style={{ background: 'radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)' }}
       />
 
       {/* Dagger beside Los Cabos */}
-      <div className="absolute bottom-[5%] right-[8%] z-15 hotspot-highlight">
+      <div className="absolute bottom-[8%] right-[20%] h-[8%] z-15 hotspot-highlight">
         <img 
           src={daggerImage} 
           alt="Bloody Dagger"
-          className="h-12 pixelated object-contain transform rotate-45"
+          className="h-full w-auto pixelated object-contain transform rotate-45"
           style={{ filter: 'drop-shadow(0 0 8px rgba(180,0,0,0.6))' }}
         />
       </div>
 
-      {/* Interactive Hotspots (invisible hit areas) */}
+      {/* Interactive Hotspots (Debug borders hidden but logic active) */}
       {DEMO_HOTSPOTS.map(hotspot => (
         <div
           key={hotspot.id}
@@ -212,9 +235,6 @@ export function GameScene({
             top: `${hotspot.position.y}%`,
             width: `${hotspot.width}%`,
             height: `${hotspot.height}%`,
-            // Debug: uncomment to see hotspot areas
-            // border: '2px solid red',
-            // backgroundColor: 'rgba(255,0,0,0.2)',
           }}
           onMouseEnter={() => {
             setHoveredHotspot(hotspot);
@@ -228,13 +248,18 @@ export function GameScene({
         />
       ))}
 
+      {/* Balloons - Foreground elements */}
+      <div className="absolute top-[5%] left-[10%] h-[15%] animate-[float_3s_ease-in-out_infinite] pointer-events-none z-30">
+        <div className="w-8 h-10 bg-red-500 rounded-full opacity-80" />
+        <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
+      </div>
 
-      {/* Scanlines */}
-      <div className="absolute inset-0 scanlines pointer-events-none" />
+      {/* Scanlines Overlay */}
+      <div className="absolute inset-0 scanlines pointer-events-none z-50" />
 
-      {/* Vignette */}
+      {/* Vignette Overlay */}
       <div 
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none z-40"
         style={{
           boxShadow: 'inset 0 0 100px 30px hsl(220, 30%, 5%)',
         }}
