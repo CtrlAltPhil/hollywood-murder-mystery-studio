@@ -11,43 +11,68 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
 
   // Lightning effect
   useEffect(() => {
-    const lightningInterval = setInterval(() => {
-      setShowLightning(true);
-      setTimeout(() => setShowLightning(false), 150);
-      setTimeout(() => {
-        setShowLightning(true);
-        setTimeout(() => setShowLightning(false), 100);
-      }, 200);
-    }, 4000 + Math.random() * 3000);
+    let timeoutId: NodeJS.Timeout;
+    let flickerTimeouts: NodeJS.Timeout[] = [];
 
-    return () => clearInterval(lightningInterval);
+    const triggerLightning = () => {
+      setShowLightning(true);
+      
+      // Clear any previous flicker timeouts
+      flickerTimeouts.forEach(clearTimeout);
+      flickerTimeouts = [];
+
+      // Create flicker effect
+      const t1 = setTimeout(() => setShowLightning(false), 150);
+      const t2 = setTimeout(() => {
+        setShowLightning(true);
+        const t3 = setTimeout(() => setShowLightning(false), 100);
+        flickerTimeouts.push(t3);
+      }, 200);
+      
+      flickerTimeouts.push(t1, t2);
+
+      // Schedule next lightning with new random delay
+      const nextDelay = 4000 + Math.random() * 3000;
+      timeoutId = setTimeout(triggerLightning, nextDelay);
+    };
+
+    // Start the loop
+    const initialDelay = 1000 + Math.random() * 2000;
+    timeoutId = setTimeout(triggerLightning, initialDelay);
+
+    return () => {
+      clearTimeout(timeoutId);
+      flickerTimeouts.forEach(clearTimeout);
+    };
   }, []);
 
   // Car animation
   useEffect(() => {
-    const carInterval = setInterval(() => {
-      setCarPosition(-150);
-      const animate = () => {
+    let animationFrameId: number;
+    let lastSpawnTime = performance.now();
+    const SPAWN_INTERVAL = 10000;
+
+    const animate = () => {
+      const now = performance.now();
+
+      // Reset car position every 10 seconds
+      if (now - lastSpawnTime > SPAWN_INTERVAL) {
+        setCarPosition(-150);
+        lastSpawnTime = now;
+      } else {
+        // Move car
         setCarPosition(prev => {
           if (prev > window.innerWidth + 150) return prev;
-          requestAnimationFrame(animate);
           return prev + 3;
         });
-      };
-      requestAnimationFrame(animate);
-    }, 10000);
-
-    // Start first car immediately
-    const animate = () => {
-      setCarPosition(prev => {
-        if (prev > window.innerWidth + 150) return prev;
-        requestAnimationFrame(animate);
-        return prev + 3;
-      });
+      }
+      
+      animationFrameId = requestAnimationFrame(animate);
     };
-    requestAnimationFrame(animate);
 
-    return () => clearInterval(carInterval);
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   return (
