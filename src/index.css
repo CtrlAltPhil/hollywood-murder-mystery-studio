@@ -164,9 +164,9 @@
   animation: fade-out 1s ease-out forwards;
 }
 
-/* Verb button styles */
+/* Verb button styles - Compact */
 .verb-button {
-  @apply px-3 py-2 text-xs uppercase tracking-wider;
+  @apply px-2 py-1 text-[10px] uppercase tracking-wide;
   @apply bg-[hsl(var(--game-verb-bg))] text-foreground;
   @apply border border-border/50;
   @apply transition-all duration-150;
@@ -175,12 +175,12 @@
 
 .verb-button.active {
   @apply bg-primary text-primary-foreground;
-  box-shadow: 0 0 10px hsl(var(--game-verb-active) / 0.5);
+  box-shadow: 0 0 8px hsl(var(--game-verb-active) / 0.5);
 }
 
-/* Inventory slot */
+/* Inventory slot - Compact */
 .inventory-slot {
-  @apply w-16 h-16 border border-border/30;
+  @apply w-12 h-12 border border-border/30;
   @apply bg-[hsl(var(--game-inventory-bg))];
   @apply flex items-center justify-center;
   @apply transition-all duration-150;
@@ -194,4 +194,35 @@
 
 .hotspot-highlight:hover {
   filter: drop-shadow(0 0 8px hsl(var(--game-hotspot-glow)));
+}
+
+/* Custom Cursor System */
+.cursor-default {
+  cursor: default;
+}
+
+.cursor-look {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3Cline x1='18' y1='18' x2='28' y2='28' stroke='%23d4a843' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, zoom-in;
+}
+
+.cursor-pickup {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M8 18 L8 10 Q8 6 12 6 L20 6 Q24 6 24 10 L24 18 M6 18 L6 28 L26 28 L26 18 Z' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E") 16 16, grab;
+}
+
+.cursor-use {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 L16 12 M10 8 L16 12 L22 8 M8 14 L8 24 Q8 28 16 28 Q24 28 24 24 L24 14 Q24 10 16 10 Q8 10 8 14 Z' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer;
+}
+
+.cursor-open,
+.cursor-close {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect x='6' y='14' width='20' height='14' rx='2' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3Ccircle cx='16' cy='10' r='6' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3Ccircle cx='16' cy='21' r='2' fill='%23d4a843'/%3E%3C/svg%3E") 16 16, pointer;
+}
+
+.cursor-talk {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 6 L28 6 Q30 6 30 8 L30 20 Q30 22 28 22 L12 22 L6 28 L6 22 L4 22 Q2 22 2 20 L2 8 Q2 6 4 6 Z' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer;
+}
+
+.cursor-push,
+.cursor-pull {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 L16 24 M8 16 L16 24 L24 16' fill='none' stroke='%23d4a843' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16, pointer;
 }

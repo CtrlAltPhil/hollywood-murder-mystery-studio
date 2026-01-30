@@ -19,14 +19,14 @@ const VERBS: { verb: Verb; label: string }[] = [
 
 export function VerbBar({ selectedVerb, onVerbSelect, actionText }: VerbBarProps) {
   return (
-    <div className="bg-[hsl(var(--game-verb-bg))] border-t-2 border-primary/30 p-2">
+    <div className="bg-[hsl(var(--game-verb-bg))] border-t-2 border-primary/30 p-1">
       {/* Action Text Display */}
-      <div className="h-6 mb-2 text-center text-sm text-primary truncate px-4">
+      <div className="h-5 mb-1 text-center text-xs text-primary truncate px-2">
         {actionText || '\u00A0'}
       </div>
 
-      {/* Verb Grid */}
-      <div className="grid grid-cols-4 gap-1 max-w-md mx-auto">
+      {/* Verb Grid - More compact */}
+      <div className="grid grid-cols-4 gap-0.5 max-w-sm mx-auto">
         {VERBS.map(({ verb, label }) => (
           <button
             key={verb}
