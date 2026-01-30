@@ -2,6 +2,9 @@ import { useState, useRef } from 'react';
 import { GameState, Hotspot, InventoryItem } from '@/types/game';
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
 import elFuegoSprite from '@/assets/characters/el-fuego.jpg';
+import ladySprite from '@/assets/characters/lady.jpg';
+import losCabosSprite from '@/assets/characters/los-cabos.jpg';
+import carlSprite from '@/assets/characters/carl.jpg';
 import daggerImage from '@/assets/items/dagger.jpg';
 import wineGlassesImage from '@/assets/props/wine-glasses.jpg';
 import tableImage from '@/assets/props/table.jpg';
@@ -120,64 +123,82 @@ export function GameScene({
         style={{ backgroundImage: `url(${breakroomBackground})` }}
       />
 
-      {/* Props Layer */}
-      <div 
-        className="absolute hotspot-highlight cursor-pointer"
-        style={{ left: '20%', bottom: '35%', width: '15%' }}
-      >
+      {/* Party decorations still visible in gameplay */}
+      <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none overflow-hidden">
+        <svg className="absolute w-full h-full" viewBox="0 0 100 20" preserveAspectRatio="none">
+          <path d="M0,5 Q10,15 20,5 T40,5 T60,5 T80,5 T100,5" 
+            stroke="hsl(350, 80%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
+          <path d="M0,10 Q10,0 20,10 T40,10 T60,10 T80,10 T100,10" 
+            stroke="hsl(45, 90%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
+          <path d="M0,15 Q10,5 20,15 T40,15 T60,15 T80,15 T100,15" 
+            stroke="hsl(200, 80%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
+        </svg>
+      </div>
+
+      {/* Balloons */}
+      <div className="absolute top-[5%] left-[10%] animate-[float_3s_ease-in-out_infinite] pointer-events-none">
+        <div className="w-8 h-10 bg-red-500 rounded-full opacity-80" />
+        <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
+      </div>
+      <div className="absolute top-[8%] left-[85%] animate-[float_3.5s_ease-in-out_infinite_0.5s] pointer-events-none">
+        <div className="w-8 h-10 bg-blue-500 rounded-full opacity-80" />
+        <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
+      </div>
+
+      {/* Banner */}
+      <div className="absolute top-[12%] left-1/2 -translate-x-1/2 pointer-events-none">
+        <div className="bg-[hsl(45,80%,50%)] px-6 py-2 text-xs text-black font-bold tracking-wider 
+                      border-2 border-[hsl(45,90%,30%)] shadow-lg">
+          🎉 CONGRATULATIONS! 🎉
+        </div>
+      </div>
+
+      {/* Table with wine glasses */}
+      <div className="absolute bottom-[5%] left-[22%] z-10">
+        <img src={tableImage} alt="Party Table" className="h-20 pixelated object-contain"
+          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2">
+          <img src={wineGlassesImage} alt="Wine Glasses" className="h-10 pixelated object-contain" />
+        </div>
+      </div>
+
+      {/* Surviving characters on the floor */}
+      <div className="absolute bottom-[3%] left-[8%] z-20 hotspot-highlight">
+        <img src={ladySprite} alt="Lady" className="h-36 pixelated object-contain"
+          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+      </div>
+      <div className="absolute bottom-[3%] left-[35%] z-20 hotspot-highlight">
+        <img src={elFuegoSprite} alt="El Fuego" className="h-36 pixelated object-contain"
+          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+      </div>
+      <div className="absolute bottom-[3%] left-[55%] z-20 hotspot-highlight">
+        <img src={carlSprite} alt="Carl" className="h-36 pixelated object-contain"
+          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+      </div>
+
+      {/* Los Cabos - body on the floor (victim) */}
+      <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
         <img 
-          src={wineGlassesImage} 
-          alt="Wine Glasses"
-          className="w-full h-auto pixelated object-contain"
+          src={losCabosSprite} 
+          alt="Los Cabos - Victim"
+          className="h-28 pixelated object-contain opacity-90"
+          style={{ filter: 'grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))' }}
         />
       </div>
 
-      {/* Body on the floor */}
+      {/* Blood pool effect */}
       <div 
-        className="absolute transform -rotate-90"
-        style={{ left: '38%', bottom: '18%' }}
-      >
-        <img 
-          src={elFuegoSprite} 
-          alt="Victim"
-          className="h-28 pixelated object-contain opacity-80"
-          style={{ filter: 'grayscale(0.3) brightness(0.7)' }}
-        />
-      </div>
-
-      {/* Blood pool */}
-      <div 
-        className="absolute w-28 h-10 rounded-full opacity-50"
-        style={{ 
-          left: '40%', 
-          bottom: '12%',
-          background: 'radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)',
-        }}
+        className="absolute bottom-[2%] right-[12%] w-36 h-14 rounded-full opacity-60"
+        style={{ background: 'radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)' }}
       />
 
-      {/* Dagger */}
-      <div 
-        className="absolute transform rotate-45 hotspot-highlight cursor-pointer"
-        style={{ left: '52%', bottom: '20%' }}
-      >
+      {/* Dagger beside Los Cabos */}
+      <div className="absolute bottom-[5%] right-[8%] z-15 hotspot-highlight">
         <img 
           src={daggerImage} 
-          alt="Dagger"
-          className="h-14 pixelated object-contain"
-          style={{ filter: 'drop-shadow(0 0 5px rgba(180,0,0,0.5))' }}
-        />
-      </div>
-
-      {/* El Fuego (witness) */}
-      <div 
-        className="absolute hotspot-highlight cursor-pointer"
-        style={{ right: '15%', bottom: '25%' }}
-      >
-        <img 
-          src={elFuegoSprite} 
-          alt="El Fuego"
-          className="h-44 pixelated object-contain"
-          style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }}
+          alt="Bloody Dagger"
+          className="h-12 pixelated object-contain transform rotate-45"
+          style={{ filter: 'drop-shadow(0 0 8px rgba(180,0,0,0.6))' }}
         />
       </div>
 
