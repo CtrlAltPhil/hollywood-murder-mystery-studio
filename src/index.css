@@ -2,227 +2,111 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hollywood Murder Mystery - Dark Noir Theme */
-
 @layer base {
   :root {
-    --background: 220 20% 10%;
-    --foreground: 45 30% 90%;
-
-    --card: 220 25% 12%;
-    --card-foreground: 45 30% 90%;
-
-    --popover: 220 25% 12%;
-    --popover-foreground: 45 30% 90%;
-
-    --primary: 45 80% 55%;
-    --primary-foreground: 220 20% 10%;
-
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 45 30% 90%;
-
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 55%;
-
-    --accent: 0 70% 50%;
-    --accent-foreground: 45 30% 90%;
-
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 220 15% 25%;
-    --input: 220 15% 25%;
-    --ring: 45 80% 55%;
-
-    --radius: 0.25rem;
-
-    /* Game-specific tokens */
-    --game-verb-bg: 220 30% 15%;
-    --game-verb-active: 45 80% 55%;
-    --game-verb-hover: 220 25% 22%;
-    --game-inventory-bg: 220 35% 12%;
-    --game-hotspot-glow: 45 100% 60%;
-    --game-dialog-bg: 220 40% 8%;
-    --game-title-gold: 45 90% 50%;
-    --game-lightning: 200 100% 85%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
   }
-
+ 
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 45 30% 90%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
   }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
-    font-family: 'Press Start 2P', 'Courier New', monospace;
   }
 }
 
-/* Pixel-perfect rendering for game assets */
+/* --- RETRO GAME STYLES --- */
+
+/* Pixelated rendering for sprites */
 .pixelated {
   image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
 
-/* Retro scanline effect */
+/* Scanlines Effect */
 .scanlines {
-  position: relative;
-}
-
-.scanlines::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.1) 2px,
-    rgba(0, 0, 0, 0.1) 4px
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
   );
-  pointer-events: none;
+  background-size: 100% 4px;
 }
 
-/* Lightning flash effect */
-@keyframes lightning-flash {
-  0%, 100% { opacity: 0; }
-  5% { opacity: 0.8; }
-  10% { opacity: 0; }
-  15% { opacity: 1; }
-  20% { opacity: 0; }
-}
+/* --- CUSTOM CURSORS (SVG Data URIs) --- */
 
-.lightning-flash {
-  animation: lightning-flash 4s ease-in-out infinite;
-}
-
-/* Pulsing glow for Press Start */
-@keyframes pulse-glow {
-  0%, 100% { 
-    text-shadow: 0 0 10px hsl(var(--game-title-gold) / 0.5),
-                 0 0 20px hsl(var(--game-title-gold) / 0.3);
-    opacity: 1;
-  }
-  50% { 
-    text-shadow: 0 0 20px hsl(var(--game-title-gold) / 0.8),
-                 0 0 40px hsl(var(--game-title-gold) / 0.5);
-    opacity: 0.7;
-  }
-}
-
-/* Floating balloon animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.pulse-glow {
-  animation: pulse-glow 1.5s ease-in-out infinite;
-}
-
-/* Car driving animation */
-@keyframes car-drive {
-  0% { transform: translateX(-100px); }
-  100% { transform: translateX(calc(100vw + 100px)); }
-}
-
-.car-animation {
-  animation: car-drive 8s linear infinite;
-}
-
-/* Title text glow */
-.title-glow {
-  text-shadow: 
-    0 0 10px hsl(var(--game-title-gold)),
-    0 0 20px hsl(var(--game-title-gold) / 0.7),
-    0 0 30px hsl(var(--game-title-gold) / 0.5),
-    0 0 40px hsl(var(--game-title-gold) / 0.3);
-}
-
-/* Fade transitions */
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fade-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-.fade-in {
-  animation: fade-in 1s ease-out forwards;
-}
-
-.fade-out {
-  animation: fade-out 1s ease-out forwards;
-}
-
-/* Verb button styles - Compact */
-.verb-button {
-  @apply px-2 py-1 text-[10px] uppercase tracking-wide;
-  @apply bg-[hsl(var(--game-verb-bg))] text-foreground;
-  @apply border border-border/50;
-  @apply transition-all duration-150;
-  @apply hover:bg-[hsl(var(--game-verb-hover))];
-}
-
-.verb-button.active {
-  @apply bg-primary text-primary-foreground;
-  box-shadow: 0 0 8px hsl(var(--game-verb-active) / 0.5);
-}
-
-/* Inventory slot - Compact */
-.inventory-slot {
-  @apply w-12 h-12 border border-border/30;
-  @apply bg-[hsl(var(--game-inventory-bg))];
-  @apply flex items-center justify-center;
-  @apply transition-all duration-150;
-  @apply hover:border-primary/50;
-}
-
-/* Hotspot highlight on hover */
-.hotspot-highlight {
-  @apply transition-all duration-200;
-}
-
-.hotspot-highlight:hover {
-  filter: drop-shadow(0 0 8px hsl(var(--game-hotspot-glow)));
-}
-
-/* Custom Cursor System */
+/* Default / Walk */
 .cursor-default {
   cursor: default;
 }
 
+/* Look at (Magnifying Glass) */
 .cursor-look {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3Cline x1='18' y1='18' x2='28' y2='28' stroke='%23d4a843' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") 12 12, zoom-in;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:white;stroke:black;stroke-width:1'><path d='M10 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm0-2a8 8 0 1 0 4.906 14.32l4.387 4.387a1 1 0 0 0 1.414-1.414l-4.387-4.387A8 8 0 0 0 10 2z'/></svg>") 10 10, auto;
 }
 
+/* Pick up (Open Hand / Grab) */
 .cursor-pickup {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M8 18 L8 10 Q8 6 12 6 L20 6 Q24 6 24 10 L24 18 M6 18 L6 28 L26 28 L26 18 Z' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E") 16 16, grab;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:white;stroke:black;stroke-width:1'><path d='M12 2a2 2 0 0 1 2 2v6h1a2 2 0 0 1 0 4v3a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-3a2 2 0 0 1 0-4h1V4a2 2 0 0 1 2-2z'/></svg>") 12 12, auto;
 }
 
-.cursor-use {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 L16 12 M10 8 L16 12 L22 8 M8 14 L8 24 Q8 28 16 28 Q24 28 24 24 L24 14 Q24 10 16 10 Q8 10 8 14 Z' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer;
+/* Use / Push / Pull / Open / Close (Pointer) */
+.cursor-use, .cursor-open, .cursor-close, .cursor-push, .cursor-pull {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:hsl(60,90%,70%);stroke:black;stroke-width:1'><polygon points='3,3 3,21 12,12'/></svg>") 3 3, pointer;
 }
 
-.cursor-open,
-.cursor-close {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Crect x='6' y='14' width='20' height='14' rx='2' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3Ccircle cx='16' cy='10' r='6' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3Ccircle cx='16' cy='21' r='2' fill='%23d4a843'/%3E%3C/svg%3E") 16 16, pointer;
-}
-
+/* Talk to (Speech Bubble) */
 .cursor-talk {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 6 L28 6 Q30 6 30 8 L30 20 Q30 22 28 22 L12 22 L6 28 L6 22 L4 22 Q2 22 2 20 L2 8 Q2 6 4 6 Z' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E") 16 16, pointer;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:white;stroke:black;stroke-width:1'><path d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z'/></svg>") 4 4, auto;
 }
 
-.cursor-push,
-.cursor-pull {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 L16 24 M8 16 L16 24 L24 16' fill='none' stroke='%23d4a843' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16, pointer;
+/* Hotspot Highlight (On Hover) */
+.hotspot-highlight:hover {
+  filter: drop-shadow(0 0 4px white);
 }
