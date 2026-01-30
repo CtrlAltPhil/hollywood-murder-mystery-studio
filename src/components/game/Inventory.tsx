@@ -28,19 +28,19 @@ export function Inventory({ items, selectedItem, onItemSelect }: InventoryProps)
   const emptySlots = VISIBLE_SLOTS - visibleItems.length;
 
   return (
-    <div className="bg-[hsl(var(--game-inventory-bg))] border-t border-border/30 p-2">
-      <div className="flex items-center justify-center gap-1">
+    <div className="bg-[hsl(var(--game-inventory-bg))] border-t border-border/30 p-1">
+      <div className="flex items-center justify-center gap-0.5">
         {/* Left Arrow */}
         <button
           onClick={scrollLeft}
           disabled={!canScrollLeft}
-          className="p-1 text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          className="p-0.5 text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
-          <ChevronLeft size={20} />
+          <ChevronLeft size={16} />
         </button>
 
         {/* Inventory Slots */}
-        <div className="flex gap-1">
+        <div className="flex gap-0.5">
           {visibleItems.map(item => (
             <button
               key={item.id}
@@ -55,7 +55,7 @@ export function Inventory({ items, selectedItem, onItemSelect }: InventoryProps)
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-12 h-12 object-contain pixelated"
+                className="w-10 h-10 object-contain pixelated"
               />
             </button>
           ))}
@@ -69,9 +69,9 @@ export function Inventory({ items, selectedItem, onItemSelect }: InventoryProps)
         <button
           onClick={scrollRight}
           disabled={!canScrollRight}
-          className="p-1 text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          className="p-0.5 text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
-          <ChevronRight size={20} />
+          <ChevronRight size={16} />
         </button>
       </div>
     </div>

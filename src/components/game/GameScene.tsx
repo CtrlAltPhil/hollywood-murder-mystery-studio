@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import { GameState, Hotspot, Position, InventoryItem } from '@/types/game';
+import { useState, useRef } from 'react';
+import { GameState, Hotspot, InventoryItem } from '@/types/game';
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
 import elFuegoSprite from '@/assets/characters/el-fuego.jpg';
 import daggerImage from '@/assets/items/dagger.jpg';
@@ -8,7 +8,6 @@ import tableImage from '@/assets/props/table.jpg';
 
 interface GameSceneProps {
   gameState: GameState;
-  onMove: (position: Position) => void;
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: Hotspot) => void;
   onAddToInventory: (item: InventoryItem) => void;
@@ -68,60 +67,32 @@ const DEMO_HOTSPOTS: Hotspot[] = [
   },
 ];
 
+// Map verb to cursor class
+const getCursorClass = (verb: string | null): string => {
+  if (!verb) return 'cursor-default';
+  const cursorMap: Record<string, string> = {
+    look: 'cursor-look',
+    pickup: 'cursor-pickup',
+    use: 'cursor-use',
+    open: 'cursor-open',
+    close: 'cursor-close',
+    talk: 'cursor-talk',
+    push: 'cursor-push',
+    pull: 'cursor-pull',
+  };
+  return cursorMap[verb] || 'cursor-default';
+};
+
 export function GameScene({ 
   gameState, 
-  onMove, 
   onHotspotHover, 
   onHotspotClick,
   onAddToInventory 
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
-  const [playerPos, setPlayerPos] = useState(gameState.playerPosition);
-  const [isMoving, setIsMoving] = useState(false);
   const [hoveredHotspot, setHoveredHotspot] = useState<Hotspot | null>(null);
 
-  // Smooth player movement
-  useEffect(() => {
-    if (playerPos.x === gameState.playerPosition.x && 
-        playerPos.y === gameState.playerPosition.y) {
-      setIsMoving(false);
-      return;
-    }
-
-    setIsMoving(true);
-    const dx = gameState.playerPosition.x - playerPos.x;
-    const dy = gameState.playerPosition.y - playerPos.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    
-    if (distance < 2) {
-      setPlayerPos(gameState.playerPosition);
-      setIsMoving(false);
-      return;
-    }
-
-    const speed = 3;
-    const timer = setTimeout(() => {
-      setPlayerPos({
-        x: playerPos.x + (dx / distance) * speed,
-        y: playerPos.y + (dy / distance) * speed,
-      });
-    }, 16);
-
-    return () => clearTimeout(timer);
-  }, [playerPos, gameState.playerPosition]);
-
-  const handleSceneClick = (e: React.MouseEvent) => {
-    if (!sceneRef.current) return;
-    
-    const rect = sceneRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    // Check if clicked on walkable area (simplified)
-    if (y > 50 && y < 95) {
-      onMove({ x, y });
-    }
-  };
+  const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const handleHotspotClick = (hotspot: Hotspot, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -141,8 +112,7 @@ export function GameScene({
   return (
     <div 
       ref={sceneRef}
-      className="relative w-full h-full cursor-crosshair"
-      onClick={handleSceneClick}
+      className={`relative w-full h-full ${cursorClass}`}
     >
       {/* Background */}
       <div 
@@ -237,16 +207,6 @@ export function GameScene({
         />
       ))}
 
-      {/* Player Character (placeholder circle for now) */}
-      <div
-        className="absolute w-8 h-8 bg-primary rounded-full border-2 border-primary-foreground transition-none"
-        style={{
-          left: `${playerPos.x}%`,
-          top: `${playerPos.y}%`,
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '0 4px 8px rgba(0,0,0,0.4)',
-        }}
-      />
 
       {/* Scanlines */}
       <div className="absolute inset-0 scanlines pointer-events-none" />

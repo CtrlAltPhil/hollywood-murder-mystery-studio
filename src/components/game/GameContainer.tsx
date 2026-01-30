@@ -55,7 +55,6 @@ export function GameContainer() {
       <div className="flex-1 relative overflow-hidden">
         <GameScene
           gameState={gameState}
-          onMove={movePlayer}
           onHotspotHover={(text) => setActionText(
             gameState.selectedVerb 
               ? `${getVerbDisplayName(gameState.selectedVerb)} ${text}`
