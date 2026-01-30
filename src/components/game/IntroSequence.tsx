@@ -27,7 +27,7 @@ const PARTY_DIALOGUE = [
 ];
 
 export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProps) {
-  const [fadeState, setFadeState] = useState<'in' | 'out' | 'black' | 'visible'>('in');
+  const [fadeState, setFadeState] = useState<'in' | 'out' | 'black' | 'visible'>('visible');
   const [showMurderScene, setShowMurderScene] = useState(false);
   const [currentDialogue, setCurrentDialogue] = useState(0);
 
@@ -43,12 +43,8 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
 
   useEffect(() => {
     if (phase === 'intro') {
-      setFadeState('in');
-      const timer = setTimeout(() => {
-        setFadeState('visible');
-        setPhase('party');
-      }, 1500);
-      return () => clearTimeout(timer);
+      setFadeState('visible');
+      setPhase('party');
     }
   }, [phase, setPhase]);
 
