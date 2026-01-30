@@ -28,7 +28,7 @@ export function GameContainer() {
   if (gameState.phase === 'title') {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center">
-        <div className="w-full max-w-4xl aspect-[4/3]">
+        <div className="w-full max-w-5xl aspect-[4/3]">
           <TitleScreen onStart={handleStart} />
         </div>
       </div>
@@ -39,13 +39,15 @@ export function GameContainer() {
   if (['intro', 'party', 'blackout', 'murder-reveal'].includes(gameState.phase)) {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
-        {/* Intro now matches the main game container size for consistency */}
-        <div className="w-full max-w-5xl aspect-[16/10] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative">
-          <IntroSequence 
-            phase={gameState.phase} 
-            setPhase={setPhase}
-            onComplete={handleIntroComplete} 
-          />
+        {/* Intro matches the main game container size (4:3) but keeps content 16:9 (letterboxed) */}
+        <div className="w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative flex items-center">
+          <div className="w-full aspect-video relative">
+            <IntroSequence 
+              phase={gameState.phase} 
+              setPhase={setPhase}
+              onComplete={handleIntroComplete} 
+            />
+          </div>
         </div>
       </div>
     );
@@ -54,10 +56,10 @@ export function GameContainer() {
   // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
-      {/* MASTER LAYOUT: 16:10 "Monitor" Container 
+      {/* MASTER LAYOUT: 4:3 "Monitor" Container 
         This contains both the 16:9 Scene and the bottom UI Bar.
       */}
-      <div className="relative w-full max-w-5xl aspect-[16/10] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
+      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
         
         {/* SCENE AREA: Forced 16:9 (aspect-video)
           This ensures the floor is NEVER cut off. The scene renders exactly as drawn.
