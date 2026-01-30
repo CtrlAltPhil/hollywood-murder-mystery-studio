@@ -77,11 +77,13 @@ export function GameContainer() {
                 const interaction = hotspot.interactions[verb];
                 if (typeof interaction === 'function') {
                   const resultText = interaction();
-                  if (resultText && typeof resultText === 'string') setActionText(resultText);
+                  if (typeof resultText === 'string') {
+                    setActionText(resultText);
+                  }
                 } else if (typeof interaction === 'string') {
                   setActionText(interaction);
                 }
-              } else {
+              } else if (verb) {
                  setActionText(`I can't ${verb} that.`);
               }
             }}
