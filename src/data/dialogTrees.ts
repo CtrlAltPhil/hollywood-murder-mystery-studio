@@ -168,7 +168,7 @@ const ladyTree: DialogTree = {
   'lady-motive': {
     id: 'lady-motive',
     speaker: 'Lady',
-    text: "A motive?! In this town, everyone has a motive! You should look at El Fuego — that man has a temper like a volcano. I've seen him throw chairs on set!",
+    text: "A motive?! In this town, everyone has a motive! You should look at Duke Extreme — that man has a temper like a volcano. I've seen him throw chairs on set!",
     nextNodeId: 'lady-root',
   },
   'lady-role': {
