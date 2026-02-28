@@ -57,7 +57,7 @@ const carlTree: DialogTree = {
   'carl-elfuego-note': {
     id: 'carl-elfuego-note',
     speaker: 'Carl',
-    text: "El Fuego kept disappearing to the kitchen. He said he was getting drinks, but he was gone for quite a long time each trip. Nervous fellow, that one.",
+    text: "Duke Extreme kept disappearing to the kitchen. He said he was getting drinks, but he was gone for quite a long time each trip. Nervous fellow, that one.",
     nextNodeId: 'carl-root',
   },
   'carl-relationship': {
@@ -100,7 +100,7 @@ const carlTree: DialogTree = {
   'carl-prop-room': {
     id: 'carl-prop-room',
     speaker: 'Carl',
-    text: "Anyone at the studio, technically. But El Fuego was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady did costumes for it.",
+    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady did costumes for it.",
     nextNodeId: 'carl-dagger',
   },
   'carl-fingerprints': {
@@ -168,7 +168,7 @@ const ladyTree: DialogTree = {
   'lady-motive': {
     id: 'lady-motive',
     speaker: 'Lady',
-    text: "A motive?! In this town, everyone has a motive! You should look at El Fuego — that man has a temper like a volcano. I've seen him throw chairs on set!",
+    text: "A motive?! In this town, everyone has a motive! You should look at Duke Extreme — that man has a temper like a volcano. I've seen him throw chairs on set!",
     nextNodeId: 'lady-root',
   },
   'lady-role': {
@@ -208,22 +208,22 @@ const ladyTree: DialogTree = {
   'lady-dagger-defense': {
     id: 'lady-dagger-defense',
     speaker: 'Lady',
-    text: "I designed the COSTUME, not the weapon! I barely touched it! Carl and El Fuego handled all the action props. Talk to THEM!",
+    text: "I designed the COSTUME, not the weapon! I barely touched it! Carl and Duke Extreme handled all the action props. Talk to THEM!",
     nextNodeId: 'lady-dagger',
   },
   'lady-dagger-sharpened': {
     id: 'lady-dagger-sharpened',
     speaker: 'Lady',
-    text: "El Fuego was the stunt coordinator. He managed all the weapons on set. He would know how to make a prop blade lethal...",
+    text: "Duke Extreme was the stunt coordinator. He managed all the weapons on set. He would know how to make a prop blade lethal...",
     nextNodeId: 'lady-dagger',
   },
 };
 
-// ─── EL FUEGO ───────────────────────────────────────────
+// ─── DUKE EXTREME ───────────────────────────────────────────
 const elFuegoTree: DialogTree = {
   'fuego-root': {
     id: 'fuego-root',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "¡Ay, this is terrible! Terrible! What— what do you want to ask me?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'fuego-alibi' },
@@ -234,7 +234,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-alibi': {
     id: 'fuego-alibi',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "I was in the kitchen! Getting more drinks! The tequila ran out and— look, I was just being a good guest, okay?",
     options: [
       { text: "The kitchen is pretty close to where the body was found.", nextNodeId: 'fuego-proximity' },
@@ -244,19 +244,19 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-proximity': {
     id: 'fuego-proximity',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "What— what are you saying?! Just because I was nearby doesn't mean— ¡Dios mío! You can't think I did this!",
     nextNodeId: 'fuego-root',
   },
   'fuego-witness': {
     id: 'fuego-witness',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "I... no. I was alone in there. But that doesn't prove anything! Carl was alone with his 'posters' too!",
     nextNodeId: 'fuego-root',
   },
   'fuego-nervous': {
     id: 'fuego-nervous',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "NERVOUS?! A man is DEAD! Of course I'm nervous! Wouldn't you be?! ...I just... I have a bad feeling someone in this room did it.",
     options: [
       { text: "Do you suspect someone specific?", nextNodeId: 'fuego-suspect' },
@@ -265,13 +265,13 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-suspect': {
     id: 'fuego-suspect',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "Have you looked at Carl? The man's ice cold. His business partner just got murdered and he's standing there like it's a Tuesday. That's not normal, amigo.",
     nextNodeId: 'fuego-root',
   },
   'fuego-relationship': {
     id: 'fuego-relationship',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "Los Cabos gave me my break in Hollywood. Stunt coordinator on 'Midnight in Marrakech.' I owe— I OWED him everything. Why would I hurt him?",
     options: [
       { text: "I heard he was going to cut you from the next project.", nextNodeId: 'fuego-cut' },
@@ -280,14 +280,14 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-cut': {
     id: 'fuego-cut',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "That's— who told you that?! That's a LIE! We had a great working relationship! ...Okay, maybe he mentioned bringing in someone younger, but we were going to talk about it!",
     nextNodeId: 'fuego-root',
   },
   // Dagger-unlocked branch
   'fuego-dagger': {
     id: 'fuego-dagger',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "¡Ay! W-what now?",
     options: [
       { text: "This dagger — you handled weapons on the Marrakech set. Recognize it?", nextNodeId: 'fuego-dagger-react' },
@@ -298,7 +298,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-dagger-react': {
     id: 'fuego-dagger-react',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "I— that— yes, it's from the film. But it was a PROP! A dull blade! Someone must have... someone sharpened it. That wasn't me! I swear on my mother!",
     options: [
       { text: "You're the stunt coordinator. You had the most access to these weapons.", nextNodeId: 'fuego-dagger-access' },
@@ -308,13 +308,13 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-dagger-access': {
     id: 'fuego-dagger-access',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady was in and out for costumes! The prop room lock has been broken for months!",
     nextNodeId: 'fuego-dagger',
   },
   'fuego-dagger-who': {
     id: 'fuego-dagger-who',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "Anyone! Carl, Lady, even Los Cabos himself had keys. But... Lady was on set last week picking up costume pieces. She could have taken it then.",
     nextNodeId: 'fuego-dagger',
   },

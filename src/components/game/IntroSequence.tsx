@@ -19,11 +19,11 @@ interface IntroSequenceProps {
 // Party dialogue that rotates through
 const PARTY_DIALOGUE = [
   { speaker: 'Lady', text: "What a wonderful party!", position: 'left' },
-  { speaker: 'El Fuego', text: "The wine is exquisite tonight.", position: 'left' },
+  { speaker: 'Duke Extreme', text: "The wine is exquisite tonight.", position: 'left' },
   { speaker: 'Los Cabos', text: "I have an announcement to make later...", position: 'right' },
   { speaker: 'Carl', text: "This appetizer spread is incredible!", position: 'center' },
   { speaker: 'Lady', text: "Did you hear about the new production?", position: 'left' },
-  { speaker: 'El Fuego', text: "Shh... not here.", position: 'left' },
+  { speaker: 'Duke Extreme', text: "Shh... not here.", position: 'left' },
   { speaker: 'Los Cabos', text: "Everyone seems tense tonight...", position: 'right' },
 ];
 
@@ -157,15 +157,15 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             )}
           </div>
 
-          {/* El Fuego - near table, talking to Lady */}
+          {/* Duke Extreme - near table, talking to Lady */}
           <div className="absolute bottom-[3%] left-[35%] z-20">
             <img 
               src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} 
-              alt="El Fuego"
+              alt="Duke Extreme"
                className="h-44 pixelated object-contain transition-opacity duration-300"
             />
-            {/* Speech bubble for El Fuego */}
-            {dialogue.speaker === 'El Fuego' && (
+            {/* Speech bubble for Duke Extreme */}
+            {dialogue.speaker === 'Duke Extreme' && (
               <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg 
                             max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
                 {dialogue.text}
@@ -235,7 +235,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img src={ladySprite} alt="Lady" className="h-44 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[35%] z-20">
-            <img src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} alt="El Fuego" className="h-44 pixelated object-contain transition-opacity duration-300" />
+            <img src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} alt="Duke Extreme" className="h-44 pixelated object-contain transition-opacity duration-300" />
           </div>
           <div className="absolute bottom-[3%] left-[55%] z-20">
             <img src={carlSprite} alt="Carl" className="h-44 pixelated object-contain" />

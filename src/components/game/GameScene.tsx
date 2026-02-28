@@ -60,7 +60,7 @@ export function GameScene({
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
-  // Animate El Fuego between two poses
+  // Animate Duke Extreme between two poses
   const [elFuegoPose, setElFuegoPose] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -184,16 +184,16 @@ export function GameScene({
     },
     {
       id: 'el-fuego',
-      name: 'El Fuego',
+      name: 'Duke Extreme',
       position: { x: 40, y: 72 },
       width: 10,
       height: 42,
       interactions: {
-        look: 'El Fuego is sweating nervously. Is it the heat, or something else?',
+        look: 'Duke Extreme is sweating nervously. Is it the heat, or something else?',
         talk: '__DIALOG__el-fuego',
         pickup: "That's not how you treat people.",
         use: 'I should talk to him instead.',
-        use_with_dagger: '"Where did you... I\'ve never seen that before! I swear!" El Fuego backs away nervously.',
+        use_with_dagger: '"Where did you... I\'ve never seen that before! I swear!" Duke Extreme backs away nervously.',
         use_with_wine_glass: '"That\'s just wine, amigo. Nothing special about it."',
       },
     },
@@ -281,9 +281,9 @@ export function GameScene({
       </div>
       
       <div className="absolute bottom-[3%] left-[35%] z-20">
-        <img 
+         <img 
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2} 
-          alt="El Fuego" 
+          alt="Duke Extreme" 
           className="h-44 pixelated object-contain transition-opacity duration-300" 
         />
       </div>
