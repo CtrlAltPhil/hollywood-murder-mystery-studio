@@ -1,5 +1,5 @@
 import { GameState, Verb } from '@/types/game';
-import hallwayBackground from '@/assets/backgrounds/hallway.jpg';
+import hallwayBackground from '@/assets/backgrounds/hallway.png';
 import { SimpleHotspot } from './GameScene';
 
 interface HallwaySceneProps {
