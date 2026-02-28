@@ -273,13 +273,6 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
         </div>
       )}
 
-      {phase === 'murder-reveal' && (
-        <div className="absolute top-8 left-0 right-0 text-center">
-          <p className="text-accent text-xl font-bold animate-[fade-in_0.5s_ease-out]">
-            MURDER!
-          </p>
-        </div>
-      )}
 
       {/* Scanlines */}
       <div className="absolute inset-0 scanlines pointer-events-none" />
