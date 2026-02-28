@@ -124,27 +124,25 @@ export function useAudioEngine(): AudioEngine {
       }
     };
 
-    // Schedule first two iterations immediately
+    // Schedule first iteration immediately
     const now = ctx.currentTime + 0.05;
     playOnce(now);
-    playOnce(now + loopDur);
 
-    // Keep scheduling ahead
-    let nextTime = now + loopDur * 2;
-    const scheduleNext = () => {
+    // Continuously schedule ahead to ensure seamless looping
+    let nextTime = now + loopDur;
+    const scheduleAhead = () => {
       if (currentPhaseRef.current === '') return;
-      // Clean up stopped nodes
-      scheduledNodesRef.current = scheduledNodesRef.current.filter(n => {
-        try {
-          // If we can read it, it's still valid
-          return (n as OscillatorNode).frequency !== undefined;
-        } catch { return false; }
-      });
-      playOnce(nextTime);
-      nextTime += loopDur;
-      loopTimerRef.current = window.setTimeout(scheduleNext, (loopDur - 0.5) * 1000);
+      // Clean up old nodes
+      scheduledNodesRef.current = scheduledNodesRef.current.slice(-200);
+      // Keep at least 2 loops scheduled ahead of current time
+      while (nextTime < ctx.currentTime + loopDur * 2) {
+        playOnce(nextTime);
+        nextTime += loopDur;
+      }
+      loopTimerRef.current = window.setTimeout(scheduleAhead, (loopDur * 0.5) * 1000);
     };
-    loopTimerRef.current = window.setTimeout(scheduleNext, (loopDur - 0.5) * 1000);
+    // Start the scheduling loop — first callback schedules the second iteration
+    loopTimerRef.current = window.setTimeout(scheduleAhead, (loopDur * 0.3) * 1000);
   }, []);
 
   const playBackgroundTrack = useCallback((phase: string) => {
