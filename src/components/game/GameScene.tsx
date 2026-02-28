@@ -190,15 +190,15 @@ export function GameScene({
       )}
 
       {/* Surviving characters - standing in their original positions */}
-      <div className="absolute bottom-[3%] left-[55%] w-[8%] h-[25%]">
+      <div className="absolute bottom-[3%] left-[55%] w-[10%] h-[45%]">
         <img src={carlImage} alt="Carl" className="w-full h-full object-contain" />
       </div>
       
-      <div className="absolute bottom-[3%] left-[8%] w-[8%] h-[25%]">
+      <div className="absolute bottom-[3%] left-[8%] w-[10%] h-[45%]">
         <img src={ladyImage} alt="Lady" className="w-full h-full object-contain" />
       </div>
       
-      <div className="absolute bottom-[3%] left-[35%] w-[8%] h-[25%]">
+      <div className="absolute bottom-[3%] left-[35%] w-[10%] h-[45%]">
         <img src={elFuegoImage} alt="El Fuego" className="w-full h-full object-contain" />
       </div>
 
