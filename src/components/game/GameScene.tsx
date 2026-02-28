@@ -20,13 +20,13 @@ interface GameSceneProps {
 }
 
 // Simplified hotspot for the scene
-interface SimpleHotspot {
+export interface SimpleHotspot {
   id: string;
   name: string;
   position: { x: number; y: number };
   width: number;
   height: number;
-  interactions: Partial<Record<Verb, string | (() => string | void)>>;
+  interactions: Record<string, string | (() => string | void)>;
 }
 
 // Cursor class mapping based on selected verb
@@ -91,13 +91,32 @@ export function GameScene({
       },
     },
     {
+      id: 'wine-glasses',
+      name: 'Wine Glasses',
+      position: { x: 28, y: 80 },
+      width: 10,
+      height: 10,
+      interactions: {
+        look: 'A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?',
+        pickup: () => {
+          if (!gameState.flags.glassesTaken) {
+            onAddToInventory({ id: 'wine-glass', name: 'Suspicious Wine Glass', image: wineGlassesImage });
+            setFlag('glassesTaken', true);
+            return 'I carefully pick up the glass with the strange residue. This could be evidence.';
+          }
+          return 'I already took the suspicious glass.';
+        },
+        use: 'I should pick one up first to examine it.',
+      },
+    },
+    {
       id: 'table',
       name: 'Party Table',
-      position: { x: 28, y: 85 },
+      position: { x: 28, y: 90 },
       width: 14,
-      height: 18,
+      height: 12,
       interactions: {
-        look: 'A festive party table covered with snacks and drinks.',
+        look: 'A festive party table. Most of the food has been knocked over in the commotion.',
         pickup: "I can't carry the whole table!",
         use: 'I should look for something specific to use here.',
       },
@@ -132,6 +151,8 @@ export function GameScene({
         talk: "He's... not going to answer.",
         pickup: "I can't move the body. That would contaminate the crime scene.",
         use: 'I should examine him more carefully instead.',
+        use_with_dagger: 'The dagger matches the wound perfectly. This is definitely the murder weapon.',
+        use_with_wine_glass: 'I hold the glass near the body... no obvious connection.',
       },
     },
     {
@@ -145,6 +166,8 @@ export function GameScene({
         talk: '__DIALOG__lady',
         pickup: "I can't pick up a person!",
         use: 'I should talk to her instead.',
+        use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady recoils in horror.',
+        use_with_wine_glass: '"That\'s my glass! I mean... it looks like mine. So what?"',
       },
     },
     {
@@ -158,6 +181,8 @@ export function GameScene({
         talk: '__DIALOG__el-fuego',
         pickup: "That's not how you treat people.",
         use: 'I should talk to him instead.',
+        use_with_dagger: '"Where did you... I\'ve never seen that before! I swear!" El Fuego backs away nervously.',
+        use_with_wine_glass: '"That\'s just wine, amigo. Nothing special about it."',
       },
     },
     {
@@ -171,13 +196,16 @@ export function GameScene({
         talk: '__DIALOG__carl',
         pickup: "I don't think Carl would appreciate that.",
         use: 'I should talk to him instead.',
+        use_with_dagger: 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive."',
+        use_with_wine_glass: '"Hmm, that residue... Could be a sedative. Someone was planning ahead."',
       },
     },
   ];
 
-  // Filter out dagger if already taken
+  // Filter out collected items
   const activeHotspots = hotspots.filter(h => {
     if (h.id === 'dagger' && gameState.flags.daggerTaken) return false;
+    if (h.id === 'wine-glasses' && gameState.flags.glassesTaken) return false;
     return true;
   });
 
