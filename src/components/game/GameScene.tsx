@@ -71,10 +71,10 @@ export function GameScene({
 
   // Shocked reactions when gameplay first starts
   const SHOCK_MESSAGES = [
-    { speaker: 'Lady', delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
+    { speaker: 'Lady Fantastique', delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
     { speaker: 'Carl', delay: 2000, duration: 3000, text: "He's... he's dead." },
     { speaker: 'Duke Extreme', delay: 4000, duration: 3000, text: "¡Dios mío! Who did this?!" },
-    { speaker: 'Lady', delay: 6000, duration: 3000, text: "Someone call the police!" },
+    { speaker: 'Lady Fantastique', delay: 6000, duration: 3000, text: "Someone call the police!" },
     { speaker: 'Carl', delay: 8000, duration: 3500, text: "Nobody leaves this room." },
   ];
 
@@ -202,25 +202,25 @@ export function GameScene({
     },
     {
       id: 'lady',
-      name: 'Lady',
-      position: { x: 13, y: 72 },
+      name: 'Lady Fantastique',
+      position: { x: 13, y: 82 },
       width: 10,
-      height: 42,
+      height: 34,
       interactions: {
-        look: 'Lady looks shaken but composed. She was close to Los Cabos...',
+        look: 'Lady Fantastique looks shaken but composed. She was close to Los Cabos...',
         talk: '__DIALOG__lady',
         pickup: "I can't pick up a person!",
         use: 'I should talk to her instead.',
-        use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady recoils in horror.',
+        use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady Fantastique recoils in horror.',
         use_with_wine_glass: '"That\'s my glass! I mean... it looks like mine. So what?"',
       },
     },
     {
       id: 'el-fuego',
       name: 'Duke Extreme',
-      position: { x: 40, y: 72 },
+      position: { x: 40, y: 82 },
       width: 10,
-      height: 42,
+      height: 34,
       interactions: {
         look: 'Duke Extreme is sweating nervously. Is it the heat, or something else?',
         talk: '__DIALOG__el-fuego',
@@ -233,9 +233,9 @@ export function GameScene({
     {
       id: 'carl',
       name: 'Carl',
-      position: { x: 60, y: 72 },
+      position: { x: 60, y: 82 },
       width: 10,
-      height: 42,
+      height: 34,
       interactions: {
         look: 'Carl seems unusually calm for someone who just witnessed a murder.',
         talk: '__DIALOG__carl',
@@ -316,10 +316,10 @@ export function GameScene({
       </div>
       
       <div className="absolute bottom-[3%] left-[8%] z-20">
-        <img src={ladyImage} alt="Lady" className="h-44 pixelated object-contain" />
-        {shockBubbles['Lady'] && (
+        <img src={ladyImage} alt="Lady Fantastique" className="h-44 pixelated object-contain" />
+        {shockBubbles['Lady Fantastique'] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
-            {shockBubbles['Lady']}
+            {shockBubbles['Lady Fantastique']}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
           </div>
         )}

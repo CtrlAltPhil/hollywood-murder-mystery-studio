@@ -41,7 +41,7 @@ const carlTree: DialogTree = {
   'carl-suspicious': {
     id: 'carl-suspicious',
     speaker: 'Carl',
-    text: "Now that you mention it... I saw Lady having quite a heated argument with Los Cabos earlier. She seemed furious about something. You might want to ask her about that.",
+    text: "Now that you mention it... I saw Lady Fantastique having quite a heated argument with Los Cabos earlier. She seemed furious about something. You might want to ask her about that.",
     options: [
       { text: "What were they arguing about?", nextNodeId: 'carl-lady-argument' },
       { text: "Anyone else acting strange?", nextNodeId: 'carl-elfuego-note' },
@@ -51,7 +51,7 @@ const carlTree: DialogTree = {
   'carl-lady-argument': {
     id: 'carl-lady-argument',
     speaker: 'Carl',
-    text: "I couldn't hear the details, but Lady was pointing her finger at him and her voice was raised. Something about a 'betrayal.' Make of that what you will.",
+    text: "I couldn't hear the details, but Lady Fantastique was pointing her finger at him and her voice was raised. Something about a 'betrayal.' Make of that what you will.",
     nextNodeId: 'carl-root',
   },
   'carl-elfuego-note': {
@@ -100,7 +100,7 @@ const carlTree: DialogTree = {
   'carl-prop-room': {
     id: 'carl-prop-room',
     speaker: 'Carl',
-    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady did costumes for it.",
+    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady Fantastique did costumes for it.",
     nextNodeId: 'carl-dagger',
   },
   'carl-fingerprints': {
@@ -111,11 +111,11 @@ const carlTree: DialogTree = {
   },
 };
 
-// ─── LADY ───────────────────────────────────────────────
+// ─── LADY FANTASTIQUE ───────────────────────────────────────────────
 const ladyTree: DialogTree = {
   'lady-root': {
     id: 'lady-root',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "*sniff* I still can't believe this is happening... What do you want?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'lady-alibi' },
@@ -126,7 +126,7 @@ const ladyTree: DialogTree = {
   },
   'lady-alibi': {
     id: 'lady-alibi',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I was in the restroom freshening up. A lady needs her privacy. When I came back, everyone was screaming...",
     options: [
       { text: "How long were you in the restroom?", nextNodeId: 'lady-timeline' },
@@ -136,7 +136,7 @@ const ladyTree: DialogTree = {
   },
   'lady-timeline': {
     id: 'lady-timeline',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I don't know... five minutes? Ten? I wasn't watching the clock. Why does it matter?",
     options: [
       { text: "That's a long time to be freshening up during a party.", nextNodeId: 'lady-pressed' },
@@ -145,19 +145,19 @@ const ladyTree: DialogTree = {
   },
   'lady-pressed': {
     id: 'lady-pressed',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I— I was upset, okay?! After the argument. I needed to compose myself. Is that a crime now too?!",
     nextNodeId: 'lady-root',
   },
   'lady-saw-someone': {
     id: 'lady-saw-someone',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Now that you ask... I thought I saw someone near the hallway, but it was dark. I couldn't tell who it was. They moved fast.",
     nextNodeId: 'lady-root',
   },
   'lady-argument': {
     id: 'lady-argument',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Who told you that?! ...Fine. Yes, we had words. He promised me the lead role in his next film, then gave it to someone else. I was furious. But I didn't KILL him over it!",
     options: [
       { text: "That sounds like a pretty strong motive.", nextNodeId: 'lady-motive' },
@@ -167,26 +167,26 @@ const ladyTree: DialogTree = {
   },
   'lady-motive': {
     id: 'lady-motive',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "A motive?! In this town, everyone has a motive! You should look at Duke Extreme — that man has a temper like a volcano. I've seen him throw chairs on set!",
     nextNodeId: 'lady-root',
   },
   'lady-role': {
     id: 'lady-role',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Some newcomer. Nobody. That's what made it sting. Years of loyalty and he replaces me with... ugh. But it doesn't matter now, does it?",
     nextNodeId: 'lady-root',
   },
   'lady-relationship': {
     id: 'lady-relationship',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "We worked together for years. He was my director, my mentor. I thought we had something special — professionally, I mean. Turns out I was just another actress to him.",
     nextNodeId: 'lady-root',
   },
   // Dagger-unlocked branch
   'lady-dagger': {
     id: 'lady-dagger',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "*sniff* What now...?",
     options: [
       { text: "Do you recognize this dagger?", nextNodeId: 'lady-dagger-react' },
@@ -197,7 +197,7 @@ const ladyTree: DialogTree = {
   },
   'lady-dagger-react': {
     id: 'lady-dagger-react',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Oh god, is that... that's from the Marrakech film! I designed the sheath for it. It's supposed to be a prop — but someone must have sharpened the blade!",
     options: [
       { text: "You designed it? So you knew exactly where it was kept.", nextNodeId: 'lady-dagger-defense' },
@@ -207,13 +207,13 @@ const ladyTree: DialogTree = {
   },
   'lady-dagger-defense': {
     id: 'lady-dagger-defense',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I designed the COSTUME, not the weapon! I barely touched it! Carl and Duke Extreme handled all the action props. Talk to THEM!",
     nextNodeId: 'lady-dagger',
   },
   'lady-dagger-sharpened': {
     id: 'lady-dagger-sharpened',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Duke Extreme was the stunt coordinator. He managed all the weapons on set. He would know how to make a prop blade lethal...",
     nextNodeId: 'lady-dagger',
   },
@@ -309,13 +309,13 @@ const elFuegoTree: DialogTree = {
   'fuego-dagger-access': {
     id: 'fuego-dagger-access',
     speaker: 'Duke Extreme',
-    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady was in and out for costumes! The prop room lock has been broken for months!",
+    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady Fantastique was in and out for costumes! The prop room lock has been broken for months!",
     nextNodeId: 'fuego-dagger',
   },
   'fuego-dagger-who': {
     id: 'fuego-dagger-who',
     speaker: 'Duke Extreme',
-    text: "Anyone! Carl, Lady, even Los Cabos himself had keys. But... Lady was on set last week picking up costume pieces. She could have taken it then.",
+    text: "Anyone! Carl, Lady Fantastique, even Los Cabos himself had keys. But... Lady Fantastique was on set last week picking up costume pieces. She could have taken it then.",
     nextNodeId: 'fuego-dagger',
   },
 };
