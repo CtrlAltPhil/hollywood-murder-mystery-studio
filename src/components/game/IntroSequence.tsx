@@ -228,8 +228,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img src={elFuegoSprite} alt="El Fuego" className="h-24 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[55%] z-20">
-            <img src={carlSprite} alt="Carl" className="h-36 pixelated object-contain"
-              style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }} />
+            <img src={carlSprite} alt="Carl" className="h-24 pixelated object-contain" />
           </div>
 
           {/* Los Cabos - body on the floor (victim) */}
