@@ -191,6 +191,7 @@ export function GameContainer() {
                   advanceDialog(null);
                 }
               }}
+              playDialogBlip={playDialogBlip}
             />
           )}
         </div>
