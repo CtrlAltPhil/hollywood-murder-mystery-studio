@@ -222,7 +222,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
 
           {/* Surviving characters in shock - positioned on floor */}
           <div className="absolute bottom-[3%] left-[8%] z-20">
-            <img src={ladySprite} alt="Lady" className="h-24 pixelated object-contain" />
+            <img src={ladySprite} alt="Lady" className="h-44 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[35%] z-20">
             <img src={elFuegoSprite} alt="El Fuego" className="h-24 pixelated object-contain" />
