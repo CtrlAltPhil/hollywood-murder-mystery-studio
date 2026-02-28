@@ -31,6 +31,15 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
   const [fadeState, setFadeState] = useState<'in' | 'out' | 'black' | 'visible'>('visible');
   const [showMurderScene, setShowMurderScene] = useState(false);
   const [currentDialogue, setCurrentDialogue] = useState(0);
+  const [elFuegoPose, setElFuegoPose] = useState(0);
+
+  // Animate El Fuego between poses
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElFuegoPose(prev => (prev === 0 ? 1 : 0));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Rotate through dialogue during party
   useEffect(() => {
