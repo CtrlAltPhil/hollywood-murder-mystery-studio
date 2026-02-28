@@ -20,6 +20,9 @@ export function DialogBox({ node, onOptionSelect, onContinue, playDialogBlip }: 
     const interval = setInterval(() => {
       index++;
       setDisplayedText(node.text.slice(0, index));
+      if (playDialogBlip && node.text[index - 1] !== ' ') {
+        playDialogBlip(node.speaker);
+      }
       if (index >= node.text.length) {
         clearInterval(interval);
         setIsTyping(false);

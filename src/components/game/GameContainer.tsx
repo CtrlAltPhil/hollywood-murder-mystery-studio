@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGameState } from '@/hooks/useGameState';
 import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
