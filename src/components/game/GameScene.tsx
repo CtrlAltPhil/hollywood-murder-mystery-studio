@@ -202,9 +202,10 @@ export function GameScene({
     },
   ];
 
-  // Filter out dagger if already taken
+  // Filter out collected items
   const activeHotspots = hotspots.filter(h => {
     if (h.id === 'dagger' && gameState.flags.daggerTaken) return false;
+    if (h.id === 'wine-glasses' && gameState.flags.glassesTaken) return false;
     return true;
   });
 
