@@ -69,6 +69,39 @@ export function GameScene({
     return () => clearInterval(interval);
   }, []);
 
+  // Shocked reactions when gameplay first starts
+  const SHOCK_MESSAGES = [
+    { speaker: 'Lady', delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
+    { speaker: 'Carl', delay: 2000, duration: 3000, text: "He's... he's dead." },
+    { speaker: 'Duke Extreme', delay: 4000, duration: 3000, text: "¡Dios mío! Who did this?!" },
+    { speaker: 'Lady', delay: 6000, duration: 3000, text: "Someone call the police!" },
+    { speaker: 'Carl', delay: 8000, duration: 3500, text: "Nobody leaves this room." },
+  ];
+
+  const [shockBubbles, setShockBubbles] = useState<Record<string, string>>({});
+  const [shockDone, setShockDone] = useState(false);
+
+  useEffect(() => {
+    if (shockDone) return;
+    const timers: NodeJS.Timeout[] = [];
+    SHOCK_MESSAGES.forEach(({ speaker, delay, duration, text }) => {
+      timers.push(setTimeout(() => {
+        setShockBubbles(prev => ({ ...prev, [speaker]: text }));
+      }, delay));
+      timers.push(setTimeout(() => {
+        setShockBubbles(prev => {
+          const next = { ...prev };
+          if (next[speaker] === text) delete next[speaker];
+          return next;
+        });
+      }, delay + duration));
+    });
+    // Mark shock sequence done after all messages
+    const lastMsg = SHOCK_MESSAGES[SHOCK_MESSAGES.length - 1];
+    timers.push(setTimeout(() => setShockDone(true), lastMsg.delay + lastMsg.duration));
+    return () => timers.forEach(clearTimeout);
+  }, [shockDone]);
+
   // Define hotspots — positions must match the visual elements exactly
   // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
   // Table: left-[22%] bottom-[5%] h-28, Los Cabos: right-[15%] bottom-[1%]
