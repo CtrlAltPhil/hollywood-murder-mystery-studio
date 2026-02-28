@@ -197,7 +197,7 @@ const ladyTree: DialogTree = {
   },
   'lady-dagger-react': {
     id: 'lady-dagger-react',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Oh god, is that... that's from the Marrakech film! I designed the sheath for it. It's supposed to be a prop — but someone must have sharpened the blade!",
     options: [
       { text: "You designed it? So you knew exactly where it was kept.", nextNodeId: 'lady-dagger-defense' },
