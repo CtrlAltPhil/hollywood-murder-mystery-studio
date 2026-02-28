@@ -8,7 +8,7 @@ interface TitleScreenProps {
 export function TitleScreen({ onStart }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
   const [carPosition, setCarPosition] = useState(-250);
-
+  const [easterEggVisible, setEasterEggVisible] = useState(false);
   // Lightning effect
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
