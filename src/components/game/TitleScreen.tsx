@@ -94,7 +94,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       />
 
       {/* Stormy Sky Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,30%,8%,0.6)] via-transparent to-[hsl(220,30%,5%,0.8)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,30%,8%,0.3)] via-transparent to-[hsl(220,30%,5%,0.5)]" />
 
       {/* Car Silhouette - at bottom on the street */}
       <div 
