@@ -125,7 +125,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             className="h-28 pixelated object-contain"
           />
           {/* Wine glasses on table */}
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2">
+          <div className="absolute -top-2 left-1/2 -translate-x-1/2">
             <img 
               src={wineGlassesImage} 
               alt="Wine Glasses"
