@@ -238,7 +238,7 @@ export function GameContainer() {
       {/* MASTER LAYOUT: 4:3 "Monitor" Container 
         This contains both the 16:9 Scene and the bottom UI Bar.
       */}
-      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
+      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
         
         {/* Menu Button */}
         <div className="absolute top-4 right-4 z-50">
