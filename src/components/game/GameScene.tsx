@@ -289,21 +289,35 @@ export function GameScene({
       </div>
 
       {/* Invisible hotspots for interactions */}
-      {activeHotspots.map((hotspot) => (
-        <div
-          key={hotspot.id}
-          className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
-          style={{
-            left: `${hotspot.position.x - hotspot.width / 2}%`,
-            top: `${hotspot.position.y - hotspot.height / 2}%`,
-            width: `${hotspot.width}%`,
-            height: `${hotspot.height}%`,
-          }}
-          onMouseEnter={() => onHotspotHover(hotspot.name)}
-          onMouseLeave={() => onHotspotHover('')}
-          onClick={() => onHotspotClick(hotspot)}
-        />
-      ))}
+      {activeHotspots.map((hotspot) => {
+        const handleClick = () => {
+          const verb = gameState.selectedVerb;
+          if (verb) {
+            const interaction = hotspot.interactions[verb];
+            if (typeof interaction === 'string' && interaction.startsWith('__NAVIGATE__')) {
+              const targetRoom = interaction.replace('__NAVIGATE__', '');
+              onChangeRoom(targetRoom);
+              return;
+            }
+          }
+          onHotspotClick(hotspot);
+        };
+        return (
+          <div
+            key={hotspot.id}
+            className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
+            style={{
+              left: `${hotspot.position.x - hotspot.width / 2}%`,
+              top: `${hotspot.position.y - hotspot.height / 2}%`,
+              width: `${hotspot.width}%`,
+              height: `${hotspot.height}%`,
+            }}
+            onMouseEnter={() => onHotspotHover(hotspot.name)}
+            onMouseLeave={() => onHotspotHover('')}
+            onClick={handleClick}
+          />
+        );
+      })}
     </div>
   );
 }

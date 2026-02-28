@@ -24,6 +24,7 @@ export function GameContainer() {
     setFlag,
     startDialog,
     advanceDialog,
+    changeRoom,
   } = useGameState();
 
   // Audio engine
