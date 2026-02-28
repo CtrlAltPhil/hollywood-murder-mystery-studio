@@ -112,7 +112,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           <img 
             src={tableImage} 
             alt="Party Table"
-            className="h-14 pixelated object-contain"
+            className="h-28 pixelated object-contain"
           />
           {/* Wine glasses on table */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2">
