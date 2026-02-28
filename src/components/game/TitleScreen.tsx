@@ -82,7 +82,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         className="absolute inset-0 bg-cover bg-center pixelated"
         style={{ 
           backgroundImage: `url(${gbStudiosBackground})`,
-          filter: 'brightness(0.7) contrast(1.1)',
+          filter: 'brightness(0.9) contrast(1.05)',
         }}
       />
 
