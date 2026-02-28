@@ -161,24 +161,11 @@ export function GameScene({
         style={{ backgroundImage: `url(${breakroomBackground})` }}
       />
 
-      {/* Party Decorations */}
-      <div className="absolute top-[5%] left-[20%] text-4xl animate-bounce" style={{ animationDelay: '0s' }}>🎈</div>
-      <div className="absolute top-[8%] left-[40%] text-4xl animate-bounce" style={{ animationDelay: '0.3s' }}>🎈</div>
-      <div className="absolute top-[3%] left-[60%] text-4xl animate-bounce" style={{ animationDelay: '0.6s' }}>🎈</div>
-      <div className="absolute top-[6%] left-[80%] text-4xl animate-bounce" style={{ animationDelay: '0.9s' }}>🎈</div>
-      
-      {/* Streamers */}
-      <div className="absolute top-0 left-[30%] w-1 h-[15%] bg-gradient-to-b from-pink-500 to-transparent opacity-70" />
-      <div className="absolute top-0 left-[50%] w-1 h-[12%] bg-gradient-to-b from-yellow-400 to-transparent opacity-70" />
-      <div className="absolute top-0 left-[70%] w-1 h-[18%] bg-gradient-to-b from-blue-400 to-transparent opacity-70" />
-      
-      {/* Party Banner */}
-      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 bg-red-600 px-4 py-1 text-white font-bold text-sm rotate-[-2deg] shadow-lg">
-        🎉 OFFICE PARTY 🎉
-      </div>
+
+
 
       {/* Table with props */}
-      <div className="absolute bottom-[5%] left-[22%] w-[25%] h-[20%]">
+      <div className="absolute bottom-[5%] left-[22%] w-[18%] h-[15%]">
         <img src={tableImage} alt="Party Table" className="w-full h-full object-contain" />
         <img 
           src={wineGlassesImage} 
@@ -188,12 +175,12 @@ export function GameScene({
       </div>
 
       {/* Los Cabos - Dead on the floor */}
-      <div className="absolute bottom-[3%] right-[15%] w-[18%] h-[25%] rotate-[-90deg]">
+      <div className="absolute bottom-[3%] right-[15%] w-[12%] h-[18%] rotate-[-90deg]">
         <img src={losCabosImage} alt="Los Cabos" className="w-full h-full object-contain opacity-80" />
       </div>
       
       {/* Blood pool effect */}
-      <div className="absolute bottom-[2%] right-[12%] w-[12%] h-[8%] bg-red-900/60 rounded-full blur-sm" />
+      <div className="absolute bottom-[2%] right-[12%] w-[8%] h-[5%] bg-red-900/60 rounded-full blur-sm" />
 
       {/* Dagger near the body */}
       {!gameState.flags.daggerTaken && (
@@ -203,15 +190,15 @@ export function GameScene({
       )}
 
       {/* Surviving characters - standing in their original positions */}
-      <div className="absolute bottom-[3%] left-[55%] w-[12%] h-[35%]">
+      <div className="absolute bottom-[3%] left-[55%] w-[8%] h-[25%]">
         <img src={carlImage} alt="Carl" className="w-full h-full object-contain" />
       </div>
       
-      <div className="absolute bottom-[3%] left-[8%] w-[12%] h-[35%]">
+      <div className="absolute bottom-[3%] left-[8%] w-[8%] h-[25%]">
         <img src={ladyImage} alt="Lady" className="w-full h-full object-contain" />
       </div>
       
-      <div className="absolute bottom-[3%] left-[35%] w-[12%] h-[35%]">
+      <div className="absolute bottom-[3%] left-[35%] w-[8%] h-[25%]">
         <img src={elFuegoImage} alt="El Fuego" className="w-full h-full object-contain" />
       </div>
 
