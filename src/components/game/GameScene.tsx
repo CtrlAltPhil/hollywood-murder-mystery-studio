@@ -151,6 +151,8 @@ export function GameScene({
         talk: "He's... not going to answer.",
         pickup: "I can't move the body. That would contaminate the crime scene.",
         use: 'I should examine him more carefully instead.',
+        use_with_dagger: 'The dagger matches the wound perfectly. This is definitely the murder weapon.',
+        use_with_wine_glass: 'I hold the glass near the body... no obvious connection.',
       },
     },
     {
