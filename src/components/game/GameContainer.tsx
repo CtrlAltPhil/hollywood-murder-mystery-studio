@@ -6,6 +6,8 @@ import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
+import { DialogBox } from './DialogBox';
+import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
 
@@ -18,6 +20,8 @@ export function GameContainer() {
     setActionText,
     addToInventory,
     setFlag,
+    startDialog,
+    advanceDialog,
   } = useGameState();
 
   // Initialize background music system
