@@ -250,7 +250,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-witness': {
     id: 'fuego-witness',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "I... no. I was alone in there. But that doesn't prove anything! Carl was alone with his 'posters' too!",
     nextNodeId: 'fuego-root',
   },
