@@ -58,6 +58,15 @@ export function GameScene({
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
+  // Animate El Fuego between two poses
+  const [elFuegoPose, setElFuegoPose] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElFuegoPose(prev => (prev === 0 ? 1 : 0));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+
   // Define hotspots — positions must match the visual elements exactly
   // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
   // Table: left-[22%] bottom-[5%] h-28, Los Cabos: right-[15%] bottom-[1%]
