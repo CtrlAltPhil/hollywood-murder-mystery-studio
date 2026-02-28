@@ -164,7 +164,7 @@ export function GameContainer() {
               }
             }}
             onAddToInventory={(item) => {
-              addToInventory(item);
+              addToInventory({ ...item, description: '' });
               playSfx('pickup');
             }}
           />
