@@ -71,10 +71,10 @@ export function GameScene({
 
   // Shocked reactions when gameplay first starts
   const SHOCK_MESSAGES = [
-    { speaker: 'Lady', delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
+    { speaker: 'Lady Fantastique', delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
     { speaker: 'Carl', delay: 2000, duration: 3000, text: "He's... he's dead." },
     { speaker: 'Duke Extreme', delay: 4000, duration: 3000, text: "¡Dios mío! Who did this?!" },
-    { speaker: 'Lady', delay: 6000, duration: 3000, text: "Someone call the police!" },
+    { speaker: 'Lady Fantastique', delay: 6000, duration: 3000, text: "Someone call the police!" },
     { speaker: 'Carl', delay: 8000, duration: 3500, text: "Nobody leaves this room." },
   ];
 
