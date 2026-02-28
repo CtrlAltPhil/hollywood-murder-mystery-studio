@@ -103,58 +103,8 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
         />
       )}
 
-      {/* Party Decorations */}
-      {isPartyScene && (
-        <>
-          {/* Streamers */}
-          <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none overflow-hidden">
-            {/* Streamer curves using CSS */}
-            <svg className="absolute w-full h-full" viewBox="0 0 100 20" preserveAspectRatio="none">
-              <path d="M0,5 Q10,15 20,5 T40,5 T60,5 T80,5 T100,5" 
-                stroke="hsl(350, 80%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
-              <path d="M0,10 Q10,0 20,10 T40,10 T60,10 T80,10 T100,10" 
-                stroke="hsl(45, 90%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
-              <path d="M0,15 Q10,5 20,15 T40,15 T60,15 T80,15 T100,15" 
-                stroke="hsl(200, 80%, 60%)" strokeWidth="0.8" fill="none" className="opacity-80" />
-            </svg>
-          </div>
 
-          {/* Balloons */}
-          <div className="absolute top-[5%] left-[10%] animate-[float_3s_ease-in-out_infinite]">
-            <div className="w-8 h-10 bg-red-500 rounded-full opacity-80" style={{ filter: 'brightness(1.2)' }} />
-            <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
-          </div>
-          <div className="absolute top-[8%] left-[85%] animate-[float_3.5s_ease-in-out_infinite_0.5s]">
-            <div className="w-8 h-10 bg-blue-500 rounded-full opacity-80" style={{ filter: 'brightness(1.2)' }} />
-            <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
-          </div>
-          <div className="absolute top-[3%] left-[25%] animate-[float_2.8s_ease-in-out_infinite_0.3s]">
-            <div className="w-6 h-8 bg-yellow-400 rounded-full opacity-80" style={{ filter: 'brightness(1.2)' }} />
-            <div className="w-0.5 h-6 bg-gray-400 mx-auto" />
-          </div>
-          <div className="absolute top-[6%] right-[20%] animate-[float_3.2s_ease-in-out_infinite_0.7s]">
-            <div className="w-7 h-9 bg-green-500 rounded-full opacity-80" style={{ filter: 'brightness(1.2)' }} />
-            <div className="w-0.5 h-7 bg-gray-400 mx-auto" />
-          </div>
-          <div className="absolute top-[4%] left-[50%] animate-[float_3s_ease-in-out_infinite_0.2s]">
-            <div className="w-8 h-10 bg-purple-500 rounded-full opacity-80" style={{ filter: 'brightness(1.2)' }} />
-            <div className="w-0.5 h-8 bg-gray-400 mx-auto" />
-          </div>
 
-          {/* Party Banner */}
-          <div className="absolute top-[12%] left-1/2 -translate-x-1/2">
-            <div className="bg-[hsl(45,80%,50%)] px-6 py-2 text-xs text-black font-bold tracking-wider 
-                          border-2 border-[hsl(45,90%,30%)] shadow-lg">
-              🎉 CONGRATULATIONS! 🎉
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Party atmosphere overlay */}
-      {isPartyScene && (
-        <div className="absolute inset-0 bg-gradient-to-t from-amber-900/20 to-transparent pointer-events-none" />
-      )}
 
       {/* Table with food and drinks - near Lady and El Fuego */}
       {isPartyScene && (
