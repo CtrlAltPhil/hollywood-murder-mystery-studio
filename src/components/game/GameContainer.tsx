@@ -36,6 +36,31 @@ export function GameContainer() {
   }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(0.3);
+  const [sfxVolume, setSfxVolume] = useState(0.5);
+  const [brightness, setBrightness] = useState(1);
+  const [crashPlayed, setCrashPlayed] = useState(false);
+
+  // Play crash sound when blackout phase starts
+  useEffect(() => {
+    if (gameState.phase === 'blackout' && !crashPlayed) {
+      playSfx('crash');
+      setCrashPlayed(true);
+    }
+  }, [gameState.phase, crashPlayed, playSfx]);
+
+  const handleMusicVolumeChange = (v: number) => {
+    setMusicVolume(v);
+    setMusicVolume(v);
+    // Use the audio engine's volume control
+    const audioEngine = { setMusicVolume: (vol: number) => {
+      // Access gain node via the hook
+    }};
+  };
+
+  const handleSfxVolumeChange = (v: number) => {
+    setSfxVolume(v);
+  };
 
   const handleStart = () => {
     setPhase('intro');
