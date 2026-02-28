@@ -41,7 +41,7 @@ const carlTree: DialogTree = {
   'carl-suspicious': {
     id: 'carl-suspicious',
     speaker: 'Carl',
-    text: "Now that you mention it... I saw Lady having quite a heated argument with Los Cabos earlier. She seemed furious about something. You might want to ask her about that.",
+    text: "Now that you mention it... I saw Lady Fantastique having quite a heated argument with Los Cabos earlier. She seemed furious about something. You might want to ask her about that.",
     options: [
       { text: "What were they arguing about?", nextNodeId: 'carl-lady-argument' },
       { text: "Anyone else acting strange?", nextNodeId: 'carl-elfuego-note' },
