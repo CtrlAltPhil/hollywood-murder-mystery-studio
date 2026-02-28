@@ -19,7 +19,7 @@ interface IntroSequenceProps {
 // Party dialogue that rotates through
 const PARTY_DIALOGUE = [
   { speaker: 'Lady', text: "What a wonderful party!", position: 'left' },
-  { speaker: 'El Fuego', text: "The wine is exquisite tonight.", position: 'left' },
+  { speaker: 'Duke Extreme', text: "The wine is exquisite tonight.", position: 'left' },
   { speaker: 'Los Cabos', text: "I have an announcement to make later...", position: 'right' },
   { speaker: 'Carl', text: "This appetizer spread is incredible!", position: 'center' },
   { speaker: 'Lady', text: "Did you hear about the new production?", position: 'left' },
