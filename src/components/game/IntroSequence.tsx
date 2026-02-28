@@ -112,14 +112,14 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           <img 
             src={tableImage} 
             alt="Party Table"
-            className="h-14 pixelated object-contain"
+            className="h-28 pixelated object-contain"
           />
           {/* Wine glasses on table */}
           <div className="absolute -top-6 left-1/2 -translate-x-1/2">
             <img 
               src={wineGlassesImage} 
               alt="Wine Glasses"
-              className="h-7 pixelated object-contain"
+              className="h-14 pixelated object-contain"
             />
           </div>
         </div>
@@ -133,7 +133,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={ladySprite} 
               alt="Lady"
-               className="h-24 pixelated object-contain"
+               className="h-44 pixelated object-contain"
             />
             {/* Speech bubble for Lady */}
             {dialogue.speaker === 'Lady' && (
@@ -152,7 +152,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={elFuegoSprite} 
               alt="El Fuego"
-               className="h-24 pixelated object-contain"
+               className="h-44 pixelated object-contain"
             />
             {/* Speech bubble for El Fuego */}
             {dialogue.speaker === 'El Fuego' && (
@@ -171,7 +171,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={carlSprite} 
               alt="Carl"
-               className="h-24 pixelated object-contain"
+               className="h-44 pixelated object-contain"
             />
             {/* Speech bubble for Carl */}
             {dialogue.speaker === 'Carl' && (
@@ -190,7 +190,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={losCabosSprite} 
               alt="Los Cabos"
-               className="h-24 pixelated object-contain"
+               className="h-44 pixelated object-contain"
             />
             {/* Speech bubble for Los Cabos */}
             {dialogue.speaker === 'Los Cabos' && (
@@ -214,21 +214,21 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
 
           {/* Table with wine glasses */}
           <div className="absolute bottom-[5%] left-[22%] z-10">
-            <img src={tableImage} alt="Party Table" className="h-14 pixelated object-contain" />
+            <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
             <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-              <img src={wineGlassesImage} alt="Wine Glasses" className="h-7 pixelated object-contain" />
+              <img src={wineGlassesImage} alt="Wine Glasses" className="h-14 pixelated object-contain" />
             </div>
           </div>
 
           {/* Surviving characters in shock - positioned on floor */}
           <div className="absolute bottom-[3%] left-[8%] z-20">
-            <img src={ladySprite} alt="Lady" className="h-24 pixelated object-contain" />
+            <img src={ladySprite} alt="Lady" className="h-44 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[35%] z-20">
-            <img src={elFuegoSprite} alt="El Fuego" className="h-24 pixelated object-contain" />
+            <img src={elFuegoSprite} alt="El Fuego" className="h-44 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[55%] z-20">
-            <img src={carlSprite} alt="Carl" className="h-24 pixelated object-contain" />
+            <img src={carlSprite} alt="Carl" className="h-44 pixelated object-contain" />
           </div>
 
           {/* Los Cabos - body on the floor (victim) */}
@@ -236,7 +236,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={losCabosSprite} 
               alt="Los Cabos - Victim"
-              className="h-20 pixelated object-contain opacity-90"
+              className="h-36 pixelated object-contain opacity-90"
               style={{ filter: 'grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))' }}
             />
           </div>
