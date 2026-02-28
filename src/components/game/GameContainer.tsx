@@ -51,15 +51,12 @@ export function GameContainer() {
 
   const handleMusicVolumeChange = (v: number) => {
     setMusicVolume(v);
-    setMusicVolume(v);
-    // Use the audio engine's volume control
-    const audioEngine = { setMusicVolume: (vol: number) => {
-      // Access gain node via the hook
-    }};
+    setMusicVolumeState(v);
   };
 
   const handleSfxVolumeChange = (v: number) => {
     setSfxVolume(v);
+    setSfxVolumeState(v);
   };
 
   const handleStart = () => {
