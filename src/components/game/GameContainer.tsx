@@ -24,8 +24,13 @@ export function GameContainer() {
     advanceDialog,
   } = useGameState();
 
-  // Initialize background music system
-  useBackgroundMusic(gameState.phase);
+  // Audio engine
+  const { playBackgroundTrack, playDialogBlip, playSfx } = useAudioEngine();
+
+  // Play background track when phase changes
+  useEffect(() => {
+    playBackgroundTrack(gameState.phase);
+  }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
