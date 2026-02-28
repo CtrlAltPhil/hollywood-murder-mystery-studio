@@ -316,10 +316,10 @@ export function GameScene({
       </div>
       
       <div className="absolute bottom-[3%] left-[8%] z-20">
-        <img src={ladyImage} alt="Lady" className="h-44 pixelated object-contain" />
-        {shockBubbles['Lady'] && (
+        <img src={ladyImage} alt="Lady Fantastique" className="h-44 pixelated object-contain" />
+        {shockBubbles['Lady Fantastique'] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
-            {shockBubbles['Lady']}
+            {shockBubbles['Lady Fantastique']}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
           </div>
         )}
