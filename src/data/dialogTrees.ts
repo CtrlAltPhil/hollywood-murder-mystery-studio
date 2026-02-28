@@ -57,7 +57,7 @@ const carlTree: DialogTree = {
   'carl-elfuego-note': {
     id: 'carl-elfuego-note',
     speaker: 'Carl',
-    text: "El Fuego kept disappearing to the kitchen. He said he was getting drinks, but he was gone for quite a long time each trip. Nervous fellow, that one.",
+    text: "Duke Extreme kept disappearing to the kitchen. He said he was getting drinks, but he was gone for quite a long time each trip. Nervous fellow, that one.",
     nextNodeId: 'carl-root',
   },
   'carl-relationship': {
