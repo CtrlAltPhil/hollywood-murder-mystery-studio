@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useGameState } from '@/hooks/useGameState';
-import { useBackgroundMusic } from '@/hooks/useBackgroundMusic';
+import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
 import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
