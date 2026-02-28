@@ -179,7 +179,7 @@ const ladyTree: DialogTree = {
   },
   'lady-relationship': {
     id: 'lady-relationship',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "We worked together for years. He was my director, my mentor. I thought we had something special — professionally, I mean. Turns out I was just another actress to him.",
     nextNodeId: 'lady-root',
   },
