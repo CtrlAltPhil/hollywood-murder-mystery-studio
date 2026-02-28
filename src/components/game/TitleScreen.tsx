@@ -175,8 +175,16 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
             boxShadow: '0 0 6px 3px hsl(50, 90%, 60%, 0.4)',
             animation: `fireflyFloat 3s ease-in-out ${ff.delay}s infinite alternate, fireflyGlow 2s ease-in-out ${ff.delay}s infinite alternate`,
           }}
-          onClick={ff.isEasterEgg ? () => setEasterEggVisible(true) : undefined}
-        />
+          onClick={ff.isEasterEgg ? handleFireflyClick : undefined}
+        >
+          {/* Speech bubble for easter egg firefly */}
+          {ff.isEasterEgg && speechBubble && (
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-black text-[9px] px-2 py-1 rounded-md shadow-lg font-pixel animate-[fade-in_0.2s_ease-out] z-30">
+              {speechBubble}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white" />
+            </div>
+          )}
+        </div>
       ))}
 
       {/* Easter Egg Modal */}

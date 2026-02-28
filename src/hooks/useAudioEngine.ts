@@ -393,6 +393,30 @@ export function useAudioEngine(): AudioEngine {
         osc.stop(ctx.currentTime + 0.4);
         break;
       }
+      case 'crash': {
+        // Dramatic crash — layered noise burst + low thud
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(100, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.8);
+        g.gain.setValueAtTime(sfxVolumeRef.current * 0.6, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.8);
+
+        // High-frequency shatter layer
+        const osc2 = ctx.createOscillator();
+        const g2 = ctx.createGain();
+        osc2.type = 'square';
+        osc2.frequency.setValueAtTime(800, ctx.currentTime);
+        osc2.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.3);
+        g2.gain.setValueAtTime(sfxVolumeRef.current * 0.3, ctx.currentTime);
+        g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        osc2.connect(g2);
+        g2.connect(ctx.destination);
+        osc2.start();
+        osc2.stop(ctx.currentTime + 0.4);
+        break;
+      }
     }
   }, [getCtx]);
 
