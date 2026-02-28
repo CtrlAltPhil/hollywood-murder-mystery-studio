@@ -236,7 +236,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={losCabosSprite} 
               alt="Los Cabos - Victim"
-              className="h-28 pixelated object-contain opacity-90"
+              className="h-20 pixelated object-contain opacity-90"
               style={{ filter: 'grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))' }}
             />
           </div>
