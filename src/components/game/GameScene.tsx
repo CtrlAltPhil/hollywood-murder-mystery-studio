@@ -91,13 +91,32 @@ export function GameScene({
       },
     },
     {
+      id: 'wine-glasses',
+      name: 'Wine Glasses',
+      position: { x: 28, y: 80 },
+      width: 10,
+      height: 10,
+      interactions: {
+        look: 'A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?',
+        pickup: () => {
+          if (!gameState.flags.glassesTaken) {
+            onAddToInventory({ id: 'wine-glass', name: 'Suspicious Wine Glass', image: wineGlassesImage });
+            setFlag('glassesTaken', true);
+            return 'I carefully pick up the glass with the strange residue. This could be evidence.';
+          }
+          return 'I already took the suspicious glass.';
+        },
+        use: 'I should pick one up first to examine it.',
+      },
+    },
+    {
       id: 'table',
       name: 'Party Table',
-      position: { x: 28, y: 85 },
+      position: { x: 28, y: 90 },
       width: 14,
-      height: 18,
+      height: 12,
       interactions: {
-        look: 'A festive party table covered with snacks and drinks.',
+        look: 'A festive party table. Most of the food has been knocked over in the commotion.',
         pickup: "I can't carry the whole table!",
         use: 'I should look for something specific to use here.',
       },
