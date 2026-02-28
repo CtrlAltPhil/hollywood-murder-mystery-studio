@@ -74,9 +74,9 @@ export function GameScene({
     {
       id: 'dagger',
       name: 'Bloody Dagger',
-      position: { x: 89, y: 91 },
+      position: { x: 88, y: 93 },
       width: 8,
-      height: 8,
+      height: 10,
       interactions: {
         look: 'A ornate dagger covered in blood. This must be the murder weapon!',
         pickup: () => {
@@ -93,8 +93,8 @@ export function GameScene({
     {
       id: 'los-cabos-body',
       name: 'Los Cabos',
-      position: { x: 76, y: 85 },
-      width: 18,
+      position: { x: 78, y: 90 },
+      width: 16,
       height: 15,
       interactions: {
         look: 'Poor Los Cabos... He was stabbed in the back. Who could have done this?',
