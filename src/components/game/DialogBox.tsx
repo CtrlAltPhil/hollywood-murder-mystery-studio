@@ -5,9 +5,10 @@ interface DialogBoxProps {
   node: DialogNode;
   onOptionSelect: (option: DialogOption) => void;
   onContinue: () => void;
+  playDialogBlip?: (speaker: string) => void;
 }
 
-export function DialogBox({ node, onOptionSelect, onContinue }: DialogBoxProps) {
+export function DialogBox({ node, onOptionSelect, onContinue, playDialogBlip }: DialogBoxProps) {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
 
@@ -19,6 +20,9 @@ export function DialogBox({ node, onOptionSelect, onContinue }: DialogBoxProps) 
     const interval = setInterval(() => {
       index++;
       setDisplayedText(node.text.slice(0, index));
+      if (playDialogBlip && node.text[index - 1] !== ' ') {
+        playDialogBlip(node.speaker);
+      }
       if (index >= node.text.length) {
         clearInterval(interval);
         setIsTyping(false);

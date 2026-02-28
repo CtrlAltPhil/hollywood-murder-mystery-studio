@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGameState } from '@/hooks/useGameState';
-import { useBackgroundMusic } from '@/hooks/useBackgroundMusic';
+import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
 import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
@@ -24,8 +24,13 @@ export function GameContainer() {
     advanceDialog,
   } = useGameState();
 
-  // Initialize background music system
-  useBackgroundMusic(gameState.phase);
+  // Audio engine
+  const { playBackgroundTrack, playDialogBlip, playSfx } = useAudioEngine();
+
+  // Play background track when phase changes
+  useEffect(() => {
+    playBackgroundTrack(gameState.phase);
+  }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -158,7 +163,10 @@ export function GameContainer() {
                  setActionText(`I can't ${verb} that.`);
               }
             }}
-            onAddToInventory={addToInventory}
+            onAddToInventory={(item) => {
+              addToInventory({ ...item, description: '' });
+              playSfx('pickup');
+            }}
           />
 
           {/* Dialog overlay */}
@@ -183,6 +191,7 @@ export function GameContainer() {
                   advanceDialog(null);
                 }
               }}
+              playDialogBlip={playDialogBlip}
             />
           )}
         </div>
