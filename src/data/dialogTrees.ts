@@ -315,7 +315,7 @@ const elFuegoTree: DialogTree = {
   'fuego-dagger-who': {
     id: 'fuego-dagger-who',
     speaker: 'Duke Extreme',
-    text: "Anyone! Carl, Lady, even Los Cabos himself had keys. But... Lady was on set last week picking up costume pieces. She could have taken it then.",
+    text: "Anyone! Carl, Lady Fantastique, even Los Cabos himself had keys. But... Lady Fantastique was on set last week picking up costume pieces. She could have taken it then.",
     nextNodeId: 'fuego-dagger',
   },
 };
