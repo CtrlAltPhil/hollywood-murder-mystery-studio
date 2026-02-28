@@ -82,7 +82,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         className="absolute inset-0 bg-cover bg-center pixelated"
         style={{ 
           backgroundImage: `url(${gbStudiosBackground})`,
-          filter: 'brightness(0.7) contrast(1.1)',
+          filter: 'brightness(0.9) contrast(1.05)',
         }}
       />
 
@@ -94,7 +94,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       />
 
       {/* Stormy Sky Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,30%,8%,0.6)] via-transparent to-[hsl(220,30%,5%,0.8)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,30%,8%,0.3)] via-transparent to-[hsl(220,30%,5%,0.5)]" />
 
       {/* Car Silhouette - at bottom on the street */}
       <div 
@@ -192,7 +192,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       {/* Vignette Effect */}
       <div className="absolute inset-0 pointer-events-none" 
         style={{
-          boxShadow: 'inset 0 0 150px 50px hsl(220, 30%, 5%)',
+          boxShadow: 'inset 0 0 100px 30px hsl(220, 30%, 5%)',
         }}
       />
 
