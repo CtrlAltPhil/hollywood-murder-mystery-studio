@@ -252,6 +252,12 @@ export function GameContainer() {
             onResume={() => setIsMenuOpen(false)}
             onSave={handleSave}
             onRestart={handleRestart}
+            musicVolume={musicVolumeState}
+            sfxVolume={sfxVolumeState}
+            brightness={brightness}
+            onMusicVolumeChange={handleMusicVolumeChange}
+            onSfxVolumeChange={handleSfxVolumeChange}
+            onBrightnessChange={setBrightness}
           />
         )}
         
