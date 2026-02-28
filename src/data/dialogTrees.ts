@@ -265,7 +265,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-suspect': {
     id: 'fuego-suspect',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "Have you looked at Carl? The man's ice cold. His business partner just got murdered and he's standing there like it's a Tuesday. That's not normal, amigo.",
     nextNodeId: 'fuego-root',
   },
