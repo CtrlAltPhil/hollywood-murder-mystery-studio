@@ -136,7 +136,7 @@ const ladyTree: DialogTree = {
   },
   'lady-timeline': {
     id: 'lady-timeline',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I don't know... five minutes? Ten? I wasn't watching the clock. Why does it matter?",
     options: [
       { text: "That's a long time to be freshening up during a party.", nextNodeId: 'lady-pressed' },
