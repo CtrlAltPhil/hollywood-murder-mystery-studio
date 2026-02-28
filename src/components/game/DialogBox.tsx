@@ -8,7 +8,7 @@ interface DialogBoxProps {
   playDialogBlip?: (speaker: string) => void;
 }
 
-export function DialogBox({ node, onOptionSelect, onContinue }: DialogBoxProps) {
+export function DialogBox({ node, onOptionSelect, onContinue, playDialogBlip }: DialogBoxProps) {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
 
