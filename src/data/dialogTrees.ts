@@ -157,7 +157,7 @@ const ladyTree: DialogTree = {
   },
   'lady-argument': {
     id: 'lady-argument',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Who told you that?! ...Fine. Yes, we had words. He promised me the lead role in his next film, then gave it to someone else. I was furious. But I didn't KILL him over it!",
     options: [
       { text: "That sounds like a pretty strong motive.", nextNodeId: 'lady-motive' },
