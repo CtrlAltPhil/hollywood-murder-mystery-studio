@@ -213,7 +213,7 @@ const ladyTree: DialogTree = {
   },
   'lady-dagger-sharpened': {
     id: 'lady-dagger-sharpened',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Duke Extreme was the stunt coordinator. He managed all the weapons on set. He would know how to make a prop blade lethal...",
     nextNodeId: 'lady-dagger',
   },
