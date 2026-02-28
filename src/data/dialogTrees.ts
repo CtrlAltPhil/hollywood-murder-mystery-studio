@@ -111,11 +111,11 @@ const carlTree: DialogTree = {
   },
 };
 
-// ─── LADY ───────────────────────────────────────────────
+// ─── LADY FANTASTIQUE ───────────────────────────────────────────────
 const ladyTree: DialogTree = {
   'lady-root': {
     id: 'lady-root',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "*sniff* I still can't believe this is happening... What do you want?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'lady-alibi' },
