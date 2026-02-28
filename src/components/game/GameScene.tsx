@@ -1,15 +1,16 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { GameState, Verb } from '@/types/game';
 
 // Import assets
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
 import carlImage from '@/assets/characters/carl.png';
 import elFuegoImage from '@/assets/characters/el-fuego.png';
-import ladyImage from '@/assets/characters/lady.jpg';
+import elFuegoImage2 from '@/assets/characters/el-fuego-2.png';
+import ladyImage from '@/assets/characters/lady.png';
 import losCabosImage from '@/assets/characters/los-cabos.png';
-import tableImage from '@/assets/props/table.jpg';
-import wineGlassesImage from '@/assets/props/wine-glasses.jpg';
-import daggerImage from '@/assets/items/dagger.jpg';
+import tableImage from '@/assets/props/table.png';
+import wineGlassesImage from '@/assets/props/wine-glasses.png';
+import daggerImage from '@/assets/props/dagger.png';
 
 interface GameSceneProps {
   gameState: GameState;
@@ -56,6 +57,15 @@ export function GameScene({
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
+
+  // Animate El Fuego between two poses
+  const [elFuegoPose, setElFuegoPose] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElFuegoPose(prev => (prev === 0 ? 1 : 0));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Define hotspots — positions must match the visual elements exactly
   // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
@@ -269,7 +279,11 @@ export function GameScene({
       </div>
       
       <div className="absolute bottom-[3%] left-[35%] z-20">
-        <img src={elFuegoImage} alt="El Fuego" className="h-44 pixelated object-contain" />
+        <img 
+          src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2} 
+          alt="El Fuego" 
+          className="h-44 pixelated object-contain transition-opacity duration-300" 
+        />
       </div>
 
       {/* Invisible hotspots for interactions */}

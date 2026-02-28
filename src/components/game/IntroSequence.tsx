@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { GamePhase } from '@/types/game';
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
 import elFuegoSprite from '@/assets/characters/el-fuego.png';
-import ladySprite from '@/assets/characters/lady.jpg';
+import elFuegoSprite2 from '@/assets/characters/el-fuego-2.png';
+import ladySprite from '@/assets/characters/lady.png';
 import losCabosSprite from '@/assets/characters/los-cabos.png';
 import carlSprite from '@/assets/characters/carl.png';
-import daggerImage from '@/assets/items/dagger.jpg';
-import wineGlassesImage from '@/assets/props/wine-glasses.jpg';
-import tableImage from '@/assets/props/table.jpg';
+import daggerImage from '@/assets/props/dagger.png';
+import wineGlassesImage from '@/assets/props/wine-glasses.png';
+import tableImage from '@/assets/props/table.png';
 
 interface IntroSequenceProps {
   phase: GamePhase;
@@ -30,6 +31,15 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
   const [fadeState, setFadeState] = useState<'in' | 'out' | 'black' | 'visible'>('visible');
   const [showMurderScene, setShowMurderScene] = useState(false);
   const [currentDialogue, setCurrentDialogue] = useState(0);
+  const [elFuegoPose, setElFuegoPose] = useState(0);
+
+  // Animate El Fuego between poses
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElFuegoPose(prev => (prev === 0 ? 1 : 0));
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
 
   // Rotate through dialogue during party
   useEffect(() => {
@@ -150,9 +160,9 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           {/* El Fuego - near table, talking to Lady */}
           <div className="absolute bottom-[3%] left-[35%] z-20">
             <img 
-              src={elFuegoSprite} 
+              src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} 
               alt="El Fuego"
-               className="h-44 pixelated object-contain"
+               className="h-44 pixelated object-contain transition-opacity duration-300"
             />
             {/* Speech bubble for El Fuego */}
             {dialogue.speaker === 'El Fuego' && (
@@ -225,7 +235,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img src={ladySprite} alt="Lady" className="h-44 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[35%] z-20">
-            <img src={elFuegoSprite} alt="El Fuego" className="h-44 pixelated object-contain" />
+            <img src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} alt="El Fuego" className="h-44 pixelated object-contain transition-opacity duration-300" />
           </div>
           <div className="absolute bottom-[3%] left-[55%] z-20">
             <img src={carlSprite} alt="Carl" className="h-44 pixelated object-contain" />
