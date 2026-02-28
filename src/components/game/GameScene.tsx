@@ -106,9 +106,9 @@ export function GameScene({
     {
       id: 'lady',
       name: 'Lady',
-      position: { x: 14, y: 80 },
-      width: 12,
-      height: 35,
+      position: { x: 13, y: 72 },
+      width: 10,
+      height: 40,
       interactions: {
         look: 'Lady looks shaken but composed. She was close to Los Cabos...',
         talk: '__DIALOG__lady',
@@ -119,9 +119,9 @@ export function GameScene({
     {
       id: 'el-fuego',
       name: 'El Fuego',
-      position: { x: 41, y: 80 },
-      width: 12,
-      height: 35,
+      position: { x: 40, y: 72 },
+      width: 10,
+      height: 40,
       interactions: {
         look: 'El Fuego is sweating nervously. Is it the heat, or something else?',
         talk: '__DIALOG__el-fuego',
@@ -132,9 +132,9 @@ export function GameScene({
     {
       id: 'carl',
       name: 'Carl',
-      position: { x: 61, y: 80 },
-      width: 12,
-      height: 35,
+      position: { x: 60, y: 72 },
+      width: 10,
+      height: 40,
       interactions: {
         look: 'Carl seems unusually calm for someone who just witnessed a murder.',
         talk: '__DIALOG__carl',
