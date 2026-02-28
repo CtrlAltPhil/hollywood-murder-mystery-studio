@@ -197,7 +197,7 @@ export function GameContainer() {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
         {/* Intro matches the main game container size (4:3) but keeps content 16:9 (letterboxed) */}
-        <div className="w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative flex items-center">
+        <div className="w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative flex items-center" style={{ filter: `brightness(${brightness})` }}>
           
           {/* Menu Button */}
           <div className="absolute top-4 right-4 z-50">
