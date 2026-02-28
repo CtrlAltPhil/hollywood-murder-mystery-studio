@@ -163,7 +163,10 @@ export function GameContainer() {
                  setActionText(`I can't ${verb} that.`);
               }
             }}
-            onAddToInventory={addToInventory}
+            onAddToInventory={(item) => {
+              addToInventory(item);
+              playSfx('pickup');
+            }}
           />
 
           {/* Dialog overlay */}
