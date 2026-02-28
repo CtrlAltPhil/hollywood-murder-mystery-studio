@@ -271,7 +271,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-relationship': {
     id: 'fuego-relationship',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "Los Cabos gave me my break in Hollywood. Stunt coordinator on 'Midnight in Marrakech.' I owe— I OWED him everything. Why would I hurt him?",
     options: [
       { text: "I heard he was going to cut you from the next project.", nextNodeId: 'fuego-cut' },
