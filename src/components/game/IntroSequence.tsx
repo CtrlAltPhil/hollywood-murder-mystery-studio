@@ -23,7 +23,7 @@ const PARTY_DIALOGUE = [
   { speaker: 'Los Cabos', text: "I have an announcement to make later...", position: 'right' },
   { speaker: 'Carl', text: "This appetizer spread is incredible!", position: 'center' },
   { speaker: 'Lady', text: "Did you hear about the new production?", position: 'left' },
-  { speaker: 'El Fuego', text: "Shh... not here.", position: 'left' },
+  { speaker: 'Duke Extreme', text: "Shh... not here.", position: 'left' },
   { speaker: 'Los Cabos', text: "Everyone seems tense tonight...", position: 'right' },
 ];
 
