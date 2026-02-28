@@ -171,7 +171,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={carlSprite} 
               alt="Carl"
-               className="h-24 pixelated object-contain"
+               className="h-44 pixelated object-contain"
             />
             {/* Speech bubble for Carl */}
             {dialogue.speaker === 'Carl' && (
