@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { GamePhase } from '@/types/game';
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
-import elFuegoSprite from '@/assets/characters/el-fuego.jpg';
+import elFuegoSprite from '@/assets/characters/el-fuego.png';
 import ladySprite from '@/assets/characters/lady.jpg';
-import losCabosSprite from '@/assets/characters/los-cabos.jpg';
-import carlSprite from '@/assets/characters/carl.jpg';
+import losCabosSprite from '@/assets/characters/los-cabos.png';
+import carlSprite from '@/assets/characters/carl.png';
 import daggerImage from '@/assets/items/dagger.jpg';
 import wineGlassesImage from '@/assets/props/wine-glasses.jpg';
 import tableImage from '@/assets/props/table.jpg';
