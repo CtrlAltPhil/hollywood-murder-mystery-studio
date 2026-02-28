@@ -124,7 +124,7 @@ export function GameScene({
       height: 35,
       interactions: {
         look: 'El Fuego is sweating nervously. Is it the heat, or something else?',
-        talk: '"This is terrible! I was in the kitchen getting more drinks when it happened!"',
+        talk: '__DIALOG__el-fuego',
         pickup: "That's not how you treat people.",
         use: 'I should talk to him instead.',
       },
