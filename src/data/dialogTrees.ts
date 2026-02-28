@@ -51,7 +51,7 @@ const carlTree: DialogTree = {
   'carl-lady-argument': {
     id: 'carl-lady-argument',
     speaker: 'Carl',
-    text: "I couldn't hear the details, but Lady was pointing her finger at him and her voice was raised. Something about a 'betrayal.' Make of that what you will.",
+    text: "I couldn't hear the details, but Lady Fantastique was pointing her finger at him and her voice was raised. Something about a 'betrayal.' Make of that what you will.",
     nextNodeId: 'carl-root',
   },
   'carl-elfuego-note': {
