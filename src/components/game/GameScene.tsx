@@ -60,7 +60,7 @@ export function GameScene({
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
-  // Animate El Fuego between two poses
+  // Animate Duke Extreme between two poses
   const [elFuegoPose, setElFuegoPose] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
