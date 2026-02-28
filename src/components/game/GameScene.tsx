@@ -1,15 +1,16 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { GameState, Verb } from '@/types/game';
 
 // Import assets
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
 import carlImage from '@/assets/characters/carl.png';
 import elFuegoImage from '@/assets/characters/el-fuego.png';
-import ladyImage from '@/assets/characters/lady.jpg';
+import elFuegoImage2 from '@/assets/characters/el-fuego-2.png';
+import ladyImage from '@/assets/characters/lady.png';
 import losCabosImage from '@/assets/characters/los-cabos.png';
-import tableImage from '@/assets/props/table.jpg';
-import wineGlassesImage from '@/assets/props/wine-glasses.jpg';
-import daggerImage from '@/assets/items/dagger.jpg';
+import tableImage from '@/assets/props/table.png';
+import wineGlassesImage from '@/assets/props/wine-glasses.png';
+import daggerImage from '@/assets/props/dagger.png';
 
 interface GameSceneProps {
   gameState: GameState;
