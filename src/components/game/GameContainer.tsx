@@ -134,13 +134,25 @@ export function GameContainer() {
               const verb = gameState.selectedVerb;
               if (verb && hotspot.interactions[verb]) {
                 const interaction = hotspot.interactions[verb];
-                if (typeof interaction === 'function') {
+                if (typeof interaction === 'string') {
+                  // Check for dialog sentinel
+                  if (interaction.startsWith('__DIALOG__')) {
+                    const characterId = interaction.replace('__DIALOG__', '');
+                    const rootNode = getDialogTree(characterId, gameState.flags);
+                    if (rootNode) {
+                      startDialog(
+                        { id: characterId, name: hotspot.name, position: { x: 0, y: 0 }, sprite: '', isVisible: true },
+                        rootNode
+                      );
+                    }
+                    return;
+                  }
+                  setActionText(interaction);
+                } else if (typeof interaction === 'function') {
                   const resultText = interaction();
                   if (typeof resultText === 'string') {
                     setActionText(resultText);
                   }
-                } else if (typeof interaction === 'string') {
-                  setActionText(interaction);
                 }
               } else if (verb) {
                  setActionText(`I can't ${verb} that.`);
@@ -148,6 +160,31 @@ export function GameContainer() {
             }}
             onAddToInventory={addToInventory}
           />
+
+          {/* Dialog overlay */}
+          {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
+            <DialogBox
+              node={gameState.dialogState.currentNode}
+              onOptionSelect={(option) => {
+                if (option.onSelect) option.onSelect();
+                if (option.nextNodeId) {
+                  const nextNode = getDialogNodeById(option.nextNodeId);
+                  advanceDialog(nextNode);
+                } else {
+                  advanceDialog(null);
+                }
+              }}
+              onContinue={() => {
+                const nextId = gameState.dialogState.currentNode?.nextNodeId;
+                if (nextId) {
+                  const nextNode = getDialogNodeById(nextId);
+                  advanceDialog(nextNode);
+                } else {
+                  advanceDialog(null);
+                }
+              }}
+            />
+          )}
         </div>
 
         {/* UI AREA: flex-1 
