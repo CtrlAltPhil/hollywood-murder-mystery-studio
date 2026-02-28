@@ -338,7 +338,6 @@ export function GameScene({
           </div>
         )}
       </div>
-      </div>
 
       {/* Invisible hotspots for interactions */}
       {activeHotspots.map((hotspot) => {
