@@ -166,6 +166,8 @@ export function GameScene({
         talk: '__DIALOG__lady',
         pickup: "I can't pick up a person!",
         use: 'I should talk to her instead.',
+        use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady recoils in horror.',
+        use_with_wine_glass: '"That\'s my glass! I mean... it looks like mine. So what?"',
       },
     },
     {
