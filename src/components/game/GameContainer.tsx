@@ -58,6 +58,107 @@ export function GameContainer() {
     }
   };
 
+  const handleChangeRoom = (roomId: string) => {
+    changeRoom(roomId, { x: 400, y: 350 });
+    selectVerb(null);
+    setActionText('');
+  };
+
+  const sharedHotspotHover = (text: string) => {
+    const verb = gameState.selectedVerb;
+    const item = gameState.selectedItem;
+    if (verb === 'use' && item) {
+      setActionText(`Use ${item.name} with ${text}`);
+    } else if (verb) {
+      setActionText(`${getVerbDisplayName(verb)} ${text}`);
+    } else {
+      setActionText(text);
+    }
+  };
+
+  const sharedHotspotClick = (hotspot: any) => {
+    const verb = gameState.selectedVerb;
+    const item = gameState.selectedItem;
+
+    if (verb === 'use' && item) {
+      const useWithKey = `use_with_${item.id}`;
+      const interaction = hotspot.interactions[useWithKey];
+      if (interaction) {
+        if (typeof interaction === 'string') setActionText(interaction);
+        else if (typeof interaction === 'function') {
+          const result = interaction();
+          if (typeof result === 'string') setActionText(result);
+        }
+      } else {
+        setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
+      }
+      selectVerb(null);
+      return;
+    }
+
+    if (verb && hotspot.interactions[verb]) {
+      const interaction = hotspot.interactions[verb];
+      if (typeof interaction === 'string') {
+        if (interaction.startsWith('__DIALOG__')) {
+          const characterId = interaction.replace('__DIALOG__', '');
+          const rootNode = getDialogTree(characterId, gameState.flags);
+          if (rootNode) {
+            startDialog(
+              { id: characterId, name: hotspot.name, position: { x: 0, y: 0 }, sprite: '', isVisible: true },
+              rootNode
+            );
+          }
+          return;
+        }
+        setActionText(interaction);
+      } else if (typeof interaction === 'function') {
+        const resultText = interaction();
+        if (typeof resultText === 'string') setActionText(resultText);
+      }
+    } else if (verb) {
+      setActionText(`I can't ${verb} that.`);
+    }
+  };
+
+  const handleAddToInventory = (item: { id: string; name: string; image: string }) => {
+    addToInventory({ ...item, description: '' });
+    playSfx('pickup');
+  };
+
+  const renderCurrentRoom = () => {
+    switch (gameState.currentRoom) {
+      case 'hallway':
+        return (
+          <HallwayScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      case 'hallway-kitchen':
+        return (
+          <HallwayKitchenScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      default:
+        return (
+          <GameScene
+            gameState={gameState}
+            setFlag={setFlag}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onAddToInventory={handleAddToInventory}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+    }
+  };
+
   // Title screen
   if (gameState.phase === 'title') {
     return (
