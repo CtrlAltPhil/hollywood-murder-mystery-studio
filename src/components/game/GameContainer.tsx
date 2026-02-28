@@ -36,8 +36,8 @@ export function GameContainer() {
   }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(0.3);
-  const [sfxVolume, setSfxVolume] = useState(0.5);
+  const [musicVolumeState, setMusicVolumeState] = useState(0.3);
+  const [sfxVolumeState, setSfxVolumeState] = useState(0.5);
   const [brightness, setBrightness] = useState(1);
   const [crashPlayed, setCrashPlayed] = useState(false);
 
