@@ -100,7 +100,7 @@ const carlTree: DialogTree = {
   'carl-prop-room': {
     id: 'carl-prop-room',
     speaker: 'Carl',
-    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady did costumes for it.",
+    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady Fantastique did costumes for it.",
     nextNodeId: 'carl-dagger',
   },
   'carl-fingerprints': {
