@@ -298,7 +298,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-dagger-react': {
     id: 'fuego-dagger-react',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "I— that— yes, it's from the film. But it was a PROP! A dull blade! Someone must have... someone sharpened it. That wasn't me! I swear on my mother!",
     options: [
       { text: "You're the stunt coordinator. You had the most access to these weapons.", nextNodeId: 'fuego-dagger-access' },
