@@ -148,7 +148,7 @@ export function GameContainer() {
               // "Use [inventory item] with [hotspot]" combo
               if (verb === 'use' && item) {
                 const useWithKey = `use_with_${item.id}`;
-                const interaction = hotspot.interactions[useWithKey as Verb];
+                const interaction = hotspot.interactions[useWithKey];
                 if (interaction) {
                   if (typeof interaction === 'string') {
                     setActionText(interaction);

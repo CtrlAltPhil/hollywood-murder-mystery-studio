@@ -20,13 +20,13 @@ interface GameSceneProps {
 }
 
 // Simplified hotspot for the scene
-interface SimpleHotspot {
+export interface SimpleHotspot {
   id: string;
   name: string;
   position: { x: number; y: number };
   width: number;
   height: number;
-  interactions: Partial<Record<Verb, string | (() => string | void)>>;
+  interactions: Record<string, string | (() => string | void)>;
 }
 
 // Cursor class mapping based on selected verb
