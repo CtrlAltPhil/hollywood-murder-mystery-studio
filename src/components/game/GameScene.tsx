@@ -181,6 +181,8 @@ export function GameScene({
         talk: '__DIALOG__el-fuego',
         pickup: "That's not how you treat people.",
         use: 'I should talk to him instead.',
+        use_with_dagger: '"Where did you... I\'ve never seen that before! I swear!" El Fuego backs away nervously.',
+        use_with_wine_glass: '"That\'s just wine, amigo. Nothing special about it."',
       },
     },
     {
