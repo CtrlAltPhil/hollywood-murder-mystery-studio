@@ -160,9 +160,9 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           {/* El Fuego - near table, talking to Lady */}
           <div className="absolute bottom-[3%] left-[35%] z-20">
             <img 
-              src={elFuegoSprite} 
+              src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} 
               alt="El Fuego"
-               className="h-44 pixelated object-contain"
+               className="h-44 pixelated object-contain transition-opacity duration-300"
             />
             {/* Speech bubble for El Fuego */}
             {dialogue.speaker === 'El Fuego' && (
