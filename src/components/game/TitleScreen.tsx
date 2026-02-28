@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import gbStudiosBackground from '@/assets/backgrounds/gb-studios.jpg';
 
 interface TitleScreenProps {
