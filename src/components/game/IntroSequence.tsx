@@ -152,8 +152,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img 
               src={elFuegoSprite} 
               alt="El Fuego"
-              className="h-36 pixelated object-contain"
-              style={{ filter: 'drop-shadow(2px 4px 6px rgba(0,0,0,0.5))' }}
+               className="h-24 pixelated object-contain"
             />
             {/* Speech bubble for El Fuego */}
             {dialogue.speaker === 'El Fuego' && (
