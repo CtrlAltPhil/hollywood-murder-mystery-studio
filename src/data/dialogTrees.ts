@@ -280,7 +280,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-cut': {
     id: 'fuego-cut',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "That's— who told you that?! That's a LIE! We had a great working relationship! ...Okay, maybe he mentioned bringing in someone younger, but we were going to talk about it!",
     nextNodeId: 'fuego-root',
   },
