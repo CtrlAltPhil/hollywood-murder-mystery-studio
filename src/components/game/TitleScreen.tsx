@@ -192,7 +192,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       {/* Vignette Effect */}
       <div className="absolute inset-0 pointer-events-none" 
         style={{
-          boxShadow: 'inset 0 0 150px 50px hsl(220, 30%, 5%)',
+          boxShadow: 'inset 0 0 100px 30px hsl(220, 30%, 5%)',
         }}
       />
 
