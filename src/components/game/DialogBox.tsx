@@ -5,6 +5,7 @@ interface DialogBoxProps {
   node: DialogNode;
   onOptionSelect: (option: DialogOption) => void;
   onContinue: () => void;
+  playDialogBlip?: (speaker: string) => void;
 }
 
 export function DialogBox({ node, onOptionSelect, onContinue }: DialogBoxProps) {
