@@ -165,41 +165,52 @@ export function GameScene({
 
 
       {/* Table with props */}
-      <div className="absolute bottom-[5%] left-[22%] w-[20%] h-[25%]">
-        <img src={tableImage} alt="Party Table" className="w-full h-full object-contain" />
-        <img 
-          src={wineGlassesImage} 
-          alt="Wine Glasses" 
-          className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[40%] h-[40%] object-contain"
-        />
+      <div className="absolute bottom-[5%] left-[22%] z-10">
+        <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
+        <div className="absolute -top-6 left-1/2 -translate-x-1/2">
+          <img src={wineGlassesImage} alt="Wine Glasses" className="h-14 pixelated object-contain" />
+        </div>
       </div>
 
-      {/* Los Cabos - Dead on the floor */}
-      <div className="absolute bottom-[3%] right-[15%] w-[14%] h-[30%] rotate-[-90deg]">
-        <img src={losCabosImage} alt="Los Cabos" className="w-full h-full object-contain opacity-80" />
+      {/* Los Cabos - Dead on the floor — matches murder-reveal positioning */}
+      <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
+        <img 
+          src={losCabosImage} 
+          alt="Los Cabos" 
+          className="h-36 pixelated object-contain opacity-90"
+          style={{ filter: 'grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))' }}
+        />
       </div>
       
       {/* Blood pool effect */}
-      <div className="absolute bottom-[2%] right-[12%] w-[10%] h-[6%] bg-red-900/60 rounded-full blur-sm" />
+      <div 
+        className="absolute bottom-[2%] right-[12%] w-36 h-14 rounded-full opacity-60"
+        style={{ background: 'radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)' }}
+      />
 
       {/* Dagger near the body */}
       {!gameState.flags.daggerTaken && (
-        <div className="absolute bottom-[5%] right-[8%] w-[6%] h-[8%]">
-          <img src={daggerImage} alt="Bloody Dagger" className="w-full h-full object-contain rotate-45" />
+        <div className="absolute bottom-[5%] right-[8%] z-[15]">
+          <img 
+            src={daggerImage} 
+            alt="Bloody Dagger" 
+            className="h-12 pixelated object-contain transform rotate-45"
+            style={{ filter: 'drop-shadow(0 0 8px rgba(180,0,0,0.6))' }}
+          />
         </div>
       )}
 
-      {/* Surviving characters - standing in their original positions */}
-      <div className="absolute bottom-[3%] left-[55%] w-[10%] h-[45%]">
-        <img src={carlImage} alt="Carl" className="w-full h-full object-contain" />
+      {/* Surviving characters — same h-44 and bottom-[3%] as IntroSequence */}
+      <div className="absolute bottom-[3%] left-[55%] z-20">
+        <img src={carlImage} alt="Carl" className="h-44 pixelated object-contain" />
       </div>
       
-      <div className="absolute bottom-[3%] left-[8%] w-[10%] h-[45%]">
-        <img src={ladyImage} alt="Lady" className="w-full h-full object-contain" />
+      <div className="absolute bottom-[3%] left-[8%] z-20">
+        <img src={ladyImage} alt="Lady" className="h-44 pixelated object-contain" />
       </div>
       
-      <div className="absolute bottom-[3%] left-[35%] w-[10%] h-[45%]">
-        <img src={elFuegoImage} alt="El Fuego" className="w-full h-full object-contain" />
+      <div className="absolute bottom-[3%] left-[35%] z-20">
+        <img src={elFuegoImage} alt="El Fuego" className="h-44 pixelated object-contain" />
       </div>
 
       {/* Invisible hotspots for interactions */}
