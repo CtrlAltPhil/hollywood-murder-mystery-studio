@@ -234,7 +234,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-alibi': {
     id: 'fuego-alibi',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "I was in the kitchen! Getting more drinks! The tequila ran out and— look, I was just being a good guest, okay?",
     options: [
       { text: "The kitchen is pretty close to where the body was found.", nextNodeId: 'fuego-proximity' },
