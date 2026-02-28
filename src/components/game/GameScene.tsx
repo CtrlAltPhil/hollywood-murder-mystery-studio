@@ -279,7 +279,11 @@ export function GameScene({
       </div>
       
       <div className="absolute bottom-[3%] left-[35%] z-20">
-        <img src={elFuegoImage} alt="El Fuego" className="h-44 pixelated object-contain" />
+        <img 
+          src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2} 
+          alt="El Fuego" 
+          className="h-44 pixelated object-contain transition-opacity duration-300" 
+        />
       </div>
 
       {/* Invisible hotspots for interactions */}
