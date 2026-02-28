@@ -186,7 +186,7 @@ const ladyTree: DialogTree = {
   // Dagger-unlocked branch
   'lady-dagger': {
     id: 'lady-dagger',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "*sniff* What now...?",
     options: [
       { text: "Do you recognize this dagger?", nextNodeId: 'lady-dagger-react' },
