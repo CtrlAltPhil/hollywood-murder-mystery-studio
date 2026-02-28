@@ -180,7 +180,7 @@ export function GameScene({
       </div>
       
       {/* Blood pool effect */}
-      <div className="absolute bottom-[2%] right-[12%] w-[8%] h-[5%] bg-red-900/60 rounded-full blur-sm" />
+      <div className="absolute bottom-[2%] right-[12%] w-[10%] h-[6%] bg-red-900/60 rounded-full blur-sm" />
 
       {/* Dagger near the body */}
       {!gameState.flags.daggerTaken && (
