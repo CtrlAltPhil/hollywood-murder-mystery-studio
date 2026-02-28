@@ -151,7 +151,7 @@ const ladyTree: DialogTree = {
   },
   'lady-saw-someone': {
     id: 'lady-saw-someone',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Now that you ask... I thought I saw someone near the hallway, but it was dark. I couldn't tell who it was. They moved fast.",
     nextNodeId: 'lady-root',
   },
