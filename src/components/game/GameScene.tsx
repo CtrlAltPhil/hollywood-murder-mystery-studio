@@ -196,6 +196,8 @@ export function GameScene({
         talk: '__DIALOG__carl',
         pickup: "I don't think Carl would appreciate that.",
         use: 'I should talk to him instead.',
+        use_with_dagger: 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive."',
+        use_with_wine_glass: '"Hmm, that residue... Could be a sedative. Someone was planning ahead."',
       },
     },
   ];
