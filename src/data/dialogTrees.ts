@@ -145,7 +145,7 @@ const ladyTree: DialogTree = {
   },
   'lady-pressed': {
     id: 'lady-pressed',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I— I was upset, okay?! After the argument. I needed to compose myself. Is that a crime now too?!",
     nextNodeId: 'lady-root',
   },
