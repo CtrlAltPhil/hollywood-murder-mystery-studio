@@ -128,15 +128,15 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
       {/* Characters at the party - positioned on the floor */}
       {isPartyScene && (
         <>
-          {/* Lady - near table, talking to El Fuego */}
+          {/* Lady Fantastique - near table, talking to Duke Extreme */}
           <div className="absolute bottom-[3%] left-[8%] z-20">
             <img 
               src={ladySprite} 
-              alt="Lady"
+              alt="Lady Fantastique"
                className="h-44 pixelated object-contain"
             />
-            {/* Speech bubble for Lady */}
-            {dialogue.speaker === 'Lady' && (
+            {/* Speech bubble for Lady Fantastique */}
+            {dialogue.speaker === 'Lady Fantastique' && (
               <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg 
                             max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
                 {dialogue.text}
