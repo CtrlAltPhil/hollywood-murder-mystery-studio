@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { GameState, Verb } from '@/types/game';
 
 // Import assets
@@ -68,6 +68,39 @@ export function GameScene({
     }, 1500);
     return () => clearInterval(interval);
   }, []);
+
+  // Shocked reactions when gameplay first starts
+  const SHOCK_MESSAGES = [
+    { speaker: 'Lady', delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
+    { speaker: 'Carl', delay: 2000, duration: 3000, text: "He's... he's dead." },
+    { speaker: 'Duke Extreme', delay: 4000, duration: 3000, text: "¡Dios mío! Who did this?!" },
+    { speaker: 'Lady', delay: 6000, duration: 3000, text: "Someone call the police!" },
+    { speaker: 'Carl', delay: 8000, duration: 3500, text: "Nobody leaves this room." },
+  ];
+
+  const [shockBubbles, setShockBubbles] = useState<Record<string, string>>({});
+  const [shockDone, setShockDone] = useState(false);
+
+  useEffect(() => {
+    if (shockDone) return;
+    const timers: NodeJS.Timeout[] = [];
+    SHOCK_MESSAGES.forEach(({ speaker, delay, duration, text }) => {
+      timers.push(setTimeout(() => {
+        setShockBubbles(prev => ({ ...prev, [speaker]: text }));
+      }, delay));
+      timers.push(setTimeout(() => {
+        setShockBubbles(prev => {
+          const next = { ...prev };
+          if (next[speaker] === text) delete next[speaker];
+          return next;
+        });
+      }, delay + duration));
+    });
+    // Mark shock sequence done after all messages
+    const lastMsg = SHOCK_MESSAGES[SHOCK_MESSAGES.length - 1];
+    timers.push(setTimeout(() => setShockDone(true), lastMsg.delay + lastMsg.duration));
+    return () => timers.forEach(clearTimeout);
+  }, [shockDone]);
 
   // Define hotspots — positions must match the visual elements exactly
   // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
@@ -274,10 +307,22 @@ export function GameScene({
       {/* Surviving characters — same h-44 and bottom-[3%] as IntroSequence */}
       <div className="absolute bottom-[3%] left-[55%] z-20">
         <img src={carlImage} alt="Carl" className="h-44 pixelated object-contain" />
+        {shockBubbles['Carl'] && (
+          <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
+            {shockBubbles['Carl']}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
+          </div>
+        )}
       </div>
       
       <div className="absolute bottom-[3%] left-[8%] z-20">
         <img src={ladyImage} alt="Lady" className="h-44 pixelated object-contain" />
+        {shockBubbles['Lady'] && (
+          <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
+            {shockBubbles['Lady']}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
+          </div>
+        )}
       </div>
       
       <div className="absolute bottom-[3%] left-[35%] z-20">
@@ -286,6 +331,12 @@ export function GameScene({
           alt="Duke Extreme" 
           className="h-44 pixelated object-contain transition-opacity duration-300" 
         />
+        {shockBubbles['Duke Extreme'] && (
+          <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
+            {shockBubbles['Duke Extreme']}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
+          </div>
+        )}
       </div>
 
       {/* Invisible hotspots for interactions */}

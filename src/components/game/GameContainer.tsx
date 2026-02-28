@@ -193,7 +193,7 @@ export function GameContainer() {
   }
 
   // Intro sequence
-  if (['intro', 'party', 'blackout', 'murder-reveal'].includes(gameState.phase)) {
+  if (['intro', 'party', 'blackout'].includes(gameState.phase)) {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
         {/* Intro matches the main game container size (4:3) but keeps content 16:9 (letterboxed) */}
