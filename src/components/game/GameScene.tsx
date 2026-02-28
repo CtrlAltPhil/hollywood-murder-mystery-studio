@@ -18,6 +18,7 @@ interface GameSceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onAddToInventory: (item: { id: string; name: string; image: string }) => void;
+  onChangeRoom: (roomId: string) => void;
 }
 
 // Simplified hotspot for the scene
@@ -54,6 +55,7 @@ export function GameScene({
   onHotspotHover,
   onHotspotClick,
   onAddToInventory,
+  onChangeRoom,
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
@@ -78,12 +80,12 @@ export function GameScene({
       width: 7,
       height: 50,
       interactions: {
-        look: 'A sturdy wooden door. It\'s locked from the outside — no one is leaving until this is solved.',
-        open: 'It\'s locked. Someone must have called the police already.',
+        look: 'A sturdy wooden door leading to the hallway.',
+        open: '__NAVIGATE__hallway',
         close: 'It\'s already closed.',
-        use: 'The door is locked tight.',
-        push: 'It won\'t budge.',
-        pull: 'It won\'t budge.',
+        use: '__NAVIGATE__hallway',
+        push: '__NAVIGATE__hallway',
+        pull: '__NAVIGATE__hallway',
       },
     },
     {
@@ -287,21 +289,35 @@ export function GameScene({
       </div>
 
       {/* Invisible hotspots for interactions */}
-      {activeHotspots.map((hotspot) => (
-        <div
-          key={hotspot.id}
-          className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
-          style={{
-            left: `${hotspot.position.x - hotspot.width / 2}%`,
-            top: `${hotspot.position.y - hotspot.height / 2}%`,
-            width: `${hotspot.width}%`,
-            height: `${hotspot.height}%`,
-          }}
-          onMouseEnter={() => onHotspotHover(hotspot.name)}
-          onMouseLeave={() => onHotspotHover('')}
-          onClick={() => onHotspotClick(hotspot)}
-        />
-      ))}
+      {activeHotspots.map((hotspot) => {
+        const handleClick = () => {
+          const verb = gameState.selectedVerb;
+          if (verb) {
+            const interaction = hotspot.interactions[verb];
+            if (typeof interaction === 'string' && interaction.startsWith('__NAVIGATE__')) {
+              const targetRoom = interaction.replace('__NAVIGATE__', '');
+              onChangeRoom(targetRoom);
+              return;
+            }
+          }
+          onHotspotClick(hotspot);
+        };
+        return (
+          <div
+            key={hotspot.id}
+            className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
+            style={{
+              left: `${hotspot.position.x - hotspot.width / 2}%`,
+              top: `${hotspot.position.y - hotspot.height / 2}%`,
+              width: `${hotspot.width}%`,
+              height: `${hotspot.height}%`,
+            }}
+            onMouseEnter={() => onHotspotHover(hotspot.name)}
+            onMouseLeave={() => onHotspotHover('')}
+            onClick={handleClick}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { GameState, GamePhase, Verb, InventoryItem, Position, DialogNode, Charac
 
 const initialGameState: GameState = {
   phase: 'title',
-  currentRoom: 'gb-studios-exterior',
+  currentRoom: 'breakroom',
   playerPosition: { x: 400, y: 350 },
   inventory: [],
   selectedVerb: null,

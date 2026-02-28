@@ -4,6 +4,8 @@ import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
 import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
+import { HallwayScene } from './HallwayScene';
+import { HallwayKitchenScene } from './HallwayKitchenScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
@@ -22,6 +24,7 @@ export function GameContainer() {
     setFlag,
     startDialog,
     advanceDialog,
+    changeRoom,
   } = useGameState();
 
   // Audio engine
@@ -52,6 +55,107 @@ export function GameContainer() {
   const handleRestart = () => {
     if (confirm('Are you sure you want to restart? Unsaved progress will be lost.')) {
       window.location.reload();
+    }
+  };
+
+  const handleChangeRoom = (roomId: string) => {
+    changeRoom(roomId, { x: 400, y: 350 });
+    selectVerb(null);
+    setActionText('');
+  };
+
+  const sharedHotspotHover = (text: string) => {
+    const verb = gameState.selectedVerb;
+    const item = gameState.selectedItem;
+    if (verb === 'use' && item) {
+      setActionText(`Use ${item.name} with ${text}`);
+    } else if (verb) {
+      setActionText(`${getVerbDisplayName(verb)} ${text}`);
+    } else {
+      setActionText(text);
+    }
+  };
+
+  const sharedHotspotClick = (hotspot: any) => {
+    const verb = gameState.selectedVerb;
+    const item = gameState.selectedItem;
+
+    if (verb === 'use' && item) {
+      const useWithKey = `use_with_${item.id}`;
+      const interaction = hotspot.interactions[useWithKey];
+      if (interaction) {
+        if (typeof interaction === 'string') setActionText(interaction);
+        else if (typeof interaction === 'function') {
+          const result = interaction();
+          if (typeof result === 'string') setActionText(result);
+        }
+      } else {
+        setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
+      }
+      selectVerb(null);
+      return;
+    }
+
+    if (verb && hotspot.interactions[verb]) {
+      const interaction = hotspot.interactions[verb];
+      if (typeof interaction === 'string') {
+        if (interaction.startsWith('__DIALOG__')) {
+          const characterId = interaction.replace('__DIALOG__', '');
+          const rootNode = getDialogTree(characterId, gameState.flags);
+          if (rootNode) {
+            startDialog(
+              { id: characterId, name: hotspot.name, position: { x: 0, y: 0 }, sprite: '', isVisible: true },
+              rootNode
+            );
+          }
+          return;
+        }
+        setActionText(interaction);
+      } else if (typeof interaction === 'function') {
+        const resultText = interaction();
+        if (typeof resultText === 'string') setActionText(resultText);
+      }
+    } else if (verb) {
+      setActionText(`I can't ${verb} that.`);
+    }
+  };
+
+  const handleAddToInventory = (item: { id: string; name: string; image: string }) => {
+    addToInventory({ ...item, description: '' });
+    playSfx('pickup');
+  };
+
+  const renderCurrentRoom = () => {
+    switch (gameState.currentRoom) {
+      case 'hallway':
+        return (
+          <HallwayScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      case 'hallway-kitchen':
+        return (
+          <HallwayKitchenScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      default:
+        return (
+          <GameScene
+            gameState={gameState}
+            setFlag={setFlag}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onAddToInventory={handleAddToInventory}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
     }
   };
 
@@ -127,72 +231,7 @@ export function GameContainer() {
           This ensures the floor is NEVER cut off. The scene renders exactly as drawn.
         */}
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
-          <GameScene
-            gameState={gameState}
-            setFlag={setFlag}
-            onHotspotHover={(text) => {
-              const verb = gameState.selectedVerb;
-              const item = gameState.selectedItem;
-              if (verb === 'use' && item) {
-                setActionText(`Use ${item.name} with ${text}`);
-              } else if (verb) {
-                setActionText(`${getVerbDisplayName(verb)} ${text}`);
-              } else {
-                setActionText(text);
-              }
-            }}
-            onHotspotClick={(hotspot) => {
-              const verb = gameState.selectedVerb;
-              const item = gameState.selectedItem;
-
-              // "Use [inventory item] with [hotspot]" combo
-              if (verb === 'use' && item) {
-                const useWithKey = `use_with_${item.id}`;
-                const interaction = hotspot.interactions[useWithKey];
-                if (interaction) {
-                  if (typeof interaction === 'string') {
-                    setActionText(interaction);
-                  } else if (typeof interaction === 'function') {
-                    const result = interaction();
-                    if (typeof result === 'string') setActionText(result);
-                  }
-                } else {
-                  setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
-                }
-                selectVerb(null);
-                return;
-              }
-
-              if (verb && hotspot.interactions[verb]) {
-                const interaction = hotspot.interactions[verb];
-                if (typeof interaction === 'string') {
-                  if (interaction.startsWith('__DIALOG__')) {
-                    const characterId = interaction.replace('__DIALOG__', '');
-                    const rootNode = getDialogTree(characterId, gameState.flags);
-                    if (rootNode) {
-                      startDialog(
-                        { id: characterId, name: hotspot.name, position: { x: 0, y: 0 }, sprite: '', isVisible: true },
-                        rootNode
-                      );
-                    }
-                    return;
-                  }
-                  setActionText(interaction);
-                } else if (typeof interaction === 'function') {
-                  const resultText = interaction();
-                  if (typeof resultText === 'string') {
-                    setActionText(resultText);
-                  }
-                }
-              } else if (verb) {
-                 setActionText(`I can't ${verb} that.`);
-              }
-            }}
-            onAddToInventory={(item) => {
-              addToInventory({ ...item, description: '' });
-              playSfx('pickup');
-            }}
-          />
+          {renderCurrentRoom()}
 
           {/* Dialog overlay */}
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
