@@ -203,8 +203,8 @@ export function GameScene({
         </div>
       </div>
 
-      {/* Los Cabos - Dead on the floor — matches murder-reveal positioning */}
-      <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
+      {/* Los Cabos - Dead on the floor — lowered below baseboard */}
+      <div className="absolute bottom-[1%] right-[15%] transform -rotate-90 z-10">
         <img 
           src={losCabosImage} 
           alt="Los Cabos" 
