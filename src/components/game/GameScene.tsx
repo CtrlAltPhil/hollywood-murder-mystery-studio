@@ -165,7 +165,7 @@ export function GameScene({
 
 
       {/* Table with props */}
-      <div className="absolute bottom-[5%] left-[22%] w-[18%] h-[15%]">
+      <div className="absolute bottom-[5%] left-[22%] w-[20%] h-[25%]">
         <img src={tableImage} alt="Party Table" className="w-full h-full object-contain" />
         <img 
           src={wineGlassesImage} 
