@@ -78,20 +78,10 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
 
   useEffect(() => {
     if (phase === 'blackout') {
-      const timer = setTimeout(() => {
-        setShowMurderScene(true);
-        setFadeState('in');
-        setPhase('murder-reveal');
-      }, 2500);
-      return () => clearTimeout(timer);
-    }
-  }, [phase, setPhase]);
-
-  useEffect(() => {
-    if (phase === 'murder-reveal') {
+      // Keep screen dark for a few seconds after the crash, then go straight to gameplay
       const timer = setTimeout(() => {
         onComplete();
-      }, 3000);
+      }, 4000);
       return () => clearTimeout(timer);
     }
   }, [phase, onComplete]);
