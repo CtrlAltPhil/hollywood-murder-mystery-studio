@@ -18,14 +18,32 @@ const SPEAKER_PITCHES: Record<string, number> = {
   You: 260,
 };
 
+// --- MIDI-style note helpers ---
+// Note frequencies (A4 = 440Hz)
+const NOTE_FREQ: Record<string, number> = {
+  'C2': 65.41, 'D2': 73.42, 'E2': 82.41, 'F2': 87.31, 'G2': 98.00, 'A2': 110.00, 'Bb2': 116.54, 'B2': 123.47,
+  'C3': 130.81, 'D3': 146.83, 'Eb3': 155.56, 'E3': 164.81, 'F3': 174.61, 'G3': 196.00, 'Ab3': 207.65, 'A3': 220.00, 'Bb3': 233.08, 'B3': 246.94,
+  'C4': 261.63, 'D4': 293.66, 'Eb4': 311.13, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00, 'Ab4': 415.30, 'A4': 440.00, 'Bb4': 466.16, 'B4': 493.88,
+  'C5': 523.25, 'D5': 587.33, 'Eb5': 622.25, 'E5': 659.26, 'F5': 698.46, 'G5': 783.99,
+};
+
+interface NoteEvent {
+  note: string;
+  time: number;   // beat offset
+  duration: number; // in beats
+  type?: OscillatorType;
+  volume?: number;
+}
+
 export function useAudioEngine(): AudioEngine {
   const ctxRef = useRef<AudioContext | null>(null);
   const musicGainRef = useRef<GainNode | null>(null);
   const sfxVolumeRef = useRef(0.5);
   const musicVolumeRef = useRef(0.3);
-  const activeOscillatorsRef = useRef<OscillatorNode[]>([]);
   const currentPhaseRef = useRef<string>('');
   const blipCountRef = useRef(0);
+  const loopTimerRef = useRef<number | null>(null);
+  const scheduledNodesRef = useRef<AudioScheduledSourceNode[]>([]);
 
   const getCtx = useCallback(() => {
     if (!ctxRef.current) {
@@ -40,7 +58,6 @@ export function useAudioEngine(): AudioEngine {
     return ctxRef.current;
   }, []);
 
-  // Ensure audio context resumes on user interaction
   useEffect(() => {
     const resume = () => {
       if (ctxRef.current?.state === 'suspended') {
@@ -56,10 +73,78 @@ export function useAudioEngine(): AudioEngine {
   }, []);
 
   const stopMusic = useCallback(() => {
-    activeOscillatorsRef.current.forEach(osc => {
-      try { osc.stop(); } catch {}
+    if (loopTimerRef.current !== null) {
+      clearTimeout(loopTimerRef.current);
+      loopTimerRef.current = null;
+    }
+    scheduledNodesRef.current.forEach(n => {
+      try { n.stop(); } catch {}
     });
-    activeOscillatorsRef.current = [];
+    scheduledNodesRef.current = [];
+  }, []);
+
+  // Schedule a sequence of notes and loop it
+  const scheduleLoop = useCallback((
+    ctx: AudioContext,
+    gain: GainNode,
+    tracks: { notes: NoteEvent[]; wave: OscillatorType; baseVol: number }[],
+    bpm: number,
+    loopBeats: number
+  ) => {
+    const beatDur = 60 / bpm;
+    const loopDur = loopBeats * beatDur;
+
+    const playOnce = (startTime: number) => {
+      for (const track of tracks) {
+        for (const ev of track.notes) {
+          const freq = NOTE_FREQ[ev.note];
+          if (!freq) continue;
+
+          const osc = ctx.createOscillator();
+          const g = ctx.createGain();
+          const noteStart = startTime + ev.time * beatDur;
+          const noteDur = ev.duration * beatDur;
+          const vol = (ev.volume ?? 1) * track.baseVol;
+
+          osc.type = ev.type || track.wave;
+          osc.frequency.value = freq;
+
+          // ADSR-like envelope for MIDI feel
+          g.gain.setValueAtTime(0, noteStart);
+          g.gain.linearRampToValueAtTime(vol, noteStart + 0.015);
+          g.gain.setValueAtTime(vol, noteStart + noteDur * 0.7);
+          g.gain.exponentialRampToValueAtTime(0.001, noteStart + noteDur);
+
+          osc.connect(g);
+          g.connect(gain);
+          osc.start(noteStart);
+          osc.stop(noteStart + noteDur + 0.01);
+          scheduledNodesRef.current.push(osc);
+        }
+      }
+    };
+
+    // Schedule first two iterations immediately
+    const now = ctx.currentTime + 0.05;
+    playOnce(now);
+    playOnce(now + loopDur);
+
+    // Keep scheduling ahead
+    let nextTime = now + loopDur * 2;
+    const scheduleNext = () => {
+      if (currentPhaseRef.current === '') return;
+      // Clean up stopped nodes
+      scheduledNodesRef.current = scheduledNodesRef.current.filter(n => {
+        try {
+          // If we can read it, it's still valid
+          return (n as OscillatorNode).frequency !== undefined;
+        } catch { return false; }
+      });
+      playOnce(nextTime);
+      nextTime += loopDur;
+      loopTimerRef.current = window.setTimeout(scheduleNext, (loopDur - 0.5) * 1000);
+    };
+    loopTimerRef.current = window.setTimeout(scheduleNext, (loopDur - 0.5) * 1000);
   }, []);
 
   const playBackgroundTrack = useCallback((phase: string) => {
@@ -70,100 +155,193 @@ export function useAudioEngine(): AudioEngine {
     const gain = musicGainRef.current!;
     stopMusic();
 
-    // Helper to create a looping drone
-    const createDrone = (freq: number, type: OscillatorType, vol: number, detune = 0) => {
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = type;
-      osc.frequency.value = freq;
-      osc.detune.value = detune;
-      g.gain.value = vol;
-      osc.connect(g);
-      g.connect(gain);
-      osc.start();
-      activeOscillatorsRef.current.push(osc);
-      return osc;
-    };
-
     switch (phase) {
       case 'title': {
-        // Mysterious pad — low chord with slow LFO
-        createDrone(65, 'sine', 0.4);
-        createDrone(82, 'sine', 0.25, 5);
-        createDrone(98, 'triangle', 0.15, -3);
-        // LFO tremolo on gain
-        const lfo = ctx.createOscillator();
-        const lfoGain = ctx.createGain();
-        lfo.frequency.value = 0.3;
-        lfoGain.gain.value = 0.1;
-        lfo.connect(lfoGain);
-        lfoGain.connect(gain.gain);
-        lfo.start();
-        activeOscillatorsRef.current.push(lfo);
+        // Noir mystery theme — minor key, slow, moody like Monkey Island title
+        const bpm = 100;
+        const melody: NoteEvent[] = [
+          // Haunting minor melody
+          { note: 'E4', time: 0,  duration: 1.5 },
+          { note: 'D4', time: 1.5, duration: 0.5 },
+          { note: 'C4', time: 2,  duration: 1 },
+          { note: 'B3', time: 3,  duration: 0.5 },
+          { note: 'A3', time: 3.5, duration: 1.5 },
+          { note: 'G3', time: 5,  duration: 0.5 },
+          { note: 'A3', time: 5.5, duration: 1 },
+          { note: 'E3', time: 6.5, duration: 1.5 },
+          // Second phrase
+          { note: 'E4', time: 8,  duration: 1 },
+          { note: 'F4', time: 9,  duration: 0.5 },
+          { note: 'E4', time: 9.5, duration: 0.5 },
+          { note: 'D4', time: 10, duration: 1 },
+          { note: 'C4', time: 11, duration: 0.5 },
+          { note: 'D4', time: 11.5, duration: 0.5 },
+          { note: 'E4', time: 12, duration: 1 },
+          { note: 'C4', time: 13, duration: 1.5 },
+          { note: 'A3', time: 14.5, duration: 1.5 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'A2', time: 0,  duration: 2 },
+          { note: 'A2', time: 2,  duration: 2 },
+          { note: 'F2', time: 4,  duration: 2 },
+          { note: 'E2', time: 6,  duration: 2 },
+          { note: 'A2', time: 8,  duration: 2 },
+          { note: 'D2', time: 10, duration: 2 },
+          { note: 'E2', time: 12, duration: 2 },
+          { note: 'A2', time: 14, duration: 2 },
+        ];
+        const arp: NoteEvent[] = [
+          // Arpeggiated chords for texture
+          { note: 'A3', time: 0, duration: 0.4 }, { note: 'C4', time: 0.5, duration: 0.4 }, { note: 'E4', time: 1, duration: 0.4 },
+          { note: 'A3', time: 2, duration: 0.4 }, { note: 'C4', time: 2.5, duration: 0.4 }, { note: 'E4', time: 3, duration: 0.4 },
+          { note: 'F3', time: 4, duration: 0.4 }, { note: 'A3', time: 4.5, duration: 0.4 }, { note: 'C4', time: 5, duration: 0.4 },
+          { note: 'E3', time: 6, duration: 0.4 }, { note: 'G3', time: 6.5, duration: 0.4 }, { note: 'B3', time: 7, duration: 0.4 },
+          { note: 'A3', time: 8, duration: 0.4 }, { note: 'C4', time: 8.5, duration: 0.4 }, { note: 'E4', time: 9, duration: 0.4 },
+          { note: 'D3', time: 10, duration: 0.4 }, { note: 'F3', time: 10.5, duration: 0.4 }, { note: 'A3', time: 11, duration: 0.4 },
+          { note: 'E3', time: 12, duration: 0.4 }, { note: 'G3', time: 12.5, duration: 0.4 }, { note: 'B3', time: 13, duration: 0.4 },
+          { note: 'A3', time: 14, duration: 0.4 }, { note: 'C4', time: 14.5, duration: 0.4 }, { note: 'E4', time: 15, duration: 0.4 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody, wave: 'triangle', baseVol: 0.18 },
+          { notes: bass,   wave: 'square',   baseVol: 0.10 },
+          { notes: arp,    wave: 'sine',     baseVol: 0.06 },
+        ], bpm, 16);
         break;
       }
       case 'intro':
       case 'party': {
-        // Upbeat-ish: simple bass + higher tone
-        createDrone(110, 'square', 0.12);
-        createDrone(220, 'sawtooth', 0.06);
-        createDrone(330, 'sine', 0.04);
+        // Upbeat jazzy party — major key, faster
+        const bpm = 140;
+        const melody: NoteEvent[] = [
+          { note: 'C4', time: 0, duration: 0.5 }, { note: 'E4', time: 0.5, duration: 0.5 },
+          { note: 'G4', time: 1, duration: 0.5 }, { note: 'A4', time: 1.5, duration: 0.5 },
+          { note: 'G4', time: 2, duration: 1 },   { note: 'E4', time: 3, duration: 0.5 },
+          { note: 'F4', time: 3.5, duration: 0.5 },{ note: 'E4', time: 4, duration: 0.5 },
+          { note: 'D4', time: 4.5, duration: 0.5 },{ note: 'C4', time: 5, duration: 1 },
+          { note: 'D4', time: 6, duration: 0.5 }, { note: 'E4', time: 6.5, duration: 0.5 },
+          { note: 'C4', time: 7, duration: 1 },
+          { note: 'E4', time: 8, duration: 0.5 }, { note: 'G4', time: 8.5, duration: 0.5 },
+          { note: 'A4', time: 9, duration: 0.5 }, { note: 'B4', time: 9.5, duration: 0.5 },
+          { note: 'C5', time: 10, duration: 1 },  { note: 'A4', time: 11, duration: 0.5 },
+          { note: 'G4', time: 11.5, duration: 0.5 },{ note: 'F4', time: 12, duration: 0.5 },
+          { note: 'E4', time: 12.5, duration: 0.5 },{ note: 'D4', time: 13, duration: 1 },
+          { note: 'C4', time: 14, duration: 2 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'C2', time: 0, duration: 1 }, { note: 'C2', time: 1, duration: 1 },
+          { note: 'F2', time: 2, duration: 1 }, { note: 'F2', time: 3, duration: 1 },
+          { note: 'G2', time: 4, duration: 1 }, { note: 'G2', time: 5, duration: 1 },
+          { note: 'C2', time: 6, duration: 1 }, { note: 'G2', time: 7, duration: 1 },
+          { note: 'C2', time: 8, duration: 1 }, { note: 'C2', time: 9, duration: 1 },
+          { note: 'F2', time: 10, duration: 1 },{ note: 'F2', time: 11, duration: 1 },
+          { note: 'G2', time: 12, duration: 1 },{ note: 'G2', time: 13, duration: 1 },
+          { note: 'C2', time: 14, duration: 2 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody, wave: 'square',   baseVol: 0.10 },
+          { notes: bass,   wave: 'triangle', baseVol: 0.12 },
+        ], bpm, 16);
         break;
       }
       case 'blackout': {
-        // Near silence — just a low rumble
-        createDrone(40, 'sine', 0.15);
+        // Tension — sparse low stabs
+        const bpm = 60;
+        const notes: NoteEvent[] = [
+          { note: 'C2', time: 0, duration: 2 },
+          { note: 'Eb3', time: 3, duration: 1 },
+          { note: 'C2', time: 5, duration: 2 },
+          { note: 'Bb2', time: 8, duration: 1 },
+          { note: 'Ab3', time: 10, duration: 1.5 },
+          { note: 'G2', time: 12, duration: 2 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes, wave: 'sine', baseVol: 0.15 },
+        ], bpm, 16);
         break;
       }
       case 'murder-reveal': {
-        // Dramatic sting then drone
-        const sting = ctx.createOscillator();
-        const stingGain = ctx.createGain();
-        sting.type = 'sawtooth';
-        sting.frequency.value = 200;
-        stingGain.gain.value = 0.5;
-        sting.connect(stingGain);
-        stingGain.connect(gain);
-        stingGain.gain.setValueAtTime(0.5, ctx.currentTime);
-        stingGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
-        sting.frequency.setValueAtTime(200, ctx.currentTime);
-        sting.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 2);
-        sting.start();
-        sting.stop(ctx.currentTime + 2.5);
-        // Then moody drone
-        setTimeout(() => {
-          if (currentPhaseRef.current === 'murder-reveal') {
-            createDrone(55, 'sine', 0.3);
-            createDrone(82.5, 'triangle', 0.1, 7);
-          }
-        }, 2500);
+        // Dramatic sting then suspenseful loop
+        const bpm = 80;
+        const sting: NoteEvent[] = [
+          { note: 'E4', time: 0, duration: 0.3, volume: 1.5 },
+          { note: 'Eb4', time: 0.3, duration: 0.3, volume: 1.3 },
+          { note: 'D4', time: 0.6, duration: 0.3, volume: 1.1 },
+          { note: 'C4', time: 0.9, duration: 0.5, volume: 1 },
+          { note: 'B3', time: 1.4, duration: 0.5, volume: 0.9 },
+          { note: 'A3', time: 1.9, duration: 1.5, volume: 0.8 },
+          // Then low suspense
+          { note: 'A2', time: 4, duration: 2 },
+          { note: 'E3', time: 6, duration: 1 },
+          { note: 'A2', time: 7, duration: 1 },
+          { note: 'C3', time: 8, duration: 2 },
+          { note: 'B2', time: 10, duration: 1 },
+          { note: 'A2', time: 11, duration: 1 },
+          { note: 'E2', time: 12, duration: 2 },
+          { note: 'A2', time: 14, duration: 2 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: sting, wave: 'sawtooth', baseVol: 0.14 },
+        ], bpm, 16);
         break;
       }
       case 'gameplay': {
-        // Moody investigation drone
-        createDrone(55, 'sine', 0.3);
-        createDrone(82, 'triangle', 0.12, 4);
-        createDrone(110, 'sine', 0.06, -2);
-        // Slow wobble
-        const lfo = ctx.createOscillator();
-        const lfoG = ctx.createGain();
-        lfo.frequency.value = 0.15;
-        lfoG.gain.value = 0.06;
-        lfo.connect(lfoG);
-        lfoG.connect(gain.gain);
-        lfo.start();
-        activeOscillatorsRef.current.push(lfo);
+        // Moody investigation — noir jazz, minor key, like SCUMM investigation music
+        const bpm = 90;
+        const melody: NoteEvent[] = [
+          { note: 'A3', time: 0, duration: 1.5 },
+          { note: 'C4', time: 1.5, duration: 0.5 },
+          { note: 'E4', time: 2, duration: 1 },
+          { note: 'D4', time: 3, duration: 0.5 },
+          { note: 'C4', time: 3.5, duration: 0.5 },
+          { note: 'A3', time: 4, duration: 1.5 },
+          { note: 'G3', time: 5.5, duration: 0.5 },
+          { note: 'A3', time: 6, duration: 2 },
+          // Second phrase - rises then falls
+          { note: 'C4', time: 8, duration: 1 },
+          { note: 'D4', time: 9, duration: 0.5 },
+          { note: 'E4', time: 9.5, duration: 1 },
+          { note: 'F4', time: 10.5, duration: 0.5 },
+          { note: 'E4', time: 11, duration: 0.5 },
+          { note: 'D4', time: 11.5, duration: 0.5 },
+          { note: 'C4', time: 12, duration: 1 },
+          { note: 'A3', time: 13, duration: 1.5 },
+          { note: 'E3', time: 14.5, duration: 1.5 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'A2', time: 0, duration: 1 }, { note: 'A2', time: 1, duration: 1 },
+          { note: 'A2', time: 2, duration: 1 }, { note: 'E2', time: 3, duration: 1 },
+          { note: 'F2', time: 4, duration: 1 }, { note: 'F2', time: 5, duration: 1 },
+          { note: 'E2', time: 6, duration: 1 }, { note: 'A2', time: 7, duration: 1 },
+          { note: 'A2', time: 8, duration: 1 }, { note: 'A2', time: 9, duration: 1 },
+          { note: 'D2', time: 10, duration: 1 },{ note: 'D2', time: 11, duration: 1 },
+          { note: 'E2', time: 12, duration: 1 },{ note: 'E2', time: 13, duration: 1 },
+          { note: 'A2', time: 14, duration: 1 },{ note: 'A2', time: 15, duration: 1 },
+        ];
+        const arp: NoteEvent[] = [
+          // Quiet background arpeggios for atmosphere
+          { note: 'E3', time: 0.5, duration: 0.3 }, { note: 'A3', time: 1, duration: 0.3 },
+          { note: 'E3', time: 2.5, duration: 0.3 }, { note: 'A3', time: 3, duration: 0.3 },
+          { note: 'F3', time: 4.5, duration: 0.3 }, { note: 'A3', time: 5, duration: 0.3 },
+          { note: 'E3', time: 6.5, duration: 0.3 }, { note: 'G3', time: 7, duration: 0.3 },
+          { note: 'E3', time: 8.5, duration: 0.3 }, { note: 'A3', time: 9, duration: 0.3 },
+          { note: 'F3', time: 10.5, duration: 0.3 },{ note: 'A3', time: 11, duration: 0.3 },
+          { note: 'E3', time: 12.5, duration: 0.3 },{ note: 'G3', time: 13, duration: 0.3 },
+          { note: 'E3', time: 14.5, duration: 0.3 },{ note: 'A3', time: 15, duration: 0.3 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody, wave: 'triangle', baseVol: 0.14 },
+          { notes: bass,   wave: 'square',   baseVol: 0.08 },
+          { notes: arp,    wave: 'sine',      baseVol: 0.05 },
+        ], bpm, 16);
         break;
       }
     }
-  }, [getCtx, stopMusic]);
+  }, [getCtx, stopMusic, scheduleLoop]);
 
   const playDialogBlip = useCallback((speaker: string) => {
     const ctx = getCtx();
     const pitch = SPEAKER_PITCHES[speaker] || 200;
     blipCountRef.current++;
-
-    // Vary pitch slightly per character for natural feel
     const variation = (blipCountRef.current % 3 === 0) ? 20 : (blipCountRef.current % 3 === 1) ? -10 : 0;
 
     const osc = ctx.createOscillator();
@@ -231,7 +409,6 @@ export function useAudioEngine(): AudioEngine {
     sfxVolumeRef.current = v;
   }, []);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       stopMusic();
