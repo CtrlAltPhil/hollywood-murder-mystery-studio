@@ -161,21 +161,8 @@ export function GameScene({
         style={{ backgroundImage: `url(${breakroomBackground})` }}
       />
 
-      {/* Party Decorations */}
-      <div className="absolute top-[5%] left-[20%] text-4xl animate-bounce" style={{ animationDelay: '0s' }}>🎈</div>
-      <div className="absolute top-[8%] left-[40%] text-4xl animate-bounce" style={{ animationDelay: '0.3s' }}>🎈</div>
-      <div className="absolute top-[3%] left-[60%] text-4xl animate-bounce" style={{ animationDelay: '0.6s' }}>🎈</div>
-      <div className="absolute top-[6%] left-[80%] text-4xl animate-bounce" style={{ animationDelay: '0.9s' }}>🎈</div>
-      
-      {/* Streamers */}
-      <div className="absolute top-0 left-[30%] w-1 h-[15%] bg-gradient-to-b from-pink-500 to-transparent opacity-70" />
-      <div className="absolute top-0 left-[50%] w-1 h-[12%] bg-gradient-to-b from-yellow-400 to-transparent opacity-70" />
-      <div className="absolute top-0 left-[70%] w-1 h-[18%] bg-gradient-to-b from-blue-400 to-transparent opacity-70" />
-      
-      {/* Party Banner */}
-      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 bg-red-600 px-4 py-1 text-white font-bold text-sm rotate-[-2deg] shadow-lg">
-        🎉 OFFICE PARTY 🎉
-      </div>
+
+
 
       {/* Table with props */}
       <div className="absolute bottom-[5%] left-[22%] w-[25%] h-[20%]">
