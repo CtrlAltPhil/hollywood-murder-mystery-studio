@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from 'react';
 
-type SfxType = 'pickup' | 'click' | 'door';
+type SfxType = 'pickup' | 'click' | 'door' | 'crash';
 
 interface AudioEngine {
   playBackgroundTrack: (phase: string) => void;
