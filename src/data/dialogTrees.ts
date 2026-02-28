@@ -256,7 +256,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-nervous': {
     id: 'fuego-nervous',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "NERVOUS?! A man is DEAD! Of course I'm nervous! Wouldn't you be?! ...I just... I have a bad feeling someone in this room did it.",
     options: [
       { text: "Do you suspect someone specific?", nextNodeId: 'fuego-suspect' },
