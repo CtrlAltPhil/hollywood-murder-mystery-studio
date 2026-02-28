@@ -130,72 +130,7 @@ export function GameContainer() {
           This ensures the floor is NEVER cut off. The scene renders exactly as drawn.
         */}
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
-          <GameScene
-            gameState={gameState}
-            setFlag={setFlag}
-            onHotspotHover={(text) => {
-              const verb = gameState.selectedVerb;
-              const item = gameState.selectedItem;
-              if (verb === 'use' && item) {
-                setActionText(`Use ${item.name} with ${text}`);
-              } else if (verb) {
-                setActionText(`${getVerbDisplayName(verb)} ${text}`);
-              } else {
-                setActionText(text);
-              }
-            }}
-            onHotspotClick={(hotspot) => {
-              const verb = gameState.selectedVerb;
-              const item = gameState.selectedItem;
-
-              // "Use [inventory item] with [hotspot]" combo
-              if (verb === 'use' && item) {
-                const useWithKey = `use_with_${item.id}`;
-                const interaction = hotspot.interactions[useWithKey];
-                if (interaction) {
-                  if (typeof interaction === 'string') {
-                    setActionText(interaction);
-                  } else if (typeof interaction === 'function') {
-                    const result = interaction();
-                    if (typeof result === 'string') setActionText(result);
-                  }
-                } else {
-                  setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
-                }
-                selectVerb(null);
-                return;
-              }
-
-              if (verb && hotspot.interactions[verb]) {
-                const interaction = hotspot.interactions[verb];
-                if (typeof interaction === 'string') {
-                  if (interaction.startsWith('__DIALOG__')) {
-                    const characterId = interaction.replace('__DIALOG__', '');
-                    const rootNode = getDialogTree(characterId, gameState.flags);
-                    if (rootNode) {
-                      startDialog(
-                        { id: characterId, name: hotspot.name, position: { x: 0, y: 0 }, sprite: '', isVisible: true },
-                        rootNode
-                      );
-                    }
-                    return;
-                  }
-                  setActionText(interaction);
-                } else if (typeof interaction === 'function') {
-                  const resultText = interaction();
-                  if (typeof resultText === 'string') {
-                    setActionText(resultText);
-                  }
-                }
-              } else if (verb) {
-                 setActionText(`I can't ${verb} that.`);
-              }
-            }}
-            onAddToInventory={(item) => {
-              addToInventory({ ...item, description: '' });
-              playSfx('pickup');
-            }}
-          />
+          {renderCurrentRoom()}
 
           {/* Dialog overlay */}
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
