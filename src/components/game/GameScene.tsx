@@ -111,7 +111,7 @@ export function GameScene({
       height: 35,
       interactions: {
         look: 'Lady looks shaken but composed. She was close to Los Cabos...',
-        talk: '"I... I can\'t believe he\'s gone. We were just talking about the party plans..."',
+        talk: '__DIALOG__lady',
         pickup: "I can't pick up a person!",
         use: 'I should talk to her instead.',
       },
@@ -124,7 +124,7 @@ export function GameScene({
       height: 35,
       interactions: {
         look: 'El Fuego is sweating nervously. Is it the heat, or something else?',
-        talk: '"This is terrible! I was in the kitchen getting more drinks when it happened!"',
+        talk: '__DIALOG__el-fuego',
         pickup: "That's not how you treat people.",
         use: 'I should talk to him instead.',
       },
@@ -137,7 +137,7 @@ export function GameScene({
       height: 35,
       interactions: {
         look: 'Carl seems unusually calm for someone who just witnessed a murder.',
-        talk: '"Hmm, quite unfortunate. I was admiring the decorations when the lights went out."',
+        talk: '__DIALOG__carl',
         pickup: "I don't think Carl would appreciate that.",
         use: 'I should talk to him instead.',
       },
