@@ -207,7 +207,7 @@ const ladyTree: DialogTree = {
   },
   'lady-dagger-defense': {
     id: 'lady-dagger-defense',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I designed the COSTUME, not the weapon! I barely touched it! Carl and Duke Extreme handled all the action props. Talk to THEM!",
     nextNodeId: 'lady-dagger',
   },
