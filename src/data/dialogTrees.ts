@@ -126,7 +126,7 @@ const ladyTree: DialogTree = {
   },
   'lady-alibi': {
     id: 'lady-alibi',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "I was in the restroom freshening up. A lady needs her privacy. When I came back, everyone was screaming...",
     options: [
       { text: "How long were you in the restroom?", nextNodeId: 'lady-timeline' },
