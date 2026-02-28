@@ -111,7 +111,7 @@ export function GameScene({
       height: 35,
       interactions: {
         look: 'Lady looks shaken but composed. She was close to Los Cabos...',
-        talk: '"I... I can\'t believe he\'s gone. We were just talking about the party plans..."',
+        talk: '__DIALOG__lady',
         pickup: "I can't pick up a person!",
         use: 'I should talk to her instead.',
       },
