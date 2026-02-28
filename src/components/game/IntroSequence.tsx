@@ -235,7 +235,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
             <img src={ladySprite} alt="Lady" className="h-44 pixelated object-contain" />
           </div>
           <div className="absolute bottom-[3%] left-[35%] z-20">
-            <img src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} alt="El Fuego" className="h-44 pixelated object-contain transition-opacity duration-300" />
+            <img src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2} alt="Duke Extreme" className="h-44 pixelated object-contain transition-opacity duration-300" />
           </div>
           <div className="absolute bottom-[3%] left-[55%] z-20">
             <img src={carlSprite} alt="Carl" className="h-44 pixelated object-contain" />

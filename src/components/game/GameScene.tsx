@@ -281,9 +281,9 @@ export function GameScene({
       </div>
       
       <div className="absolute bottom-[3%] left-[35%] z-20">
-        <img 
+         <img 
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2} 
-          alt="El Fuego" 
+          alt="Duke Extreme" 
           className="h-44 pixelated object-contain transition-opacity duration-300" 
         />
       </div>

@@ -14,7 +14,7 @@ interface AudioEngine {
 const SPEAKER_PITCHES: Record<string, number> = {
   Carl: 140,
   Lady: 380,
-  'El Fuego': 220,
+  'Duke Extreme': 220,
   You: 260,
 };
 
