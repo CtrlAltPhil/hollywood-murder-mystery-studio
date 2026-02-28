@@ -9,6 +9,26 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
   const [carPosition, setCarPosition] = useState(-250);
   const [easterEggVisible, setEasterEggVisible] = useState(false);
+  const [fireflyClickCount, setFireflyClickCount] = useState(0);
+  const [speechBubble, setSpeechBubble] = useState<string | null>(null);
+
+  const FIREFLY_MESSAGES = [
+    "It's just a firefly.",
+    "Yep... still a firefly.",
+    "Okay, you really like this firefly, huh?",
+  ];
+
+  const handleFireflyClick = () => {
+    const nextCount = fireflyClickCount + 1;
+    setFireflyClickCount(nextCount);
+    if (nextCount <= 3) {
+      setSpeechBubble(FIREFLY_MESSAGES[nextCount - 1]);
+      setTimeout(() => setSpeechBubble(null), 2500);
+    } else {
+      setSpeechBubble(null);
+      setEasterEggVisible(true);
+    }
+  };
   // Lightning effect
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
