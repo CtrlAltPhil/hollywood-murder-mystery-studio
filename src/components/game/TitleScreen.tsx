@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import gbStudiosBackground from '@/assets/backgrounds/gb-studios.jpg';
 
 interface TitleScreenProps {
@@ -8,7 +8,7 @@ interface TitleScreenProps {
 export function TitleScreen({ onStart }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
   const [carPosition, setCarPosition] = useState(-250);
-
+  const [easterEggVisible, setEasterEggVisible] = useState(false);
   // Lightning effect
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -135,6 +135,59 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
           PRESS START
         </button>
       </div>
+
+      {/* Fireflies around lamp posts */}
+      {[
+        { id: 'ff-easter', x: 8, y: 62, delay: 0, isEasterEgg: true },
+        { id: 'ff2', x: 11, y: 58, delay: 1.2, isEasterEgg: false },
+        { id: 'ff3', x: 14, y: 65, delay: 0.6, isEasterEgg: false },
+        { id: 'ff4', x: 88, y: 60, delay: 0.3, isEasterEgg: false },
+        { id: 'ff5', x: 91, y: 64, delay: 1.5, isEasterEgg: false },
+        { id: 'ff6', x: 85, y: 57, delay: 0.9, isEasterEgg: false },
+      ].map((ff) => (
+        <div
+          key={ff.id}
+          className={`absolute w-2 h-2 rounded-full ${ff.isEasterEgg ? 'cursor-pointer z-20' : 'pointer-events-none'}`}
+          style={{
+            left: `${ff.x}%`,
+            top: `${ff.y}%`,
+            background: 'radial-gradient(circle, hsl(55, 90%, 75%) 0%, hsl(45, 80%, 50%, 0) 70%)',
+            boxShadow: '0 0 6px 3px hsl(50, 90%, 60%, 0.4)',
+            animation: `fireflyFloat 3s ease-in-out ${ff.delay}s infinite alternate, fireflyGlow 2s ease-in-out ${ff.delay}s infinite alternate`,
+          }}
+          onClick={ff.isEasterEgg ? () => setEasterEggVisible(true) : undefined}
+        />
+      ))}
+
+      {/* Easter Egg Modal */}
+      {easterEggVisible && (
+        <div 
+          className="absolute inset-0 z-50 flex items-center justify-center bg-black/80"
+          onClick={() => setEasterEggVisible(false)}
+        >
+          <div 
+            className="max-w-md mx-4 p-6 border-2 border-yellow-400/60 rounded-lg text-center"
+            style={{ background: 'linear-gradient(135deg, hsl(220, 30%, 12%), hsl(260, 20%, 15%))' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-yellow-400 text-xs leading-relaxed font-pixel mb-4">
+              ✨ You found a secret! ✨
+            </p>
+            <p className="text-yellow-200/90 text-[10px] leading-relaxed font-pixel mb-4">
+              This game was crafted by Lucas — a storyteller at heart who believes every mystery deserves to be unraveled, 
+              every character deserves a voice, and every late night spent writing dialogue is worth it if it makes someone smile. 
+              From point-and-click adventures to campfire tales, Lucas has always loved weaving stories that pull you in 
+              and never quite let go. Thanks for playing. 💛
+            </p>
+            <button 
+              onClick={() => setEasterEggVisible(false)}
+              className="text-yellow-400 text-[10px] font-pixel hover:text-yellow-300 cursor-pointer"
+            >
+              [ Click to close ]
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Vignette Effect */}
       <div className="absolute inset-0 pointer-events-none" 
