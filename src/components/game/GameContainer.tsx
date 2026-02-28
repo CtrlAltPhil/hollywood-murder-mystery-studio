@@ -130,17 +130,42 @@ export function GameContainer() {
           <GameScene
             gameState={gameState}
             setFlag={setFlag}
-            onHotspotHover={(text) => setActionText(
-              gameState.selectedVerb 
-                ? `${getVerbDisplayName(gameState.selectedVerb)} ${text}`
-                : text
-            )}
+            onHotspotHover={(text) => {
+              const verb = gameState.selectedVerb;
+              const item = gameState.selectedItem;
+              if (verb === 'use' && item) {
+                setActionText(`Use ${item.name} with ${text}`);
+              } else if (verb) {
+                setActionText(`${getVerbDisplayName(verb)} ${text}`);
+              } else {
+                setActionText(text);
+              }
+            }}
             onHotspotClick={(hotspot) => {
               const verb = gameState.selectedVerb;
+              const item = gameState.selectedItem;
+
+              // "Use [inventory item] with [hotspot]" combo
+              if (verb === 'use' && item) {
+                const useWithKey = `use_with_${item.id}`;
+                const interaction = hotspot.interactions[useWithKey as Verb];
+                if (interaction) {
+                  if (typeof interaction === 'string') {
+                    setActionText(interaction);
+                  } else if (typeof interaction === 'function') {
+                    const result = interaction();
+                    if (typeof result === 'string') setActionText(result);
+                  }
+                } else {
+                  setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
+                }
+                selectVerb(null);
+                return;
+              }
+
               if (verb && hotspot.interactions[verb]) {
                 const interaction = hotspot.interactions[verb];
                 if (typeof interaction === 'string') {
-                  // Check for dialog sentinel
                   if (interaction.startsWith('__DIALOG__')) {
                     const characterId = interaction.replace('__DIALOG__', '');
                     const rootNode = getDialogTree(characterId, gameState.flags);
