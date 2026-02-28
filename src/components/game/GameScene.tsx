@@ -57,14 +57,45 @@ export function GameScene({
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
-  // Define hotspots for interactive elements
+  // Define hotspots — positions must match the visual elements exactly
+  // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
+  // Table: left-[22%] bottom-[5%] h-28, Los Cabos: right-[15%] bottom-[1%]
   const hotspots: SimpleHotspot[] = [
+    {
+      id: 'door',
+      name: 'Door',
+      position: { x: 4, y: 65 },
+      width: 7,
+      height: 50,
+      interactions: {
+        look: 'A sturdy wooden door. It\'s locked from the outside — no one is leaving until this is solved.',
+        open: 'It\'s locked. Someone must have called the police already.',
+        close: 'It\'s already closed.',
+        use: 'The door is locked tight.',
+        push: 'It won\'t budge.',
+        pull: 'It won\'t budge.',
+      },
+    },
+    {
+      id: 'window',
+      name: 'Window',
+      position: { x: 93, y: 55 },
+      width: 8,
+      height: 45,
+      interactions: {
+        look: 'A tall window overlooking the studio lot. It\'s latched shut. I can see police lights outside.',
+        open: 'It\'s latched from the outside. No way to open it.',
+        close: 'It\'s already shut.',
+        use: 'I can\'t do anything with the window.',
+        push: 'It won\'t open.',
+      },
+    },
     {
       id: 'table',
       name: 'Party Table',
-      position: { x: 35, y: 85 },
-      width: 25,
-      height: 20,
+      position: { x: 28, y: 85 },
+      width: 14,
+      height: 18,
       interactions: {
         look: 'A festive party table covered with snacks and drinks.',
         pickup: "I can't carry the whole table!",
@@ -75,10 +106,10 @@ export function GameScene({
       id: 'dagger',
       name: 'Bloody Dagger',
       position: { x: 88, y: 93 },
-      width: 8,
-      height: 10,
+      width: 6,
+      height: 8,
       interactions: {
-        look: 'A ornate dagger covered in blood. This must be the murder weapon!',
+        look: 'An ornate dagger covered in blood. This must be the murder weapon!',
         pickup: () => {
           if (!gameState.flags.daggerTaken) {
             onAddToInventory({ id: 'dagger', name: 'Bloody Dagger', image: daggerImage });
@@ -93,9 +124,9 @@ export function GameScene({
     {
       id: 'los-cabos-body',
       name: 'Los Cabos',
-      position: { x: 78, y: 90 },
-      width: 16,
-      height: 15,
+      position: { x: 77, y: 92 },
+      width: 14,
+      height: 12,
       interactions: {
         look: 'Poor Los Cabos... He was stabbed in the back. Who could have done this?',
         talk: "He's... not going to answer.",
@@ -108,7 +139,7 @@ export function GameScene({
       name: 'Lady',
       position: { x: 13, y: 72 },
       width: 10,
-      height: 40,
+      height: 42,
       interactions: {
         look: 'Lady looks shaken but composed. She was close to Los Cabos...',
         talk: '__DIALOG__lady',
@@ -121,7 +152,7 @@ export function GameScene({
       name: 'El Fuego',
       position: { x: 40, y: 72 },
       width: 10,
-      height: 40,
+      height: 42,
       interactions: {
         look: 'El Fuego is sweating nervously. Is it the heat, or something else?',
         talk: '__DIALOG__el-fuego',
@@ -134,7 +165,7 @@ export function GameScene({
       name: 'Carl',
       position: { x: 60, y: 72 },
       width: 10,
-      height: 40,
+      height: 42,
       interactions: {
         look: 'Carl seems unusually calm for someone who just witnessed a murder.',
         talk: '__DIALOG__carl',
@@ -172,8 +203,8 @@ export function GameScene({
         </div>
       </div>
 
-      {/* Los Cabos - Dead on the floor — matches murder-reveal positioning */}
-      <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
+      {/* Los Cabos - Dead on the floor — lowered below baseboard */}
+      <div className="absolute bottom-[1%] right-[15%] transform -rotate-90 z-10">
         <img 
           src={losCabosImage} 
           alt="Los Cabos" 
