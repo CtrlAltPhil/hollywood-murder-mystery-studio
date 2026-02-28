@@ -137,7 +137,7 @@ export function GameScene({
       height: 35,
       interactions: {
         look: 'Carl seems unusually calm for someone who just witnessed a murder.',
-        talk: '"Hmm, quite unfortunate. I was admiring the decorations when the lights went out."',
+        talk: '__DIALOG__carl',
         pickup: "I don't think Carl would appreciate that.",
         use: 'I should talk to him instead.',
       },
