@@ -219,11 +219,11 @@ const ladyTree: DialogTree = {
   },
 };
 
-// ─── EL FUEGO ───────────────────────────────────────────
+// ─── DUKE EXTREME ───────────────────────────────────────────
 const elFuegoTree: DialogTree = {
   'fuego-root': {
     id: 'fuego-root',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "¡Ay, this is terrible! Terrible! What— what do you want to ask me?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'fuego-alibi' },
