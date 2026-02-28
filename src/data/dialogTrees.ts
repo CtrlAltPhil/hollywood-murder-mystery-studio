@@ -244,7 +244,7 @@ const elFuegoTree: DialogTree = {
   },
   'fuego-proximity': {
     id: 'fuego-proximity',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "What— what are you saying?! Just because I was nearby doesn't mean— ¡Dios mío! You can't think I did this!",
     nextNodeId: 'fuego-root',
   },
