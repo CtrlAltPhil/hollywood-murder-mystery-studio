@@ -80,12 +80,12 @@ export function GameScene({
       width: 7,
       height: 50,
       interactions: {
-        look: 'A sturdy wooden door. It\'s locked from the outside — no one is leaving until this is solved.',
-        open: 'It\'s locked. Someone must have called the police already.',
+        look: 'A sturdy wooden door leading to the hallway.',
+        open: '__NAVIGATE__hallway',
         close: 'It\'s already closed.',
-        use: 'The door is locked tight.',
-        push: 'It won\'t budge.',
-        pull: 'It won\'t budge.',
+        use: '__NAVIGATE__hallway',
+        push: '__NAVIGATE__hallway',
+        pull: '__NAVIGATE__hallway',
       },
     },
     {
