@@ -287,7 +287,7 @@ const elFuegoTree: DialogTree = {
   // Dagger-unlocked branch
   'fuego-dagger': {
     id: 'fuego-dagger',
-    speaker: 'El Fuego',
+    speaker: 'Duke Extreme',
     text: "¡Ay! W-what now?",
     options: [
       { text: "This dagger — you handled weapons on the Marrakech set. Recognize it?", nextNodeId: 'fuego-dagger-react' },
