@@ -173,7 +173,7 @@ const ladyTree: DialogTree = {
   },
   'lady-role': {
     id: 'lady-role',
-    speaker: 'Lady',
+    speaker: 'Lady Fantastique',
     text: "Some newcomer. Nobody. That's what made it sting. Years of loyalty and he replaces me with... ugh. But it doesn't matter now, does it?",
     nextNodeId: 'lady-root',
   },
