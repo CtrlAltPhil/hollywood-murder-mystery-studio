@@ -28,7 +28,7 @@ export function GameContainer() {
   } = useGameState();
 
   // Audio engine
-  const { playBackgroundTrack, playDialogBlip, playSfx } = useAudioEngine();
+  const { playBackgroundTrack, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
   // Play background track when phase changes
   useEffect(() => {
