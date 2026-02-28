@@ -9,6 +9,26 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
   const [carPosition, setCarPosition] = useState(-250);
   const [easterEggVisible, setEasterEggVisible] = useState(false);
+  const [fireflyClickCount, setFireflyClickCount] = useState(0);
+  const [speechBubble, setSpeechBubble] = useState<string | null>(null);
+
+  const FIREFLY_MESSAGES = [
+    "It's just a firefly.",
+    "Yep... still a firefly.",
+    "Okay, you really like this firefly, huh?",
+  ];
+
+  const handleFireflyClick = () => {
+    const nextCount = fireflyClickCount + 1;
+    setFireflyClickCount(nextCount);
+    if (nextCount <= 3) {
+      setSpeechBubble(FIREFLY_MESSAGES[nextCount - 1]);
+      setTimeout(() => setSpeechBubble(null), 2500);
+    } else {
+      setSpeechBubble(null);
+      setEasterEggVisible(true);
+    }
+  };
   // Lightning effect
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -155,8 +175,16 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
             boxShadow: '0 0 6px 3px hsl(50, 90%, 60%, 0.4)',
             animation: `fireflyFloat 3s ease-in-out ${ff.delay}s infinite alternate, fireflyGlow 2s ease-in-out ${ff.delay}s infinite alternate`,
           }}
-          onClick={ff.isEasterEgg ? () => setEasterEggVisible(true) : undefined}
-        />
+          onClick={ff.isEasterEgg ? handleFireflyClick : undefined}
+        >
+          {/* Speech bubble for easter egg firefly */}
+          {ff.isEasterEgg && speechBubble && (
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-black text-[9px] px-2 py-1 rounded-md shadow-lg font-pixel animate-[fade-in_0.2s_ease-out] z-30">
+              {speechBubble}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-white" />
+            </div>
+          )}
+        </div>
       ))}
 
       {/* Easter Egg Modal */}

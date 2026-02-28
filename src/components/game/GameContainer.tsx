@@ -28,7 +28,7 @@ export function GameContainer() {
   } = useGameState();
 
   // Audio engine
-  const { playBackgroundTrack, playDialogBlip, playSfx } = useAudioEngine();
+  const { playBackgroundTrack, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
   // Play background track when phase changes
   useEffect(() => {
@@ -36,6 +36,28 @@ export function GameContainer() {
   }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [musicVolumeState, setMusicVolumeState] = useState(0.3);
+  const [sfxVolumeState, setSfxVolumeState] = useState(0.5);
+  const [brightness, setBrightness] = useState(1);
+  const [crashPlayed, setCrashPlayed] = useState(false);
+
+  // Play crash sound when blackout phase starts
+  useEffect(() => {
+    if (gameState.phase === 'blackout' && !crashPlayed) {
+      playSfx('crash');
+      setCrashPlayed(true);
+    }
+  }, [gameState.phase, crashPlayed, playSfx]);
+
+  const handleMusicVolumeChange = (v: number) => {
+    setMusicVolume(v);
+    setMusicVolumeState(v);
+  };
+
+  const handleSfxVolumeChange = (v: number) => {
+    setSfxVolume(v);
+    setSfxVolumeState(v);
+  };
 
   const handleStart = () => {
     setPhase('intro');
@@ -175,7 +197,7 @@ export function GameContainer() {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
         {/* Intro matches the main game container size (4:3) but keeps content 16:9 (letterboxed) */}
-        <div className="w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative flex items-center">
+        <div className="w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative flex items-center" style={{ filter: `brightness(${brightness})` }}>
           
           {/* Menu Button */}
           <div className="absolute top-4 right-4 z-50">
@@ -189,6 +211,12 @@ export function GameContainer() {
               onResume={() => setIsMenuOpen(false)}
               onSave={handleSave}
               onRestart={handleRestart}
+              musicVolume={musicVolumeState}
+              sfxVolume={sfxVolumeState}
+              brightness={brightness}
+              onMusicVolumeChange={handleMusicVolumeChange}
+              onSfxVolumeChange={handleSfxVolumeChange}
+              onBrightnessChange={setBrightness}
             />
           )}
 
@@ -210,7 +238,7 @@ export function GameContainer() {
       {/* MASTER LAYOUT: 4:3 "Monitor" Container 
         This contains both the 16:9 Scene and the bottom UI Bar.
       */}
-      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800">
+      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
         
         {/* Menu Button */}
         <div className="absolute top-4 right-4 z-50">
@@ -224,6 +252,12 @@ export function GameContainer() {
             onResume={() => setIsMenuOpen(false)}
             onSave={handleSave}
             onRestart={handleRestart}
+            musicVolume={musicVolumeState}
+            sfxVolume={sfxVolumeState}
+            brightness={brightness}
+            onMusicVolumeChange={handleMusicVolumeChange}
+            onSfxVolumeChange={handleSfxVolumeChange}
+            onBrightnessChange={setBrightness}
           />
         )}
         
