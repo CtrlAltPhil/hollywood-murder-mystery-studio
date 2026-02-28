@@ -18,6 +18,7 @@ interface GameSceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onAddToInventory: (item: { id: string; name: string; image: string }) => void;
+  onChangeRoom: (roomId: string) => void;
 }
 
 // Simplified hotspot for the scene
