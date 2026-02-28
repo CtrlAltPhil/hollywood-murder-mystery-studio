@@ -175,7 +175,7 @@ export function GameScene({
       </div>
 
       {/* Los Cabos - Dead on the floor */}
-      <div className="absolute bottom-[3%] right-[15%] w-[12%] h-[18%] rotate-[-90deg]">
+      <div className="absolute bottom-[3%] right-[15%] w-[14%] h-[30%] rotate-[-90deg]">
         <img src={losCabosImage} alt="Los Cabos" className="w-full h-full object-contain opacity-80" />
       </div>
       
