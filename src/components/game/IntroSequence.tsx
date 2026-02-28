@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { GamePhase } from '@/types/game';
 import breakroomBackground from '@/assets/backgrounds/breakroom.jpg';
 import elFuegoSprite from '@/assets/characters/el-fuego.png';
-import ladySprite from '@/assets/characters/lady.jpg';
+import elFuegoSprite2 from '@/assets/characters/el-fuego-2.png';
+import ladySprite from '@/assets/characters/lady.png';
 import losCabosSprite from '@/assets/characters/los-cabos.png';
 import carlSprite from '@/assets/characters/carl.png';
-import daggerImage from '@/assets/items/dagger.jpg';
-import wineGlassesImage from '@/assets/props/wine-glasses.jpg';
-import tableImage from '@/assets/props/table.jpg';
+import daggerImage from '@/assets/props/dagger.png';
+import wineGlassesImage from '@/assets/props/wine-glasses.png';
+import tableImage from '@/assets/props/table.png';
 
 interface IntroSequenceProps {
   phase: GamePhase;
