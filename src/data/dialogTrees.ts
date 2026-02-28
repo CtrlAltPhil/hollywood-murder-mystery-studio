@@ -309,7 +309,7 @@ const elFuegoTree: DialogTree = {
   'fuego-dagger-access': {
     id: 'fuego-dagger-access',
     speaker: 'Duke Extreme',
-    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady was in and out for costumes! The prop room lock has been broken for months!",
+    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady Fantastique was in and out for costumes! The prop room lock has been broken for months!",
     nextNodeId: 'fuego-dagger',
   },
   'fuego-dagger-who': {
