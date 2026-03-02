@@ -167,6 +167,24 @@ export function GameContainer() {
             onChangeRoom={handleChangeRoom}
           />
         );
+      case 'kitchen':
+        return (
+          <KitchenScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      case 'production-room':
+        return (
+          <ProductionRoomScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
       default:
         return (
           <GameScene

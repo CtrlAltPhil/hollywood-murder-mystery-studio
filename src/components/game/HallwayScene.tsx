@@ -42,9 +42,9 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       width: 12,
       height: 50,
       interactions: {
-        look: 'The production room. The door is locked.',
-        open: 'It\'s locked. I don\'t have a key.',
-        use: 'I need a key to open this door.',
+        look: 'The door to the production room.',
+        open: '__NAVIGATE__production-room',
+        use: '__NAVIGATE__production-room',
       },
     },
     {
