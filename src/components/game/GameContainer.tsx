@@ -6,6 +6,8 @@ import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
 import { HallwayScene } from './HallwayScene';
 import { HallwayKitchenScene } from './HallwayKitchenScene';
+import { KitchenScene } from './KitchenScene';
+import { ProductionRoomScene } from './ProductionRoomScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
