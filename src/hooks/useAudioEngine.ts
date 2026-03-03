@@ -4,6 +4,7 @@ type SfxType = 'pickup' | 'click' | 'door' | 'crash';
 
 interface AudioEngine {
   playBackgroundTrack: (phase: string) => void;
+  playRoomAmbience: (roomId: string) => void;
   playDialogBlip: (speaker: string) => void;
   playSfx: (type: SfxType) => void;
   setMusicVolume: (v: number) => void;
