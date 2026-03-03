@@ -84,8 +84,9 @@ export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick,
         return;
       }
     }
-    if (hotspot.id === 'back-to-hallway' && !verb) {
-      onChangeRoom('hallway');
+    // Default: doors auto-open when no verb selected
+    if (!verb && hotspot.interactions.open && typeof hotspot.interactions.open === 'string' && (hotspot.interactions.open as string).startsWith('__NAVIGATE__')) {
+      onChangeRoom((hotspot.interactions.open as string).replace('__NAVIGATE__', ''));
       return;
     }
     onHotspotClick(hotspot);

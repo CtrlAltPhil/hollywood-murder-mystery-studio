@@ -38,8 +38,8 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
     {
       id: 'production-room-door',
       name: 'Production Room Door',
-      position: { x: 18, y: 55 },
-      width: 12,
+      position: { x: 12, y: 55 },
+      width: 10,
       height: 50,
       interactions: {
         look: 'The door to the production room.',
@@ -48,10 +48,34 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       },
     },
     {
+      id: 'lady-fantastique-room-door',
+      name: "Lady Fantastique's Room",
+      position: { x: 28, y: 55 },
+      width: 10,
+      height: 50,
+      interactions: {
+        look: "The door to Lady Fantastique's private room.",
+        open: '__NAVIGATE__lady-fantastique-room',
+        use: '__NAVIGATE__lady-fantastique-room',
+      },
+    },
+    {
+      id: 'los-cabos-room-door',
+      name: "Los Cabos' Room",
+      position: { x: 42, y: 55 },
+      width: 10,
+      height: 50,
+      interactions: {
+        look: "The door to Los Cabos' room. Poor guy...",
+        open: '__NAVIGATE__los-cabos-room',
+        use: '__NAVIGATE__los-cabos-room',
+      },
+    },
+    {
       id: 'exit-door',
       name: 'Exit',
-      position: { x: 50, y: 50 },
-      width: 12,
+      position: { x: 55, y: 50 },
+      width: 10,
       height: 40,
       interactions: {
         look: 'The main exit. Police are outside — I can\'t leave yet.',
@@ -60,11 +84,23 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       },
     },
     {
+      id: 'study-door',
+      name: 'Study',
+      position: { x: 68, y: 55 },
+      width: 10,
+      height: 50,
+      interactions: {
+        look: 'A door marked "Study Room."',
+        open: '__NAVIGATE__study',
+        use: '__NAVIGATE__study',
+      },
+    },
+    {
       id: 'hallway-posters',
       name: 'Movie Posters',
-      position: { x: 50, y: 25 },
+      position: { x: 50, y: 20 },
       width: 80,
-      height: 20,
+      height: 15,
       interactions: {
         look: 'Old movie posters line the walls. "Aeons", "Ancient Crimes"... GB Studios has had better days.',
       },
@@ -92,6 +128,11 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
         onChangeRoom(targetRoom);
         return;
       }
+    }
+    // Default: doors auto-open when no verb selected
+    if (!verb && hotspot.interactions.open && typeof hotspot.interactions.open === 'string' && (hotspot.interactions.open as string).startsWith('__NAVIGATE__')) {
+      onChangeRoom((hotspot.interactions.open as string).replace('__NAVIGATE__', ''));
+      return;
     }
     // For the kitchen direction, any click navigates
     if (hotspot.id === 'kitchen-direction' && !verb) {

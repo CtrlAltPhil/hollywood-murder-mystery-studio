@@ -127,8 +127,8 @@ export function KitchenScene({ gameState, onHotspotHover, onHotspotClick, onChan
         return;
       }
     }
-    if (hotspot.id === 'back-to-hallway-kitchen' && !verb) {
-      onChangeRoom('hallway-kitchen');
+    if (!verb && hotspot.interactions.open && typeof hotspot.interactions.open === 'string' && (hotspot.interactions.open as string).startsWith('__NAVIGATE__')) {
+      onChangeRoom((hotspot.interactions.open as string).replace('__NAVIGATE__', ''));
       return;
     }
     onHotspotClick(hotspot);
