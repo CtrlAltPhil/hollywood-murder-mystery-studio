@@ -4,6 +4,7 @@ type SfxType = 'pickup' | 'click' | 'door' | 'crash';
 
 interface AudioEngine {
   playBackgroundTrack: (phase: string) => void;
+  playRoomAmbience: (roomId: string) => void;
   playDialogBlip: (speaker: string) => void;
   playSfx: (type: SfxType) => void;
   setMusicVolume: (v: number) => void;
@@ -336,6 +337,232 @@ export function useAudioEngine(): AudioEngine {
     }
   }, [getCtx, stopMusic, scheduleLoop]);
 
+  // Room-specific ambient music — replaces the gameplay track when entering a specific room
+  const currentRoomRef = useRef<string>('');
+  const playRoomAmbience = useCallback((roomId: string) => {
+    if (roomId === currentRoomRef.current) return;
+    currentRoomRef.current = roomId;
+
+    const ctx = getCtx();
+    const gain = musicGainRef.current!;
+    stopMusic();
+    currentPhaseRef.current = 'room-ambience';
+
+    switch (roomId) {
+      case 'breakroom': {
+        // Crime scene — tense, sparse minor key investigation
+        const bpm = 90;
+        const melody: NoteEvent[] = [
+          { note: 'A3', time: 0, duration: 1.5 },
+          { note: 'C4', time: 1.5, duration: 0.5 },
+          { note: 'E4', time: 2, duration: 1 },
+          { note: 'D4', time: 3, duration: 0.5 },
+          { note: 'C4', time: 3.5, duration: 0.5 },
+          { note: 'A3', time: 4, duration: 1.5 },
+          { note: 'G3', time: 5.5, duration: 0.5 },
+          { note: 'A3', time: 6, duration: 2 },
+          { note: 'C4', time: 8, duration: 1 },
+          { note: 'D4', time: 9, duration: 0.5 },
+          { note: 'E4', time: 9.5, duration: 1 },
+          { note: 'F4', time: 10.5, duration: 0.5 },
+          { note: 'E4', time: 11, duration: 0.5 },
+          { note: 'D4', time: 11.5, duration: 0.5 },
+          { note: 'C4', time: 12, duration: 1 },
+          { note: 'A3', time: 13, duration: 1.5 },
+          { note: 'E3', time: 14.5, duration: 1.5 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'A2', time: 0, duration: 2 }, { note: 'E2', time: 2, duration: 2 },
+          { note: 'F2', time: 4, duration: 2 }, { note: 'E2', time: 6, duration: 2 },
+          { note: 'A2', time: 8, duration: 2 }, { note: 'D2', time: 10, duration: 2 },
+          { note: 'E2', time: 12, duration: 2 }, { note: 'A2', time: 14, duration: 2 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody, wave: 'triangle', baseVol: 0.14 },
+          { notes: bass,   wave: 'square',   baseVol: 0.08 },
+        ], bpm, 16);
+        break;
+      }
+      case 'hallway':
+      case 'hallway-kitchen': {
+        // Echoing footsteps vibe — minimal, atmospheric
+        const bpm = 70;
+        const ambience: NoteEvent[] = [
+          { note: 'E3', time: 0, duration: 3 },
+          { note: 'A3', time: 4, duration: 2 },
+          { note: 'E3', time: 7, duration: 2 },
+          { note: 'G3', time: 10, duration: 2 },
+          { note: 'A3', time: 13, duration: 3 },
+        ];
+        const drone: NoteEvent[] = [
+          { note: 'A2', time: 0, duration: 4 },
+          { note: 'A2', time: 4, duration: 4 },
+          { note: 'E2', time: 8, duration: 4 },
+          { note: 'A2', time: 12, duration: 4 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: ambience, wave: 'sine',     baseVol: 0.08 },
+          { notes: drone,    wave: 'triangle', baseVol: 0.06 },
+        ], bpm, 16);
+        break;
+      }
+      case 'kitchen': {
+        // Uneasy kitchen — metallic, clinical feel
+        const bpm = 85;
+        const melody: NoteEvent[] = [
+          { note: 'C4', time: 0, duration: 0.5 }, { note: 'Eb4', time: 1, duration: 0.5 },
+          { note: 'F4', time: 2, duration: 1 },   { note: 'Eb4', time: 3.5, duration: 0.5 },
+          { note: 'C4', time: 4, duration: 1.5 },  { note: 'Bb3', time: 6, duration: 1 },
+          { note: 'C4', time: 8, duration: 0.5 },  { note: 'Eb4', time: 9, duration: 0.5 },
+          { note: 'G4', time: 10, duration: 1 },   { note: 'F4', time: 11.5, duration: 0.5 },
+          { note: 'Eb4', time: 12, duration: 1.5 },{ note: 'C4', time: 14, duration: 2 },
+        ];
+        const percussion: NoteEvent[] = [
+          // Ticking, dripping feel
+          { note: 'C5', time: 0, duration: 0.1 },  { note: 'C5', time: 2, duration: 0.1 },
+          { note: 'C5', time: 4, duration: 0.1 },  { note: 'C5', time: 6, duration: 0.1 },
+          { note: 'C5', time: 8, duration: 0.1 },  { note: 'C5', time: 10, duration: 0.1 },
+          { note: 'C5', time: 12, duration: 0.1 }, { note: 'C5', time: 14, duration: 0.1 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody,     wave: 'triangle', baseVol: 0.10 },
+          { notes: percussion, wave: 'sine',     baseVol: 0.03 },
+        ], bpm, 16);
+        break;
+      }
+      case 'production-room': {
+        // Industrial hum — low drones and mechanical feel
+        const bpm = 75;
+        const drone: NoteEvent[] = [
+          { note: 'D2', time: 0, duration: 4 },
+          { note: 'E2', time: 4, duration: 4 },
+          { note: 'D2', time: 8, duration: 4 },
+          { note: 'C2', time: 12, duration: 4 },
+        ];
+        const hum: NoteEvent[] = [
+          { note: 'D3', time: 0, duration: 2 },  { note: 'F3', time: 3, duration: 1.5 },
+          { note: 'E3', time: 5, duration: 2 },   { note: 'D3', time: 8, duration: 2 },
+          { note: 'F3', time: 11, duration: 1.5 },{ note: 'E3', time: 13, duration: 2 },
+        ];
+        const clicks: NoteEvent[] = [
+          { note: 'G5', time: 1, duration: 0.05 }, { note: 'G5', time: 5, duration: 0.05 },
+          { note: 'G5', time: 9, duration: 0.05 }, { note: 'G5', time: 13, duration: 0.05 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: drone,  wave: 'sine',     baseVol: 0.10 },
+          { notes: hum,    wave: 'triangle', baseVol: 0.07 },
+          { notes: clicks, wave: 'square',   baseVol: 0.02 },
+        ], bpm, 16);
+        break;
+      }
+      case 'lady-fantastique-room': {
+        // Dramatic, theatrical — waltz-like, elegant but unsettling
+        const bpm = 95;
+        const melody: NoteEvent[] = [
+          { note: 'E4', time: 0, duration: 1 },   { note: 'G4', time: 1, duration: 0.5 },
+          { note: 'A4', time: 1.5, duration: 1 },  { note: 'G4', time: 2.5, duration: 0.5 },
+          { note: 'F4', time: 3, duration: 1 },    { note: 'E4', time: 4, duration: 0.5 },
+          { note: 'D4', time: 4.5, duration: 0.5 },{ note: 'E4', time: 5, duration: 1.5 },
+          { note: 'Ab4', time: 7, duration: 1 },
+          { note: 'G4', time: 8, duration: 1 },    { note: 'F4', time: 9, duration: 0.5 },
+          { note: 'E4', time: 9.5, duration: 1 },  { note: 'D4', time: 10.5, duration: 0.5 },
+          { note: 'C4', time: 11, duration: 1 },   { note: 'B3', time: 12, duration: 0.5 },
+          { note: 'A3', time: 12.5, duration: 1.5 },{ note: 'E4', time: 14, duration: 2 },
+        ];
+        const waltzBass: NoteEvent[] = [
+          { note: 'A2', time: 0, duration: 1 }, { note: 'E3', time: 1, duration: 0.5 }, { note: 'E3', time: 1.5, duration: 0.5 },
+          { note: 'A2', time: 2, duration: 1 }, { note: 'E3', time: 3, duration: 0.5 }, { note: 'E3', time: 3.5, duration: 0.5 },
+          { note: 'F2', time: 4, duration: 1 }, { note: 'C3', time: 5, duration: 0.5 }, { note: 'C3', time: 5.5, duration: 0.5 },
+          { note: 'E2', time: 6, duration: 1 }, { note: 'B2', time: 7, duration: 0.5 }, { note: 'B2', time: 7.5, duration: 0.5 },
+          { note: 'A2', time: 8, duration: 1 }, { note: 'E3', time: 9, duration: 0.5 }, { note: 'E3', time: 9.5, duration: 0.5 },
+          { note: 'D2', time: 10, duration: 1 },{ note: 'A2', time: 11, duration: 0.5 },{ note: 'A2', time: 11.5, duration: 0.5 },
+          { note: 'E2', time: 12, duration: 1 },{ note: 'B2', time: 13, duration: 0.5 },{ note: 'B2', time: 13.5, duration: 0.5 },
+          { note: 'A2', time: 14, duration: 1 },{ note: 'E3', time: 15, duration: 0.5 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody,    wave: 'triangle', baseVol: 0.12 },
+          { notes: waltzBass, wave: 'sine',     baseVol: 0.08 },
+        ], bpm, 16);
+        break;
+      }
+      case 'los-cabos-room': {
+        // Melancholic, sorrowful — slow minor melody for the victim's room
+        const bpm = 65;
+        const melody: NoteEvent[] = [
+          { note: 'E4', time: 0, duration: 2 },
+          { note: 'D4', time: 2, duration: 1 },
+          { note: 'C4', time: 3, duration: 2 },
+          { note: 'B3', time: 5, duration: 1 },
+          { note: 'A3', time: 6, duration: 2.5 },
+          { note: 'E4', time: 9, duration: 1.5 },
+          { note: 'F4', time: 10.5, duration: 1 },
+          { note: 'E4', time: 11.5, duration: 1 },
+          { note: 'D4', time: 12.5, duration: 1 },
+          { note: 'C4', time: 13.5, duration: 2.5 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'A2', time: 0, duration: 3 },
+          { note: 'E2', time: 3, duration: 3 },
+          { note: 'F2', time: 6, duration: 3 },
+          { note: 'A2', time: 9, duration: 3 },
+          { note: 'D2', time: 12, duration: 4 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody, wave: 'sine',     baseVol: 0.12 },
+          { notes: bass,   wave: 'triangle', baseVol: 0.07 },
+        ], bpm, 16);
+        break;
+      }
+      case 'study': {
+        // Cerebral, investigative — steady ticking clock, thoughtful phrases
+        const bpm = 80;
+        const melody: NoteEvent[] = [
+          { note: 'D4', time: 0, duration: 1.5 },
+          { note: 'F4', time: 2, duration: 1 },
+          { note: 'E4', time: 3, duration: 0.5 },
+          { note: 'D4', time: 3.5, duration: 0.5 },
+          { note: 'C4', time: 4, duration: 2 },
+          { note: 'E4', time: 7, duration: 1 },
+          { note: 'D4', time: 8, duration: 1.5 },
+          { note: 'F4', time: 10, duration: 1 },
+          { note: 'G4', time: 11, duration: 0.5 },
+          { note: 'F4', time: 11.5, duration: 0.5 },
+          { note: 'E4', time: 12, duration: 1.5 },
+          { note: 'D4', time: 14, duration: 2 },
+        ];
+        const clock: NoteEvent[] = [
+          // Steady ticking
+          { note: 'B4', time: 0, duration: 0.08 }, { note: 'B4', time: 1, duration: 0.08 },
+          { note: 'B4', time: 2, duration: 0.08 }, { note: 'B4', time: 3, duration: 0.08 },
+          { note: 'B4', time: 4, duration: 0.08 }, { note: 'B4', time: 5, duration: 0.08 },
+          { note: 'B4', time: 6, duration: 0.08 }, { note: 'B4', time: 7, duration: 0.08 },
+          { note: 'B4', time: 8, duration: 0.08 }, { note: 'B4', time: 9, duration: 0.08 },
+          { note: 'B4', time: 10, duration: 0.08 },{ note: 'B4', time: 11, duration: 0.08 },
+          { note: 'B4', time: 12, duration: 0.08 },{ note: 'B4', time: 13, duration: 0.08 },
+          { note: 'B4', time: 14, duration: 0.08 },{ note: 'B4', time: 15, duration: 0.08 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'D2', time: 0, duration: 4 },
+          { note: 'C2', time: 4, duration: 4 },
+          { note: 'D2', time: 8, duration: 4 },
+          { note: 'E2', time: 12, duration: 4 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody, wave: 'triangle', baseVol: 0.11 },
+          { notes: clock,  wave: 'sine',     baseVol: 0.03 },
+          { notes: bass,   wave: 'sine',     baseVol: 0.07 },
+        ], bpm, 16);
+        break;
+      }
+      default: {
+        // Fallback: play the standard gameplay track
+        currentPhaseRef.current = 'gameplay';
+        playBackgroundTrack('gameplay');
+        return;
+      }
+    }
+  }, [getCtx, stopMusic, scheduleLoop, playBackgroundTrack]);
+
   const playDialogBlip = useCallback((speaker: string) => {
     const ctx = getCtx();
     const pitch = SPEAKER_PITCHES[speaker] || 200;
@@ -440,6 +667,7 @@ export function useAudioEngine(): AudioEngine {
 
   return {
     playBackgroundTrack,
+    playRoomAmbience,
     playDialogBlip,
     playSfx,
     setMusicVolume,
