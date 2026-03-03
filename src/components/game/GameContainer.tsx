@@ -33,7 +33,7 @@ export function GameContainer() {
   } = useGameState();
 
   // Audio engine
-  const { playBackgroundTrack, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
+  const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
   // Play background track when phase changes
   useEffect(() => {
@@ -89,6 +89,7 @@ export function GameContainer() {
     changeRoom(roomId, { x: 400, y: 350 });
     selectVerb(null);
     setActionText('');
+    playRoomAmbience(roomId);
   };
 
   const sharedHotspotHover = (text: string) => {
