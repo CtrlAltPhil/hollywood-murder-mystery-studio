@@ -8,6 +8,9 @@ import { HallwayScene } from './HallwayScene';
 import { HallwayKitchenScene } from './HallwayKitchenScene';
 import { KitchenScene } from './KitchenScene';
 import { ProductionRoomScene } from './ProductionRoomScene';
+import { LadyFantastiqueRoomScene } from './LadyFantastiqueRoomScene';
+import { LosCabosRoomScene } from './LosCabosRoomScene';
+import { StudyScene } from './StudyScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
@@ -181,6 +184,33 @@ export function GameContainer() {
       case 'production-room':
         return (
           <ProductionRoomScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      case 'lady-fantastique-room':
+        return (
+          <LadyFantastiqueRoomScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      case 'los-cabos-room':
+        return (
+          <LosCabosRoomScene
+            gameState={gameState}
+            onHotspotHover={sharedHotspotHover}
+            onHotspotClick={sharedHotspotClick}
+            onChangeRoom={handleChangeRoom}
+          />
+        );
+      case 'study':
+        return (
+          <StudyScene
             gameState={gameState}
             onHotspotHover={sharedHotspotHover}
             onHotspotClick={sharedHotspotClick}
