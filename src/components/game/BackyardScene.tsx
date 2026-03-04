@@ -151,11 +151,11 @@ export function BackyardScene({ gameState, onHotspotHover, onHotspotClick, onCha
         alt=""
         className="absolute pointer-events-none z-10"
         style={{
-          left: '38%',
-          top: '28%',
-          width: '12%',
-          height: '52%',
-          objectFit: 'contain',
+          left: '42%',
+          top: '32%',
+          width: '8%',
+          height: '42%',
+          objectFit: 'fill',
         }}
       />
 
