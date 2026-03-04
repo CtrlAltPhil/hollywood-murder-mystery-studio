@@ -1,6 +1,6 @@
-import { GameState, Verb } from '@/types/game';
-import hallwayBackground from '@/assets/backgrounds/hallway.png';
-import { SimpleHotspot } from './GameScene';
+import { GameState, Verb } from "@/types/game";
+import hallwayBackground from "@/assets/backgrounds/hallway.png";
+import { SimpleHotspot } from "./GameScene";
 
 interface HallwaySceneProps {
   gameState: GameState;
@@ -11,94 +11,105 @@ interface HallwaySceneProps {
 }
 
 function getCursorClass(verb: Verb | null): string {
-  if (!verb) return 'cursor-default';
+  if (!verb) return "cursor-default";
   const cursorMap: Record<Verb, string> = {
-    look: 'cursor-look', pickup: 'cursor-pickup', use: 'cursor-use',
-    open: 'cursor-open', close: 'cursor-close', talk: 'cursor-talk',
-    push: 'cursor-push', pull: 'cursor-pull',
+    look: "cursor-look",
+    pickup: "cursor-pickup",
+    use: "cursor-use",
+    open: "cursor-open",
+    close: "cursor-close",
+    talk: "cursor-talk",
+    push: "cursor-push",
+    pull: "cursor-pull",
   };
-  return cursorMap[verb] || 'cursor-default';
+  return cursorMap[verb] || "cursor-default";
 }
 
-export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: HallwaySceneProps) {
+export function HallwayScene({
+  gameState,
+  onHotspotHover,
+  onHotspotClick,
+  onChangeRoom,
+  debugMode,
+}: HallwaySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
     {
-      id: 'party-room-door',
-      name: 'Party Room Door',
+      id: "party-room-door",
+      name: "Party Room Door",
       position: { x: 82, y: 55 },
       width: 12,
       height: 50,
       interactions: {
-        look: 'The door to the party room. This is where it all happened.',
-        open: '__NAVIGATE__breakroom',
-        use: '__NAVIGATE__breakroom',
+        look: "The door to the party room. This is where it all happened.",
+        open: "__NAVIGATE__breakroom",
+        use: "__NAVIGATE__breakroom",
       },
     },
     {
-      id: 'production-room-door',
-      name: 'Production Room Door',
+      id: "production-room-door",
+      name: "Production Room Door",
       position: { x: 12, y: 55 },
       width: 10,
       height: 50,
       interactions: {
-        look: 'The door to the production room.',
-        open: '__NAVIGATE__production-room',
-        use: '__NAVIGATE__production-room',
+        look: "The door to the production room.",
+        open: "__NAVIGATE__production-room",
+        use: "__NAVIGATE__production-room",
       },
     },
     {
-      id: 'lady-fantastique-room-door',
+      id: "lady-fantastique-room-door",
       name: "Lady Fantastique's Room",
-      position: { x: 28, y: 55 },
+      position: { x: 30, y: 55 },
       width: 10,
       height: 50,
       interactions: {
         look: "The door to Lady Fantastique's private room.",
-        open: '__NAVIGATE__lady-fantastique-room',
-        use: '__NAVIGATE__lady-fantastique-room',
+        open: "__NAVIGATE__lady-fantastique-room",
+        use: "__NAVIGATE__lady-fantastique-room",
       },
     },
     {
-      id: 'los-cabos-room-door',
+      id: "los-cabos-room-door",
       name: "Los Cabos' Room",
       position: { x: 42, y: 55 },
       width: 10,
       height: 50,
       interactions: {
         look: "The door to Los Cabos' room. Poor guy...",
-        open: '__NAVIGATE__los-cabos-room',
-        use: '__NAVIGATE__los-cabos-room',
+        open: "__NAVIGATE__los-cabos-room",
+        use: "__NAVIGATE__los-cabos-room",
       },
     },
     {
-      id: 'exit-door',
-      name: 'Exit',
+      id: "exit-door",
+      name: "Exit",
       position: { x: 55, y: 50 },
       width: 10,
       height: 40,
       interactions: {
-        look: 'The main exit. Police are outside — I can\'t leave yet.',
-        open: 'The police have barricaded the exit. No one leaves until the case is solved.',
-        use: 'I can\'t leave until I figure out who killed Los Cabos.',
+        look: "The main exit. Police are outside — I can't leave yet.",
+        open: "The police have barricaded the exit. No one leaves until the case is solved.",
+        use: "I can't leave until I figure out who killed Los Cabos.",
       },
     },
     {
-      id: 'study-door',
-      name: 'Study',
+      id: "study-door",
+      name: "Study",
       position: { x: 68, y: 55 },
       width: 10,
       height: 50,
       interactions: {
         look: 'A door marked "Study Room."',
-        open: '__NAVIGATE__study',
-        use: '__NAVIGATE__study',
+        open: "__NAVIGATE__study",
+        use: "__NAVIGATE__study",
       },
     },
     {
-      id: 'hallway-posters',
-      name: 'Movie Posters',
+      id: "hallway-posters",
+      name: "Movie Posters",
       position: { x: 50, y: 20 },
       width: 80,
       height: 15,
@@ -107,27 +118,27 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       },
     },
     {
-      id: 'french-doors',
-      name: 'French Doors (Backyard)',
+      id: "french-doors",
+      name: "French Doors (Backyard)",
       position: { x: 50, y: 40 },
       width: 12,
       height: 35,
       interactions: {
-        look: 'Elegant french doors leading to the backyard garden.',
-        open: '__NAVIGATE__backyard',
-        use: '__NAVIGATE__backyard',
+        look: "Elegant french doors leading to the backyard garden.",
+        open: "__NAVIGATE__backyard",
+        use: "__NAVIGATE__backyard",
       },
     },
     {
-      id: 'kitchen-direction',
-      name: 'Kitchen Hallway',
+      id: "kitchen-direction",
+      name: "Kitchen Hallway",
       position: { x: 50, y: 95 },
       width: 60,
       height: 10,
       interactions: {
-        look: '__NAVIGATE__hallway-kitchen',
-        open: '__NAVIGATE__hallway-kitchen',
-        use: '__NAVIGATE__hallway-kitchen',
+        look: "__NAVIGATE__hallway-kitchen",
+        open: "__NAVIGATE__hallway-kitchen",
+        use: "__NAVIGATE__hallway-kitchen",
       },
     },
   ];
@@ -136,20 +147,25 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
     const verb = gameState.selectedVerb;
     if (verb) {
       const interaction = hotspot.interactions[verb];
-      if (typeof interaction === 'string' && interaction.startsWith('__NAVIGATE__')) {
-        const targetRoom = interaction.replace('__NAVIGATE__', '');
+      if (typeof interaction === "string" && interaction.startsWith("__NAVIGATE__")) {
+        const targetRoom = interaction.replace("__NAVIGATE__", "");
         onChangeRoom(targetRoom);
         return;
       }
     }
     // Default: doors auto-open when no verb selected
-    if (!verb && hotspot.interactions.open && typeof hotspot.interactions.open === 'string' && (hotspot.interactions.open as string).startsWith('__NAVIGATE__')) {
-      onChangeRoom((hotspot.interactions.open as string).replace('__NAVIGATE__', ''));
+    if (
+      !verb &&
+      hotspot.interactions.open &&
+      typeof hotspot.interactions.open === "string" &&
+      (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
+    ) {
+      onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
       return;
     }
     // For the kitchen direction, any click navigates
-    if (hotspot.id === 'kitchen-direction' && !verb) {
-      onChangeRoom('hallway-kitchen');
+    if (hotspot.id === "kitchen-direction" && !verb) {
+      onChangeRoom("hallway-kitchen");
       return;
     }
     onHotspotClick(hotspot);
@@ -157,10 +173,7 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
 
   return (
     <div className={`relative w-full h-full ${cursorClass}`}>
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${hallwayBackground})` }}
-      />
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${hallwayBackground})` }} />
 
       {/* Navigation arrow indicator at bottom */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
@@ -170,7 +183,7 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       {hotspots.map((hotspot) => (
         <div
           key={hotspot.id}
-          className={`absolute cursor-pointer transition-colors rounded ${debugMode ? 'border-2 border-green-400/70 bg-green-400/15' : 'hover:bg-white/10'}`}
+          className={`absolute cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
           style={{
             left: `${hotspot.position.x - hotspot.width / 2}%`,
             top: `${hotspot.position.y - hotspot.height / 2}%`,
@@ -178,7 +191,7 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
             height: `${hotspot.height}%`,
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
-          onMouseLeave={() => onHotspotHover('')}
+          onMouseLeave={() => onHotspotHover("")}
           onClick={() => handleHotspotClick(hotspot)}
         >
           {debugMode && (
