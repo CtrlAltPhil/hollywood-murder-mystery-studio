@@ -174,7 +174,7 @@ export function BackyardScene({
         alt=""
         className="absolute pointer-events-none z-10"
         style={{
-          left: "20%",
+          left: "21%",
           top: "18%",
           width: "45%",
           height: "75%",
