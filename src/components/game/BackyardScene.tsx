@@ -145,6 +145,20 @@ export function BackyardScene({ gameState, onHotspotHover, onHotspotClick, onCha
         style={{ backgroundImage: `url(${backyardBackground})` }}
       />
 
+      {/* Animated waterfall from cherub into pond */}
+      <img
+        src={waterfallFrames[waterfallFrame]}
+        alt=""
+        className="absolute pointer-events-none z-10"
+        style={{
+          left: '38%',
+          top: '28%',
+          width: '12%',
+          height: '52%',
+          objectFit: 'contain',
+        }}
+      />
+
       {/* Navigation indicator */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back Inside ▼
