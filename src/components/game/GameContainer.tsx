@@ -285,6 +285,14 @@ export function GameContainer() {
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
+          
+          {/* Room transition overlay - fade from black */}
+          <div 
+            className={`absolute inset-0 bg-black z-40 pointer-events-none transition-opacity duration-500 ease-in-out ${
+              roomTransition ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+          
           <DebugGrid visible={debugMode} />
 
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
