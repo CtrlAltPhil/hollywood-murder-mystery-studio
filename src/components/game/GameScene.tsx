@@ -266,7 +266,7 @@ export function GameScene({
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
       {/* Table with props */}
-      <div className="absolute bottom-[5%] left-[22%] z-10">
+      <div className="absolute bottom-[5%] left-[22%] z-10 pointer-events-none">
         <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-12 pixelated object-contain" />
@@ -274,7 +274,7 @@ export function GameScene({
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
-      <div className="absolute bottom-[1%] right-[15%] transform -rotate-90 z-10">
+      <div className="absolute bottom-[1%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
         <img
           src={losCabosImage}
           alt="Los Cabos"
@@ -291,7 +291,7 @@ export function GameScene({
 
       {/* Dagger near the body */}
       {!gameState.flags.daggerTaken && (
-        <div className="absolute bottom-[5%] right-[8%] z-[15]">
+        <div className="absolute bottom-[5%] right-[8%] z-[15] pointer-events-none">
           <img
             src={daggerImage}
             alt="Bloody Dagger"
@@ -302,7 +302,7 @@ export function GameScene({
       )}
 
       {/* Surviving characters — same h-44 and bottom-[3%] as IntroSequence */}
-      <div className="absolute bottom-[3%] left-[55%] z-20">
+      <div className="absolute bottom-[3%] left-[55%] z-20 pointer-events-none">
         <img src={carlImage} alt="Carl" className="h-44 pixelated object-contain" />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
@@ -312,7 +312,7 @@ export function GameScene({
         )}
       </div>
 
-      <div className="absolute bottom-[3%] left-[8%] z-20">
+      <div className="absolute bottom-[3%] left-[8%] z-20 pointer-events-none">
         <img src={ladyImage} alt="Lady Fantastique" className="h-44 pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
@@ -322,7 +322,7 @@ export function GameScene({
         )}
       </div>
 
-      <div className="absolute bottom-[3%] left-[35%] z-20">
+      <div className="absolute bottom-[3%] left-[35%] z-20 pointer-events-none">
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
@@ -363,7 +363,7 @@ export function GameScene({
         return (
           <div
             key={hotspot.id}
-            className={`absolute cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
+            className={`absolute z-30 cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
             style={{
               left: `${hotspot.position.x - hotspot.width / 2}%`,
               top: `${hotspot.position.y - hotspot.height / 2}%`,
