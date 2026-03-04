@@ -275,7 +275,7 @@ export function GameScene({
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
-      <div className="absolute bottom-[-2%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
+      <div className="absolute bottom-[-6%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
         <img
           src={losCabosDeadImage}
           alt="Los Cabos"
@@ -296,7 +296,7 @@ export function GameScene({
           <img
             src={daggerImage}
             alt="Bloody Dagger"
-            className="h-12 pixelated object-contain transform rotate-45"
+            className="h-14 pixelated object-contain transform rotate-45"
             style={{ filter: "drop-shadow(0 0 8px rgba(180,0,0,0.6))" }}
           />
         </div>
