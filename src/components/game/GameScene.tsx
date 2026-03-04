@@ -274,7 +274,7 @@ export function GameScene({
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
-      <div className="absolute bottom-[2%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
+      <div className="absolute bottom-[0%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
         <img
           src={losCabosImage}
           alt="Los Cabos"
