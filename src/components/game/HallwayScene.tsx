@@ -74,9 +74,9 @@ export function HallwayScene({
     {
       id: "los-cabos-room-door",
       name: "Los Cabos' Room",
-      position: { x: 42, y: 55 },
+      position: { x: 42, y: 50 },
       width: 10,
-      height: 50,
+      height: 20,
       interactions: {
         look: "The door to Los Cabos' room. Poor guy...",
         open: "__NAVIGATE__los-cabos-room",
