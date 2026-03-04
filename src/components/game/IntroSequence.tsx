@@ -5,6 +5,7 @@ import elFuegoSprite from '@/assets/characters/el-fuego.png';
 import elFuegoSprite2 from '@/assets/characters/el-fuego-2.png';
 import ladySprite from '@/assets/characters/lady.png';
 import losCabosSprite from '@/assets/characters/los-cabos.png';
+import losCabosDeadSprite from '@/assets/characters/los-cabos-dead.png';
 import carlSprite from '@/assets/characters/carl.png';
 import daggerImage from '@/assets/props/dagger.png';
 import wineGlassesImage from '@/assets/props/wine-glasses.png';
