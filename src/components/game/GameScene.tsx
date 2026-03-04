@@ -303,7 +303,7 @@ export function GameScene({
 
       {/* Surviving characters — same h-44 and bottom-[3%] as IntroSequence */}
       <div className="absolute bottom-[3%] left-[55%] z-20 pointer-events-none">
-        <img src={carlImage} alt="Carl" className="h-44 pixelated object-contain" />
+        <img src={carlImage} alt="Carl" className="h-60 pixelated object-contain" />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Carl"]}
@@ -313,7 +313,7 @@ export function GameScene({
       </div>
 
       <div className="absolute bottom-[3%] left-[8%] z-20 pointer-events-none">
-        <img src={ladyImage} alt="Lady Fantastique" className="h-44 pixelated object-contain" />
+        <img src={ladyImage} alt="Lady Fantastique" className="h-60 pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -326,7 +326,7 @@ export function GameScene({
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
-          className="h-44 pixelated object-contain transition-opacity duration-300"
+          className="h-60 pixelated object-contain transition-opacity duration-300"
         />
         {shockBubbles["Duke Extreme"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
