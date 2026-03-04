@@ -168,6 +168,20 @@ export function BackyardScene({
     <div className={`relative w-full h-full ${cursorClass}`}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backyardBackground})` }} />
 
+      {/* Waterfall animation */}
+      <img
+        src={waterfallFrames[waterfallFrame]}
+        alt=""
+        className="absolute pointer-events-none z-10"
+        style={{
+          left: '42%',
+          top: '32%',
+          width: '16%',
+          height: '84%',
+          objectFit: 'fill',
+        }}
+      />
+
       {/* Navigation indicator */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back Inside ▼
