@@ -7,6 +7,7 @@ interface StudySceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
+  debugMode?: boolean;
 }
 
 function getCursorClass(verb: Verb | null): string {
@@ -19,7 +20,7 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom }: StudySceneProps) {
+export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: StudySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -151,7 +152,7 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
       {hotspots.map((hotspot) => (
         <div
           key={hotspot.id}
-          className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
+          className={`absolute cursor-pointer transition-colors rounded ${debugMode ? 'border-2 border-green-400/70 bg-green-400/15' : 'hover:bg-white/10'}`}
           style={{
             left: `${hotspot.position.x - hotspot.width / 2}%`,
             top: `${hotspot.position.y - hotspot.height / 2}%`,
