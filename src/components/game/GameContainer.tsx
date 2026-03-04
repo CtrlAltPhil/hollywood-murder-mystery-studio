@@ -11,6 +11,7 @@ import { ProductionRoomScene } from './ProductionRoomScene';
 import { LadyFantastiqueRoomScene } from './LadyFantastiqueRoomScene';
 import { LosCabosRoomScene } from './LosCabosRoomScene';
 import { StudyScene } from './StudyScene';
+import { BackyardScene } from './BackyardScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
@@ -32,10 +33,8 @@ export function GameContainer() {
     changeRoom,
   } = useGameState();
 
-  // Audio engine
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
-  // Play background track when phase changes
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
   }, [gameState.phase, playBackgroundTrack]);
@@ -45,8 +44,8 @@ export function GameContainer() {
   const [sfxVolumeState, setSfxVolumeState] = useState(0.5);
   const [brightness, setBrightness] = useState(1);
   const [crashPlayed, setCrashPlayed] = useState(false);
+  const [debugMode, setDebugMode] = useState(false);
 
-  // Play crash sound when blackout phase starts
   useEffect(() => {
     if (gameState.phase === 'blackout' && !crashPlayed) {
       playSfx('crash');
@@ -77,6 +76,20 @@ export function GameContainer() {
     localStorage.setItem('hmm_save_game', JSON.stringify(gameState));
     alert('Game Saved Successfully!');
     setIsMenuOpen(false);
+  };
+
+  const handleLoadGame = () => {
+    const saveData = localStorage.getItem('hmm_save_game');
+    if (saveData) {
+      try {
+        const parsed = JSON.parse(saveData);
+        // Reload the page with save data flag
+        localStorage.setItem('hmm_load_pending', 'true');
+        window.location.reload();
+      } catch {
+        alert('Failed to load save data.');
+      }
+    }
   };
 
   const handleRestart = () => {
@@ -153,71 +166,36 @@ export function GameContainer() {
     playSfx('pickup');
   };
 
+  const menuProps = {
+    musicVolume: musicVolumeState,
+    sfxVolume: sfxVolumeState,
+    brightness,
+    onMusicVolumeChange: handleMusicVolumeChange,
+    onSfxVolumeChange: handleSfxVolumeChange,
+    onBrightnessChange: setBrightness,
+    debugMode,
+    onDebugModeToggle: setDebugMode,
+  };
+
   const renderCurrentRoom = () => {
+    const sceneProps = { gameState, onHotspotHover: sharedHotspotHover, onHotspotClick: sharedHotspotClick, onChangeRoom: handleChangeRoom, debugMode };
     switch (gameState.currentRoom) {
       case 'hallway':
-        return (
-          <HallwayScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <HallwayScene {...sceneProps} />;
       case 'hallway-kitchen':
-        return (
-          <HallwayKitchenScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <HallwayKitchenScene {...sceneProps} />;
       case 'kitchen':
-        return (
-          <KitchenScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <KitchenScene {...sceneProps} />;
       case 'production-room':
-        return (
-          <ProductionRoomScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <ProductionRoomScene {...sceneProps} />;
       case 'lady-fantastique-room':
-        return (
-          <LadyFantastiqueRoomScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <LadyFantastiqueRoomScene {...sceneProps} />;
       case 'los-cabos-room':
-        return (
-          <LosCabosRoomScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <LosCabosRoomScene {...sceneProps} />;
       case 'study':
-        return (
-          <StudyScene
-            gameState={gameState}
-            onHotspotHover={sharedHotspotHover}
-            onHotspotClick={sharedHotspotClick}
-            onChangeRoom={handleChangeRoom}
-          />
-        );
+        return <StudyScene {...sceneProps} />;
+      case 'backyard':
+        return <BackyardScene {...sceneProps} />;
       default:
         return (
           <GameScene
@@ -227,6 +205,7 @@ export function GameContainer() {
             onHotspotClick={sharedHotspotClick}
             onAddToInventory={handleAddToInventory}
             onChangeRoom={handleChangeRoom}
+            debugMode={debugMode}
           />
         );
     }
@@ -237,7 +216,11 @@ export function GameContainer() {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center">
         <div className="w-full max-w-5xl aspect-[4/3]">
-          <TitleScreen onStart={handleStart} />
+          <TitleScreen 
+            onStart={handleStart}
+            onLoadGame={handleLoadGame}
+            {...menuProps}
+          />
         </div>
       </div>
     );
@@ -247,10 +230,7 @@ export function GameContainer() {
   if (['intro', 'party', 'blackout'].includes(gameState.phase)) {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
-        {/* Intro matches the main game container size (4:3) but keeps content 16:9 (letterboxed) */}
         <div className="w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden relative flex items-center" style={{ filter: `brightness(${brightness})` }}>
-          
-          {/* Menu Button */}
           <div className="absolute top-4 right-4 z-50">
             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)} className="text-white/50 hover:text-white hover:bg-white/10">
               <Settings className="w-6 h-6" />
@@ -262,12 +242,7 @@ export function GameContainer() {
               onResume={() => setIsMenuOpen(false)}
               onSave={handleSave}
               onRestart={handleRestart}
-              musicVolume={musicVolumeState}
-              sfxVolume={sfxVolumeState}
-              brightness={brightness}
-              onMusicVolumeChange={handleMusicVolumeChange}
-              onSfxVolumeChange={handleSfxVolumeChange}
-              onBrightnessChange={setBrightness}
+              {...menuProps}
             />
           )}
 
@@ -286,12 +261,7 @@ export function GameContainer() {
   // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
-      {/* MASTER LAYOUT: 4:3 "Monitor" Container 
-        This contains both the 16:9 Scene and the bottom UI Bar.
-      */}
       <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
-        
-        {/* Menu Button */}
         <div className="absolute top-4 right-4 z-50">
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)} className="text-white/50 hover:text-white hover:bg-white/10">
             <Settings className="w-6 h-6" />
@@ -303,22 +273,13 @@ export function GameContainer() {
             onResume={() => setIsMenuOpen(false)}
             onSave={handleSave}
             onRestart={handleRestart}
-            musicVolume={musicVolumeState}
-            sfxVolume={sfxVolumeState}
-            brightness={brightness}
-            onMusicVolumeChange={handleMusicVolumeChange}
-            onSfxVolumeChange={handleSfxVolumeChange}
-            onBrightnessChange={setBrightness}
+            {...menuProps}
           />
         )}
         
-        {/* SCENE AREA: Forced 16:9 (aspect-video)
-          This ensures the floor is NEVER cut off. The scene renders exactly as drawn.
-        */}
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
 
-          {/* Dialog overlay */}
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
             <DialogBox
               node={gameState.dialogState.currentNode}
@@ -345,9 +306,6 @@ export function GameContainer() {
           )}
         </div>
 
-        {/* UI AREA: flex-1 
-          This fills the remaining "black space" at the bottom automatically.
-        */}
         <div className="w-full flex-1 z-10 min-h-0">
           <ScummUI
             selectedVerb={gameState.selectedVerb}
