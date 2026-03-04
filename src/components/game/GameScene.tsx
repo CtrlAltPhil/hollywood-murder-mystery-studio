@@ -144,7 +144,7 @@ export function GameScene({
     {
       id: "wine-glasses",
       name: "Wine Glasses",
-      position: { x: 26, y: 80 },
+      position: { x: 28, y: 76 },
       width: 5,
       height: 5,
       interactions: {
