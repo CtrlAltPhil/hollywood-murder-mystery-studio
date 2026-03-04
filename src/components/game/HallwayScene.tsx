@@ -38,7 +38,7 @@ export function HallwayScene({
     {
       id: "party-room-door",
       name: "Party Room Door",
-      position: { x: 82, y: 55 },
+      position: { x: 85, y: 55 },
       width: 12,
       height: 50,
       interactions: {
@@ -88,7 +88,7 @@ export function HallwayScene({
       name: "Duke Extreme's Door",
       position: { x: 68, y: 55 },
       width: 10,
-      height: 20,
+      height: 30,
       interactions: {
         look: "The door to Duke Extreme's Room. It's probably pretty extreme in there..",
       },
