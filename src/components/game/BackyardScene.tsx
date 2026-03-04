@@ -52,7 +52,7 @@ export function BackyardScene({
         // Otherwise, increment the frame number.
         return prev + 1;
       });
-    }, 16); // The new interval for speed.
+    }, 12); // The new interval for speed.
     return () => clearInterval(interval);
   }, [waterfallFrames.length]); // Ensure this effect is called correctly.
 
