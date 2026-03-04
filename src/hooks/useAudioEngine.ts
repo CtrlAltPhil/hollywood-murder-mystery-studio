@@ -554,6 +554,40 @@ export function useAudioEngine(): AudioEngine {
         ], bpm, 16);
         break;
       }
+      case 'backyard': {
+        // Outdoor night — crickets, gentle breeze, mysterious
+        const bpm = 60;
+        const melody: NoteEvent[] = [
+          { note: 'E4', time: 0, duration: 2 },
+          { note: 'G4', time: 2.5, duration: 1.5 },
+          { note: 'A4', time: 4.5, duration: 1 },
+          { note: 'G4', time: 6, duration: 2 },
+          { note: 'E4', time: 9, duration: 1.5 },
+          { note: 'D4', time: 11, duration: 1 },
+          { note: 'C4', time: 12, duration: 2 },
+          { note: 'E4', time: 14.5, duration: 1.5 },
+        ];
+        const crickets: NoteEvent[] = [
+          { note: 'E5', time: 0.5, duration: 0.05 }, { note: 'E5', time: 0.6, duration: 0.05 },
+          { note: 'E5', time: 2.5, duration: 0.05 }, { note: 'E5', time: 2.6, duration: 0.05 },
+          { note: 'E5', time: 5, duration: 0.05 },   { note: 'E5', time: 5.1, duration: 0.05 },
+          { note: 'E5', time: 7.5, duration: 0.05 }, { note: 'E5', time: 7.6, duration: 0.05 },
+          { note: 'E5', time: 10, duration: 0.05 },  { note: 'E5', time: 10.1, duration: 0.05 },
+          { note: 'E5', time: 12.5, duration: 0.05 },{ note: 'E5', time: 12.6, duration: 0.05 },
+        ];
+        const bass: NoteEvent[] = [
+          { note: 'A2', time: 0, duration: 4 },
+          { note: 'E2', time: 4, duration: 4 },
+          { note: 'C2', time: 8, duration: 4 },
+          { note: 'A2', time: 12, duration: 4 },
+        ];
+        scheduleLoop(ctx, gain, [
+          { notes: melody,    wave: 'sine',     baseVol: 0.09 },
+          { notes: crickets,  wave: 'square',   baseVol: 0.02 },
+          { notes: bass,      wave: 'triangle', baseVol: 0.06 },
+        ], bpm, 16);
+        break;
+      }
       default: {
         // Fallback: play the standard gameplay track
         currentPhaseRef.current = 'gameplay';
