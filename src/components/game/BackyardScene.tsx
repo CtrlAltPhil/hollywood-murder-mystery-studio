@@ -174,10 +174,10 @@ export function BackyardScene({
         alt=""
         className="absolute pointer-events-none z-10"
         style={{
-          left: "25%",
+          left: "20%",
           top: "18%",
-          width: "40%",
-          height: "70%",
+          width: "45%",
+          height: "75%",
           objectFit: "fill",
         }}
       />
