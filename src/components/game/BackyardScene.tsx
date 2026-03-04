@@ -63,9 +63,9 @@ export function BackyardScene({
     {
       id: "left-column",
       name: "Stone Column",
-      position: { x: 10, y: 50 },
+      position: { x: 30, y: 50 },
       width: 10,
-      height: 60,
+      height: 65,
       interactions: {
         look: "An ornate stone column. Very theatrical... fits the Hollywood aesthetic.",
         push: "It's firmly cemented in place.",
@@ -74,9 +74,9 @@ export function BackyardScene({
     {
       id: "right-column",
       name: "Stone Column",
-      position: { x: 90, y: 50 },
+      position: { x: 70, y: 50 },
       width: 10,
-      height: 60,
+      height: 65,
       interactions: {
         look: "Another stone column. There are fresh scratch marks near the base.",
         push: "It won't budge.",
@@ -85,9 +85,9 @@ export function BackyardScene({
     {
       id: "hedge",
       name: "Overgrown Hedge",
-      position: { x: 55, y: 40 },
+      position: { x: 55, y: 50 },
       width: 40,
-      height: 30,
+      height: 20,
       interactions: {
         look: "A dense, overgrown hedge. Something glints between the thorny branches.",
         push: "I push the branches aside but they spring right back. The thorns sting.",
