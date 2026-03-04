@@ -8,7 +8,6 @@ import elFuegoImage from "@/assets/characters/el-fuego.png";
 import elFuegoImage2 from "@/assets/characters/el-fuego-2.png";
 import ladyImage from "@/assets/characters/lady.png";
 import losCabosImage from "@/assets/characters/los-cabos.png";
-import losCabosDeadImage from "@/assets/characters/los-cabos-dead.png";
 import tableImage from "@/assets/props/table.png";
 import wineGlassesImage from "@/assets/props/wine-glasses.png";
 import daggerImage from "@/assets/props/dagger.png";
@@ -275,9 +274,9 @@ export function GameScene({
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
-      <div className="absolute bottom-[-2%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
+      <div className="absolute bottom-[0%] right-[15%] transform -rotate-90 z-5 pointer-events-none">
         <img
-          src={losCabosDeadImage}
+          src={losCabosImage}
           alt="Los Cabos"
           className="h-60 pixelated object-contain opacity-90"
           style={{ filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))" }}
