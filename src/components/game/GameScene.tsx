@@ -278,7 +278,7 @@ export function GameScene({
         <img
           src={losCabosDeadImage}
           alt="Los Cabos"
-          className="h-60 pixelated object-contain opacity-90"
+          className="h-60 pixelated object-contain opacity-95"
           style={{ filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))" }}
         />
       </div>
