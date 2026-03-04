@@ -1,16 +1,33 @@
 import { useState, useEffect, useCallback } from 'react';
 import gbStudiosBackground from '@/assets/backgrounds/gb-studios.jpg';
+import { GameMenu } from './GameMenu';
+import { Button } from '@/components/ui/button';
+import { Settings } from 'lucide-react';
 
 interface TitleScreenProps {
   onStart: () => void;
+  onLoadGame?: () => void;
+  musicVolume: number;
+  sfxVolume: number;
+  brightness: number;
+  onMusicVolumeChange: (v: number) => void;
+  onSfxVolumeChange: (v: number) => void;
+  onBrightnessChange: (v: number) => void;
+  debugMode: boolean;
+  onDebugModeToggle: (v: boolean) => void;
 }
 
-export function TitleScreen({ onStart }: TitleScreenProps) {
+export function TitleScreen({ 
+  onStart, onLoadGame, musicVolume, sfxVolume, brightness,
+  onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange,
+  debugMode, onDebugModeToggle
+}: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
   const [carPosition, setCarPosition] = useState(-250);
   const [easterEggVisible, setEasterEggVisible] = useState(false);
   const [fireflyClickCount, setFireflyClickCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const FIREFLY_MESSAGES = [
     "It's just a firefly.",
@@ -29,6 +46,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       setEasterEggVisible(true);
     }
   };
+
   // Lightning effect
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -36,12 +54,9 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
 
     const triggerLightning = () => {
       setShowLightning(true);
-      
-      // Clear any previous flicker timeouts
       flickerTimeouts.forEach(clearTimeout);
       flickerTimeouts = [];
 
-      // Create flicker effect
       const t1 = setTimeout(() => setShowLightning(false), 150);
       const t2 = setTimeout(() => {
         setShowLightning(true);
@@ -50,13 +65,10 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       }, 200);
       
       flickerTimeouts.push(t1, t2);
-
-      // Schedule next lightning with new random delay
       const nextDelay = 2000 + Math.random() * 5000;
       timeoutId = setTimeout(triggerLightning, nextDelay);
     };
 
-    // Start the loop
     const initialDelay = 1000 + Math.random() * 2000;
     timeoutId = setTimeout(triggerLightning, initialDelay);
 
@@ -74,26 +86,23 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
 
     const animate = () => {
       const now = performance.now();
-
-      // Reset car position every 10 seconds
       if (now - lastSpawnTime > SPAWN_INTERVAL) {
         setCarPosition(-250);
         lastSpawnTime = now;
       } else {
-        // Move car
         setCarPosition(prev => {
           if (prev > window.innerWidth + 250) return prev;
           return prev + 3;
         });
       }
-      
       animationFrameId = requestAnimationFrame(animate);
     };
 
     animationFrameId = requestAnimationFrame(animate);
-
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
+
+  const hasSaveData = !!localStorage.getItem('hmm_save_game');
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-background">
@@ -116,27 +125,49 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
       {/* Stormy Sky Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(220,30%,8%,0.3)] via-transparent to-[hsl(220,30%,5%,0.5)]" />
 
-      {/* Car Silhouette - at bottom on the street */}
+      {/* Menu Button */}
+      <div className="absolute top-4 right-4 z-40">
+        <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)} className="text-white/50 hover:text-white hover:bg-white/10">
+          <Settings className="w-6 h-6" />
+        </Button>
+      </div>
+
+      {/* Menu Overlay */}
+      {isMenuOpen && (
+        <GameMenu 
+          onResume={() => setIsMenuOpen(false)}
+          onSave={() => {}}
+          onRestart={() => {}}
+          onLoadGame={hasSaveData ? onLoadGame : undefined}
+          musicVolume={musicVolume}
+          sfxVolume={sfxVolume}
+          brightness={brightness}
+          onMusicVolumeChange={onMusicVolumeChange}
+          onSfxVolumeChange={onSfxVolumeChange}
+          onBrightnessChange={onBrightnessChange}
+          isTitleScreen
+          debugMode={debugMode}
+          onDebugModeToggle={onDebugModeToggle}
+        />
+      )}
+
+      {/* Car Silhouette */}
       <div 
         className="absolute bottom-[2%] h-16 transition-none"
         style={{ left: carPosition }}
       >
         <div className="relative">
-          {/* Simple car shape using CSS */}
           <div className="w-48 h-12 bg-[hsl(220,20%,15%)] rounded-t-xl relative">
             <div className="absolute -top-6 left-8 w-28 h-8 bg-[hsl(220,20%,12%)] rounded-t-lg" />
-            {/* Headlights */}
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-yellow-300 rounded-full opacity-80" />
-            {/* Taillights */}
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full opacity-80" />
           </div>
-          {/* Wheels */}
           <div className="absolute -bottom-4 left-6 w-8 h-8 bg-[hsl(220,10%,10%)] rounded-full" />
           <div className="absolute -bottom-4 right-6 w-8 h-8 bg-[hsl(220,10%,10%)] rounded-full" />
         </div>
       </div>
 
-      {/* Title - positioned above the building */}
+      {/* Title */}
       <div className="absolute top-[8%] left-0 right-0 text-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-wider title-glow text-yellow-400">
           HOLLYWOOD
@@ -146,7 +177,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         </h2>
       </div>
 
-      {/* Press Start Button - below GB Studios sign, above door */}
+      {/* Press Start Button */}
       <div className="absolute top-[52%] left-0 right-0 text-center">
         <button
           onClick={onStart}
@@ -156,7 +187,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         </button>
       </div>
 
-      {/* Fireflies around lamp posts */}
+      {/* Fireflies */}
       {[
         { id: 'ff-easter', x: 8, y: 62, delay: 0, isEasterEgg: true },
         { id: 'ff2', x: 11, y: 58, delay: 1.2, isEasterEgg: false },
@@ -177,7 +208,6 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
           }}
           onClick={ff.isEasterEgg ? handleFireflyClick : undefined}
         >
-          {/* Speech bubble for easter egg firefly */}
           {ff.isEasterEgg && speechBubble && (
             <div className="absolute -top-10 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white text-black text-[9px] px-2 py-1 rounded-md shadow-lg font-pixel animate-[fade-in_0.2s_ease-out] z-30">
               {speechBubble}
@@ -224,7 +254,7 @@ export function TitleScreen({ onStart }: TitleScreenProps) {
         }}
       />
 
-      {/* Optional Scanlines */}
+      {/* Scanlines */}
       <div className="absolute inset-0 scanlines pointer-events-none" />
     </div>
   );

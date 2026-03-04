@@ -7,6 +7,7 @@ interface HallwaySceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
+  debugMode?: boolean;
 }
 
 function getCursorClass(verb: Verb | null): string {
@@ -19,7 +20,7 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom }: HallwaySceneProps) {
+export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: HallwaySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -106,6 +107,18 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       },
     },
     {
+      id: 'french-doors',
+      name: 'French Doors (Backyard)',
+      position: { x: 50, y: 40 },
+      width: 12,
+      height: 35,
+      interactions: {
+        look: 'Elegant french doors leading to the backyard garden.',
+        open: '__NAVIGATE__backyard',
+        use: '__NAVIGATE__backyard',
+      },
+    },
+    {
       id: 'kitchen-direction',
       name: 'Kitchen Hallway',
       position: { x: 50, y: 95 },
@@ -157,7 +170,7 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
       {hotspots.map((hotspot) => (
         <div
           key={hotspot.id}
-          className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
+          className={`absolute cursor-pointer transition-colors rounded ${debugMode ? 'border-2 border-green-400/70 bg-green-400/15' : 'hover:bg-white/10'}`}
           style={{
             left: `${hotspot.position.x - hotspot.width / 2}%`,
             top: `${hotspot.position.y - hotspot.height / 2}%`,
@@ -167,7 +180,13 @@ export function HallwayScene({ gameState, onHotspotHover, onHotspotClick, onChan
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover('')}
           onClick={() => handleHotspotClick(hotspot)}
-        />
+        >
+          {debugMode && (
+            <span className="absolute top-0 left-0 text-[8px] text-green-300 bg-black/70 px-1 rounded-br">
+              {hotspot.id}
+            </span>
+          )}
+        </div>
       ))}
     </div>
   );

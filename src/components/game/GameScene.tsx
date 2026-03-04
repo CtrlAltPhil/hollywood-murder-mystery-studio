@@ -19,6 +19,7 @@ interface GameSceneProps {
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onAddToInventory: (item: { id: string; name: string; image: string }) => void;
   onChangeRoom: (roomId: string) => void;
+  debugMode?: boolean;
 }
 
 // Simplified hotspot for the scene
@@ -56,6 +57,7 @@ export function GameScene({
   onHotspotClick,
   onAddToInventory,
   onChangeRoom,
+  debugMode,
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
@@ -361,7 +363,7 @@ export function GameScene({
         return (
           <div
             key={hotspot.id}
-            className="absolute cursor-pointer hover:bg-white/10 transition-colors rounded"
+            className={`absolute cursor-pointer transition-colors rounded ${debugMode ? 'border-2 border-green-400/70 bg-green-400/15' : 'hover:bg-white/10'}`}
             style={{
               left: `${hotspot.position.x - hotspot.width / 2}%`,
               top: `${hotspot.position.y - hotspot.height / 2}%`,
