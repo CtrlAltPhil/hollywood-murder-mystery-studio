@@ -266,7 +266,7 @@ export function GameScene({
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
       {/* Table with props */}
-      <div className="absolute bottom-[3%] left-[20%] z-10 pointer-events-none">
+      <div className="absolute bottom-[2%] left-[20%] z-10 pointer-events-none">
         <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
