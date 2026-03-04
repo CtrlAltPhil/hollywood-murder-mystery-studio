@@ -52,8 +52,8 @@ export function BackyardScene({
       id: "pond",
       name: "Koi Pond",
       position: { x: 50, y: 80 },
-      width: 35,
-      height: 25,
+      width: 25,
+      height: 20,
       interactions: {
         look: "A small koi pond. The water is dark and murky tonight. I can barely see the bottom.",
         use: "I'm not sticking my hand in there.",
