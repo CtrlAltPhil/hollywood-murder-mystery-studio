@@ -176,7 +176,7 @@ export function BackyardScene({
         style={{
           left: "28%",
           top: "18%",
-          width: "30%",
+          width: "35%",
           height: "70%",
           objectFit: "fill",
         }}
