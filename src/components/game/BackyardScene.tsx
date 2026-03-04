@@ -45,7 +45,7 @@ export function BackyardScene({
   useEffect(() => {
     const interval = setInterval(() => {
       setWaterfallFrame((prev) => (prev + 1) % 4);
-    }, 250);
+    }, 100);
     return () => clearInterval(interval);
   }, []);
 
