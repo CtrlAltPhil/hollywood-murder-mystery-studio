@@ -277,7 +277,7 @@ export function GameScene({
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
       <div className="absolute bottom-[-2%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
         <img
-          src={losCabosImage}
+          src={losCabosDeadImage}
           alt="Los Cabos"
           className="h-60 pixelated object-contain opacity-90"
           style={{ filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))" }}

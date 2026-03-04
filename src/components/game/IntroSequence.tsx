@@ -235,7 +235,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           {/* Los Cabos - body on the floor (victim) */}
           <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
             <img 
-              src={losCabosSprite} 
+               src={losCabosDeadSprite} 
               alt="Los Cabos - Victim"
               className="h-36 pixelated object-contain opacity-90"
               style={{ filter: 'grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))' }}
