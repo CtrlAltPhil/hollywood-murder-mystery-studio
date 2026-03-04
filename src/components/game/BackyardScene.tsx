@@ -105,6 +105,16 @@ export function BackyardScene({
       },
     },
     {
+      id: "frog",
+      name: "Frog",
+      position: { x: 63, y: 85 },
+      width: 5,
+      height: 5,
+      interactions: {
+        look: "A large frog is enjoying his view by the pond.",
+      },
+    },
+    {
       id: "back-inside",
       name: "French Doors (Inside)",
       position: { x: 50, y: 95 },
