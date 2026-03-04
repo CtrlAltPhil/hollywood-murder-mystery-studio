@@ -57,6 +57,7 @@ export function GameScene({
   onHotspotClick,
   onAddToInventory,
   onChangeRoom,
+  debugMode,
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
