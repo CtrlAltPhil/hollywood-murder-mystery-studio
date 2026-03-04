@@ -30,6 +30,14 @@ function getCursorClass(verb: Verb | null): string {
 export function BackyardScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: BackyardSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
+  // Waterfall animation - cycle through 4 frames
+  const [waterfallFrame, setWaterfallFrame] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWaterfallFrame((prev) => (prev + 1) % 4);
+    }, 250);
+    return () => clearInterval(interval);
+  }, []);
   const hotspots: SimpleHotspot[] = [
     {
       id: 'cherub-statue',
