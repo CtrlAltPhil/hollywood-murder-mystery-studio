@@ -44,10 +44,17 @@ export function BackyardScene({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setWaterfallFrame((prev) => (prev + 1) % 4);
-    }, 16);
+      setWaterfallFrame((prev) => {
+        // If it's the last frame, go back to 0.
+        if (prev === waterfallFrames.length - 1) {
+          return 0;
+        }
+        // Otherwise, increment the frame number.
+        return prev + 1;
+      });
+    }, 16); // The new interval for speed.
     return () => clearInterval(interval);
-  }, []);
+  }, [waterfallFrames.length]); // Ensure this effect is called correctly.
 
   const hotspots: SimpleHotspot[] = [
     {
