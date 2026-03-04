@@ -46,6 +46,7 @@ export function GameContainer() {
   const [brightness, setBrightness] = useState(1);
   const [crashPlayed, setCrashPlayed] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
+  const [roomTransition, setRoomTransition] = useState(false);
 
   useEffect(() => {
     if (gameState.phase === 'blackout' && !crashPlayed) {
@@ -100,10 +101,14 @@ export function GameContainer() {
   };
 
   const handleChangeRoom = (roomId: string) => {
-    changeRoom(roomId, { x: 400, y: 350 });
-    selectVerb(null);
-    setActionText('');
-    playRoomAmbience(roomId);
+    setRoomTransition(true);
+    setTimeout(() => {
+      changeRoom(roomId, { x: 400, y: 350 });
+      selectVerb(null);
+      setActionText('');
+      playRoomAmbience(roomId);
+      setTimeout(() => setRoomTransition(false), 50);
+    }, 400);
   };
 
   const sharedHotspotHover = (text: string) => {
@@ -280,6 +285,14 @@ export function GameContainer() {
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
+          
+          {/* Room transition overlay - fade from black */}
+          <div 
+            className={`absolute inset-0 bg-black z-40 pointer-events-none transition-opacity duration-500 ease-in-out ${
+              roomTransition ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
+          
           <DebugGrid visible={debugMode} />
 
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
