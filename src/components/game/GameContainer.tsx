@@ -15,6 +15,7 @@ import { BackyardScene } from './BackyardScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
+import { DebugGrid } from './DebugGrid';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
