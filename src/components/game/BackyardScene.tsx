@@ -1,6 +1,13 @@
+import { useState, useEffect } from 'react';
 import { GameState, Verb } from '@/types/game';
 import backyardBackground from '@/assets/backgrounds/backyard.png';
+import waterfall1 from '@/assets/props/waterfall1.png';
+import waterfall2 from '@/assets/props/waterfall2.png';
+import waterfall3 from '@/assets/props/waterfall3.png';
+import waterfall4 from '@/assets/props/waterfall4.png';
 import { SimpleHotspot } from './GameScene';
+
+const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
 
 interface BackyardSceneProps {
   gameState: GameState;
@@ -23,6 +30,14 @@ function getCursorClass(verb: Verb | null): string {
 export function BackyardScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: BackyardSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
+  // Waterfall animation - cycle through 4 frames
+  const [waterfallFrame, setWaterfallFrame] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWaterfallFrame((prev) => (prev + 1) % 4);
+    }, 250);
+    return () => clearInterval(interval);
+  }, []);
   const hotspots: SimpleHotspot[] = [
     {
       id: 'cherub-statue',
@@ -128,6 +143,20 @@ export function BackyardScene({ gameState, onHotspotHover, onHotspotClick, onCha
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${backyardBackground})` }}
+      />
+
+      {/* Animated waterfall from cherub into pond */}
+      <img
+        src={waterfallFrames[waterfallFrame]}
+        alt=""
+        className="absolute pointer-events-none z-10"
+        style={{
+          left: '38%',
+          top: '28%',
+          width: '12%',
+          height: '52%',
+          objectFit: 'contain',
+        }}
       />
 
       {/* Navigation indicator */}
