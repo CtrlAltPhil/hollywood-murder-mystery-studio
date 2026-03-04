@@ -85,8 +85,8 @@ export function BackyardScene({
     {
       id: "hedge",
       name: "Overgrown Hedge",
-      position: { x: 55, y: 50 },
-      width: 40,
+      position: { x: 50, y: 50 },
+      width: 25,
       height: 20,
       interactions: {
         look: "A dense, overgrown hedge. Something glints between the thorny branches.",
