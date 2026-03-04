@@ -101,10 +101,14 @@ export function GameContainer() {
   };
 
   const handleChangeRoom = (roomId: string) => {
-    changeRoom(roomId, { x: 400, y: 350 });
-    selectVerb(null);
-    setActionText('');
-    playRoomAmbience(roomId);
+    setRoomTransition(true);
+    setTimeout(() => {
+      changeRoom(roomId, { x: 400, y: 350 });
+      selectVerb(null);
+      setActionText('');
+      playRoomAmbience(roomId);
+      setTimeout(() => setRoomTransition(false), 50);
+    }, 400);
   };
 
   const sharedHotspotHover = (text: string) => {
