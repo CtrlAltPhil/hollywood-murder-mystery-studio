@@ -15,6 +15,7 @@ import { BackyardScene } from './BackyardScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
+import { DebugGrid } from './DebugGrid';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
@@ -279,6 +280,7 @@ export function GameContainer() {
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
+          <DebugGrid visible={debugMode} />
 
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
             <DialogBox
