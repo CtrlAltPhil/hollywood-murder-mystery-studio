@@ -39,6 +39,16 @@ export function BackyardScene({
 }: BackyardSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
+  const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
+  const [waterfallFrame, setWaterfallFrame] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWaterfallFrame((prev) => (prev + 1) % 4);
+    }, 250);
+    return () => clearInterval(interval);
+  }, []);
+
   const hotspots: SimpleHotspot[] = [
     {
       id: "cherub-statue",
