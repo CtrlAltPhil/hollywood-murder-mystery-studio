@@ -82,10 +82,9 @@ export function GameScene({
   ];
 
   const [shockBubbles, setShockBubbles] = useState<Record<string, string>>({});
-  const [shockDone, setShockDone] = useState(false);
 
   useEffect(() => {
-    if (shockDone) return;
+    if (gameState.flags.shockReactionDone) return;
     const timers: NodeJS.Timeout[] = [];
     SHOCK_MESSAGES.forEach(({ speaker, delay, duration, text }) => {
       timers.push(
@@ -103,11 +102,11 @@ export function GameScene({
         }, delay + duration),
       );
     });
-    // Mark shock sequence done after all messages
+    // Mark shock sequence done after all messages (persisted in game flags)
     const lastMsg = SHOCK_MESSAGES[SHOCK_MESSAGES.length - 1];
-    timers.push(setTimeout(() => setShockDone(true), lastMsg.delay + lastMsg.duration));
+    timers.push(setTimeout(() => setFlag("shockReactionDone", true), lastMsg.delay + lastMsg.duration));
     return () => timers.forEach(clearTimeout);
-  }, [shockDone]);
+  }, [gameState.flags.shockReactionDone]);
 
   // Define hotspots — positions must match the visual elements exactly
   // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
