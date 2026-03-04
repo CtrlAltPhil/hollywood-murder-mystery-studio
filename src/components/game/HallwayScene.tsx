@@ -76,7 +76,7 @@ export function HallwayScene({
       name: "Los Cabos' Room",
       position: { x: 42, y: 50 },
       width: 10,
-      height: 20,
+      height: 15,
       interactions: {
         look: "The door to Los Cabos' room. Poor guy...",
         open: "__NAVIGATE__los-cabos-room",
@@ -84,15 +84,13 @@ export function HallwayScene({
       },
     },
     {
-      id: "exit-door",
-      name: "Exit",
-      position: { x: 55, y: 50 },
+      id: "duke-extreme-room-door",
+      name: "Duke Extreme's Door",
+      position: { x: 68, y: 55 },
       width: 10,
-      height: 40,
+      height: 20,
       interactions: {
-        look: "The main exit. Police are outside — I can't leave yet.",
-        open: "The police have barricaded the exit. No one leaves until the case is solved.",
-        use: "I can't leave until I figure out who killed Los Cabos.",
+        look: "The door to Duke Extreme's Room. It's probably pretty extreme in there..",
       },
     },
     {
@@ -100,7 +98,7 @@ export function HallwayScene({
       name: "Study",
       position: { x: 68, y: 55 },
       width: 10,
-      height: 50,
+      height: 15,
       interactions: {
         look: 'A door marked "Study Room."',
         open: "__NAVIGATE__study",
