@@ -46,6 +46,7 @@ export function GameContainer() {
   const [brightness, setBrightness] = useState(1);
   const [crashPlayed, setCrashPlayed] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
+  const [roomTransition, setRoomTransition] = useState(false);
 
   useEffect(() => {
     if (gameState.phase === 'blackout' && !crashPlayed) {
