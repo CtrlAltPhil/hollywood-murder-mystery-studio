@@ -280,6 +280,7 @@ export function GameContainer() {
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
+          <DebugGrid visible={debugMode} />
 
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
             <DialogBox
