@@ -115,7 +115,7 @@ export function GameScene({
     {
       id: "door",
       name: "Door",
-      position: { x: 4, y: 65 },
+      position: { x: 7, y: 65 },
       width: 7,
       height: 50,
       interactions: {
@@ -209,7 +209,7 @@ export function GameScene({
     {
       id: "lady",
       name: "Lady Fantastique",
-      position: { x: 13, y: 82 },
+      position: { x: 15, y: 82 },
       width: 10,
       height: 32,
       interactions: {
@@ -267,9 +267,9 @@ export function GameScene({
 
       {/* Table with props */}
       <div className="absolute bottom-[5%] left-[22%] z-10 pointer-events-none">
-        <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
+        <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
-          <img src={wineGlassesImage} alt="Wine Glasses" className="h-12 pixelated object-contain" />
+          <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
         </div>
       </div>
 
