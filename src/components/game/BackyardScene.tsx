@@ -1,5 +1,10 @@
+import { useState, useEffect } from "react";
 import { GameState, Verb } from "@/types/game";
 import backyardBackground from "@/assets/backgrounds/backyard.png";
+import waterfall1 from "@/assets/props/waterfall1.png";
+import waterfall2 from "@/assets/props/waterfall2.png";
+import waterfall3 from "@/assets/props/waterfall3.png";
+import waterfall4 from "@/assets/props/waterfall4.png";
 import { SimpleHotspot } from "./GameScene";
 
 interface BackyardSceneProps {
