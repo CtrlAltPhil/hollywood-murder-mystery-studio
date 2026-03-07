@@ -223,11 +223,11 @@ export function KitchenScene({
       </div>
 
       {/* Sous Chef Sally — right station */}
-      <div className="absolute bottom-[3%] right-[10%] z-20 pointer-events-none">
+      <div className="absolute bottom-[10%] right-[20%] z-20 pointer-events-none">
         <img
           src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
           alt="Sous Chef Sally"
-          className="h-60 pixelated object-contain transition-opacity duration-300"
+          className="h-72 pixelated object-contain transition-opacity duration-300"
         />
       </div>
 
