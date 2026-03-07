@@ -184,7 +184,8 @@ export function GameContainer() {
   };
 
   const renderCurrentRoom = () => {
-    const sceneProps = { gameState, onHotspotHover: sharedHotspotHover, onHotspotClick: sharedHotspotClick, onChangeRoom: handleChangeRoom, debugMode };
+    const handleEmptyClick = () => { if (gameState.selectedVerb) { selectVerb(null); } };
+    const sceneProps = { gameState, onHotspotHover: sharedHotspotHover, onHotspotClick: sharedHotspotClick, onChangeRoom: handleChangeRoom, onEmptyClick: handleEmptyClick, debugMode };
     switch (gameState.currentRoom) {
       case 'hallway':
         return <HallwayScene {...sceneProps} />;
