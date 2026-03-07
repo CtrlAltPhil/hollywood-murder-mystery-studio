@@ -155,9 +155,9 @@ export function GameScene({
     {
       id: "wine-glasses",
       name: "Wine Glasses",
-      position: { x: 27, y: 80 },
-      width: 5,
-      height: 5,
+      position: { x: 27, y: 75 },
+      width: 10,
+      height: 10,
       interactions: {
         look: "A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?",
         pickup: () => {
