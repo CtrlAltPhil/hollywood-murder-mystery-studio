@@ -212,6 +212,7 @@ export function GameContainer() {
             onHotspotClick={sharedHotspotClick}
             onAddToInventory={handleAddToInventory}
             onChangeRoom={handleChangeRoom}
+            onEmptyClick={handleEmptyClick}
             debugMode={debugMode}
           />
         );
