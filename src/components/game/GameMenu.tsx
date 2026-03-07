@@ -38,7 +38,6 @@ export function GameMenu({
         const next = codeProgress + 1;
         if (next >= SECRET_CODE.length) {
           setDebugUnlocked(true);
-          localStorage.setItem('hmm_debug_unlocked', 'true');
           setShowCodeFlash(true);
           setTimeout(() => setShowCodeFlash(false), 1500);
           setCodeProgress(0);
