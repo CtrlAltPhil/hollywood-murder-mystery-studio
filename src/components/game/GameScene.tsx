@@ -59,6 +59,7 @@ export function GameScene({
   onHotspotClick,
   onAddToInventory,
   onChangeRoom,
+  onEmptyClick,
   debugMode,
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
