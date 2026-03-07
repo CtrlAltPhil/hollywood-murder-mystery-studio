@@ -142,6 +142,17 @@ export function GameScene({
       },
     },
     {
+      id: "lights",
+      name: "Lights",
+      position: { x: 50, y: 10 },
+      width: 50,
+      height: 10,
+      interactions: {
+        look: "These hanging light fixtures looked like they were tampered with",
+        use: "I can't use those.",
+      },
+    },
+    {
       id: "wine-glasses",
       name: "Wine Glasses",
       position: { x: 27, y: 80 },
