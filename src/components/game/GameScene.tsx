@@ -20,6 +20,7 @@ interface GameSceneProps {
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onAddToInventory: (item: { id: string; name: string; image: string }) => void;
   onChangeRoom: (roomId: string) => void;
+  onEmptyClick?: () => void;
   debugMode?: boolean;
 }
 
