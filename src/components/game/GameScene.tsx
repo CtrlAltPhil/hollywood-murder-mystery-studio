@@ -145,8 +145,8 @@ export function GameScene({
       id: "lights",
       name: "Lights",
       position: { x: 50, y: 10 },
-      width: 50,
-      height: 10,
+      width: 52,
+      height: 12,
       interactions: {
         look: "These hanging light fixtures looked like they were tampered with",
         use: "I can't use those.",
