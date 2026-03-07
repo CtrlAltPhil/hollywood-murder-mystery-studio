@@ -126,9 +126,9 @@ export function KitchenScene({
     {
       id: "catering-trays",
       name: "Catering Trays",
-      position: { x: 65, y: 70 },
-      width: 14,
-      height: 15,
+      position: { x: 65, y: 65 },
+      width: 12,
+      height: 18,
       interactions: {
         look: "Trays of hors d'oeuvres. Some were served at the party, others never made it out.",
         pickup: "I'm not hungry. There's a murder to solve.",
