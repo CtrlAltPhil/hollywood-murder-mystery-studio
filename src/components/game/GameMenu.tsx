@@ -28,9 +28,7 @@ export function GameMenu({
   debugMode, onDebugModeToggle
 }: GameMenuProps) {
   const [codeProgress, setCodeProgress] = useState(0);
-  const [debugUnlocked, setDebugUnlocked] = useState(() => {
-    return localStorage.getItem('hmm_debug_unlocked') === 'true';
-  });
+  const [debugUnlocked, setDebugUnlocked] = useState(false);
   const [showCodeFlash, setShowCodeFlash] = useState(false);
 
   useEffect(() => {
@@ -40,7 +38,6 @@ export function GameMenu({
         const next = codeProgress + 1;
         if (next >= SECRET_CODE.length) {
           setDebugUnlocked(true);
-          localStorage.setItem('hmm_debug_unlocked', 'true');
           setShowCodeFlash(true);
           setTimeout(() => setShowCodeFlash(false), 1500);
           setCodeProgress(0);
