@@ -163,7 +163,7 @@ export function KitchenScene({
     {
       id: "sous-chef-sally",
       name: "Sous Chef Sally",
-      position: { x: 80, y: 82 },
+      position: { x: 62, y: 70 },
       width: 10,
       height: 32,
       interactions: {
