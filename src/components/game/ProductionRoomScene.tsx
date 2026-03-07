@@ -21,7 +21,7 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: ProductionRoomSceneProps) {
+export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: ProductionRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -143,7 +143,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${productionRoomBackground})` }}
@@ -161,7 +161,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover('')}
-          onClick={() => handleHotspotClick(hotspot)}
+          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
         />
       ))}
     </div>

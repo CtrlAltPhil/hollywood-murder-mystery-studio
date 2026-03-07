@@ -21,7 +21,7 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: LosCabosRoomSceneProps) {
+export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: LosCabosRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -140,7 +140,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${losCabosRoomBackground})` }}
@@ -157,7 +157,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover('')}
-          onClick={() => handleHotspotClick(hotspot)}
+          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
         />
       ))}
     </div>
