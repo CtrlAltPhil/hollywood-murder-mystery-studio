@@ -149,7 +149,7 @@ export function KitchenScene({
     {
       id: "chef-allegro",
       name: "Chef Allegro",
-      position: { x: 20, y: 82 },
+      position: { x: 38, y: 70 },
       width: 10,
       height: 32,
       interactions: {
