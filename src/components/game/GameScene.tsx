@@ -274,7 +274,7 @@ export function GameScene({
   });
 
   return (
-    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`}>
+    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       {/* Background */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
