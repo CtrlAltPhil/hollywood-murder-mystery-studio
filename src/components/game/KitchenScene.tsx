@@ -92,9 +92,9 @@ export function KitchenScene({
     {
       id: "knife-block",
       name: "Knife Block",
-      position: { x: 40, y: 52 },
+      position: { x: 32, y: 52 },
       width: 8,
-      height: 12,
+      height: 8,
       interactions: {
         look: "A wooden knife block. Wait — one of the slots is empty. A knife is missing.",
         pickup: "Better not touch the knives. This is a crime scene after all.",
