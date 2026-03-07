@@ -385,7 +385,7 @@ export function GameScene({
             }}
             onMouseEnter={() => onHotspotHover(hotspot.name)}
             onMouseLeave={() => onHotspotHover("")}
-            onClick={handleClick}
+            onClick={(e) => { e.stopPropagation(); handleClick(); }}
           />
         );
       })}
