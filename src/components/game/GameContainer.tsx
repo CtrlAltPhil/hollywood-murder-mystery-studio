@@ -300,6 +300,11 @@ export function GameContainer() {
               node={gameState.dialogState.currentNode}
               onOptionSelect={(option) => {
                 if (option.onSelect) option.onSelect();
+                // Sally gets angry when accused, reverts after 3 seconds
+                if (option.nextNodeId === 'sally-accuse') {
+                  setFlag('sallyAngry', true);
+                  setTimeout(() => setFlag('sallyAngry', false), 4000);
+                }
                 if (option.nextNodeId) {
                   const nextNode = getDialogNodeById(option.nextNodeId);
                   advanceDialog(nextNode);

@@ -320,6 +320,151 @@ const elFuegoTree: DialogTree = {
   },
 };
 
+// ─── CHEF ALLEGRO ───────────────────────────────────────────
+const chefAllegroTree: DialogTree = {
+  'chef-root': {
+    id: 'chef-root',
+    speaker: 'Chef Allegro',
+    text: "Ah, welcome to my kitchen! Well... not the best night for a visit, eh? What can I do for you?",
+    options: [
+      { text: "Where were you when the lights went out?", nextNodeId: 'chef-alibi' },
+      { text: "Did you notice anything unusual tonight?", nextNodeId: 'chef-unusual' },
+      { text: "Tell me about the food you prepared for the party.", nextNodeId: 'chef-food' },
+      { text: "Never mind.", nextNodeId: null },
+    ],
+  },
+  'chef-alibi': {
+    id: 'chef-alibi',
+    speaker: 'Chef Allegro',
+    text: "Right here! In my kitchen! Where else would I be? I was preparing the next course — a magnificent bouillabaisse. Then the lights went out and everything went to chaos.",
+    options: [
+      { text: "Was anyone else in the kitchen with you?", nextNodeId: 'chef-witness' },
+      { text: "I have more questions.", nextNodeId: 'chef-root' },
+    ],
+  },
+  'chef-witness': {
+    id: 'chef-witness',
+    speaker: 'Chef Allegro',
+    text: "Sally was here, of course. And that nervous fellow — Duke Extreme — he kept coming in for drinks. Very agitated, that one. Kept looking over his shoulder.",
+    nextNodeId: 'chef-root',
+  },
+  'chef-unusual': {
+    id: 'chef-unusual',
+    speaker: 'Chef Allegro',
+    text: "Well... now that you mention it, someone came through the kitchen earlier and went toward the back hallway. I didn't see who — I was focused on my sauces. But they moved fast, like they didn't want to be seen.",
+    options: [
+      { text: "What time was this?", nextNodeId: 'chef-time' },
+      { text: "Could it have been one of the guests?", nextNodeId: 'chef-guest' },
+      { text: "I have more questions.", nextNodeId: 'chef-root' },
+    ],
+  },
+  'chef-time': {
+    id: 'chef-time',
+    speaker: 'Chef Allegro',
+    text: "Maybe twenty minutes before the blackout? I remember because I had just put the bread in the oven. The timer hadn't gone off yet when everything went dark.",
+    nextNodeId: 'chef-root',
+  },
+  'chef-guest': {
+    id: 'chef-guest',
+    speaker: 'Chef Allegro',
+    text: "Could have been anyone, really. But the footsteps were heavy — more like a man's. And I caught a whiff of expensive cologne. Not the kind Sally or I wear, I can tell you that.",
+    nextNodeId: 'chef-root',
+  },
+  'chef-food': {
+    id: 'chef-food',
+    speaker: 'Chef Allegro',
+    text: "Only the finest! Bruschetta, stuffed mushrooms, the wine selection was personally curated by Mr. Los Cabos himself. He had... very specific tastes. God rest his soul.",
+    options: [
+      { text: "Did anyone ask you to prepare anything special?", nextNodeId: 'chef-special' },
+      { text: "I have more questions.", nextNodeId: 'chef-root' },
+    ],
+  },
+  'chef-special': {
+    id: 'chef-special',
+    speaker: 'Chef Allegro',
+    text: "Funny you should ask... Carl requested a very specific wine be served to Los Cabos. Said it was his favorite vintage. I thought nothing of it at the time, but now...",
+    nextNodeId: 'chef-root',
+  },
+};
+
+// ─── SOUS CHEF SALLY ───────────────────────────────────────────
+const sallyTree: DialogTree = {
+  'sally-root': {
+    id: 'sally-root',
+    speaker: 'Sous Chef Sally',
+    text: "*chopping vegetables aggressively* What? I'm busy. Make it quick.",
+    options: [
+      { text: "Where were you when the murder happened?", nextNodeId: 'sally-alibi' },
+      { text: "You seem on edge. Everything okay?", nextNodeId: 'sally-edge' },
+      { text: "I think YOU had something to do with this!", nextNodeId: 'sally-accuse' },
+      { text: "I'll leave you to your work.", nextNodeId: null },
+    ],
+  },
+  'sally-alibi': {
+    id: 'sally-alibi',
+    speaker: 'Sous Chef Sally',
+    text: "In the kitchen. With Chef Allegro. Prepping food. Where else would I be? I'm the sous chef — I don't exactly get to mingle with the guests.",
+    options: [
+      { text: "Did you leave the kitchen at any point?", nextNodeId: 'sally-left' },
+      { text: "I have more questions.", nextNodeId: 'sally-root' },
+    ],
+  },
+  'sally-left': {
+    id: 'sally-left',
+    speaker: 'Sous Chef Sally',
+    text: "...I stepped out for some air. Five minutes, tops. The back hallway. But I didn't see anything, if that's what you're asking.",
+    nextNodeId: 'sally-root',
+  },
+  'sally-edge': {
+    id: 'sally-edge',
+    speaker: 'Sous Chef Sally',
+    text: "Of course I'm on edge! Someone got murdered twenty feet from my kitchen! And now everyone's a suspect. Including me, apparently.",
+    options: [
+      { text: "Did you know Los Cabos personally?", nextNodeId: 'sally-personal' },
+      { text: "I have more questions.", nextNodeId: 'sally-root' },
+    ],
+  },
+  'sally-personal': {
+    id: 'sally-personal',
+    speaker: 'Sous Chef Sally',
+    text: "...We talked a few times. He was nice to me. Said I had talent, that I should open my own restaurant someday. Not many people in this town are that genuine.",
+    nextNodeId: 'sally-root',
+  },
+  'sally-accuse': {
+    id: 'sally-accuse',
+    speaker: 'Sous Chef Sally',
+    text: "EXCUSE ME?! You come into MY kitchen and accuse ME?! I have been slaving over a hot stove all night while your fancy guests were out there playing Hollywood! How DARE you!",
+    nextNodeId: 'sally-root',
+  },
+  // Dagger-unlocked branch
+  'sally-dagger': {
+    id: 'sally-dagger',
+    speaker: 'Sous Chef Sally',
+    text: "*glances up from her work* Back again? What now?",
+    options: [
+      { text: "Recognize this dagger?", nextNodeId: 'sally-dagger-react' },
+      { text: "Where were you when the murder happened?", nextNodeId: 'sally-alibi' },
+      { text: "I think YOU had something to do with this!", nextNodeId: 'sally-accuse' },
+      { text: "I'll leave you to your work.", nextNodeId: null },
+    ],
+  },
+  'sally-dagger-react': {
+    id: 'sally-dagger-react',
+    speaker: 'Sous Chef Sally',
+    text: "That's... that's not a kitchen knife. That's a prop. I've seen it in the production room before. Someone took it from the display case.",
+    options: [
+      { text: "How do you know it's from the production room?", nextNodeId: 'sally-dagger-how' },
+      { text: "I have more questions.", nextNodeId: 'sally-dagger' },
+    ],
+  },
+  'sally-dagger-how': {
+    id: 'sally-dagger-how',
+    speaker: 'Sous Chef Sally',
+    text: "I clean every room in this studio on off days. I've dusted that case a hundred times. That dagger was there last week. Someone planned this.",
+    nextNodeId: 'sally-dagger',
+  },
+};
+
 /**
  * Returns the root DialogNode for a character based on current game flags.
  * Flags like `daggerTaken` unlock new conversation branches.
@@ -340,6 +485,13 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
       const rootId = hasDagger ? 'fuego-dagger' : 'fuego-root';
       return elFuegoTree[rootId] ?? null;
     }
+    case 'chef-allegro': {
+      return chefAllegroTree['chef-root'] ?? null;
+    }
+    case 'sous-chef-sally': {
+      const rootId = hasDagger ? 'sally-dagger' : 'sally-root';
+      return sallyTree[rootId] ?? null;
+    }
     default:
       return null;
   }
@@ -349,5 +501,5 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
  * Looks up a dialog node by ID across all character trees.
  */
 export function getDialogNodeById(nodeId: string): DialogNode | null {
-  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? null;
+  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? chefAllegroTree[nodeId] ?? sallyTree[nodeId] ?? null;
 }
