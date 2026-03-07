@@ -214,11 +214,11 @@ export function KitchenScene({
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${kitchenBackground})` }} />
 
       {/* Chef Allegro — left station */}
-      <div className="absolute bottom-[3%] left-[14%] z-20 pointer-events-none">
+      <div className="absolute bottom-[10%] left-[30%] z-20 pointer-events-none">
         <img
           src={chefBlinking ? chefAllegroBlinkImage : chefAllegroImage}
           alt="Chef Allegro"
-          className="h-60 pixelated object-contain transition-opacity duration-150"
+          className="h-72 pixelated object-contain transition-opacity duration-150"
         />
       </div>
 
