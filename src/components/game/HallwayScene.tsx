@@ -7,6 +7,7 @@ interface HallwaySceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
+  onEmptyClick?: () => void;
   debugMode?: boolean;
 }
 
@@ -30,6 +31,7 @@ export function HallwayScene({
   onHotspotHover,
   onHotspotClick,
   onChangeRoom,
+  onEmptyClick,
   debugMode,
 }: HallwaySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
@@ -170,7 +172,7 @@ export function HallwayScene({
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${hallwayBackground})` }} />
 
       {/* Navigation arrow indicator at bottom */}
@@ -190,7 +192,7 @@ export function HallwayScene({
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover("")}
-          onClick={() => handleHotspotClick(hotspot)}
+          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
         >
           {debugMode && (
             <span className="absolute top-0 left-0 text-[8px] text-green-300 bg-black/70 px-1 rounded-br">
