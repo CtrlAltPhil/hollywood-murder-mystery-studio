@@ -7,6 +7,7 @@ interface HallwayKitchenSceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
+  onEmptyClick?: () => void;
   debugMode?: boolean;
 }
 
@@ -20,7 +21,7 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: HallwayKitchenSceneProps) {
+export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: HallwayKitchenSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -94,7 +95,7 @@ export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick,
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${hallwayKitchenBackground})` }}
@@ -117,7 +118,7 @@ export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick,
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover('')}
-          onClick={() => handleHotspotClick(hotspot)}
+          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
         />
       ))}
     </div>

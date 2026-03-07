@@ -7,6 +7,7 @@ interface StudySceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
+  onEmptyClick?: () => void;
   debugMode?: boolean;
 }
 
@@ -20,7 +21,7 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: StudySceneProps) {
+export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: StudySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -139,7 +140,7 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${studyBackground})` }}
@@ -161,7 +162,7 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover('')}
-          onClick={() => handleHotspotClick(hotspot)}
+          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
         />
       ))}
     </div>

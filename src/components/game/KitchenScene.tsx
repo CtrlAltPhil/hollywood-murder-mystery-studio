@@ -12,6 +12,7 @@ interface KitchenSceneProps {
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
+  onEmptyClick?: () => void;
   debugMode?: boolean;
 }
 
@@ -35,6 +36,7 @@ export function KitchenScene({
   onHotspotHover,
   onHotspotClick,
   onChangeRoom,
+  onEmptyClick,
   debugMode,
 }: KitchenSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
@@ -210,7 +212,7 @@ export function KitchenScene({
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${kitchenBackground})` }} />
 
       {/* Chef Allegro — left station */}
@@ -247,7 +249,7 @@ export function KitchenScene({
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover("")}
-          onClick={() => handleHotspotClick(hotspot)}
+          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
         />
       ))}
     </div>

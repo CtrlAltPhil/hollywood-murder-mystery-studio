@@ -20,6 +20,7 @@ interface GameSceneProps {
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onAddToInventory: (item: { id: string; name: string; image: string }) => void;
   onChangeRoom: (roomId: string) => void;
+  onEmptyClick?: () => void;
   debugMode?: boolean;
 }
 
@@ -58,6 +59,7 @@ export function GameScene({
   onHotspotClick,
   onAddToInventory,
   onChangeRoom,
+  onEmptyClick,
   debugMode,
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -272,7 +274,7 @@ export function GameScene({
   });
 
   return (
-    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`}>
+    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       {/* Background */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
@@ -383,7 +385,7 @@ export function GameScene({
             }}
             onMouseEnter={() => onHotspotHover(hotspot.name)}
             onMouseLeave={() => onHotspotHover("")}
-            onClick={handleClick}
+            onClick={(e) => { e.stopPropagation(); handleClick(); }}
           />
         );
       })}
