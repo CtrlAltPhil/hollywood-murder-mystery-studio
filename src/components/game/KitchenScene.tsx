@@ -218,7 +218,7 @@ export function KitchenScene({
         <img
           src={chefBlinking ? chefAllegroBlinkImage : chefAllegroImage}
           alt="Chef Allegro"
-          className="h-72 pixelated object-contain transition-opacity duration-150"
+          className="h-72 pixelated object-contain transition-opacity duration-5"
         />
       </div>
 
