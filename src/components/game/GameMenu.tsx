@@ -28,9 +28,7 @@ export function GameMenu({
   debugMode, onDebugModeToggle
 }: GameMenuProps) {
   const [codeProgress, setCodeProgress] = useState(0);
-  const [debugUnlocked, setDebugUnlocked] = useState(() => {
-    return localStorage.getItem('hmm_debug_unlocked') === 'true';
-  });
+  const [debugUnlocked, setDebugUnlocked] = useState(false);
   const [showCodeFlash, setShowCodeFlash] = useState(false);
 
   useEffect(() => {
