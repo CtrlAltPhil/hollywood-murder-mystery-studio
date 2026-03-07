@@ -1,5 +1,10 @@
+import { useState, useEffect } from 'react';
 import { GameState, Verb } from '@/types/game';
 import kitchenBackground from '@/assets/backgrounds/kitchen.png';
+import chefAllegroImage from '@/assets/characters/chef-allegro.png';
+import chefAllegroBlinkImage from '@/assets/characters/chef-allegro-blink.png';
+import sousChefSallyImage from '@/assets/characters/sous-chef-sally.png';
+import sousChefSallyAngryImage from '@/assets/characters/sous-chef-sally-angry.png';
 import { SimpleHotspot } from './GameScene';
 
 interface KitchenSceneProps {
@@ -22,6 +27,31 @@ function getCursorClass(verb: Verb | null): string {
 
 export function KitchenScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, debugMode }: KitchenSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
+
+  // Chef Allegro blink animation — slow blink every 3-5 seconds
+  const [chefBlinking, setChefBlinking] = useState(false);
+  useEffect(() => {
+    const scheduleBlink = () => {
+      const delay = 3000 + Math.random() * 2000; // 3-5 seconds between blinks
+      return setTimeout(() => {
+        setChefBlinking(true);
+        // Blink lasts 300ms
+        setTimeout(() => {
+          setChefBlinking(false);
+        }, 300);
+        timerRef = scheduleBlink();
+      }, delay);
+    };
+    let timerRef = scheduleBlink();
+    return () => clearTimeout(timerRef);
+  }, []);
+
+  // Sally angry state — triggered via flag, auto-reverts after 3 seconds
+  const sallyAngry = gameState.flags.sallyAngry === true;
+  useEffect(() => {
+    if (!sallyAngry) return;
+    // We don't auto-revert here — the dialog system handles setting the flag
+  }, [sallyAngry]);
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -104,6 +134,34 @@ export function KitchenScene({ gameState, onHotspotHover, onHotspotClick, onChan
         use: 'I turn on the faucet. Just water. The red stuff was probably wine... probably.',
       },
     },
+    // Chef Allegro hotspot — left side
+    {
+      id: 'chef-allegro',
+      name: 'Chef Allegro',
+      position: { x: 20, y: 82 },
+      width: 10,
+      height: 32,
+      interactions: {
+        look: 'Chef Allegro, the head chef. He\'s got a permanent smile, but his eyes look worried.',
+        talk: '__DIALOG__chef-allegro',
+        pickup: 'I can\'t pick up a chef!',
+        use: 'I should talk to him instead.',
+      },
+    },
+    // Sous Chef Sally hotspot — right side
+    {
+      id: 'sous-chef-sally',
+      name: 'Sous Chef Sally',
+      position: { x: 80, y: 82 },
+      width: 10,
+      height: 32,
+      interactions: {
+        look: 'Sous Chef Sally. She looks tense, like she\'s hiding something.',
+        talk: '__DIALOG__sous-chef-sally',
+        pickup: 'That\'s not how you treat kitchen staff.',
+        use: 'I should talk to her instead.',
+      },
+    },
     {
       id: 'back-to-hallway-kitchen',
       name: 'Hallway',
@@ -141,6 +199,24 @@ export function KitchenScene({ gameState, onHotspotHover, onHotspotClick, onChan
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${kitchenBackground})` }}
       />
+
+      {/* Chef Allegro — left station */}
+      <div className="absolute bottom-[3%] left-[14%] z-20 pointer-events-none">
+        <img
+          src={chefBlinking ? chefAllegroBlinkImage : chefAllegroImage}
+          alt="Chef Allegro"
+          className="h-60 pixelated object-contain transition-opacity duration-150"
+        />
+      </div>
+
+      {/* Sous Chef Sally — right station */}
+      <div className="absolute bottom-[3%] right-[10%] z-20 pointer-events-none">
+        <img
+          src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
+          alt="Sous Chef Sally"
+          className="h-60 pixelated object-contain transition-opacity duration-300"
+        />
+      </div>
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Hallway ▼
