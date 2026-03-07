@@ -223,7 +223,7 @@ export function KitchenScene({
       </div>
 
       {/* Sous Chef Sally — right station */}
-      <div className="absolute bottom-[10%] right-[20%] z-20 pointer-events-none">
+      <div className="absolute bottom-[10%] right-[40%] z-20 pointer-events-none">
         <img
           src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
           alt="Sous Chef Sally"
