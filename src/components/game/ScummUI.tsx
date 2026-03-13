@@ -9,6 +9,7 @@ interface ScummUIProps {
   items: InventoryItem[];
   selectedItem: InventoryItem | null;
   onItemSelect: (item: InventoryItem) => void;
+  onItemHover?: (text: string) => void;
 }
 
 const VERBS: { verb: Verb; label: string }[] = [
@@ -30,7 +31,8 @@ export function ScummUI({
   actionText,
   items,
   selectedItem,
-  onItemSelect
+  onItemSelect,
+  onItemHover
 }: ScummUIProps) {
   const [scrollOffset, setScrollOffset] = useState(0);
 
@@ -101,6 +103,8 @@ export function ScummUI({
               <button
                 key={item.id}
                 onClick={() => onItemSelect(item)}
+                onMouseEnter={() => onItemHover?.(item.name)}
+                onMouseLeave={() => onItemHover?.('')}
                 className={`
                   relative overflow-hidden flex items-center justify-center
                   bg-[hsl(280,40%,20%)] border-2 transition-colors

@@ -363,6 +363,7 @@ export function GameContainer() {
                 selectItem(item);
               }
             }}
+            onItemHover={(text) => sharedHotspotHover(text)}
           />
         </div>
       </div>
