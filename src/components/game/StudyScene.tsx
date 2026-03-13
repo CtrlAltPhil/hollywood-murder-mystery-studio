@@ -23,7 +23,8 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: StudySceneProps) {
+export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, onPickupKey, debugMode }: StudySceneProps) {
+  const keyTaken = gameState.flags.backyardKeyTaken;
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
