@@ -142,6 +142,10 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
     const verb = gameState.selectedVerb;
     if (verb) {
       const interaction = hotspot.interactions[verb];
+      if (typeof interaction === 'string' && interaction === '__PICKUP_KEY__') {
+        onPickupKey?.();
+        return;
+      }
       if (typeof interaction === 'string' && interaction.startsWith('__NAVIGATE__')) {
         onChangeRoom(interaction.replace('__NAVIGATE__', ''));
         return;
