@@ -189,7 +189,7 @@ export function StudyScene({
         <img
           src={backyardKeySprite}
           alt="Old Key"
-          className="absolute pointer-events-none z-8"
+          className="absolute pointer-events-none z-6"
           style={{ left: "11%", top: "80%", width: "8%", height: "auto" }}
         />
       )}
