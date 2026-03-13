@@ -1,5 +1,6 @@
 import { GameState, Verb } from '@/types/game';
 import studyBackground from '@/assets/backgrounds/study.png';
+import backyardKeySprite from '@/assets/props/backyard-key.png';
 import { SimpleHotspot } from './GameScene';
 
 interface StudySceneProps {
