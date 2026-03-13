@@ -355,7 +355,14 @@ export function GameContainer() {
             actionText={gameState.actionText}
             items={gameState.inventory}
             selectedItem={gameState.selectedItem}
-            onItemSelect={selectItem}
+            onItemSelect={(item) => {
+              if (gameState.selectedVerb === 'look') {
+                setActionText(item.description || `It's a ${item.name}.`);
+                selectVerb(null);
+              } else {
+                selectItem(item);
+              }
+            }}
           />
         </div>
       </div>
