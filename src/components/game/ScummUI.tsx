@@ -103,6 +103,8 @@ export function ScummUI({
               <button
                 key={item.id}
                 onClick={() => onItemSelect(item)}
+                onMouseEnter={() => onItemHover?.(item.name)}
+                onMouseLeave={() => onItemHover?.('')}
                 className={`
                   relative overflow-hidden flex items-center justify-center
                   bg-[hsl(280,40%,20%)] border-2 transition-colors
