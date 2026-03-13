@@ -166,7 +166,7 @@ export function HallwayScene({
     if (!verb) {
       // Special case: locked french doors show a message instead of navigating
       if (hotspot.id === "french-doors" && !gameState.flags.backyardUnlocked) {
-        onHotspotClick({ ...hotspot, interactions: { ...hotspot.interactions, look: "The doors are locked. I need to find a key." } });
+        onHotspotHover("The doors are locked. I need to find a key.");
         return;
       }
       if (
