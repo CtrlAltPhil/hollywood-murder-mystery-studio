@@ -9,6 +9,7 @@ interface ScummUIProps {
   items: InventoryItem[];
   selectedItem: InventoryItem | null;
   onItemSelect: (item: InventoryItem) => void;
+  onItemHover?: (text: string) => void;
 }
 
 const VERBS: { verb: Verb; label: string }[] = [
