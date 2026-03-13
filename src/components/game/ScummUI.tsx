@@ -31,7 +31,8 @@ export function ScummUI({
   actionText,
   items,
   selectedItem,
-  onItemSelect
+  onItemSelect,
+  onItemHover
 }: ScummUIProps) {
   const [scrollOffset, setScrollOffset] = useState(0);
 
