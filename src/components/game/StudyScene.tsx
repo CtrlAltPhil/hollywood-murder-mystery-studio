@@ -9,6 +9,7 @@ interface StudySceneProps {
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
+  onPickupKey?: () => void;
   debugMode?: boolean;
 }
 
