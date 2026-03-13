@@ -134,8 +134,17 @@ export function GameContainer() {
       const useWithKey = `use_with_${item.id}`;
       const interaction = hotspot.interactions[useWithKey];
       if (interaction) {
-        if (typeof interaction === 'string') setActionText(interaction);
-        else if (typeof interaction === 'function') {
+        if (typeof interaction === 'string') {
+          if (interaction === '__UNLOCK_BACKYARD__') {
+            setFlag('backyardUnlocked', true);
+            removeFromInventory('backyard_key');
+            setActionText('The key fits! The french doors are now unlocked.');
+            playSfx('pickup');
+            selectVerb(null);
+            return;
+          }
+          setActionText(interaction);
+        } else if (typeof interaction === 'function') {
           const result = interaction();
           if (typeof result === 'string') setActionText(result);
         }
