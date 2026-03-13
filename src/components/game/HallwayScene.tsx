@@ -123,11 +123,20 @@ export function HallwayScene({
       position: { x: 50, y: 50 },
       width: 12,
       height: 30,
-      interactions: {
-        look: "Elegant french doors leading to the backyard garden.",
-        open: "__NAVIGATE__backyard",
-        use: "__NAVIGATE__backyard",
-      },
+      interactions: gameState.flags.backyardUnlocked
+        ? {
+            look: "The french doors are unlocked now. They lead to the backyard garden.",
+            open: "__NAVIGATE__backyard",
+            use: "__NAVIGATE__backyard",
+          }
+        : {
+            look: "Elegant french doors leading to the backyard garden. They appear to be locked.",
+            open: "The doors are locked. I need a key.",
+            use: "The doors won't budge. They're locked tight.",
+            pull: "Locked. I need to find a key somewhere.",
+            push: "Locked. I need to find a key somewhere.",
+            use_with_backyard_key: "__UNLOCK_BACKYARD__",
+          },
     },
     {
       id: "kitchen-direction",

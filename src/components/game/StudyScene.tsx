@@ -1,5 +1,6 @@
 import { GameState, Verb } from '@/types/game';
 import studyBackground from '@/assets/backgrounds/study.png';
+import backyardKeySprite from '@/assets/props/backyard-key.png';
 import { SimpleHotspot } from './GameScene';
 
 interface StudySceneProps {
@@ -8,6 +9,7 @@ interface StudySceneProps {
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
+  onPickupKey?: () => void;
   debugMode?: boolean;
 }
 
@@ -21,7 +23,8 @@ function getCursorClass(verb: Verb | null): string {
   return cursorMap[verb] || 'cursor-default';
 }
 
-export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: StudySceneProps) {
+export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, onPickupKey, debugMode }: StudySceneProps) {
+  const keyTaken = gameState.flags.backyardKeyTaken;
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -97,6 +100,18 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
         use: 'I fish out the note. Could be important.',
       },
     },
+    ...(!keyTaken ? [{
+      id: 'backyard-key',
+      name: 'Old Key',
+      position: { x: 15, y: 88 },
+      width: 8,
+      height: 10,
+      interactions: {
+        look: 'An old brass key lying on the floor. I wonder what it opens...',
+        pickup: '__PICKUP_KEY__',
+        use: 'I should pick it up first.',
+      },
+    }] : []),
     {
       id: 'phone',
       name: 'Phone',
@@ -127,6 +142,10 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
     const verb = gameState.selectedVerb;
     if (verb) {
       const interaction = hotspot.interactions[verb];
+      if (typeof interaction === 'string' && interaction === '__PICKUP_KEY__') {
+        onPickupKey?.();
+        return;
+      }
       if (typeof interaction === 'string' && interaction.startsWith('__NAVIGATE__')) {
         onChangeRoom(interaction.replace('__NAVIGATE__', ''));
         return;
@@ -145,6 +164,16 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
         className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `url(${studyBackground})` }}
       />
+
+      {/* Backyard key on the floor */}
+      {!keyTaken && (
+        <img
+          src={backyardKeySprite}
+          alt="Old Key"
+          className="absolute pointer-events-none z-10"
+          style={{ left: '11%', top: '80%', width: '8%', height: 'auto' }}
+        />
+      )}
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Hallway ▼

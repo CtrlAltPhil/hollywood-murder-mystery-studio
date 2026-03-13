@@ -19,6 +19,7 @@ import { DebugGrid } from './DebugGrid';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
+import backyardKeyInventory from '@/assets/props/backyard-key-inventory.png';
 
 export function GameContainer() {
   const {
@@ -28,6 +29,8 @@ export function GameContainer() {
     selectItem,
     setActionText,
     addToInventory,
+    removeFromInventory,
+    movePlayer,
     setFlag,
     startDialog,
     advanceDialog,
@@ -131,8 +134,17 @@ export function GameContainer() {
       const useWithKey = `use_with_${item.id}`;
       const interaction = hotspot.interactions[useWithKey];
       if (interaction) {
-        if (typeof interaction === 'string') setActionText(interaction);
-        else if (typeof interaction === 'function') {
+        if (typeof interaction === 'string') {
+          if (interaction === '__UNLOCK_BACKYARD__') {
+            setFlag('backyardUnlocked', true);
+            removeFromInventory('backyard_key');
+            setActionText('The key fits! The french doors are now unlocked.');
+            playSfx('pickup');
+            selectVerb(null);
+            return;
+          }
+          setActionText(interaction);
+        } else if (typeof interaction === 'function') {
           const result = interaction();
           if (typeof result === 'string') setActionText(result);
         }
@@ -172,6 +184,14 @@ export function GameContainer() {
     playSfx('pickup');
   };
 
+  const handlePickupBackyardKey = () => {
+    setFlag('backyardKeyTaken', true);
+    addToInventory({ id: 'backyard_key', name: 'Old Key', description: 'An old brass key. I wonder what it opens.', image: backyardKeyInventory });
+    playSfx('pickup');
+    setActionText('I picked up an old key. I wonder what it opens...');
+    selectVerb(null);
+  };
+
   const menuProps = {
     musicVolume: musicVolumeState,
     sfxVolume: sfxVolumeState,
@@ -200,7 +220,7 @@ export function GameContainer() {
       case 'los-cabos-room':
         return <LosCabosRoomScene {...sceneProps} />;
       case 'study':
-        return <StudyScene {...sceneProps} />;
+        return <StudyScene {...sceneProps} onPickupKey={handlePickupBackyardKey} />;
       case 'backyard':
         return <BackyardScene {...sceneProps} />;
       default:
