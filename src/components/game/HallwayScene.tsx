@@ -163,14 +163,20 @@ export function HallwayScene({
       }
     }
     // Default: doors auto-open when no verb selected
-    if (
-      !verb &&
-      hotspot.interactions.open &&
-      typeof hotspot.interactions.open === "string" &&
-      (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-    ) {
-      onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-      return;
+    if (!verb) {
+      // Special case: locked french doors show a message instead of navigating
+      if (hotspot.id === "french-doors" && !gameState.flags.backyardUnlocked) {
+        onHotspotClick({ ...hotspot, interactions: { ...hotspot.interactions, look: "The doors are locked. I need to find a key." } });
+        return;
+      }
+      if (
+        hotspot.interactions.open &&
+        typeof hotspot.interactions.open === "string" &&
+        (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
+      ) {
+        onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
+        return;
+      }
     }
     // For the kitchen direction, any click navigates
     if (hotspot.id === "kitchen-direction" && !verb) {
