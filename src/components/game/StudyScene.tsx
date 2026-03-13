@@ -100,6 +100,18 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
         use: 'I fish out the note. Could be important.',
       },
     },
+    ...(!keyTaken ? [{
+      id: 'backyard-key',
+      name: 'Old Key',
+      position: { x: 15, y: 88 },
+      width: 8,
+      height: 10,
+      interactions: {
+        look: 'An old brass key lying on the floor. I wonder what it opens...',
+        pickup: '__PICKUP_KEY__',
+        use: 'I should pick it up first.',
+      },
+    }] : []),
     {
       id: 'phone',
       name: 'Phone',
