@@ -184,6 +184,14 @@ export function GameContainer() {
     playSfx('pickup');
   };
 
+  const handlePickupBackyardKey = () => {
+    setFlag('backyardKeyTaken', true);
+    addToInventory({ id: 'backyard_key', name: 'Old Key', description: 'An old brass key. I wonder what it opens.', image: backyardKeyInventory });
+    playSfx('pickup');
+    setActionText('I picked up an old key. I wonder what it opens...');
+    selectVerb(null);
+  };
+
   const menuProps = {
     musicVolume: musicVolumeState,
     sfxVolume: sfxVolumeState,
