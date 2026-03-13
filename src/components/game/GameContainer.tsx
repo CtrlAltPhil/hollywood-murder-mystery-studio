@@ -29,6 +29,8 @@ export function GameContainer() {
     selectItem,
     setActionText,
     addToInventory,
+    removeFromInventory,
+    movePlayer,
     setFlag,
     startDialog,
     advanceDialog,
