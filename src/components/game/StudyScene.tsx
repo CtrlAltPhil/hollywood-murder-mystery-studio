@@ -165,6 +165,16 @@ export function StudyScene({ gameState, onHotspotHover, onHotspotClick, onChange
         style={{ backgroundImage: `url(${studyBackground})` }}
       />
 
+      {/* Backyard key on the floor */}
+      {!keyTaken && (
+        <img
+          src={backyardKeySprite}
+          alt="Old Key"
+          className="absolute pointer-events-none z-10"
+          style={{ left: '11%', top: '80%', width: '8%', height: 'auto' }}
+        />
+      )}
+
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Hallway ▼
       </div>
