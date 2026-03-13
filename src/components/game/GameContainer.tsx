@@ -186,7 +186,7 @@ export function GameContainer() {
 
   const handlePickupBackyardKey = () => {
     setFlag('backyardKeyTaken', true);
-    addToInventory({ id: 'backyard_key', name: 'Old Key', description: 'An old brass key. I wonder what it opens.', image: backyardKeyInventory });
+    addToInventory({ id: 'backyard_key', name: 'Backyard Key', description: 'A brass key that looks like it opens the backyard french doors.', image: backyardKeyInventory });
     playSfx('pickup');
     setActionText('I picked up an old key. I wonder what it opens...');
     selectVerb(null);
