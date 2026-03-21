@@ -160,7 +160,7 @@ export function GameScene({
     {
       id: "wine-glasses",
       name: "Wine Glasses",
-      position: { x: 29, y: 75 },
+      position: { x: 33, y: 75 },
       width: 8,
       height: 10,
       interactions: {
@@ -179,7 +179,7 @@ export function GameScene({
     {
       id: "charcuterie-board",
       name: "Charcuterie Board",
-      position: { x: 22, y: 75 },
+      position: { x: 23, y: 75 },
       width: 8,
       height: 10,
       interactions: {
@@ -303,10 +303,12 @@ export function GameScene({
       {/* Table with props */}
       <div className="absolute bottom-[2%] left-[20%] z-10 pointer-events-none">
         <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
-        <div className="absolute top-0 left-[55%] -translate-x-1/2">
+        {/* Wine glasses on right side of table */}
+        <div className="absolute top-0 right-[5%]">
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-18 pixelated object-contain" />
         </div>
-        <div className="absolute top-2 left-[15%]">
+        {/* Charcuterie board on left side of table */}
+        <div className="absolute top-2 left-[5%]">
           <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
         </div>
       </div>
