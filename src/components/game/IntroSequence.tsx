@@ -110,14 +110,14 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
       {isPartyScene && (
         <div className="absolute bottom-[2%] left-[20%] z-10">
           <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
-          {/* Wine glasses on right side of table */}
-          <div className="absolute top-0 right-[5%]">
-            <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
-          </div>
-          {/* Charcuterie board on left side of table */}
-          <div className="absolute top-2 left-[5%]">
-            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
-          </div>
+           {/* Wine glasses centered on table */}
+           <div className="absolute top-[10%] left-[25%]">
+             <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
+           </div>
+           {/* Charcuterie board sitting above table */}
+           <div className="absolute top-[-30%] left-[10%]">
+             <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-20 pixelated object-contain" />
+           </div>
         </div>
       )}
 
@@ -212,9 +212,9 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           {/* Table with wine glasses and charcuterie */}
           <div className="absolute bottom-[5%] left-[22%] z-10">
             <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
-            <div className="absolute top-0 right-[5%]">
-              <img src={wineGlassesImage} alt="Wine Glasses" className="h-12 pixelated object-contain" />
-            </div>
+             <div className="absolute top-[10%] left-[25%]">
+               <img src={wineGlassesImage} alt="Wine Glasses" className="h-12 pixelated object-contain" />
+             </div>
             <div className="absolute top-1 left-[5%]">
               <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-10 pixelated object-contain" />
             </div>
