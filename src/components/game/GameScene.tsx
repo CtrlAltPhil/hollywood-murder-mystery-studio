@@ -308,7 +308,7 @@ export function GameScene({
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-16 pixelated object-contain" />
         </div>
         {/* Charcuterie board sitting above table */}
-        <div className="absolute bottom-[50%] left-[42%]">
+        <div className="absolute bottom-[48%] left-[42%]">
           <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
         </div>
       </div>
