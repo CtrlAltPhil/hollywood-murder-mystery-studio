@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { GameState, Verb } from "@/types/game";
+import { GameState } from "@/types/game";
+import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import kitchenBackground from "@/assets/backgrounds/kitchen.png";
 import chefAllegroImage from "@/assets/characters/chef-allegro.png";
 import chefAllegroBlinkImage from "@/assets/characters/chef-allegro-blink.png";
 import sousChefSallyImage from "@/assets/characters/sous-chef-sally.png";
 import sousChefSallyAngryImage from "@/assets/characters/sous-chef-sally-angry.png";
-import { SimpleHotspot } from "./GameScene";
 
 interface KitchenSceneProps {
   gameState: GameState;
@@ -14,21 +14,6 @@ interface KitchenSceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
-}
-
-function getCursorClass(verb: Verb | null): string {
-  if (!verb) return "cursor-default";
-  const cursorMap: Record<Verb, string> = {
-    look: "cursor-look",
-    pickup: "cursor-pickup",
-    use: "cursor-use",
-    open: "cursor-open",
-    close: "cursor-close",
-    talk: "cursor-talk",
-    push: "cursor-push",
-    pull: "cursor-pull",
-  };
-  return cursorMap[verb] || "cursor-default";
 }
 
 export function KitchenScene({
@@ -41,17 +26,14 @@ export function KitchenScene({
 }: KitchenSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
-  // Chef Allegro blink animation — slow blink every 3-5 seconds
+  // Chef Allegro blink animation
   const [chefBlinking, setChefBlinking] = useState(false);
   useEffect(() => {
     const scheduleBlink = () => {
-      const delay = 3000 + Math.random() * 2000; // 3-5 seconds between blinks
+      const delay = 3000 + Math.random() * 2000;
       return setTimeout(() => {
         setChefBlinking(true);
-        // Blink lasts 300ms
-        setTimeout(() => {
-          setChefBlinking(false);
-        }, 300);
+        setTimeout(() => setChefBlinking(false), 300);
         timerRef = scheduleBlink();
       }, delay);
     };
@@ -59,12 +41,7 @@ export function KitchenScene({
     return () => clearTimeout(timerRef);
   }, []);
 
-  // Sally angry state — triggered via flag, auto-reverts after 3 seconds
   const sallyAngry = gameState.flags.sallyAngry === true;
-  useEffect(() => {
-    if (!sallyAngry) return;
-    // We don't auto-revert here — the dialog system handles setting the flag
-  }, [sallyAngry]);
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -147,7 +124,6 @@ export function KitchenScene({
         use: "I turn on the faucet. Just water. The red stuff was probably wine... probably.",
       },
     },
-    // Chef Allegro hotspot — left side
     {
       id: "chef-allegro",
       name: "Chef Allegro",
@@ -161,7 +137,6 @@ export function KitchenScene({
         use: "I should talk to him instead.",
       },
     },
-    // Sous Chef Sally hotspot — right side
     {
       id: "sous-chef-sally",
       name: "Sous Chef Sally",
@@ -189,49 +164,25 @@ export function KitchenScene({
     },
   ];
 
-  const handleHotspotClick = (hotspot: SimpleHotspot) => {
-    const verb = gameState.selectedVerb;
-    if (verb) {
-      const interaction = hotspot.interactions[verb];
-      if (typeof interaction === "string" && interaction.startsWith("__NAVIGATE__")) {
-        const targetRoom = interaction.replace("__NAVIGATE__", "");
-        onChangeRoom(targetRoom);
-        return;
-      }
-    }
-    if (
-      !verb &&
-      hotspot.interactions.open &&
-      typeof hotspot.interactions.open === "string" &&
-      (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-    ) {
-      onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-      return;
-    }
-    onHotspotClick(hotspot);
-  };
-
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${kitchenBackground})` }} />
 
-      {/* Chef Allegro — left station */}
-      <div className="absolute bottom-[10%] left-[30%] z-20 pointer-events-none">
-        <img
-          src={chefBlinking ? chefAllegroBlinkImage : chefAllegroImage}
-          alt="Chef Allegro"
-          className="h-72 pixelated object-contain transition-opacity duration-150"
-        />
-      </div>
+      {/* Chef Allegro */}
+      <img
+        src={chefBlinking ? chefAllegroBlinkImage : chefAllegroImage}
+        alt="Chef Allegro"
+        className="absolute z-20 pointer-events-none pixelated object-contain transition-opacity duration-150"
+        style={{ left: "30%", top: "22%", width: "16%", height: "68%" }}
+      />
 
-      {/* Sous Chef Sally — right station */}
-      <div className="absolute bottom-[10%] right-[30%] z-20 pointer-events-none">
-        <img
-          src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
-          alt="Sous Chef Sally"
-          className="h-72 pixelated object-contain transition-opacity duration-300"
-        />
-      </div>
+      {/* Sous Chef Sally */}
+      <img
+        src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
+        alt="Sous Chef Sally"
+        className="absolute z-20 pointer-events-none pixelated object-contain transition-opacity duration-300"
+        style={{ right: "30%", top: "22%", width: "16%", height: "68%" }}
+      />
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Hallway ▼
@@ -249,7 +200,10 @@ export function KitchenScene({
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover("")}
-          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
+          }}
         />
       ))}
     </div>
