@@ -209,11 +209,14 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
       {/* Murder Scene Elements - Los Cabos is the victim */}
       {showMurderScene && (
         <>
-          {/* Table with wine glasses */}
+          {/* Table with wine glasses and charcuterie */}
           <div className="absolute bottom-[5%] left-[22%] z-10">
             <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2">
+            <div className="absolute top-0 right-[5%]">
               <img src={wineGlassesImage} alt="Wine Glasses" className="h-12 pixelated object-contain" />
+            </div>
+            <div className="absolute top-1 left-[5%]">
+              <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-10 pixelated object-contain" />
             </div>
           </div>
 
