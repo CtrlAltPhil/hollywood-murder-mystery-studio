@@ -303,14 +303,12 @@ export function GameScene({
       {/* Table with props */}
       <div className="absolute bottom-[2%] left-[20%] z-10 pointer-events-none">
         <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2">
+        <div className="absolute top-0 left-[55%] -translate-x-1/2">
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-18 pixelated object-contain" />
         </div>
-        {!gameState.flags.charcuterieTaken && (
-          <div className="absolute top-2 left-[10%]">
-            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
-          </div>
-        )}
+        <div className="absolute top-2 left-[15%]">
+          <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
+        </div>
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
