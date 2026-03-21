@@ -185,10 +185,10 @@ export function GameScene({
       interactions: {
         look: "A fancy charcuterie board with gourmet meat sticks. Looks like someone went all out for this party.",
         pickup: () => {
-          if (!gameState.flags.charcuterieTaken) {
+          if (!gameState.flags.meatStickTaken) {
             onAddToInventory({ id: "meat-stick", name: "Meat Stick", image: meatStickImage });
-            setFlag("charcuterieTaken", true);
-            return "I grab one of the meat sticks from the board. Could come in handy.";
+            setFlag("meatStickTaken", true);
+            return "I grab a meat stick from the board. The board stays on the table.";
           }
           return "I already took a meat stick from the board.";
         },
