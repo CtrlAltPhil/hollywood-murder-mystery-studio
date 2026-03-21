@@ -306,6 +306,11 @@ export function GameScene({
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
         </div>
+        {!gameState.flags.charcuterieTaken && (
+          <div className="absolute top-2 left-[10%]">
+            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-20 pixelated object-contain" />
+          </div>
+        )}
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
