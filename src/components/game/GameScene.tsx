@@ -12,6 +12,9 @@ import losCabosDeadImage from "@/assets/characters/los-cabos-dead.png";
 import tableImage from "@/assets/props/table.png";
 import wineGlassesImage from "@/assets/props/wine-glasses.png";
 import daggerImage from "@/assets/props/dagger.png";
+import charcuterieBoardImage from "@/assets/charcuterie_board.png";
+import meatStickImage from "@/assets/meat_stick.png";
+import wineGlassInventoryImage from "@/assets/wine_glass.png";
 
 interface GameSceneProps {
   gameState: GameState;
