@@ -179,7 +179,7 @@ export function GameScene({
     {
       id: "charcuterie-board",
       name: "Charcuterie Board",
-      position: { x: 23, y: 75 },
+      position: { x: 24, y: 70 },
       width: 8,
       height: 10,
       interactions: {
