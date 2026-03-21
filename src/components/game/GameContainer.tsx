@@ -19,7 +19,7 @@ import { DebugGrid } from './DebugGrid';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
-import backyardKeyInventory from '@/assets/props/backyard-key-inventory.png';
+
 
 export function GameContainer() {
   const {
