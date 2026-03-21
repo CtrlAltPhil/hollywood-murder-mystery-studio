@@ -234,7 +234,7 @@ export function GameContainer() {
       case 'los-cabos-room':
         return <LosCabosRoomScene {...sceneProps} />;
       case 'study':
-        return <StudyScene {...sceneProps} onPickupKey={handlePickupBackyardKey} />;
+        return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlag} />;
       case 'backyard':
         return <BackyardScene {...sceneProps} />;
       default:
