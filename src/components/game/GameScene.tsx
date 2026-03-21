@@ -12,6 +12,9 @@ import losCabosDeadImage from "@/assets/characters/los-cabos-dead.png";
 import tableImage from "@/assets/props/table.png";
 import wineGlassesImage from "@/assets/props/wine-glasses.png";
 import daggerImage from "@/assets/props/dagger.png";
+import charcuterieBoardImage from "@/assets/charcuterie_board.png";
+import meatStickImage from "@/assets/meat_stick.png";
+import wineGlassInventoryImage from "@/assets/wine_glass.png";
 
 interface GameSceneProps {
   gameState: GameState;
@@ -164,13 +167,32 @@ export function GameScene({
         look: "A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?",
         pickup: () => {
           if (!gameState.flags.glassesTaken) {
-            onAddToInventory({ id: "wine-glass", name: "Suspicious Wine Glass", image: wineGlassesImage });
+            onAddToInventory({ id: "wine-glass", name: "Suspicious Wine Glass", image: wineGlassInventoryImage });
             setFlag("glassesTaken", true);
             return "I carefully pick up the glass with the strange residue. This could be evidence.";
           }
           return "I already took the suspicious glass.";
         },
         use: "I should pick one up first to examine it.",
+      },
+    },
+    {
+      id: "charcuterie-board",
+      name: "Charcuterie Board",
+      position: { x: 22, y: 75 },
+      width: 8,
+      height: 10,
+      interactions: {
+        look: "A fancy charcuterie board with gourmet meat sticks. Looks like someone went all out for this party.",
+        pickup: () => {
+          if (!gameState.flags.charcuterieTaken) {
+            onAddToInventory({ id: "meat-stick", name: "Meat Stick", image: meatStickImage });
+            setFlag("charcuterieTaken", true);
+            return "I grab one of the meat sticks from the board. Could come in handy.";
+          }
+          return "I already took a meat stick from the board.";
+        },
+        use: "I should pick something up from it first.",
       },
     },
     {
@@ -284,6 +306,11 @@ export function GameScene({
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
         </div>
+        {!gameState.flags.charcuterieTaken && (
+          <div className="absolute top-2 left-[10%]">
+            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-20 pixelated object-contain" />
+          </div>
+        )}
       </div>
 
       {/* Los Cabos - Dead on the floor — lowered below baseboard */}
