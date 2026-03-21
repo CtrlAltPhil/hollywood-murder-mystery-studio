@@ -200,14 +200,6 @@ export function GameContainer() {
     playSfx('pickup');
   };
 
-  const handlePickupBackyardKey = () => {
-    setHoverText('');
-    setFlag('backyardKeyTaken', true);
-    addToInventory({ id: 'backyard_key', name: 'Backyard Key', description: 'A brass key that looks like it opens the backyard french doors.', image: backyardKeyInventory });
-    playSfx('pickup');
-    setActionText('I picked up an old key. I wonder what it opens...');
-    selectVerb(null);
-  };
 
   const menuProps = {
     musicVolume: musicVolumeState,
