@@ -1,21 +1,28 @@
 
 
-## Fix Table Item Spacing
+## Revised Plan: Standardize Scene Components (No Auto Height)
 
-Based on the reference image, the current positioning has two issues:
-
-1. **Charcuterie board** needs to be positioned higher (it sits above/behind the table, not on the table surface) and slightly more inward. It should also be a bit larger.
-2. **Wine glasses** need to be shifted more toward the center-left of the table rather than pushed to the far right edge.
+### What changed from previous plan
+Removed `height: "auto"` from the standardized positioning approach. All sprites will use **explicit percentage-based width AND height** so you have full control over sizing on every screen size, including mobile.
 
 ### Changes
 
-**`src/components/game/GameScene.tsx`**
-- Move the charcuterie board: change from `top-2 left-[5%]` to approximately `top-[-30%] left-[10%]` and increase height from `h-16` to `h-20` so it appears to sit on/above the table surface as shown in the reference
-- Move the wine glasses: change from `top-0 right-[5%]` to approximately `top-[10%] left-[25%]` so they sit more centered on the table
+**Create `src/utils/sceneHelpers.ts`**
+- Extract shared `getCursorClass` (eliminates 8 duplicates)
+- Extract shared `handleSceneHotspotClick` for `__NAVIGATE__`, `__DIALOG__`, `__PICKUP__` patterns
 
-**`src/components/game/IntroSequence.tsx`**
-- Apply the same positioning adjustments to the intro scene so both scenes match
+**Standardize all sprite positioning to inline `style` with explicit percentages**
+- Every sprite gets: `style={{ left: "X%", top: "Y%", width: "W%", height: "H%" }}`
+- No `height: "auto"` — you set both dimensions explicitly
+- Update GameScene (Tailwind → inline styles) and KitchenScene similarly
+- StudyScene already uses inline styles but its `height: "auto"` will be replaced with an explicit value
 
-**`src/components/game/GameScene.tsx`** (hotspots)
-- Update the `charcuterie-board` and `wine-glasses` hotspot x/y coordinates to align with the new visual positions
+**Standardize pickup handling**
+- Replace StudyScene's one-off `onPickupKey` prop with the standard `onAddToInventory` pattern from GameScene
+- Update GameContainer to remove `onPickupKey` wiring
+
+**Standardize hotspot filtering**
+- Use the `activeHotspots` filter pattern everywhere for taken items
+
+**Files touched**: `sceneHelpers.ts` (new), GameScene, StudyScene, HallwayScene, HallwayKitchenScene, BackyardScene, KitchenScene, ProductionRoomScene, LadyFantastiqueRoomScene, LosCabosRoomScene, GameContainer
 
