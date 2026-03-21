@@ -160,7 +160,7 @@ export function GameScene({
     {
       id: "wine-glasses",
       name: "Wine Glasses",
-      position: { x: 28, y: 73 },
+      position: { x: 26, y: 73 },
       width: 8,
       height: 10,
       interactions: {
@@ -179,7 +179,7 @@ export function GameScene({
     {
       id: "charcuterie-board",
       name: "Charcuterie Board",
-      position: { x: 24, y: 70 },
+      position: { x: 32, y: 73 },
       width: 8,
       height: 10,
       interactions: {
@@ -259,7 +259,7 @@ export function GameScene({
     {
       id: "el-fuego",
       name: "Duke Extreme",
-      position: { x: 40, y: 82 },
+      position: { x: 42, y: 75 },
       width: 10,
       height: 32,
       interactions: {
@@ -274,7 +274,7 @@ export function GameScene({
     {
       id: "carl",
       name: "Carl",
-      position: { x: 61, y: 82 },
+      position: { x: 57, y: 75 },
       width: 10,
       height: 32,
       interactions: {
