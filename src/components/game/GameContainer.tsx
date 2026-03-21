@@ -50,6 +50,7 @@ export function GameContainer() {
   const [crashPlayed, setCrashPlayed] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
+  const [hoverText, setHoverText] = useState('');
 
   useEffect(() => {
     if (gameState.phase === 'blackout' && !crashPlayed) {
@@ -107,6 +108,7 @@ export function GameContainer() {
     setRoomTransition(true);
     setTimeout(() => {
       changeRoom(roomId, { x: 400, y: 350 });
+      setHoverText('');
       selectVerb(null);
       setActionText('');
       playRoomAmbience(roomId);
@@ -115,18 +117,25 @@ export function GameContainer() {
   };
 
   const sharedHotspotHover = (text: string) => {
+    if (!text) {
+      setHoverText('');
+      return;
+    }
+
     const verb = gameState.selectedVerb;
     const item = gameState.selectedItem;
     if (verb === 'use' && item) {
-      setActionText(`Use ${item.name} with ${text}`);
+      setHoverText(`Use ${item.name} with ${text}`);
     } else if (verb) {
-      setActionText(`${getVerbDisplayName(verb)} ${text}`);
+      setHoverText(`${getVerbDisplayName(verb)} ${text}`);
     } else {
-      setActionText(text);
+      setHoverText(text);
     }
   };
 
   const sharedHotspotClick = (hotspot: any) => {
+    setHoverText('');
+
     const verb = gameState.selectedVerb;
     const item = gameState.selectedItem;
 
@@ -186,11 +195,13 @@ export function GameContainer() {
       'dagger': 'An ornate dagger covered in blood. The murder weapon.',
       'money-bag': 'A black duffel bag stuffed with bundles of cash. What was Duke Extreme up to?',
     };
+    setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
     playSfx('pickup');
   };
 
   const handlePickupBackyardKey = () => {
+    setHoverText('');
     setFlag('backyardKeyTaken', true);
     addToInventory({ id: 'backyard_key', name: 'Backyard Key', description: 'A brass key that looks like it opens the backyard french doors.', image: backyardKeyInventory });
     playSfx('pickup');
@@ -210,7 +221,12 @@ export function GameContainer() {
   };
 
   const renderCurrentRoom = () => {
-    const handleEmptyClick = () => { if (gameState.selectedVerb) { selectVerb(null); } };
+    const handleEmptyClick = () => {
+      setHoverText('');
+      if (gameState.selectedVerb) {
+        selectVerb(null);
+      }
+    };
     const sceneProps = { gameState, onHotspotHover: sharedHotspotHover, onHotspotClick: sharedHotspotClick, onChangeRoom: handleChangeRoom, onEmptyClick: handleEmptyClick, debugMode };
     switch (gameState.currentRoom) {
       case 'hallway':
@@ -358,13 +374,14 @@ export function GameContainer() {
           <ScummUI
             selectedVerb={gameState.selectedVerb}
             onVerbSelect={selectVerb}
-            actionText={gameState.actionText}
+            actionText={hoverText || gameState.actionText}
             items={gameState.inventory}
             selectedItem={gameState.selectedItem}
             onItemSelect={(item) => {
               if (gameState.selectedVerb === 'look') {
-                setActionText(item.description || `It's a ${item.name}.`);
+                setHoverText('');
                 selectVerb(null);
+                setActionText(item.description || `It's a ${item.name}.`);
               } else {
                 selectItem(item);
               }
