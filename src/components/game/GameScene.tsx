@@ -302,13 +302,13 @@ export function GameScene({
 
       {/* Table with props */}
       <div className="absolute bottom-[2%] left-[20%] z-10 pointer-events-none">
-        <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
+        <img src={tableImage} alt="Party Table" className="h-46 pixelated object-contain" />
         {/* Wine glasses centered on table */}
-        <div className="absolute top-[10%] left-[25%]">
-          <img src={wineGlassesImage} alt="Wine Glasses" className="h-18 pixelated object-contain" />
+        <div className="absolute top-[12%] left-[25%]">
+          <img src={wineGlassesImage} alt="Wine Glasses" className="h-16 pixelated object-contain" />
         </div>
         {/* Charcuterie board sitting above table */}
-        <div className="absolute top-[-30%] left-[10%]">
+        <div className="absolute top-[-12%] left-[10%]">
           <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-20 pixelated object-contain" />
         </div>
       </div>
