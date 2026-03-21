@@ -307,7 +307,7 @@ export function GameScene({
           <img src={wineGlassesImage} alt="Wine Glasses" className="h-18 pixelated object-contain" />
         </div>
         {!gameState.flags.charcuterieTaken && (
-          <div className="absolute top-2 left-[12%]">
+          <div className="absolute top-2 left-[16%]">
             <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
           </div>
         )}
