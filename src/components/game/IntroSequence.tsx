@@ -9,6 +9,7 @@ import carlSprite from "@/assets/characters/carl.png";
 import daggerImage from "@/assets/props/dagger.png";
 import wineGlassesImage from "@/assets/props/wine-glasses.png";
 import tableImage from "@/assets/props/table.png";
+import charcuterieBoardImage from "@/assets/charcuterie_board.png";
 
 interface IntroSequenceProps {
   phase: GamePhase;
