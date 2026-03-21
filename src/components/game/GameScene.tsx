@@ -302,13 +302,13 @@ export function GameScene({
 
       {/* Table with props */}
       <div className="absolute bottom-[2%] left-[20%] z-10 pointer-events-none">
-        <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
+        <img src={tableImage} alt="Party Table" className="h-50 pixelated object-contain" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
-          <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
+          <img src={wineGlassesImage} alt="Wine Glasses" className="h-18 pixelated object-contain" />
         </div>
         {!gameState.flags.charcuterieTaken && (
           <div className="absolute top-2 left-[10%]">
-            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-20 pixelated object-contain" />
+            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
           </div>
         )}
       </div>
@@ -412,7 +412,10 @@ export function GameScene({
             }}
             onMouseEnter={() => onHotspotHover(hotspot.name)}
             onMouseLeave={() => onHotspotHover("")}
-            onClick={(e) => { e.stopPropagation(); handleClick(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
           />
         );
       })}
