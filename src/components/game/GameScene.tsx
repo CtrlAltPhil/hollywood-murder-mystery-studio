@@ -167,13 +167,32 @@ export function GameScene({
         look: "A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?",
         pickup: () => {
           if (!gameState.flags.glassesTaken) {
-            onAddToInventory({ id: "wine-glass", name: "Suspicious Wine Glass", image: wineGlassesImage });
+            onAddToInventory({ id: "wine-glass", name: "Suspicious Wine Glass", image: wineGlassInventoryImage });
             setFlag("glassesTaken", true);
             return "I carefully pick up the glass with the strange residue. This could be evidence.";
           }
           return "I already took the suspicious glass.";
         },
         use: "I should pick one up first to examine it.",
+      },
+    },
+    {
+      id: "charcuterie-board",
+      name: "Charcuterie Board",
+      position: { x: 22, y: 75 },
+      width: 8,
+      height: 10,
+      interactions: {
+        look: "A fancy charcuterie board with gourmet meat sticks. Looks like someone went all out for this party.",
+        pickup: () => {
+          if (!gameState.flags.charcuterieTaken) {
+            onAddToInventory({ id: "meat-stick", name: "Meat Stick", image: meatStickImage });
+            setFlag("charcuterieTaken", true);
+            return "I grab one of the meat sticks from the board. Could come in handy.";
+          }
+          return "I already took a meat stick from the board.";
+        },
+        use: "I should pick something up from it first.",
       },
     },
     {
