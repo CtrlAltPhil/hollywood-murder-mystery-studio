@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { GameState, Verb } from "@/types/game";
+import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 
 // Import assets
 import breakroomBackground from "@/assets/backgrounds/breakroom.jpg";
@@ -16,6 +17,9 @@ import charcuterieBoardImage from "@/assets/charcuterie_board.png";
 import meatStickImage from "@/assets/meat_stick.png";
 import wineGlassInventoryImage from "@/assets/wine_glass.png";
 
+// Re-export SimpleHotspot for backward compatibility
+export type { SimpleHotspot } from "@/utils/sceneHelpers";
+
 interface GameSceneProps {
   gameState: GameState;
   setFlag: (key: string, value: boolean) => void;
@@ -25,34 +29,6 @@ interface GameSceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
-}
-
-// Simplified hotspot for the scene
-export interface SimpleHotspot {
-  id: string;
-  name: string;
-  position: { x: number; y: number };
-  width: number;
-  height: number;
-  interactions: Record<string, string | (() => string | void)>;
-}
-
-// Cursor class mapping based on selected verb
-function getCursorClass(verb: Verb | null): string {
-  if (!verb) return "cursor-default";
-
-  const cursorMap: Record<Verb, string> = {
-    look: "cursor-look",
-    pickup: "cursor-pickup",
-    use: "cursor-use",
-    open: "cursor-open",
-    close: "cursor-close",
-    talk: "cursor-talk",
-    push: "cursor-push",
-    pull: "cursor-pull",
-  };
-
-  return cursorMap[verb] || "cursor-default";
 }
 
 export function GameScene({
@@ -107,15 +83,11 @@ export function GameScene({
         }, delay + duration),
       );
     });
-    // Mark shock sequence done after all messages (persisted in game flags)
     const lastMsg = SHOCK_MESSAGES[SHOCK_MESSAGES.length - 1];
     timers.push(setTimeout(() => setFlag("shockReactionDone", true), lastMsg.delay + lastMsg.duration));
     return () => timers.forEach(clearTimeout);
   }, [gameState.flags.shockReactionDone]);
 
-  // Define hotspots — positions must match the visual elements exactly
-  // Visual chars: Lady left-[8%], El Fuego left-[35%], Carl left-[55%], all bottom-[3%] h-44
-  // Table: left-[22%] bottom-[5%] h-28, Los Cabos: right-[15%] bottom-[1%]
   const hotspots: SimpleHotspot[] = [
     {
       id: "door",
@@ -300,60 +272,77 @@ export function GameScene({
       {/* Background */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
-      {/* Table with props */}
-      <div className="absolute bottom-[2%] left-[20%] z-10 pointer-events-none">
-        <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
-        {/* Wine glasses centered on table */}
-        <div className="absolute top-[12%] left-[15%]">
-          <img src={wineGlassesImage} alt="Wine Glasses" className="h-16 pixelated object-contain" />
-        </div>
-        {/* Charcuterie board sitting above table */}
-        <div className="absolute bottom-[48%] left-[42%]">
-          <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-16 pixelated object-contain" />
-        </div>
-      </div>
+      {/* Table */}
+      <img
+        src={tableImage}
+        alt="Party Table"
+        className="absolute z-10 pointer-events-none pixelated object-contain"
+        style={{ left: "20%", top: "56%", width: "25%", height: "42%" }}
+      />
+      {/* Wine glasses on table */}
+      <img
+        src={wineGlassesImage}
+        alt="Wine Glasses"
+        className="absolute z-10 pointer-events-none pixelated object-contain"
+        style={{ left: "23%", top: "60%", width: "9%", height: "15%" }}
+      />
+      {/* Charcuterie board on table */}
+      <img
+        src={charcuterieBoardImage}
+        alt="Charcuterie Board"
+        className="absolute z-10 pointer-events-none pixelated object-contain"
+        style={{ left: "31%", top: "52%", width: "10%", height: "18%" }}
+      />
 
-      {/* Los Cabos - Dead on the floor — lowered below baseboard */}
-      <div className="absolute bottom-[-6%] right-[15%] transform -rotate-90 z-10 pointer-events-none">
-        <img
-          src={losCabosDeadImage}
-          alt="Los Cabos"
-          className="h-60 pixelated object-contain opacity-95"
-          style={{ filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))" }}
-        />
-      </div>
+      {/* Los Cabos - Dead on the floor */}
+      <img
+        src={losCabosDeadImage}
+        alt="Los Cabos"
+        className="absolute z-10 pointer-events-none pixelated object-contain"
+        style={{
+          right: "15%",
+          bottom: "-6%",
+          height: "55%",
+          width: "auto",
+          transform: "rotate(-90deg)",
+          filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))",
+          opacity: 0.95,
+        }}
+      />
 
       {/* Blood pool effect */}
       <div
-        className="absolute bottom-[2%] right-[12%] w-36 h-14 rounded-full opacity-60"
-        style={{ background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)" }}
+        className="absolute opacity-60"
+        style={{
+          right: "12%",
+          bottom: "2%",
+          width: "20%",
+          height: "12%",
+          borderRadius: "50%",
+          background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)",
+        }}
       />
 
       {/* Dagger near the body */}
       {!gameState.flags.daggerTaken && (
-        <div className="absolute bottom-[5%] right-[8%] z-[15] pointer-events-none">
-          <img
-            src={daggerImage}
-            alt="Bloody Dagger"
-            className="h-14 pixelated object-contain transform rotate-45"
-            style={{ filter: "drop-shadow(0 0 8px rgba(180,0,0,0.6))" }}
-          />
-        </div>
+        <img
+          src={daggerImage}
+          alt="Bloody Dagger"
+          className="absolute z-[15] pointer-events-none pixelated object-contain"
+          style={{
+            right: "8%",
+            bottom: "5%",
+            width: "6%",
+            height: "13%",
+            transform: "rotate(45deg)",
+            filter: "drop-shadow(0 0 8px rgba(180,0,0,0.6))",
+          }}
+        />
       )}
 
-      {/* Surviving characters — same h-44 and bottom-[3%] as IntroSequence */}
-      <div className="absolute bottom-[3%] left-[50%] z-20 pointer-events-none">
-        <img src={carlImage} alt="Carl" className="h-60 pixelated object-contain" />
-        {shockBubbles["Carl"] && (
-          <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
-            {shockBubbles["Carl"]}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
-          </div>
-        )}
-      </div>
-
-      <div className="absolute bottom-[3%] left-[8%] z-20 pointer-events-none">
-        <img src={ladyImage} alt="Lady Fantastique" className="h-60 pixelated object-contain" />
+      {/* Lady Fantastique */}
+      <div className="absolute z-20 pointer-events-none" style={{ left: "8%", top: "42%", width: "12%", height: "55%" }}>
+        <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -362,11 +351,12 @@ export function GameScene({
         )}
       </div>
 
-      <div className="absolute bottom-[3%] left-[35%] z-20 pointer-events-none">
+      {/* Duke Extreme */}
+      <div className="absolute z-20 pointer-events-none" style={{ left: "35%", top: "42%", width: "12%", height: "55%" }}>
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
-          className="h-60 pixelated object-contain transition-opacity duration-300"
+          className="w-full h-full pixelated object-contain transition-opacity duration-300"
         />
         {shockBubbles["Duke Extreme"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
@@ -376,49 +366,36 @@ export function GameScene({
         )}
       </div>
 
+      {/* Carl */}
+      <div className="absolute z-20 pointer-events-none" style={{ left: "50%", top: "42%", width: "12%", height: "55%" }}>
+        <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
+        {shockBubbles["Carl"] && (
+          <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
+            {shockBubbles["Carl"]}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
+          </div>
+        )}
+      </div>
+
       {/* Invisible hotspots for interactions */}
-      {activeHotspots.map((hotspot) => {
-        const handleClick = () => {
-          const verb = gameState.selectedVerb;
-          if (verb) {
-            const interaction = hotspot.interactions[verb];
-            if (typeof interaction === "string" && interaction.startsWith("__NAVIGATE__")) {
-              const targetRoom = interaction.replace("__NAVIGATE__", "");
-              onChangeRoom(targetRoom);
-              return;
-            }
-          }
-          // Default: doors auto-open when no verb selected
-          if (
-            !verb &&
-            hotspot.interactions.open &&
-            typeof hotspot.interactions.open === "string" &&
-            (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-          ) {
-            onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-            return;
-          }
-          onHotspotClick(hotspot);
-        };
-        return (
-          <div
-            key={hotspot.id}
-            className={`absolute z-30 cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
-            style={{
-              left: `${hotspot.position.x - hotspot.width / 2}%`,
-              top: `${hotspot.position.y - hotspot.height / 2}%`,
-              width: `${hotspot.width}%`,
-              height: `${hotspot.height}%`,
-            }}
-            onMouseEnter={() => onHotspotHover(hotspot.name)}
-            onMouseLeave={() => onHotspotHover("")}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleClick();
-            }}
-          />
-        );
-      })}
+      {activeHotspots.map((hotspot) => (
+        <div
+          key={hotspot.id}
+          className={`absolute z-30 cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
+          style={{
+            left: `${hotspot.position.x - hotspot.width / 2}%`,
+            top: `${hotspot.position.y - hotspot.height / 2}%`,
+            width: `${hotspot.width}%`,
+            height: `${hotspot.height}%`,
+          }}
+          onMouseEnter={() => onHotspotHover(hotspot.name)}
+          onMouseLeave={() => onHotspotHover("")}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
+          }}
+        />
+      ))}
     </div>
   );
 }

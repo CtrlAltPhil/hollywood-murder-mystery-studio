@@ -1,6 +1,6 @@
-import { GameState, Verb } from "@/types/game";
+import { GameState } from "@/types/game";
+import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import hallwayBackground from "@/assets/backgrounds/hallway.png";
-import { SimpleHotspot } from "./GameScene";
 
 interface HallwaySceneProps {
   gameState: GameState;
@@ -9,21 +9,6 @@ interface HallwaySceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
-}
-
-function getCursorClass(verb: Verb | null): string {
-  if (!verb) return "cursor-default";
-  const cursorMap: Record<Verb, string> = {
-    look: "cursor-look",
-    pickup: "cursor-pickup",
-    use: "cursor-use",
-    open: "cursor-open",
-    close: "cursor-close",
-    talk: "cursor-talk",
-    push: "cursor-push",
-    pull: "cursor-pull",
-  };
-  return cursorMap[verb] || "cursor-default";
 }
 
 export function HallwayScene({
@@ -154,36 +139,20 @@ export function HallwayScene({
 
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
     const verb = gameState.selectedVerb;
-    if (verb) {
-      const interaction = hotspot.interactions[verb];
-      if (typeof interaction === "string" && interaction.startsWith("__NAVIGATE__")) {
-        const targetRoom = interaction.replace("__NAVIGATE__", "");
-        onChangeRoom(targetRoom);
-        return;
-      }
+
+    // Special case: locked french doors show a message instead of navigating
+    if (!verb && hotspot.id === "french-doors" && !gameState.flags.backyardUnlocked) {
+      onHotspotHover("The doors are locked. I need to find a key.");
+      return;
     }
-    // Default: doors auto-open when no verb selected
-    if (!verb) {
-      // Special case: locked french doors show a message instead of navigating
-      if (hotspot.id === "french-doors" && !gameState.flags.backyardUnlocked) {
-        onHotspotHover("The doors are locked. I need to find a key.");
-        return;
-      }
-      if (
-        hotspot.interactions.open &&
-        typeof hotspot.interactions.open === "string" &&
-        (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-      ) {
-        onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-        return;
-      }
-    }
-    // For the kitchen direction, any click navigates
+
+    // Special case: kitchen direction with no verb
     if (hotspot.id === "kitchen-direction" && !verb) {
       onChangeRoom("hallway-kitchen");
       return;
     }
-    onHotspotClick(hotspot);
+
+    handleSceneHotspotClick(hotspot, verb, onChangeRoom, onHotspotClick);
   };
 
   return (
@@ -207,7 +176,10 @@ export function HallwayScene({
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover("")}
-          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleHotspotClick(hotspot);
+          }}
         >
           {debugMode && (
             <span className="absolute top-0 left-0 text-[8px] text-green-300 bg-black/70 px-1 rounded-br">

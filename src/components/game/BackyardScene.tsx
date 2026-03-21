@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { GameState, Verb } from "@/types/game";
+import { GameState } from "@/types/game";
+import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import backyardBackground from "@/assets/backgrounds/backyard.png";
 import waterfall1 from "@/assets/props/waterfall1.png";
 import waterfall2 from "@/assets/props/waterfall2.png";
 import waterfall3 from "@/assets/props/waterfall3.png";
 import waterfall4 from "@/assets/props/waterfall4.png";
-import { SimpleHotspot } from "./GameScene";
 
 interface BackyardSceneProps {
   gameState: GameState;
@@ -14,21 +14,6 @@ interface BackyardSceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
-}
-
-function getCursorClass(verb: Verb | null): string {
-  if (!verb) return "cursor-default";
-  const cursorMap: Record<Verb, string> = {
-    look: "cursor-look",
-    pickup: "cursor-pickup",
-    use: "cursor-use",
-    open: "cursor-open",
-    close: "cursor-close",
-    talk: "cursor-talk",
-    push: "cursor-push",
-    pull: "cursor-pull",
-  };
-  return cursorMap[verb] || "cursor-default";
 }
 
 export function BackyardScene({
@@ -46,17 +31,10 @@ export function BackyardScene({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setWaterfallFrame((prev) => {
-        // If it's the last frame, go back to 0.
-        if (prev === waterfallFrames.length - 1) {
-          return 0;
-        }
-        // Otherwise, increment the frame number.
-        return prev + 1;
-      });
-    }, 12); // The new interval for speed.
+      setWaterfallFrame((prev) => (prev >= waterfallFrames.length - 1 ? 0 : prev + 1));
+    }, 12);
     return () => clearInterval(interval);
-  }, [waterfallFrames.length]); // Ensure this effect is called correctly.
+  }, [waterfallFrames.length]);
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -152,27 +130,6 @@ export function BackyardScene({
     },
   ];
 
-  const handleHotspotClick = (hotspot: SimpleHotspot) => {
-    const verb = gameState.selectedVerb;
-    if (verb) {
-      const interaction = hotspot.interactions[verb];
-      if (typeof interaction === "string" && interaction.startsWith("__NAVIGATE__")) {
-        onChangeRoom(interaction.replace("__NAVIGATE__", ""));
-        return;
-      }
-    }
-    if (
-      !verb &&
-      hotspot.interactions.open &&
-      typeof hotspot.interactions.open === "string" &&
-      (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-    ) {
-      onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-      return;
-    }
-    onHotspotClick(hotspot);
-  };
-
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backyardBackground})` }} />
@@ -182,13 +139,7 @@ export function BackyardScene({
         src={waterfallFrames[waterfallFrame]}
         alt=""
         className="absolute pointer-events-none z-10"
-        style={{
-          left: "21%",
-          top: "18%",
-          width: "45%",
-          height: "75%",
-          objectFit: "fill",
-        }}
+        style={{ left: "21%", top: "18%", width: "45%", height: "75%", objectFit: "fill" }}
       />
 
       {/* Navigation indicator */}
@@ -199,9 +150,7 @@ export function BackyardScene({
       {hotspots.map((hotspot) => (
         <div
           key={hotspot.id}
-          className={`absolute cursor-pointer transition-colors rounded ${
-            debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"
-          }`}
+          className={`absolute cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
           style={{
             left: `${hotspot.position.x - hotspot.width / 2}%`,
             top: `${hotspot.position.y - hotspot.height / 2}%`,
@@ -210,7 +159,10 @@ export function BackyardScene({
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover("")}
-          onClick={(e) => { e.stopPropagation(); handleHotspotClick(hotspot); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
+          }}
         >
           {debugMode && (
             <span className="absolute top-0 left-0 text-[8px] text-green-300 bg-black/70 px-1 rounded-br">

@@ -1,40 +1,28 @@
-import { GameState, Verb } from "@/types/game";
+import { GameState } from "@/types/game";
+import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import studyBackground from "@/assets/backgrounds/study.png";
 import backyardKeySprite from "@/assets/props/backyard-key.png";
-import { SimpleHotspot } from "./GameScene";
+import backyardKeyInventory from "@/assets/props/backyard-key-inventory.png";
 
 interface StudySceneProps {
   gameState: GameState;
   onHotspotHover: (text: string) => void;
   onHotspotClick: (hotspot: SimpleHotspot) => void;
+  onAddToInventory: (item: { id: string; name: string; image: string }) => void;
+  setFlag: (key: string, value: boolean) => void;
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
-  onPickupKey?: () => void;
   debugMode?: boolean;
-}
-
-function getCursorClass(verb: Verb | null): string {
-  if (!verb) return "cursor-default";
-  const cursorMap: Record<Verb, string> = {
-    look: "cursor-look",
-    pickup: "cursor-pickup",
-    use: "cursor-use",
-    open: "cursor-open",
-    close: "cursor-close",
-    talk: "cursor-talk",
-    push: "cursor-push",
-    pull: "cursor-pull",
-  };
-  return cursorMap[verb] || "cursor-default";
 }
 
 export function StudyScene({
   gameState,
   onHotspotHover,
   onHotspotClick,
+  onAddToInventory,
+  setFlag,
   onChangeRoom,
   onEmptyClick,
-  onPickupKey,
   debugMode,
 }: StudySceneProps) {
   const keyTaken = gameState.flags.backyardKeyTaken;
@@ -113,22 +101,6 @@ export function StudyScene({
         use: "I fish out the note. Could be important.",
       },
     },
-    ...(!keyTaken
-      ? [
-          {
-            id: "backyard-key",
-            name: "Old Key",
-            position: { x: 15, y: 88 },
-            width: 8,
-            height: 10,
-            interactions: {
-              look: "An old brass key lying on the floor. I wonder what it opens...",
-              pickup: "__PICKUP_KEY__",
-              use: "I should pick it up first.",
-            },
-          },
-        ]
-      : []),
     {
       id: "phone",
       name: "Phone",
@@ -155,30 +127,31 @@ export function StudyScene({
     },
   ];
 
-  const handleHotspotClick = (hotspot: SimpleHotspot) => {
-    const verb = gameState.selectedVerb;
-    if (verb) {
-      const interaction = hotspot.interactions[verb];
-      if (typeof interaction === "string" && interaction === "__PICKUP_KEY__") {
-        onPickupKey?.();
-        return;
-      }
-      if (typeof interaction === "string" && interaction.startsWith("__NAVIGATE__")) {
-        onChangeRoom(interaction.replace("__NAVIGATE__", ""));
-        return;
-      }
-    }
-    if (
-      !verb &&
-      hotspot.interactions.open &&
-      typeof hotspot.interactions.open === "string" &&
-      (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-    ) {
-      onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-      return;
-    }
-    onHotspotClick(hotspot);
-  };
+  // Add key hotspot if not yet taken — uses standard pickup pattern
+  const activeHotspots = keyTaken
+    ? hotspots
+    : [
+        ...hotspots,
+        {
+          id: "backyard-key",
+          name: "Old Key",
+          position: { x: 15, y: 88 },
+          width: 8,
+          height: 10,
+          interactions: {
+            look: "An old brass key lying on the floor. I wonder what it opens...",
+            pickup: () => {
+              if (!gameState.flags.backyardKeyTaken) {
+                onAddToInventory({ id: "backyard_key", name: "Backyard Key", image: backyardKeyInventory });
+                setFlag("backyardKeyTaken", true);
+                return "I picked up an old key. I wonder what it opens...";
+              }
+              return "I already have the key.";
+            },
+            use: "I should pick it up first.",
+          },
+        },
+      ];
 
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
@@ -190,7 +163,7 @@ export function StudyScene({
           src={backyardKeySprite}
           alt="Old Key"
           className="absolute pointer-events-none z-10"
-          style={{ left: "11%", top: "80%", width: "8%", height: "auto" }}
+          style={{ left: "11%", top: "80%", width: "8%", height: "10%" }}
         />
       )}
 
@@ -198,7 +171,7 @@ export function StudyScene({
         ▼ Back to Hallway ▼
       </div>
 
-      {hotspots.map((hotspot) => (
+      {activeHotspots.map((hotspot) => (
         <div
           key={hotspot.id}
           className={`absolute cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
@@ -212,7 +185,7 @@ export function StudyScene({
           onMouseLeave={() => onHotspotHover("")}
           onClick={(e) => {
             e.stopPropagation();
-            handleHotspotClick(hotspot);
+            handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
           }}
         />
       ))}

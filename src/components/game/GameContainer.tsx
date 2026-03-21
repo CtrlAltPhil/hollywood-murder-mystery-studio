@@ -19,7 +19,7 @@ import { DebugGrid } from './DebugGrid';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings } from 'lucide-react';
-import backyardKeyInventory from '@/assets/props/backyard-key-inventory.png';
+
 
 export function GameContainer() {
   const {
@@ -200,14 +200,6 @@ export function GameContainer() {
     playSfx('pickup');
   };
 
-  const handlePickupBackyardKey = () => {
-    setHoverText('');
-    setFlag('backyardKeyTaken', true);
-    addToInventory({ id: 'backyard_key', name: 'Backyard Key', description: 'A brass key that looks like it opens the backyard french doors.', image: backyardKeyInventory });
-    playSfx('pickup');
-    setActionText('I picked up an old key. I wonder what it opens...');
-    selectVerb(null);
-  };
 
   const menuProps = {
     musicVolume: musicVolumeState,
@@ -242,7 +234,7 @@ export function GameContainer() {
       case 'los-cabos-room':
         return <LosCabosRoomScene {...sceneProps} />;
       case 'study':
-        return <StudyScene {...sceneProps} onPickupKey={handlePickupBackyardKey} />;
+        return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlag} />;
       case 'backyard':
         return <BackyardScene {...sceneProps} />;
       default:
