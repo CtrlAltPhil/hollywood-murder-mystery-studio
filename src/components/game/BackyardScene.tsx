@@ -14,6 +14,8 @@ interface BackyardSceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
+  setFlag: (flag: string, value: boolean) => void;
+  onAddToInventory: (item: { id: string; name: string; image: string }) => void;
 }
 
 export function BackyardScene({
@@ -23,18 +25,23 @@ export function BackyardScene({
   onChangeRoom,
   onEmptyClick,
   debugMode,
+  setFlag,
+  onAddToInventory,
 }: BackyardSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
+  const fountainOff = gameState.flags.fountainOff === true;
+  const fountainKeyTaken = gameState.flags.fountainKeyTaken === true;
 
   const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
   const [waterfallFrame, setWaterfallFrame] = useState(0);
 
   useEffect(() => {
+    if (fountainOff) return;
     const interval = setInterval(() => {
       setWaterfallFrame((prev) => (prev >= waterfallFrames.length - 1 ? 0 : prev + 1));
     }, 12);
     return () => clearInterval(interval);
-  }, [waterfallFrames.length]);
+  }, [waterfallFrames.length, fountainOff]);
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -56,11 +63,17 @@ export function BackyardScene({
       position: { x: 46, y: 80 },
       width: 25,
       height: 18,
-      interactions: {
-        look: "A small koi pond. The water is dark and murky tonight. I can barely see the bottom.",
-        use: "I'm not sticking my hand in there.",
-        pickup: "I can't pick up a pond.",
-      },
+      interactions: fountainOff && !fountainKeyTaken
+        ? {
+            look: "With the fountain off, the water is still. I can see something shiny glinting at the bottom of the pond!",
+            pickup: "__PICKUP_FOUNTAIN_KEY__",
+            use: "I should try to grab that shiny thing in the water.",
+          }
+        : {
+            look: "A small koi pond. The water is dark and murky tonight. I can barely see the bottom.",
+            use: "I'm not sticking my hand in there.",
+            pickup: "I can't pick up a pond.",
+          },
     },
     {
       id: "left-column",
@@ -80,8 +93,14 @@ export function BackyardScene({
       width: 10,
       height: 65,
       interactions: {
-        look: "Another stone column. There are fresh scratch marks near the base.",
-        push: "It won't budge.",
+        look: () => {
+          return fountainOff
+            ? "The stone column. I can see the hidden switch I found earlier. The fountain is currently off."
+            : "Wait... there's a small hidden switch behind this column! Someone went through a lot of trouble to conceal it. Want to flip it?";
+        },
+        push: "__TOGGLE_FOUNTAIN__",
+        pull: "__TOGGLE_FOUNTAIN__",
+        use: "__TOGGLE_FOUNTAIN__",
       },
     },
     {
@@ -130,17 +149,70 @@ export function BackyardScene({
     },
   ];
 
+  const handleHotspotClick = (hotspot: SimpleHotspot) => {
+    const verb = gameState.selectedVerb;
+
+    // Toggle fountain switch
+    if (hotspot.id === "right-column" && verb) {
+      const interaction = hotspot.interactions[verb];
+      if (interaction === "__TOGGLE_FOUNTAIN__") {
+        if (fountainOff) {
+          setFlag("fountainOff", false);
+          onHotspotClick({
+            ...hotspot,
+            interactions: { [verb]: "I flip the switch. The fountain hums back to life and water starts flowing again." },
+          });
+        } else {
+          setFlag("fountainOff", true);
+          onHotspotClick({
+            ...hotspot,
+            interactions: { [verb]: "I flip the hidden switch. The fountain sputters and goes quiet. The water in the pond becomes still..." },
+          });
+        }
+        return;
+      }
+    }
+
+    // Pickup fountain key
+    if (hotspot.id === "pond" && verb === "pickup") {
+      const interaction = hotspot.interactions[verb];
+      if (interaction === "__PICKUP_FOUNTAIN_KEY__") {
+        setFlag("fountainKeyTaken", true);
+        onAddToInventory({ id: "fountain_key", name: "Mysterious Key", image: "/placeholder.svg" });
+        onHotspotClick({
+          ...hotspot,
+          interactions: { pickup: "I reach into the still water and pull out a small brass key. It was hidden under the fountain's flow this whole time! I wonder what it unlocks..." },
+        });
+        return;
+      }
+    }
+
+    handleSceneHotspotClick(hotspot, verb, onChangeRoom, onHotspotClick);
+  };
+
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backyardBackground})` }} />
 
-      {/* Waterfall animation */}
-      <img
-        src={waterfallFrames[waterfallFrame]}
-        alt=""
-        className="absolute pointer-events-none z-10"
-        style={{ left: "21%", top: "18%", width: "45%", height: "75%", objectFit: "fill" }}
-      />
+      {/* Waterfall animation - only show when fountain is on */}
+      {!fountainOff && (
+        <img
+          src={waterfallFrames[waterfallFrame]}
+          alt=""
+          className="absolute pointer-events-none z-10"
+          style={{ left: "21%", top: "18%", width: "45%", height: "75%", objectFit: "fill" }}
+        />
+      )}
+
+      {/* Shiny item in the pond when fountain is off and key not taken */}
+      {fountainOff && !fountainKeyTaken && (
+        <div
+          className="absolute z-10 pointer-events-none"
+          style={{ left: "44%", top: "78%", width: "4%", height: "4%" }}
+        >
+          <div className="w-full h-full rounded-full bg-yellow-300/80 animate-pulse shadow-[0_0_12px_4px_rgba(253,224,71,0.6)]" />
+        </div>
+      )}
 
       {/* Navigation indicator */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
@@ -161,7 +233,7 @@ export function BackyardScene({
           onMouseLeave={() => onHotspotHover("")}
           onClick={(e) => {
             e.stopPropagation();
-            handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
+            handleHotspotClick(hotspot);
           }}
         >
           {debugMode && (
