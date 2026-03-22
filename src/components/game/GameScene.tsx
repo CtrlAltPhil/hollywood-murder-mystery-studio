@@ -302,7 +302,7 @@ export function GameScene({
         style={{
           right: "15%",
           bottom: "-6%",
-          height: "35%",
+          height: "25%",
           width: "auto",
           transform: "rotate(-90deg)",
           filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))",
@@ -343,7 +343,7 @@ export function GameScene({
       {/* Lady Fantastique */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "8%", bottom: "8%", width: "15%", height: "45%" }}
+        style={{ left: "8%", bottom: "5%", width: "15%", height: "45%" }}
       >
         <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
@@ -357,7 +357,7 @@ export function GameScene({
       {/* Duke Extreme */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "35%", bottom: "8%", width: "15%", height: "45%" }}
+        style={{ left: "35%", bottom: "5%", width: "15%", height: "45%" }}
       >
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
@@ -375,7 +375,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "50%", bottom: "8%", width: "12%", height: "45%" }}
+        style={{ left: "50%", bottom: "5%", width: "12%", height: "60%" }}
       >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
