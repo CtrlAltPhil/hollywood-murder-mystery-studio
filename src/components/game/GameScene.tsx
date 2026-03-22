@@ -314,10 +314,10 @@ export function GameScene({
       <div
         className="absolute opacity-60"
         style={{
-          right: "12%",
+          right: "15%",
           bottom: "2%",
           width: "auto",
-          height: "50%",
+          height: "70%",
           borderRadius: "50%",
           background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)",
         }}
