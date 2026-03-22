@@ -284,14 +284,14 @@ export function GameScene({
         src={wineGlassesImage}
         alt="Wine Glasses"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "23%", top: "63%", width: "9%", height: "15%" }}
+        style={{ left: "23%", top: "66%", width: "9%", height: "15%" }}
       />
       {/* Charcuterie board on table */}
       <img
         src={charcuterieBoardImage}
         alt="Charcuterie Board"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "31%", top: "63%", width: "10%", height: "18%" }}
+        style={{ left: "31%", top: "66%", width: "10%", height: "18%" }}
       />
 
       {/* Los Cabos - Dead on the floor */}
@@ -317,7 +317,7 @@ export function GameScene({
           right: "12%",
           bottom: "2%",
           width: "20%",
-          height: "12%",
+          height: "auto",
           borderRadius: "50%",
           background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)",
         }}
@@ -332,8 +332,8 @@ export function GameScene({
           style={{
             right: "8%",
             bottom: "5%",
-            width: "6%",
-            height: "13%",
+            width: "auto",
+            height: "15%",
             transform: "rotate(45deg)",
             filter: "drop-shadow(0 0 8px rgba(180,0,0,0.6))",
           }}
@@ -357,7 +357,7 @@ export function GameScene({
       {/* Duke Extreme */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "38%", bottom: "5%", width: "auto", height: "45%" }}
+        style={{ left: "38%", bottom: "1%", width: "auto", height: "45%" }}
       >
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
