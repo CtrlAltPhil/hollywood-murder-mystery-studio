@@ -163,7 +163,7 @@ export function StudyScene({
           src={backyardKeySprite}
           alt="Old Key"
           className="absolute pointer-events-none z-10"
-          style={{ left: "11%", top: "80%", width: "8%", height: "10%" }}
+          style={{ left: "11%", top: "88%", width: "auto", height: "10%" }}
         />
       )}
 
