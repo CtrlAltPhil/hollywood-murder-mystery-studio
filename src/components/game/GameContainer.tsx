@@ -274,7 +274,7 @@ export function GameContainer() {
       case 'study':
         return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'backyard':
-        return <BackyardScene {...sceneProps} setFlag={setFlag} onAddToInventory={handleAddToInventory} />;
+        return <BackyardScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
       case 'duke-extreme-room':
         return <DukeExtremeRoomScene {...sceneProps} />;
       default:
