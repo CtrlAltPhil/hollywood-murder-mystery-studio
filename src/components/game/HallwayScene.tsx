@@ -78,6 +78,8 @@ export function HallwayScene({
       height: 30,
       interactions: {
         look: "The door to Duke Extreme's Room. It's probably pretty extreme in there..",
+        open: "__NAVIGATE__duke-extreme-room",
+        use: "__NAVIGATE__duke-extreme-room",
       },
     },
     {
