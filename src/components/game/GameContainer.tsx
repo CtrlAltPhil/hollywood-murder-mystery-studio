@@ -12,6 +12,7 @@ import { LadyFantastiqueRoomScene } from './LadyFantastiqueRoomScene';
 import { LosCabosRoomScene } from './LosCabosRoomScene';
 import { StudyScene } from './StudyScene';
 import { BackyardScene } from './BackyardScene';
+import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
