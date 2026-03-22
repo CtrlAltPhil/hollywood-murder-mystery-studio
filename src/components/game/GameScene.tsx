@@ -316,8 +316,8 @@ export function GameScene({
         style={{
           right: "12%",
           bottom: "2%",
-          width: "20%",
-          height: "auto",
+          width: "auto",
+          height: "20%",
           borderRadius: "50%",
           background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)",
         }}
@@ -375,7 +375,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "53%", bottom: "1%", width: "auto", height: "50%" }}
+        style={{ left: "53%", bottom: "1%", width: "auto", height: "45%" }}
       >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
