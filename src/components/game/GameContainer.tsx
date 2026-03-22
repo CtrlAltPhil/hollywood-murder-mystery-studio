@@ -40,7 +40,20 @@ export function GameContainer() {
     changeRoom,
   } = useGameState();
 
+  const {
+    dialogueLog,
+    evidenceLog,
+    hasUnread,
+    logDialogue,
+    checkFlagEvidence,
+    checkItemEvidence,
+    clearUnread,
+  } = useNotesState();
+
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
+
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+  const lastLoggedNodeId = useRef<string | null>(null);
 
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
