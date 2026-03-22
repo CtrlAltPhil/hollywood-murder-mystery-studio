@@ -208,9 +208,21 @@ export function BackyardScene({
       {fountainOff && !fountainKeyTaken && (
         <div
           className="absolute z-10 pointer-events-none"
-          style={{ left: "44%", top: "78%", width: "4%", height: "4%" }}
+          style={{ left: "42%", top: "76%", width: "8%", height: "8%" }}
         >
-          <div className="w-full h-full rounded-full bg-yellow-300/80 animate-pulse shadow-[0_0_12px_4px_rgba(253,224,71,0.6)]" />
+          {/* Sparkle effect - multiple small stars */}
+          <div className="relative w-full h-full">
+            <div className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping" style={{ left: "50%", top: "40%", animationDuration: "1.2s", animationDelay: "0s" }} />
+            <div className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ left: "30%", top: "60%", animationDuration: "1.5s", animationDelay: "0.3s" }} />
+            <div className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping" style={{ left: "70%", top: "50%", animationDuration: "1s", animationDelay: "0.6s" }} />
+            <div className="absolute w-1 h-1 bg-yellow-300 rounded-full animate-ping" style={{ left: "55%", top: "70%", animationDuration: "1.8s", animationDelay: "0.9s" }} />
+            <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ left: "40%", top: "30%", animationDuration: "1.3s", animationDelay: "0.4s" }} />
+            {/* Central star shape */}
+            <div className="absolute" style={{ left: "45%", top: "45%", width: "10%", height: "10%" }}>
+              <div className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
+              <div className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
+            </div>
+          </div>
         </div>
       )}
 
