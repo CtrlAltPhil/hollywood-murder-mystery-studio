@@ -359,6 +359,14 @@ export function GameContainer() {
           </Button>
         </div>
 
+        {isNotesOpen && (
+          <NotesOverlay
+            dialogueLog={dialogueLog}
+            evidenceLog={evidenceLog}
+            onClose={() => setIsNotesOpen(false)}
+          />
+        )}
+
         {isMenuOpen && (
           <GameMenu 
             onResume={() => setIsMenuOpen(false)}
