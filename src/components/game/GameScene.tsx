@@ -375,7 +375,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "50%", bottom: "2%", width: "12%", height: "20%" }}
+        style={{ left: "50%", bottom: "2%", width: "12%", height: "100%" }}
       >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
