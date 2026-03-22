@@ -357,7 +357,7 @@ export function GameScene({
       {/* Duke Extreme */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "35%", bottom: "5%", width: "15%", height: "45%" }}
+        style={{ left: "35%", bottom: "5%", width: "auto", height: "45%" }}
       >
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
@@ -375,7 +375,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "50%", bottom: "2%", width: "12%", height: "100%" }}
+        style={{ left: "50%", bottom: "2%", width: "auto", height: "30%" }}
       >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
