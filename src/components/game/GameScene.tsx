@@ -277,7 +277,7 @@ export function GameScene({
         src={tableImage}
         alt="Party Table"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "18%", top: "56%", width: "25%", height: "42%" }}
+        style={{ left: "18%", top: "60%", width: "25%", height: "42%" }}
       />
       {/* Wine glasses on table */}
       <img
