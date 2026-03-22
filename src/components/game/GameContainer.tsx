@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGameState } from '@/hooks/useGameState';
+import { useNotesState } from '@/hooks/useNotesState';
 import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
 import { IntroSequence } from './IntroSequence';
@@ -17,9 +18,10 @@ import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
 import { DebugGrid } from './DebugGrid';
+import { NotesOverlay } from './NotesOverlay';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
+import { Settings, NotebookPen } from 'lucide-react';
 
 
 export function GameContainer() {
