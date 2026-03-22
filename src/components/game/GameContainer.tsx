@@ -176,6 +176,7 @@ export function GameContainer() {
         if (typeof interaction === 'string') {
           if (interaction === '__UNLOCK_BACKYARD__') {
             setFlag('backyardUnlocked', true);
+            checkFlagEvidence('backyardUnlocked');
             removeFromInventory('backyard_key');
             setActionText('The key fits! The french doors are now unlocked.');
             playSfx('pickup');
