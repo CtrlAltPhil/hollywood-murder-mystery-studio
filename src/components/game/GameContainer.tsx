@@ -91,7 +91,9 @@ export function GameContainer() {
 
   const handleIntroComplete = () => {
     setPhase('gameplay');
-    setFlag('murderRevealed', true);
+    const flag = 'murderRevealed';
+    setFlag(flag, true);
+    checkFlagEvidence(flag);
   };
 
   const handleSave = () => {
