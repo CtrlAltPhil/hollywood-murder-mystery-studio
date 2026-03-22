@@ -341,7 +341,10 @@ export function GameScene({
       )}
 
       {/* Lady Fantastique */}
-      <div className="absolute z-20 pointer-events-none" style={{ left: "8%", top: "42%", width: "12%", height: "55%" }}>
+      <div
+        className="absolute z-20 pointer-events-none"
+        style={{ left: "8%", bottom: "10%", width: "15%", height: "70%" }}
+      >
         <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
@@ -352,7 +355,10 @@ export function GameScene({
       </div>
 
       {/* Duke Extreme */}
-      <div className="absolute z-20 pointer-events-none" style={{ left: "35%", top: "42%", width: "12%", height: "55%" }}>
+      <div
+        className="absolute z-20 pointer-events-none"
+        style={{ left: "35%", top: "42%", width: "12%", height: "55%" }}
+      >
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
@@ -367,7 +373,10 @@ export function GameScene({
       </div>
 
       {/* Carl */}
-      <div className="absolute z-20 pointer-events-none" style={{ left: "50%", top: "42%", width: "12%", height: "55%" }}>
+      <div
+        className="absolute z-20 pointer-events-none"
+        style={{ left: "50%", top: "42%", width: "12%", height: "55%" }}
+      >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
