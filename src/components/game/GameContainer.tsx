@@ -270,9 +270,9 @@ export function GameContainer() {
       case 'lady-fantastique-room':
         return <LadyFantastiqueRoomScene {...sceneProps} />;
       case 'los-cabos-room':
-        return <LosCabosRoomScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlag} />;
+        return <LosCabosRoomScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'study':
-        return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlag} />;
+        return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'backyard':
         return <BackyardScene {...sceneProps} setFlag={setFlag} onAddToInventory={handleAddToInventory} />;
       case 'duke-extreme-room':
