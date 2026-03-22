@@ -281,7 +281,7 @@ export function GameContainer() {
         return (
           <GameScene
             gameState={gameState}
-            setFlag={setFlag}
+            setFlag={setFlagWithEvidence}
             onHotspotHover={sharedHotspotHover}
             onHotspotClick={sharedHotspotClick}
             onAddToInventory={handleAddToInventory}
