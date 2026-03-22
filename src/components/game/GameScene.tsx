@@ -277,7 +277,7 @@ export function GameScene({
         src={tableImage}
         alt="Party Table"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "20%", top: "56%", width: "25%", height: "42%" }}
+        style={{ left: "18%", top: "56%", width: "25%", height: "42%" }}
       />
       {/* Wine glasses on table */}
       <img
@@ -375,7 +375,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "50%", bottom: "2%", width: "auto", height: "40%" }}
+        style={{ left: "50%", bottom: "1%", width: "auto", height: "40%" }}
       >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
