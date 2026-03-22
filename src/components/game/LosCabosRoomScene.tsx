@@ -170,7 +170,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${losCabosRoomBackground})` }} />
 
       {/* Visual indicator for opened drawer */}
-      {drawerOpened && !threatNoteTaken && (
+      {drawerOpened && (
         <div
           className="absolute z-10 pointer-events-none"
           style={{ left: "20%", top: "68%", width: "10%", height: "6%" }}
