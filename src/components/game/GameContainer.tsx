@@ -244,7 +244,12 @@ export function GameContainer() {
     onDebugModeToggle: setDebugMode,
   };
 
-  const renderCurrentRoom = () => {
+  // Wrapped setFlag that also logs evidence
+  const setFlagWithEvidence = (flag: string, value: boolean) => {
+    setFlag(flag, value);
+    if (value) checkFlagEvidence(flag);
+  };
+
     const handleEmptyClick = () => {
       setHoverText('');
       if (gameState.selectedVerb) {
