@@ -284,14 +284,14 @@ export function GameScene({
         src={wineGlassesImage}
         alt="Wine Glasses"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "23%", top: "60%", width: "9%", height: "15%" }}
+        style={{ left: "23%", top: "63%", width: "9%", height: "15%" }}
       />
       {/* Charcuterie board on table */}
       <img
         src={charcuterieBoardImage}
         alt="Charcuterie Board"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "31%", top: "60%", width: "10%", height: "18%" }}
+        style={{ left: "31%", top: "63%", width: "10%", height: "18%" }}
       />
 
       {/* Los Cabos - Dead on the floor */}
@@ -343,7 +343,7 @@ export function GameScene({
       {/* Lady Fantastique */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "8%", bottom: "5%", width: "15%", height: "45%" }}
+        style={{ left: "8%", bottom: "2%", width: "auto", height: "45%" }}
       >
         <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
