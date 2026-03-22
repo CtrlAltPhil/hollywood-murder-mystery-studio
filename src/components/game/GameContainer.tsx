@@ -250,6 +250,7 @@ export function GameContainer() {
     if (value) checkFlagEvidence(flag);
   };
 
+  const renderCurrentRoom = () => {
     const handleEmptyClick = () => {
       setHoverText('');
       if (gameState.selectedVerb) {
