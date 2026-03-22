@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGameState } from '@/hooks/useGameState';
+import { useNotesState } from '@/hooks/useNotesState';
 import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
 import { IntroSequence } from './IntroSequence';
@@ -17,9 +18,10 @@ import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
 import { DebugGrid } from './DebugGrid';
+import { NotesOverlay } from './NotesOverlay';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
+import { Settings, NotebookPen } from 'lucide-react';
 
 
 export function GameContainer() {
@@ -38,7 +40,20 @@ export function GameContainer() {
     changeRoom,
   } = useGameState();
 
+  const {
+    dialogueLog,
+    evidenceLog,
+    hasUnread,
+    logDialogue,
+    checkFlagEvidence,
+    checkItemEvidence,
+    clearUnread,
+  } = useNotesState();
+
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
+
+  const [isNotesOpen, setIsNotesOpen] = useState(false);
+  const lastLoggedNodeId = useRef<string | null>(null);
 
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
@@ -60,6 +75,18 @@ export function GameContainer() {
     }
   }, [gameState.phase, crashPlayed, playSfx]);
 
+  // Auto-log dialogue when a new dialog node appears
+  useEffect(() => {
+    const node = gameState.dialogState.currentNode;
+    if (node && node.id !== lastLoggedNodeId.current) {
+      lastLoggedNodeId.current = node.id;
+      logDialogue(node.speaker, node.text);
+    }
+    if (!node) {
+      lastLoggedNodeId.current = null;
+    }
+  }, [gameState.dialogState.currentNode, logDialogue]);
+
   const handleMusicVolumeChange = (v: number) => {
     setMusicVolume(v);
     setMusicVolumeState(v);
@@ -76,7 +103,9 @@ export function GameContainer() {
 
   const handleIntroComplete = () => {
     setPhase('gameplay');
-    setFlag('murderRevealed', true);
+    const flag = 'murderRevealed';
+    setFlag(flag, true);
+    checkFlagEvidence(flag);
   };
 
   const handleSave = () => {
@@ -147,6 +176,7 @@ export function GameContainer() {
         if (typeof interaction === 'string') {
           if (interaction === '__UNLOCK_BACKYARD__') {
             setFlag('backyardUnlocked', true);
+            checkFlagEvidence('backyardUnlocked');
             removeFromInventory('backyard_key');
             setActionText('The key fits! The french doors are now unlocked.');
             playSfx('pickup');
@@ -198,6 +228,7 @@ export function GameContainer() {
     };
     setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
+    checkItemEvidence(item.id);
     playSfx('pickup');
   };
 
@@ -211,6 +242,12 @@ export function GameContainer() {
     onBrightnessChange: setBrightness,
     debugMode,
     onDebugModeToggle: setDebugMode,
+  };
+
+  // Wrapped setFlag that also logs evidence
+  const setFlagWithEvidence = (flag: string, value: boolean) => {
+    setFlag(flag, value);
+    if (value) checkFlagEvidence(flag);
   };
 
   const renderCurrentRoom = () => {
@@ -233,18 +270,18 @@ export function GameContainer() {
       case 'lady-fantastique-room':
         return <LadyFantastiqueRoomScene {...sceneProps} />;
       case 'los-cabos-room':
-        return <LosCabosRoomScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlag} />;
+        return <LosCabosRoomScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'study':
-        return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlag} />;
+        return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'backyard':
-        return <BackyardScene {...sceneProps} setFlag={setFlag} onAddToInventory={handleAddToInventory} />;
+        return <BackyardScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
       case 'duke-extreme-room':
         return <DukeExtremeRoomScene {...sceneProps} />;
       default:
         return (
           <GameScene
             gameState={gameState}
-            setFlag={setFlag}
+            setFlag={setFlagWithEvidence}
             onHotspotHover={sharedHotspotHover}
             onHotspotClick={sharedHotspotClick}
             onAddToInventory={handleAddToInventory}
@@ -307,11 +344,35 @@ export function GameContainer() {
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
       <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
+        {/* Top-left: Notes icon */}
+        <div className="absolute top-4 left-4 z-50">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => { setIsNotesOpen(true); clearUnread(); }}
+            className="text-amber-400/70 hover:text-amber-300 hover:bg-amber-500/10 relative"
+          >
+            <NotebookPen className="w-6 h-6" />
+            {hasUnread && (
+              <span className="absolute top-0.5 right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse" />
+            )}
+          </Button>
+        </div>
+
+        {/* Top-right: Settings icon */}
         <div className="absolute top-4 right-4 z-50">
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)} className="text-white/50 hover:text-white hover:bg-white/10">
             <Settings className="w-6 h-6" />
           </Button>
         </div>
+
+        {isNotesOpen && (
+          <NotesOverlay
+            dialogueLog={dialogueLog}
+            evidenceLog={evidenceLog}
+            onClose={() => setIsNotesOpen(false)}
+          />
+        )}
 
         {isMenuOpen && (
           <GameMenu 
