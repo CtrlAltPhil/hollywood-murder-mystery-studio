@@ -337,6 +337,22 @@ export function GameContainer() {
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
       <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
+        {/* Top-left: Notes icon */}
+        <div className="absolute top-4 left-4 z-50">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => { setIsNotesOpen(true); clearUnread(); }}
+            className="text-amber-400/70 hover:text-amber-300 hover:bg-amber-500/10 relative"
+          >
+            <NotebookPen className="w-6 h-6" />
+            {hasUnread && (
+              <span className="absolute top-0.5 right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse" />
+            )}
+          </Button>
+        </div>
+
+        {/* Top-right: Settings icon */}
         <div className="absolute top-4 right-4 z-50">
           <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)} className="text-white/50 hover:text-white hover:bg-white/10">
             <Settings className="w-6 h-6" />
