@@ -8,11 +8,16 @@ interface LosCabosRoomSceneProps {
   onHotspotClick: (hotspot: SimpleHotspot) => void;
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
+  onAddToInventory: (item: { id: string; name: string; image: string }) => void;
+  setFlag: (flag: string, value: boolean) => void;
   debugMode?: boolean;
 }
 
-export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: LosCabosRoomSceneProps) {
+export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, onAddToInventory, setFlag, debugMode }: LosCabosRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
+  const hasFountainKey = gameState.inventory.some(i => i.id === "fountain_key");
+  const drawerOpened = gameState.flags?.drawerOpened;
+  const threatNoteTaken = gameState.flags?.threatNoteTaken;
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -22,10 +27,19 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
       width: 22,
       height: 30,
       interactions: {
-        look: 'Los Cabos\' desk. A sealed envelope sits on top, addressed to "My Dearest." The ink is still fresh.',
-        open: "I open the desk drawer. Inside is a contract — it looks like Los Cabos was about to sign with a rival studio.",
-        use: "The desk lamp is on. He was working here not long ago.",
-        pickup: "Way too heavy.",
+        look: 'Los Cabos\' desk. A sealed envelope sits on top, addressed to "My Dearest." The ink is still fresh.' + 
+          (!drawerOpened ? " There's a locked drawer underneath." : ""),
+        open: drawerOpened
+          ? "The drawer is already open. " + (threatNoteTaken ? "It's empty now." : "There's a crumpled note inside.")
+          : hasFountainKey
+            ? "__UNLOCK_DRAWER__"
+            : "The drawer is locked tight. I need some kind of small key to open it.",
+        use: hasFountainKey && !drawerOpened
+          ? "__UNLOCK_DRAWER__"
+          : "The desk lamp is on. He was working here not long ago.",
+        pickup: drawerOpened && !threatNoteTaken
+          ? "__PICKUP_THREAT_NOTE__"
+          : "Way too heavy.",
       },
     },
     {
@@ -113,9 +127,59 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
     },
   ];
 
+  const handleHotspotClick = (hotspot: SimpleHotspot) => {
+    const verb = gameState.selectedVerb || "look";
+    const interaction = hotspot.interactions[verb];
+
+    if (interaction === "__UNLOCK_DRAWER__") {
+      setFlag("drawerOpened", true);
+      // Remove the fountain key from inventory
+      const keyIndex = gameState.inventory.findIndex(i => i.id === "fountain_key");
+      if (keyIndex !== -1) {
+        // We'll signal the pickup to trigger key consumption via a flag
+        setFlag("fountainKeyUsed", true);
+      }
+      onHotspotClick({
+        ...hotspot,
+        interactions: {
+          ...hotspot.interactions,
+          [verb]: "I use the small key from the fountain... it fits! The drawer slides open. Inside there's a crumpled note with hasty handwriting.",
+        },
+      });
+      return;
+    }
+
+    if (interaction === "__PICKUP_THREAT_NOTE__") {
+      setFlag("threatNoteTaken", true);
+      onAddToInventory({ id: "threat_note", name: "Threatening Note", image: "/placeholder.svg" });
+      onHotspotClick({
+        ...hotspot,
+        interactions: {
+          ...hotspot.interactions,
+          [verb]: 'I pick up the note. It reads: "Decline the offer or else." The handwriting is shaky, like it was written in a hurry. Someone was threatening Los Cabos... but who? And what offer?',
+        },
+      });
+      return;
+    }
+
+    handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
+  };
+
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${losCabosRoomBackground})` }} />
+
+      {/* Visual indicator for opened drawer */}
+      {drawerOpened && !threatNoteTaken && (
+        <div
+          className="absolute z-10 pointer-events-none"
+          style={{ left: "20%", top: "68%", width: "10%", height: "6%" }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-3/4 h-1 bg-yellow-200/60 rounded animate-pulse" />
+          </div>
+        </div>
+      )}
 
       {hotspots.map((hotspot) => (
         <div
@@ -131,7 +195,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
           onMouseLeave={() => onHotspotHover("")}
           onClick={(e) => {
             e.stopPropagation();
-            handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
+            handleHotspotClick(hotspot);
           }}
         />
       ))}
