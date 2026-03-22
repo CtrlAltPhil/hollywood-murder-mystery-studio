@@ -227,6 +227,7 @@ export function GameContainer() {
     };
     setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
+    checkItemEvidence(item.id);
     playSfx('pickup');
   };
 
