@@ -343,7 +343,7 @@ export function GameScene({
       {/* Lady Fantastique */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "8%", bottom: "10%", width: "15%", height: "70%" }}
+        style={{ left: "8%", bottom: "10%", width: "15%", height: "40%" }}
       >
         <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Lady Fantastique"] && (
