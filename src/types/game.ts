@@ -80,6 +80,21 @@ export interface GameState {
   };
 }
 
+export type EvidenceCategory = 'Physical Evidence' | 'Documents' | 'Testimonies';
+
+export interface DialogueEntry {
+  speaker: string;
+  text: string;
+  timestamp: number;
+}
+
+export interface EvidenceEntry {
+  id: string;
+  title: string;
+  description: string;
+  category: EvidenceCategory;
+}
+
 export interface SaveData {
   slot: number;
   timestamp: number;
