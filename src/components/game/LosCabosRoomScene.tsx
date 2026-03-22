@@ -23,23 +23,40 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
     {
       id: "desk",
       name: "Writing Desk",
-      position: { x: 25, y: 55 },
+      position: { x: 25, y: 48 },
       width: 22,
-      height: 30,
+      height: 22,
       interactions: {
-        look: 'Los Cabos\' desk. A sealed envelope sits on top, addressed to "My Dearest." The ink is still fresh.' + 
-          (!drawerOpened ? " There's a locked drawer underneath." : ""),
+        look: 'Los Cabos\' desk. A sealed envelope sits on top, addressed to "My Dearest." The ink is still fresh.',
+        use: "The desk lamp is on. He was working here not long ago.",
+        pickup: "Way too heavy.",
+      },
+    },
+    {
+      id: "desk-drawer",
+      name: drawerOpened ? "Open Drawer" : "Desk Drawer",
+      position: { x: 22, y: 68 },
+      width: 14,
+      height: 10,
+      interactions: {
+        look: drawerOpened
+          ? (threatNoteTaken ? "The drawer is open and empty." : 'The drawer is open. There\'s a crumpled note inside with hasty handwriting.')
+          : "One of the front drawers on the desk. It has a small keyhole — it's locked.",
         open: drawerOpened
-          ? "The drawer is already open. " + (threatNoteTaken ? "It's empty now." : "There's a crumpled note inside.")
+          ? "The drawer is already open." + (threatNoteTaken ? "" : " There's a crumpled note inside.")
           : hasFountainKey
             ? "__UNLOCK_DRAWER__"
-            : "The drawer is locked tight. I need some kind of small key to open it.",
+            : "It's locked. I need some kind of small key to open it.",
         use: hasFountainKey && !drawerOpened
           ? "__UNLOCK_DRAWER__"
-          : "The desk lamp is on. He was working here not long ago.",
+          : drawerOpened
+            ? "The drawer is already open."
+            : "It's locked tight. There's a small keyhole.",
         pickup: drawerOpened && !threatNoteTaken
           ? "__PICKUP_THREAT_NOTE__"
-          : "Way too heavy.",
+          : drawerOpened
+            ? "There's nothing else to take."
+            : "I can't pick up a drawer.",
       },
     },
     {
