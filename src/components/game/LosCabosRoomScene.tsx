@@ -161,18 +161,6 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
       return;
     }
 
-    if (interaction === "__PICKUP_THREAT_NOTE__") {
-      setFlag("threatNoteTaken", true);
-      onAddToInventory({ id: "threat_note", name: "Threatening Note", image: "/placeholder.svg" });
-      onHotspotClick({
-        ...hotspot,
-        interactions: {
-          ...hotspot.interactions,
-          [verb]: 'I pick up the note. It reads: "Decline the offer or else." The handwriting is shaky, like it was written in a hurry. Someone was threatening Los Cabos... but who? And what offer?',
-        },
-      });
-      return;
-    }
 
     handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
   };
