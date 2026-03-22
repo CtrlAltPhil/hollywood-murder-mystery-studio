@@ -40,23 +40,19 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
       height: 10,
       interactions: {
         look: drawerOpened
-          ? (threatNoteTaken ? "The drawer is open and empty." : 'The drawer is open. There\'s a crumpled note inside with hasty handwriting.')
+          ? 'The drawer is open. Inside there\'s a crumpled note with shaky handwriting. It reads: "Decline the offer or else." Someone was threatening Los Cabos... but who? And what offer?'
           : "One of the front drawers on the desk. It has a small keyhole — it's locked.",
         open: drawerOpened
-          ? "The drawer is already open." + (threatNoteTaken ? "" : " There's a crumpled note inside.")
+          ? 'The drawer is already open. A crumpled note sits inside. It reads: "Decline the offer or else." The handwriting is rushed and unsteady.'
           : hasFountainKey
             ? "__UNLOCK_DRAWER__"
             : "It's locked. I need some kind of small key to open it.",
         use: hasFountainKey && !drawerOpened
           ? "__UNLOCK_DRAWER__"
           : drawerOpened
-            ? "The drawer is already open."
+            ? 'The drawer is already open. A crumpled note sits inside. It reads: "Decline the offer or else."'
             : "It's locked tight. There's a small keyhole.",
-        pickup: drawerOpened && !threatNoteTaken
-          ? "__PICKUP_THREAT_NOTE__"
-          : drawerOpened
-            ? "There's nothing else to take."
-            : "I can't pick up a drawer.",
+        pickup: "I can't pick up a drawer.",
       },
     },
     {
