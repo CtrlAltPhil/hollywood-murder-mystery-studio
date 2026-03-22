@@ -291,7 +291,7 @@ export function GameScene({
         src={charcuterieBoardImage}
         alt="Charcuterie Board"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "31%", top: "52%", width: "10%", height: "18%" }}
+        style={{ left: "31%", top: "60%", width: "10%", height: "18%" }}
       />
 
       {/* Los Cabos - Dead on the floor */}
@@ -357,7 +357,7 @@ export function GameScene({
       {/* Duke Extreme */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "35%", bottom: "5%", width: "auto", height: "45%" }}
+        style={{ left: "38%", bottom: "5%", width: "auto", height: "45%" }}
       >
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
@@ -375,7 +375,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className="absolute z-20 pointer-events-none"
-        style={{ left: "50%", bottom: "1%", width: "auto", height: "40%" }}
+        style={{ left: "53%", bottom: "1%", width: "auto", height: "50%" }}
       >
         <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
         {shockBubbles["Carl"] && (
