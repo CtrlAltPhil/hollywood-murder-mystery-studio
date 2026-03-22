@@ -317,7 +317,7 @@ export function GameScene({
           right: "12%",
           bottom: "2%",
           width: "auto",
-          height: "20%",
+          height: "50%",
           borderRadius: "50%",
           background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)",
         }}
