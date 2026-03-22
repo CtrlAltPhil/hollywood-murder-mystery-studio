@@ -138,7 +138,7 @@ export function DukeExtremeRoomScene({
         src={moneyBag}
         alt="Money Bag"
         className="absolute pointer-events-none z-10"
-        style={{ left: "45%", top: "65%", width: "auto", height: "25%", objectFit: "contain" }}
+        style={{ left: "42%", top: "65%", width: "auto", height: "25%", objectFit: "contain" }}
       />
 
       {/* Navigation indicator */}
