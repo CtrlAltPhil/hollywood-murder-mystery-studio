@@ -135,7 +135,7 @@ export function StudyScene({
         {
           id: "backyard-key",
           name: "Old Key",
-          position: { x: 15, y: 88 },
+          position: { x: 18, y: 92 },
           width: 8,
           height: 10,
           interactions: {
