@@ -17,7 +17,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const hasFountainKey = gameState.inventory.some(i => i.id === "fountain_key");
   const drawerOpened = gameState.flags?.drawerOpened;
-  const threatNoteTaken = gameState.flags?.threatNoteTaken;
+  const drawerOpened = gameState.flags?.drawerOpened;
 
   const hotspots: SimpleHotspot[] = [
     {
