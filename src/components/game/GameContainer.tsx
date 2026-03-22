@@ -75,6 +75,18 @@ export function GameContainer() {
     }
   }, [gameState.phase, crashPlayed, playSfx]);
 
+  // Auto-log dialogue when a new dialog node appears
+  useEffect(() => {
+    const node = gameState.dialogState.currentNode;
+    if (node && node.id !== lastLoggedNodeId.current) {
+      lastLoggedNodeId.current = node.id;
+      logDialogue(node.speaker, node.text);
+    }
+    if (!node) {
+      lastLoggedNodeId.current = null;
+    }
+  }, [gameState.dialogState.currentNode, logDialogue]);
+
   const handleMusicVolumeChange = (v: number) => {
     setMusicVolume(v);
     setMusicVolumeState(v);
