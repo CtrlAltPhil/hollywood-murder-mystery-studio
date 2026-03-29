@@ -14,6 +14,7 @@ import { LadyFantastiqueRoomScene } from './LadyFantastiqueRoomScene';
 import { LosCabosRoomScene } from './LosCabosRoomScene';
 import { StudyScene } from './StudyScene';
 import { BackyardScene } from './BackyardScene';
+import { GardenPathScene } from './GardenPathScene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
@@ -281,6 +282,7 @@ export function GameContainer() {
       'meat-stick': 'A gourmet meat stick from the charcuterie board. Smells delicious but this is no time to eat.',
       'dagger': 'An ornate dagger covered in blood. The murder weapon.',
       'money-bag': 'A black duffel bag stuffed with bundles of cash. What was Duke Extreme up to?',
+      'wire_cutters': 'Heavy-duty wire cutters from the garden shed. Could cut through wires or thick branches.',
     };
     setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
@@ -331,6 +333,8 @@ export function GameContainer() {
         return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'backyard':
         return <BackyardScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
+      case 'garden-path':
+        return <GardenPathScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
       case 'duke-extreme-room':
         return <DukeExtremeRoomScene {...sceneProps} />;
       default:

@@ -95,6 +95,14 @@ export default {
           "25%": { transform: "translateX(-1px)" },
           "75%": { transform: "translateX(1px)" },
         },
+        "shake": {
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%": { transform: "translateX(-4px)" },
+          "30%": { transform: "translateX(4px)" },
+          "50%": { transform: "translateX(-3px)" },
+          "70%": { transform: "translateX(3px)" },
+          "90%": { transform: "translateX(-2px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -104,6 +112,7 @@ export default {
         "weight-shift": "weight-shift 4s ease-in-out infinite",
         "fidget": "fidget 2.5s ease-in-out infinite",
         "nervous-shake": "nervous-shake 0.3s ease-in-out infinite",
+        "shake": "shake 0.5s ease-in-out",
       },
     },
   },

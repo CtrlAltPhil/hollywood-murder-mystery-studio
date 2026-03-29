@@ -25,6 +25,8 @@ import ladyRoomBg from "@/assets/backgrounds/lady-fantastique-room.png";
 import losCabosRoomBg from "@/assets/backgrounds/los-cabos-room.png";
 import studyBg from "@/assets/backgrounds/study.png";
 import backyardBg from "@/assets/backgrounds/backyard.png";
+import gardenPathBg from "@/assets/backgrounds/garden-path.png";
+import shedCloseupBg from "@/assets/backgrounds/shed-closeup.png";
 import dukeRoomBg from "@/assets/backgrounds/duke-extreme-room.png";
 
 import carlImg from "@/assets/characters/carl.png";
@@ -53,6 +55,7 @@ import eboxOpen from "@/assets/Electrical_Box_Open.png";
 import eboxKey from "@/assets/Electrical_Box_Key.png";
 import moneyBag from "@/assets/money_bag.png";
 import backyardKeyImg from "@/assets/props/backyard-key.png";
+import wireCuttersImg from "@/assets/props/wire-cutters.png";
 
 // Scene-grouped manifest
 export const assetManifest: Record<string, string[]> = {
@@ -68,6 +71,7 @@ export const assetManifest: Record<string, string[]> = {
   "los-cabos-room": [losCabosRoomBg, losCabos2Img],
   study: [studyBg],
   backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg],
+  "garden-path": [gardenPathBg, shedCloseupBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
 };
 
