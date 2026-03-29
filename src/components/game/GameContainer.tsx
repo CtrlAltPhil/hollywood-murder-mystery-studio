@@ -14,6 +14,7 @@ import { LadyFantastiqueRoomScene } from './LadyFantastiqueRoomScene';
 import { LosCabosRoomScene } from './LosCabosRoomScene';
 import { StudyScene } from './StudyScene';
 import { BackyardScene } from './BackyardScene';
+import { GardenPathScene } from './GardenPathScene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
@@ -331,6 +332,8 @@ export function GameContainer() {
         return <StudyScene {...sceneProps} onAddToInventory={handleAddToInventory} setFlag={setFlagWithEvidence} />;
       case 'backyard':
         return <BackyardScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
+      case 'garden-path':
+        return <GardenPathScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
       case 'duke-extreme-room':
         return <DukeExtremeRoomScene {...sceneProps} />;
       default:

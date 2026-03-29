@@ -137,8 +137,29 @@ export function BackyardScene({
       },
     },
     {
+      id: "garden-path",
+      name: "Garden Path",
+      position: { x: 3, y: 50 },
+      width: 6,
+      height: 80,
+      interactions: {
+        look: "__NAVIGATE__garden-path",
+        open: "__NAVIGATE__garden-path",
+        use: "__NAVIGATE__garden-path",
+      },
+    },
+    {
       id: "back-inside",
       name: "French Doors (Inside)",
+      position: { x: 50, y: 95 },
+      width: 60,
+      height: 10,
+      interactions: {
+        look: "__NAVIGATE__hallway",
+        open: "__NAVIGATE__hallway",
+        use: "__NAVIGATE__hallway",
+      },
+    },
       position: { x: 50, y: 95 },
       width: 60,
       height: 10,
@@ -227,9 +248,12 @@ export function BackyardScene({
         </div>
       )}
 
-      {/* Navigation indicator */}
+      {/* Navigation indicators */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back Inside ▼
+      </div>
+      <div className="absolute left-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
+        ◄ Garden Path
       </div>
 
       {hotspots.map((hotspot) => (
