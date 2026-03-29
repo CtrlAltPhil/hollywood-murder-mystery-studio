@@ -41,6 +41,13 @@ export function useNotesState() {
     loggedEvidenceIds.current.clear();
   }, []);
 
+  const restoreNotes = useCallback((savedDialogue: DialogueEntry[], savedEvidence: EvidenceEntry[]) => {
+    setDialogueLog(savedDialogue);
+    setEvidenceLog(savedEvidence);
+    loggedEvidenceIds.current = new Set(savedEvidence.map(e => e.id));
+    setHasUnread(false);
+  }, []);
+
   return {
     dialogueLog,
     evidenceLog,

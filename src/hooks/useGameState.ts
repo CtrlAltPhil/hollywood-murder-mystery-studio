@@ -104,7 +104,19 @@ export function useGameState() {
     setGameState(initialGameState);
   }, []);
 
+  const restoreState = useCallback((saved: GameState) => {
+    setGameState({
+      ...saved,
+      selectedVerb: null,
+      selectedItem: null,
+      actionText: '',
+      dialogState: { isActive: false, currentNode: null, character: null },
+    });
+  }, []);
+
   return {
+    gameState,
+    restoreState,
     gameState,
     setPhase,
     selectVerb,
