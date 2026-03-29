@@ -1,49 +1,45 @@
 
 
-# Notes System — Implementation Plan
+# Performance: Smooth Scene Transitions & Asset Preloading
 
-## Overview
-Add a notepad icon (top-left, gameplay only) that opens a full-screen overlay with two tabs: **Dialogue History** and **Evidence**. A notification dot appears on the icon when new entries are logged.
+## Problem
+Two visible lag issues:
+1. **Intro → Gameplay transition**: After the blackout, the breakroom scene renders but character images visibly pop in as they load.
+2. **Backyard scene**: The waterfall frames load before the background, causing a flash of incomplete content.
 
-## What Gets Built
+**Root cause**: All scene images are loaded on-demand when a component mounts. There is no preloading, and no "ready" gate that waits for assets before revealing the scene.
 
-### 1. Notes State (in `useGameState` or a new `useNotesState` hook)
-- **dialogueLog**: Array of `{ speaker, text, timestamp }` entries, recorded every time a dialog node is displayed
-- **evidenceLog**: Array of `{ id, title, description, category }` entries, auto-added when relevant flags are set or items picked up
-- **Categories**: Physical Evidence, Documents, Testimonies
-- **hasUnread**: boolean flag, set true on new entries, cleared when notes are opened
+## Solution
 
-### 2. Auto-Logging
-- **Dialogue**: Hook into `DialogBox` or the dialog advancement flow in `GameContainer` — each time a dialog node renders, push `{ speaker, text }` to the log
-- **Evidence**: Hook into `setFlag` and `addToInventory` — map specific flags/items to evidence entries (e.g., `drawerOpened` → "Threatening note found in Los Cabos' desk drawer: 'Decline the offer or else.'")
+### 1. Create an Asset Preloader Utility (`src/utils/preloadAssets.ts`)
+- Export a `preloadImages(urls: string[]): Promise<void>` function that creates `Image` objects for each URL and resolves when all have loaded.
+- Export a manifest of **all game assets** grouped by scene (breakroom characters, backyard waterfall frames, production room images, etc.) so they can be bulk-loaded.
 
-### 3. New Component: `NotesOverlay.tsx`
-- Full-screen overlay with dark semi-transparent backdrop, styled to match the game's purple/amber theme
-- Left sidebar with two tabs: **Dialogue** and **Evidence**
-- Close button (X) in top-right corner
+### 2. Preload Critical Assets During Title Screen
+- In `GameContainer`, when the game is on the `title` phase, call `preloadImages` with the full asset manifest in a `useEffect`.
+- Store a `assetsReady` boolean in state. This runs in the background while the player is on the title screen, so by the time they click "Start," most assets are already cached.
 
-**Dialogue Tab**:
-- Toggle between "By Character" and "Chronological" views
-- Character view: collapsible sections per character, each showing their dialogue lines
-- Chronological view: scrollable list in order of occurrence
+### 3. Add a Loading Gate on Scene Transitions
+- In `handleChangeRoom`, the existing fade-to-black transition (`roomTransition` state with 400ms delay) should also preload the target room's assets before revealing.
+- Extend the black overlay to stay visible until the target scene's images are cached, then fade in. This prevents partial rendering.
 
-**Evidence Tab**:
-- Grouped by category (Physical Evidence, Documents, Testimonies)
-- Each entry shows title and description
+### 4. Gate the Intro → Gameplay Transition
+- In `handleIntroComplete`, before setting phase to `gameplay`, preload the breakroom scene assets (characters, props, background). The screen is already black during the blackout phase, so this adds no visible delay — it just holds the black screen slightly longer if needed.
 
-### 4. Notepad Icon
-- Positioned top-left of the game scene area (inside `GameContainer`, only visible during `gameplay` phase)
-- Uses a `NotebookPen` or `BookOpen` icon from lucide-react
-- Amber/gold color to match UI theme
-- Small pulsing red dot when `hasUnread` is true
+### 5. Fix the Backyard Waterfall Loading Order
+- In `BackyardScene`, render the waterfall frames and background together but keep the entire scene hidden (opacity 0) until all images have loaded via `onLoad` callbacks. Fade in once ready.
 
 ## Files Changed
 
 | File | Change |
 |------|--------|
-| `src/types/game.ts` | Add `DialogueEntry`, `EvidenceEntry` types |
-| `src/hooks/useGameState.ts` | Add `dialogueLog`, `evidenceLog`, `hasUnread` to state; add `logDialogue`, `logEvidence`, `clearUnread` actions |
-| `src/components/game/NotesOverlay.tsx` | **New** — full overlay component with tabs |
-| `src/components/game/GameContainer.tsx` | Add notepad icon button, render `NotesOverlay`, wire dialogue logging into dialog flow, wire evidence logging into flag/inventory handlers |
-| `src/data/evidenceMap.ts` | **New** — mapping of flag names and item IDs to evidence entries with categories |
+| `src/utils/preloadAssets.ts` | **New** — `preloadImages()` helper and asset manifest by scene |
+| `src/components/game/GameContainer.tsx` | Preload all assets on title screen; gate intro→gameplay transition; extend room transition to wait for assets |
+| `src/components/game/BackyardScene.tsx` | Add onLoad tracking for waterfall/background images; hide scene until ready |
+| `src/components/game/GameScene.tsx` | Add onLoad tracking for character images; hide scene until ready |
+
+## Technical Details
+- Uses native `new Image()` with `onload`/`onerror` promises — no external libraries needed.
+- Vite's static imports (e.g., `import img from '@/assets/...'`) return resolved URLs at build time, so they work directly with the preloader.
+- The title screen preload is best-effort — if the player starts quickly, the per-scene gates still prevent flicker.
 
