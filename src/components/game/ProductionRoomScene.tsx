@@ -255,6 +255,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
           look: "Three conduit pipes — blue, red, and green. The red one has been cut open and the wires are frayed and exposed. This looks deliberate.",
           use: "I shouldn't touch live wires with my bare hands.",
           pickup: "That would be extremely dangerous.",
+          use_with_wire_cutters: "__REPAIR_WIRES__",
         },
       },
       {
@@ -319,6 +320,12 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
                 onSetFlag?.("note754Found");
               }
               const verb = gameState.selectedVerb;
+              const item = gameState.selectedItem;
+              // Wire cutters use_with interaction
+              if (hotspot.id === "ebox-wires" && verb === "use" && item?.id === "wire_cutters") {
+                onHotspotClick(hotspot);
+                return;
+              }
               if (verb && hotspot.interactions[verb]) {
                 const interaction = hotspot.interactions[verb];
                 if (typeof interaction === "function") {

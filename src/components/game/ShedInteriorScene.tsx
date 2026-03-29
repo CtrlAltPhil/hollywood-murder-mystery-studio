@@ -120,6 +120,7 @@ export function ShedInteriorScene({
     if (hotspot.id === "wire-cutters") {
       if (verb === "pickup" || verb === "use" || !verb) {
         setFlag("wireCuttersTaken", true);
+        setFlag("wireCuttersCopperResidue", true);
         onAddToInventory({ id: "wire_cutters", name: "Wire Cutters", image: wireCuttersImage });
         onHotspotClick({
           id: "wire-cutters",
@@ -127,10 +128,36 @@ export function ShedInteriorScene({
           position: { x: 50, y: 55 },
           width: 10,
           height: 10,
-          interactions: { pickup: "I picked up the wire cutters. These blades have fresh copper residue... someone used these recently." },
+          interactions: { pickup: "I picked up the wire cutters. These blades have fresh copper residue... someone used these to cut wires recently." },
         });
         return;
       }
+      if (verb === "look") {
+        setFlag("wireCuttersCopperResidue", true);
+        onHotspotClick({
+          id: "wire-cutters",
+          name: "Wire Cutters",
+          position: { x: 50, y: 55 },
+          width: 10,
+          height: 10,
+          interactions: { look: "A sturdy pair of wire cutters. These have been used recently... the blades have fresh copper residue on them." },
+        });
+        return;
+      }
+    }
+
+    // Old crate inspection
+    if (hotspot.id === "old-crate" && verb === "look") {
+      setFlag("propsCrateInspected", true);
+      onHotspotClick({
+        id: "old-crate",
+        name: "Old Crate",
+        position: { x: 55, y: 82 },
+        width: 18,
+        height: 16,
+        interactions: { look: "A wooden crate marked 'PROPS - DO NOT REMOVE'. It's empty now. Someone moved the props out of here." },
+      });
+      return;
     }
 
     handleSceneHotspotClick(hotspot, verb, onChangeRoom, onHotspotClick);

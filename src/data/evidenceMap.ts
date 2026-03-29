@@ -54,6 +54,12 @@ export const itemEvidenceMap: Record<string, EvidenceEntry> = {
     description: 'A gourmet meat stick from the charcuterie board. Possibly useful.',
     category: 'Physical Evidence',
   },
+  'wire_cutters': {
+    id: 'wire-cutters-evidence',
+    title: 'Wire Cutters',
+    description: 'Heavy-duty wire cutters found in the garden shed. The blades have fresh copper residue — someone used these to cut wires recently.',
+    category: 'Physical Evidence',
+  },
 };
 
 export const flagEvidenceMapExtended: Record<string, EvidenceEntry> = {
@@ -68,5 +74,29 @@ export const flagEvidenceMapExtended: Record<string, EvidenceEntry> = {
     title: 'Mysterious Number: 754',
     description: 'A piece of paper taped inside the electrical box door with "754" scrawled in red. The significance of this number is unknown.',
     category: 'Documents',
+  },
+  shedUnlocked: {
+    id: 'shed-unlocked',
+    title: 'Shed Unlocked',
+    description: 'The combination lock on the garden shed opened with code 754 — the same number found in the electrical box. Whoever sabotaged the wiring has access to this shed.',
+    category: 'Physical Evidence',
+  },
+  wireCuttersCopperResidue: {
+    id: 'copper-residue',
+    title: 'Copper Residue on Wire Cutters',
+    description: 'The wire cutters from the shed have fresh copper residue on the blades — a direct match to the cut conduit wires in the production room electrical box.',
+    category: 'Physical Evidence',
+  },
+  propsCrateInspected: {
+    id: 'props-crate',
+    title: 'Empty Props Crate',
+    description: 'A crate in the shed marked "PROPS - DO NOT REMOVE" is completely empty. Props from the production room may have been moved here — or removed entirely.',
+    category: 'Documents',
+  },
+  wiresRepaired: {
+    id: 'wires-repaired',
+    title: 'Wires Repaired',
+    description: 'Used the wire cutters to strip and reconnect the severed wires in the electrical box. The production room power system has been restored.',
+    category: 'Physical Evidence',
   },
 };
