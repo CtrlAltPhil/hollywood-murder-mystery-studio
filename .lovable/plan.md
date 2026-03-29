@@ -1,42 +1,63 @@
 
 
-# Fix: Robust Save & Load System
+# Character Animations & Reactions Enhancement
 
-## Current Problems
+## Overview
+Add life to all characters through CSS-driven idle animations on existing sprites, plus generate AI sprite variants for emotional reactions tied to evidence discoveries.
 
-1. **Load is completely broken**: `handleLoadGame` parses the save data, sets `hmm_load_pending` in localStorage, then reloads the page — but **no code on mount ever checks for `hmm_load_pending`** or restores the saved state. The parsed data is discarded.
-2. **Notes not saved**: Dialogue history and evidence are not included in the save data, so they'd be lost on load.
-3. **Non-serializable data**: `gameState.dialogState` contains object references (character, dialogNode) that may not round-trip cleanly through JSON.
-4. **Page reload is fragile**: Reloading wipes all React state. A proper in-place restore avoids this entirely.
+## Phase 1: CSS Idle Animations (All Characters, No New Assets)
 
-## Solution
+Add subtle idle animations to every character across all scenes:
 
-### 1. Add `restoreState` to `useGameState.ts`
-- New method that replaces the entire game state with a saved snapshot, clearing transient fields (selectedVerb, selectedItem, dialogState).
+| Character | Animation | Technique |
+|-----------|-----------|-----------|
+| Lady Fantastique | Gentle breathing + slight sway | `scale` pulse (1.0→1.015) on Y axis, 3s loop |
+| Carl | Subtle weight shift | Slight `translateX` oscillation, 4s loop |
+| Los Cabos (dead) | None (stays static — intentional contrast) | — |
+| Chef Allegro | Slow blink already exists; add breathing | `scaleY` pulse on container |
+| Sous Chef Sally | Fidgeting/shifting | `rotate` micro-oscillation ±0.5deg |
+| Duke Extreme | Already has 2-pose swap; smooth it with crossfade | Improve existing transition timing |
 
-### 2. Add `restoreNotes` to `useNotesState.ts`
-- New method that bulk-sets dialogueLog and evidenceLog, and rebuilds the `loggedEvidenceIds` ref to prevent duplicate entries.
+Each animation uses CSS `@keyframes` in Tailwind config — no sprite sheets needed.
 
-### 3. Rewrite save/load in `GameContainer.tsx`
+## Phase 2: AI-Generated Reaction Variants
 
-**Save**: Serialize both `gameState` and `{ dialogueLog, evidenceLog }` into one localStorage entry. Clear non-serializable fields (dialogState) before saving.
+Generate 1-2 additional emotional variants per character using the image generation API. Each variant is triggered by confronting a character with specific evidence.
 
-**Load**: Read localStorage, call `restoreState()` and `restoreNotes()` in-place — no page reload. Works from both title screen and in-game menu.
+**Variants to generate:**
+- **Lady Fantastique — nervous** (when shown the wine glass)
+- **Carl — smirking** (when shown the dagger — he's too calm)
+- **Duke Extreme — panicked** (when confronted about money)
+- **Chef Allegro — defensive** (when asked about the kitchen)
 
-### 4. Expose `resetNotes` for restart
-- On restart, call `resetNotes()` and clear the save data before reloading.
+**Process:** Use `google/gemini-3.1-flash-image-preview` with the existing character PNG as reference input, requesting the same art style with a different expression. Save generated PNGs to `src/assets/characters/`. If quality doesn't match, fall back to CSS-only effects (color tint, slight blur, shake animation).
+
+## Phase 3: Evidence-Triggered Reactions
+
+Wire up the flag system so characters change state when evidence is shown:
+
+- Using wine glass on Lady → swap to nervous sprite, unlock new dialog branch
+- Using dagger on Carl → swap to smirking sprite, new dialog
+- Using money bag on Duke → swap to panicked sprite, new dialog
+- Sprite swaps persist via `gameState.flags` (e.g., `ladyNervous: true`)
+
+The `use_with_*` interactions already exist in `GameScene.tsx` — extend them to also set flags and trigger sprite swaps.
 
 ## Files Changed
 
 | File | Change |
 |------|--------|
-| `src/hooks/useGameState.ts` | Add `restoreState(saved)` method |
-| `src/hooks/useNotesState.ts` | Add `restoreNotes(dialogueLog, evidenceLog)` method |
-| `src/components/game/GameContainer.tsx` | Rewrite `handleSave` to include notes; rewrite `handleLoadGame` to restore in-place without reload |
+| `tailwind.config.ts` | Add `breathing`, `sway`, `fidget` keyframes |
+| `src/components/game/GameScene.tsx` | Add CSS idle animations to all characters; add flag-based sprite swapping for reaction variants |
+| `src/components/game/ProductionRoomScene.tsx` | Add idle animation to Chef Allegro |
+| `src/components/game/KitchenScene.tsx` | Add idle animation to Sally/Chef if present |
+| `src/components/game/DukeExtremeRoomScene.tsx` | Add idle animation if Duke appears here |
+| `src/assets/characters/` | New AI-generated variant PNGs (lady-nervous, carl-smirking, duke-panicked, chef-defensive) |
+| `src/data/dialogTrees.ts` | New dialog branches unlocked by reaction flags |
 
-## Why This Is Robust for Browser Play
-- **localStorage** persists across browser sessions, tabs, and computer restarts — perfect for single-player browser games.
-- No page reload means no race conditions or lost state.
-- Save data is validated with try/catch for corrupted data.
-- All game progress (inventory, flags, room, position, notes, evidence) is captured in one atomic save.
+## Approach Order
+1. Add all CSS idle animations first (immediate visual improvement)
+2. Generate one test variant (Lady Fantastique nervous) to validate style match
+3. If acceptable, generate remaining variants
+4. Wire up flag-based sprite swapping and new dialog branches
 
