@@ -68,6 +68,14 @@ export function GameContainer() {
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
   const [hoverText, setHoverText] = useState('');
+  const [assetsPreloaded, setAssetsPreloaded] = useState(false);
+
+  // Preload all game assets while on title screen
+  useEffect(() => {
+    if (gameState.phase === 'title' && !assetsPreloaded) {
+      preloadImages(getAllAssets()).then(() => setAssetsPreloaded(true));
+    }
+  }, [gameState.phase, assetsPreloaded]);
 
   useEffect(() => {
     if (gameState.phase === 'blackout' && !crashPlayed) {
