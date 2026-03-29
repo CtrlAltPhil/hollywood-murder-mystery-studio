@@ -123,27 +123,51 @@ export function GameContainer() {
   };
 
   const handleSave = () => {
-    localStorage.setItem('hmm_save_game', JSON.stringify(gameState));
-    alert('Game Saved Successfully!');
+    try {
+      const saveData = {
+        gameState: {
+          ...gameState,
+          selectedVerb: null,
+          selectedItem: null,
+          actionText: '',
+          dialogState: { isActive: false, currentNode: null, character: null },
+        },
+        notes: { dialogueLog, evidenceLog },
+        savedAt: Date.now(),
+      };
+      localStorage.setItem('hmm_save_game', JSON.stringify(saveData));
+      alert('Game Saved Successfully!');
+    } catch {
+      alert('Failed to save game.');
+    }
     setIsMenuOpen(false);
   };
 
   const handleLoadGame = () => {
-    const saveData = localStorage.getItem('hmm_save_game');
-    if (saveData) {
-      try {
-        const parsed = JSON.parse(saveData);
-        // Reload the page with save data flag
-        localStorage.setItem('hmm_load_pending', 'true');
-        window.location.reload();
-      } catch {
-        alert('Failed to load save data.');
+    const raw = localStorage.getItem('hmm_save_game');
+    if (!raw) {
+      alert('No save data found.');
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      // Support both old format (bare GameState) and new format ({ gameState, notes })
+      const savedGameState = parsed.gameState || parsed;
+      restoreState(savedGameState);
+      if (parsed.notes) {
+        restoreNotes(parsed.notes.dialogueLog || [], parsed.notes.evidenceLog || []);
       }
+      setIsMenuOpen(false);
+      setCrashPlayed(true); // Don't replay crash sound on load
+    } catch {
+      alert('Failed to load save data. The save file may be corrupted.');
     }
   };
 
   const handleRestart = () => {
     if (confirm('Are you sure you want to restart? Unsaved progress will be lost.')) {
+      localStorage.removeItem('hmm_save_game');
+      resetNotes();
       window.location.reload();
     }
   };
