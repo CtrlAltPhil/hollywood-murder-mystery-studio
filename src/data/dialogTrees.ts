@@ -80,6 +80,7 @@ const carlTree: DialogTree = {
     id: 'carl-dagger-react',
     speaker: 'Carl',
     text: "That's... that's an ornate piece. It looks like the prop dagger from 'Midnight in Marrakech' — one of our productions. It was supposed to be locked in the prop room.",
+    onEnter: { flag: 'carlSmirking' },
     options: [
       { text: "Who had access to the prop room?", nextNodeId: 'carl-prop-room' },
       { text: "Your fingerprints might be on it.", nextNodeId: 'carl-fingerprints' },
@@ -246,6 +247,7 @@ const ladyTree: DialogTree = {
     id: 'lady-dagger-react',
     speaker: 'Lady Fantastique',
     text: "Oh god, is that... that's from the Marrakech film! I designed the sheath for it. It's supposed to be a prop — but someone must have sharpened the blade!",
+    onEnter: { flag: 'ladyNervous' },
     options: [
       { text: "You designed it? So you knew exactly where it was kept.", nextNodeId: 'lady-dagger-defense' },
       { text: "Who could have sharpened it?", nextNodeId: 'lady-dagger-sharpened' },
@@ -405,6 +407,7 @@ const elFuegoTree: DialogTree = {
     id: 'fuego-dagger-react',
     speaker: 'Duke Extreme',
     text: "I— that— yes, it's from the film. But it was a PROP! A dull blade! Someone must have... someone sharpened it. That wasn't me! I swear on my mother!",
+    onEnter: { flag: 'dukePanicked' },
     options: [
       { text: "You're the stunt coordinator. You had the most access to these weapons.", nextNodeId: 'fuego-dagger-access' },
       { text: "Who else could have taken it from the prop room?", nextNodeId: 'fuego-dagger-who' },
@@ -582,6 +585,7 @@ const chefAllegroTree: DialogTree = {
     id: 'chef-wine-react',
     speaker: 'Chef Allegro',
     text: "Madre di Dio... a residue? In the wine glass?! I opened that bottle myself — it was sealed! If something was added, it happened AFTER it left my hands!",
+    onEnter: { flag: 'chefDefensive' },
     options: [
       { text: "Walk me through exactly what happened with the wine.", nextNodeId: 'chef-wine-walkthrough' },
       { text: "Who touched the glass after you poured it?", nextNodeId: 'chef-wine-touched' },
