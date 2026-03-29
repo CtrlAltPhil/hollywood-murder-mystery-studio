@@ -225,7 +225,10 @@ export function GameScene({
         pickup: "I can't pick up a person!",
         use: "I should talk to her instead.",
         use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady Fantastique recoils in horror.',
-        use_with_wine_glass: '"That\'s my glass! I mean... it looks like mine. So what?"',
+        use_with_wine_glass: () => {
+          setFlag("ladyNervous", true);
+          return '"That\'s my glass! I mean... it looks like mine. So what?" Lady Fantastique\'s composure cracks.';
+        },
       },
     },
     {
@@ -239,7 +242,10 @@ export function GameScene({
         talk: "__DIALOG__el-fuego",
         pickup: "That's not how you treat people.",
         use: "I should talk to him instead.",
-        use_with_dagger: '"Where did you... I\'ve never seen that before! I swear!" Duke Extreme backs away nervously.',
+        use_with_dagger: () => {
+          setFlag("dukePanicked", true);
+          return '"Where did you... I\'ve never seen that before! I swear!" Duke Extreme backs away in a panic.';
+        },
         use_with_wine_glass: '"That\'s just wine, amigo. Nothing special about it."',
       },
     },
@@ -254,7 +260,10 @@ export function GameScene({
         talk: "__DIALOG__carl",
         pickup: "I don't think Carl would appreciate that.",
         use: "I should talk to him instead.",
-        use_with_dagger: 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive."',
+        use_with_dagger: () => {
+          setFlag("carlSmirking", true);
+          return 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive." A faint smirk crosses his face.';
+        },
         use_with_wine_glass: '"Hmm, that residue... Could be a sedative. Someone was planning ahead."',
       },
     },
@@ -342,10 +351,10 @@ export function GameScene({
 
       {/* Lady Fantastique */}
       <div
-        className="absolute z-20 pointer-events-none"
-        style={{ left: "8%", bottom: "2%", width: "auto", height: "45%" }}
+        className={`absolute z-20 pointer-events-none ${gameState.flags.ladyNervous ? 'animate-nervous-shake' : 'animate-breathing'}`}
+        style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
+        <img src={gameState.flags.ladyNervous ? ladyNervousImage : ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain transition-all duration-500" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -356,13 +365,13 @@ export function GameScene({
 
       {/* Duke Extreme */}
       <div
-        className="absolute z-20 pointer-events-none"
-        style={{ left: "38%", bottom: "1%", width: "auto", height: "45%" }}
+        className={`absolute z-20 pointer-events-none ${gameState.flags.dukePanicked ? 'animate-nervous-shake' : 'animate-sway'}`}
+        style={{ left: "38%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
         <img
-          src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
+          src={gameState.flags.dukePanicked ? elFuegoPanickedImage : (elFuegoPose === 0 ? elFuegoImage : elFuegoImage2)}
           alt="Duke Extreme"
-          className="w-full h-full pixelated object-contain transition-opacity duration-300"
+          className="w-full h-full pixelated object-contain transition-all duration-500"
         />
         {shockBubbles["Duke Extreme"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
@@ -374,10 +383,10 @@ export function GameScene({
 
       {/* Carl */}
       <div
-        className="absolute z-20 pointer-events-none"
-        style={{ left: "53%", bottom: "1%", width: "auto", height: "45%" }}
+        className={`absolute z-20 pointer-events-none ${gameState.flags.carlSmirking ? '' : 'animate-weight-shift'}`}
+        style={{ left: "53%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
+        <img src={gameState.flags.carlSmirking ? carlSmirkingImage : carlImage} alt="Carl" className="w-full h-full pixelated object-contain transition-all duration-500" />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Carl"]}
