@@ -1,45 +1,42 @@
 
 
-# Performance: Smooth Scene Transitions & Asset Preloading
+# Fix: Robust Save & Load System
 
-## Problem
-Two visible lag issues:
-1. **Intro → Gameplay transition**: After the blackout, the breakroom scene renders but character images visibly pop in as they load.
-2. **Backyard scene**: The waterfall frames load before the background, causing a flash of incomplete content.
+## Current Problems
 
-**Root cause**: All scene images are loaded on-demand when a component mounts. There is no preloading, and no "ready" gate that waits for assets before revealing the scene.
+1. **Load is completely broken**: `handleLoadGame` parses the save data, sets `hmm_load_pending` in localStorage, then reloads the page — but **no code on mount ever checks for `hmm_load_pending`** or restores the saved state. The parsed data is discarded.
+2. **Notes not saved**: Dialogue history and evidence are not included in the save data, so they'd be lost on load.
+3. **Non-serializable data**: `gameState.dialogState` contains object references (character, dialogNode) that may not round-trip cleanly through JSON.
+4. **Page reload is fragile**: Reloading wipes all React state. A proper in-place restore avoids this entirely.
 
 ## Solution
 
-### 1. Create an Asset Preloader Utility (`src/utils/preloadAssets.ts`)
-- Export a `preloadImages(urls: string[]): Promise<void>` function that creates `Image` objects for each URL and resolves when all have loaded.
-- Export a manifest of **all game assets** grouped by scene (breakroom characters, backyard waterfall frames, production room images, etc.) so they can be bulk-loaded.
+### 1. Add `restoreState` to `useGameState.ts`
+- New method that replaces the entire game state with a saved snapshot, clearing transient fields (selectedVerb, selectedItem, dialogState).
 
-### 2. Preload Critical Assets During Title Screen
-- In `GameContainer`, when the game is on the `title` phase, call `preloadImages` with the full asset manifest in a `useEffect`.
-- Store a `assetsReady` boolean in state. This runs in the background while the player is on the title screen, so by the time they click "Start," most assets are already cached.
+### 2. Add `restoreNotes` to `useNotesState.ts`
+- New method that bulk-sets dialogueLog and evidenceLog, and rebuilds the `loggedEvidenceIds` ref to prevent duplicate entries.
 
-### 3. Add a Loading Gate on Scene Transitions
-- In `handleChangeRoom`, the existing fade-to-black transition (`roomTransition` state with 400ms delay) should also preload the target room's assets before revealing.
-- Extend the black overlay to stay visible until the target scene's images are cached, then fade in. This prevents partial rendering.
+### 3. Rewrite save/load in `GameContainer.tsx`
 
-### 4. Gate the Intro → Gameplay Transition
-- In `handleIntroComplete`, before setting phase to `gameplay`, preload the breakroom scene assets (characters, props, background). The screen is already black during the blackout phase, so this adds no visible delay — it just holds the black screen slightly longer if needed.
+**Save**: Serialize both `gameState` and `{ dialogueLog, evidenceLog }` into one localStorage entry. Clear non-serializable fields (dialogState) before saving.
 
-### 5. Fix the Backyard Waterfall Loading Order
-- In `BackyardScene`, render the waterfall frames and background together but keep the entire scene hidden (opacity 0) until all images have loaded via `onLoad` callbacks. Fade in once ready.
+**Load**: Read localStorage, call `restoreState()` and `restoreNotes()` in-place — no page reload. Works from both title screen and in-game menu.
+
+### 4. Expose `resetNotes` for restart
+- On restart, call `resetNotes()` and clear the save data before reloading.
 
 ## Files Changed
 
 | File | Change |
 |------|--------|
-| `src/utils/preloadAssets.ts` | **New** — `preloadImages()` helper and asset manifest by scene |
-| `src/components/game/GameContainer.tsx` | Preload all assets on title screen; gate intro→gameplay transition; extend room transition to wait for assets |
-| `src/components/game/BackyardScene.tsx` | Add onLoad tracking for waterfall/background images; hide scene until ready |
-| `src/components/game/GameScene.tsx` | Add onLoad tracking for character images; hide scene until ready |
+| `src/hooks/useGameState.ts` | Add `restoreState(saved)` method |
+| `src/hooks/useNotesState.ts` | Add `restoreNotes(dialogueLog, evidenceLog)` method |
+| `src/components/game/GameContainer.tsx` | Rewrite `handleSave` to include notes; rewrite `handleLoadGame` to restore in-place without reload |
 
-## Technical Details
-- Uses native `new Image()` with `onload`/`onerror` promises — no external libraries needed.
-- Vite's static imports (e.g., `import img from '@/assets/...'`) return resolved URLs at build time, so they work directly with the preloader.
-- The title screen preload is best-effort — if the player starts quickly, the per-scene gates still prevent flicker.
+## Why This Is Robust for Browser Play
+- **localStorage** persists across browser sessions, tabs, and computer restarts — perfect for single-player browser games.
+- No page reload means no race conditions or lost state.
+- Save data is validated with try/catch for corrupted data.
+- All game progress (inventory, flags, room, position, notes, evidence) is captured in one atomic save.
 
