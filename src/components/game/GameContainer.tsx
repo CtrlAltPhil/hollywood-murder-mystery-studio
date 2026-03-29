@@ -72,7 +72,7 @@ export function GameContainer() {
   const [roomTransition, setRoomTransition] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
-
+  const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
   // Preload all game assets while on title screen
   useEffect(() => {
     if (gameState.phase === 'title' && !assetsPreloaded) {
