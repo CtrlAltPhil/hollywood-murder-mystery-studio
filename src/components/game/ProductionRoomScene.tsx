@@ -264,10 +264,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
         width: 18,
         height: 35,
         interactions: {
-          look: () => {
-            onSetFlag?.("note754Found");
-            return "A piece of paper taped to the inside of the door. Someone has scrawled '754' in red. What does that number mean?";
-          },
+          look: "A piece of paper taped to the inside of the door. Someone has scrawled '754' in red. What does that number mean?",
           pickup: "It's taped firmly to the door. I'll make a note of the number instead.",
           use: "It's just a note with '754' written on it. I should remember this number.",
         },
@@ -316,6 +313,10 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
                   setElectricalBoxView("none");
                   return;
                 }
+              }
+              // Set flag when looking at the note
+              if (hotspot.id === "ebox-note-754" && (gameState.selectedVerb === "look" || gameState.selectedVerb === "use")) {
+                onSetFlag?.("note754Found");
               }
               const verb = gameState.selectedVerb;
               if (verb && hotspot.interactions[verb]) {
