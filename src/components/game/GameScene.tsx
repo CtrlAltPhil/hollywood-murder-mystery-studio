@@ -56,6 +56,23 @@ export function GameScene({
     return () => clearInterval(interval);
   }, []);
 
+  // Temporary reaction states — show reaction sprite briefly then revert
+  const [tempReaction, setTempReaction] = useState<Record<string, boolean>>({});
+  const reactionTimers = useRef<Record<string, NodeJS.Timeout>>({});
+
+  const triggerTempReaction = useCallback((key: string, durationMs = 3000) => {
+    setTempReaction((prev) => ({ ...prev, [key]: true }));
+    if (reactionTimers.current[key]) clearTimeout(reactionTimers.current[key]);
+    reactionTimers.current[key] = setTimeout(() => {
+      setTempReaction((prev) => ({ ...prev, [key]: false }));
+    }, durationMs);
+  }, []);
+
+  // Clean up timers
+  useEffect(() => {
+    return () => Object.values(reactionTimers.current).forEach(clearTimeout);
+  }, []);
+
   // Shocked reactions when gameplay first starts
   const SHOCK_MESSAGES = [
     { speaker: "Lady Fantastique", delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
@@ -229,6 +246,7 @@ export function GameScene({
         use: "I should talk to her instead.",
         use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady Fantastique recoils in horror.',
         use_with_wine_glass: () => {
+          triggerTempReaction("ladyNervous", 3000);
           setFlag("ladyNervous", true);
           return '"That\'s my glass! I mean... it looks like mine. So what?" Lady Fantastique\'s composure cracks.';
         },
@@ -246,6 +264,7 @@ export function GameScene({
         pickup: "That's not how you treat people.",
         use: "I should talk to him instead.",
         use_with_dagger: () => {
+          triggerTempReaction("dukePanicked", 3000);
           setFlag("dukePanicked", true);
           return '"Where did you... I\'ve never seen that before! I swear!" Duke Extreme backs away in a panic.';
         },
@@ -264,6 +283,7 @@ export function GameScene({
         pickup: "I don't think Carl would appreciate that.",
         use: "I should talk to him instead.",
         use_with_dagger: () => {
+          triggerTempReaction("carlSmirking", 3000);
           setFlag("carlSmirking", true);
           return 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive." A faint smirk crosses his face.';
         },
@@ -354,10 +374,10 @@ export function GameScene({
 
       {/* Lady Fantastique */}
       <div
-        className={`absolute z-20 pointer-events-none ${gameState.flags.ladyNervous ? 'animate-nervous-shake' : 'animate-breathing'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? 'animate-nervous-shake' : 'animate-breathing'}`}
         style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={gameState.flags.ladyNervous ? ladyNervousImage : ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain transition-all duration-500" />
+        <img src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain transition-all duration-500" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -368,11 +388,11 @@ export function GameScene({
 
       {/* Duke Extreme */}
       <div
-        className={`absolute z-20 pointer-events-none ${gameState.flags.dukePanicked ? 'animate-nervous-shake' : 'animate-sway'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.dukePanicked ? 'animate-nervous-shake' : 'animate-sway'}`}
         style={{ left: "38%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
         <img
-          src={gameState.flags.dukePanicked ? elFuegoPanickedImage : (elFuegoPose === 0 ? elFuegoImage : elFuegoImage2)}
+          src={tempReaction.dukePanicked ? elFuegoPanickedImage : (elFuegoPose === 0 ? elFuegoImage : elFuegoImage2)}
           alt="Duke Extreme"
           className="w-full h-full pixelated object-contain transition-all duration-500"
         />
@@ -386,10 +406,10 @@ export function GameScene({
 
       {/* Carl */}
       <div
-        className={`absolute z-20 pointer-events-none ${gameState.flags.carlSmirking ? '' : 'animate-weight-shift'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.carlSmirking ? '' : 'animate-weight-shift'}`}
         style={{ left: "53%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={gameState.flags.carlSmirking ? carlSmirkingImage : carlImage} alt="Carl" className="w-full h-full pixelated object-contain transition-all duration-500" />
+        <img src={tempReaction.carlSmirking ? carlSmirkingImage : carlImage} alt="Carl" className="w-full h-full pixelated object-contain transition-all duration-500" />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Carl"]}
