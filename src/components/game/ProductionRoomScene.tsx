@@ -362,8 +362,17 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
             const verb = gameState.selectedVerb;
             // Electrical box special handling
             if (hotspot.id === "electrical-box") {
+              // Let "use with item" pass through to onHotspotClick for GameContainer handling
+              if (verb === "use" && gameState.selectedItem) {
+                onHotspotClick(hotspot);
+                return;
+              }
               if (verb === "look" || verb === "open" || verb === "use" || !verb) {
-                setElectricalBoxView(boxOpened ? "open" : "closed");
+                if (boxUnlocked) {
+                  setElectricalBoxView(boxOpened ? "open" : "closed");
+                } else {
+                  onHotspotClick(hotspot);
+                }
                 return;
               }
               onHotspotClick(hotspot);
