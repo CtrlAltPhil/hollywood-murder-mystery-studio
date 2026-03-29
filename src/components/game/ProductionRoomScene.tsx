@@ -372,6 +372,20 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${productionRoomBackground})` }} />
 
+      {/* Projector glow when powered on */}
+      {wiresRepaired && (
+        <div
+          className="absolute pointer-events-none animate-pulse"
+          style={{
+            left: '14%',
+            top: '38%',
+            width: '8%',
+            height: '6%',
+            background: 'radial-gradient(ellipse, rgba(255, 200, 100, 0.5) 0%, transparent 70%)',
+            filter: 'blur(4px)',
+          }}
+        />
+      )}
       {hotspots.map((hotspot) => (
         <div
           key={hotspot.id}
