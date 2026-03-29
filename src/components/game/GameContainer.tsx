@@ -435,6 +435,7 @@ export function GameContainer() {
             onResume={() => setIsMenuOpen(false)}
             onSave={handleSave}
             onRestart={handleRestart}
+            onLoadGame={hasSaveData ? handleLoadGame : undefined}
             {...menuProps}
           />
         )}
