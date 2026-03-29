@@ -20,6 +20,7 @@ type ElectricalBoxView = "none" | "closed" | "open";
 export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode, onSetFlag }: ProductionRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const [electricalBoxView, setElectricalBoxView] = useState<ElectricalBoxView>("none");
+  const boxUnlocked = gameState.flags.electricalBoxUnlocked === true;
   const [boxOpened, setBoxOpened] = useState(false);
 
   const hotspots: SimpleHotspot[] = [
@@ -128,18 +129,16 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
       width: 8,
       height: 18,
       interactions: {
-        look: () => {
-          setElectricalBoxView(boxOpened ? "open" : "closed");
-          return "";
-        },
-        open: () => {
-          setElectricalBoxView(boxOpened ? "open" : "closed");
-          return "";
-        },
-        use: () => {
-          setElectricalBoxView(boxOpened ? "open" : "closed");
-          return "";
-        },
+        look: boxUnlocked
+          ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
+          : "A heavy-duty electrical box mounted on the wall. There's a keyhole on the front — it's locked.",
+        open: boxUnlocked
+          ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
+          : "It's locked. I need a key to open this.",
+        use: boxUnlocked
+          ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
+          : "It's locked. I need a key.",
+        use_with_fountain_key: "__UNLOCK_EBOX__",
       },
     },
   ];
