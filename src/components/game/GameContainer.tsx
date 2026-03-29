@@ -28,6 +28,7 @@ import { Settings, NotebookPen } from 'lucide-react';
 export function GameContainer() {
   const {
     gameState,
+    restoreState,
     setPhase,
     selectVerb,
     selectItem,
