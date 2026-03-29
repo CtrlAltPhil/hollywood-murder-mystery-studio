@@ -314,6 +314,10 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
                   return;
                 }
               }
+              // Set flag when looking at the note
+              if (hotspot.id === "ebox-note-754" && (gameState.selectedVerb === "look" || gameState.selectedVerb === "use")) {
+                onSetFlag?.("note754Found");
+              }
               const verb = gameState.selectedVerb;
               if (verb && hotspot.interactions[verb]) {
                 const interaction = hotspot.interactions[verb];
