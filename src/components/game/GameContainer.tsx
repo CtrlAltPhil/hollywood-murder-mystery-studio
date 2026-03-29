@@ -241,6 +241,15 @@ export function GameContainer() {
             selectVerb(null);
             return;
           }
+          if (interaction === '__REPAIR_WIRES__') {
+            setFlag('wiresRepaired', true);
+            checkFlagEvidence('wiresRepaired');
+            removeFromInventory('wire_cutters');
+            setActionText('I used the wire cutters to strip and reconnect the severed wires. The connection is restored — whoever cut these knew exactly what they were doing.');
+            playSfx('pickup');
+            selectVerb(null);
+            return;
+          }
           setActionText(interaction);
         } else if (typeof interaction === 'function') {
           const result = interaction();
