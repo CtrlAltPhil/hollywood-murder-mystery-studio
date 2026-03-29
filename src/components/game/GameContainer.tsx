@@ -110,7 +110,9 @@ export function GameContainer() {
     setPhase('intro');
   };
 
-  const handleIntroComplete = () => {
+  const handleIntroComplete = async () => {
+    // Preload breakroom assets before revealing gameplay (screen is black during blackout)
+    await preloadImages(getRoomAssets('breakroom'));
     setPhase('gameplay');
     const flag = 'murderRevealed';
     setFlag(flag, true);
@@ -145,7 +147,10 @@ export function GameContainer() {
 
   const handleChangeRoom = (roomId: string) => {
     setRoomTransition(true);
-    setTimeout(() => {
+    // Preload target room assets during the fade-to-black
+    const preloadPromise = preloadImages(getRoomAssets(roomId));
+    setTimeout(async () => {
+      await preloadPromise; // Wait for assets if still loading
       changeRoom(roomId, { x: 400, y: 350 });
       setHoverText('');
       selectVerb(null);
