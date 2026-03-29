@@ -374,10 +374,10 @@ export function GameScene({
 
       {/* Lady Fantastique */}
       <div
-        className={`absolute z-20 pointer-events-none ${gameState.flags.ladyNervous ? 'animate-nervous-shake' : 'animate-breathing'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? 'animate-nervous-shake' : 'animate-breathing'}`}
         style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={gameState.flags.ladyNervous ? ladyNervousImage : ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain transition-all duration-500" />
+        <img src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain transition-all duration-500" />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -388,11 +388,11 @@ export function GameScene({
 
       {/* Duke Extreme */}
       <div
-        className={`absolute z-20 pointer-events-none ${gameState.flags.dukePanicked ? 'animate-nervous-shake' : 'animate-sway'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.dukePanicked ? 'animate-nervous-shake' : 'animate-sway'}`}
         style={{ left: "38%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
         <img
-          src={gameState.flags.dukePanicked ? elFuegoPanickedImage : (elFuegoPose === 0 ? elFuegoImage : elFuegoImage2)}
+          src={tempReaction.dukePanicked ? elFuegoPanickedImage : (elFuegoPose === 0 ? elFuegoImage : elFuegoImage2)}
           alt="Duke Extreme"
           className="w-full h-full pixelated object-contain transition-all duration-500"
         />
@@ -406,10 +406,10 @@ export function GameScene({
 
       {/* Carl */}
       <div
-        className={`absolute z-20 pointer-events-none ${gameState.flags.carlSmirking ? '' : 'animate-weight-shift'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.carlSmirking ? '' : 'animate-weight-shift'}`}
         style={{ left: "53%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={gameState.flags.carlSmirking ? carlSmirkingImage : carlImage} alt="Carl" className="w-full h-full pixelated object-contain transition-all duration-500" />
+        <img src={tempReaction.carlSmirking ? carlSmirkingImage : carlImage} alt="Carl" className="w-full h-full pixelated object-contain transition-all duration-500" />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Carl"]}
