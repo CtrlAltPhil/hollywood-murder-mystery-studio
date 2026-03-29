@@ -52,6 +52,7 @@ export interface DialogNode {
   text: string;
   options?: DialogOption[];
   nextNodeId?: string | null;
+  onEnter?: { flag: string };
 }
 
 export interface Room {
