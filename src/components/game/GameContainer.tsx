@@ -123,6 +123,12 @@ export function GameContainer() {
   };
 
   const handleSave = () => {
+    // Warn if overriding an existing save
+    if (hasSaveData) {
+      if (!confirm('This will overwrite your previous save. Continue?')) {
+        return;
+      }
+    }
     try {
       const saveData = {
         gameState: {
@@ -136,6 +142,7 @@ export function GameContainer() {
         savedAt: Date.now(),
       };
       localStorage.setItem('hmm_save_game', JSON.stringify(saveData));
+      setHasSaveData(true);
       alert('Game Saved Successfully!');
     } catch {
       alert('Failed to save game.');
@@ -151,14 +158,13 @@ export function GameContainer() {
     }
     try {
       const parsed = JSON.parse(raw);
-      // Support both old format (bare GameState) and new format ({ gameState, notes })
       const savedGameState = parsed.gameState || parsed;
       restoreState(savedGameState);
       if (parsed.notes) {
         restoreNotes(parsed.notes.dialogueLog || [], parsed.notes.evidenceLog || []);
       }
       setIsMenuOpen(false);
-      setCrashPlayed(true); // Don't replay crash sound on load
+      setCrashPlayed(true);
     } catch {
       alert('Failed to load save data. The save file may be corrupted.');
     }
@@ -167,6 +173,7 @@ export function GameContainer() {
   const handleRestart = () => {
     if (confirm('Are you sure you want to restart? Unsaved progress will be lost.')) {
       localStorage.removeItem('hmm_save_game');
+      setHasSaveData(false);
       resetNotes();
       window.location.reload();
     }
