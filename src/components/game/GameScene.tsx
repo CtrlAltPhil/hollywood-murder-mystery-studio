@@ -43,6 +43,10 @@ export function GameScene({
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const totalImages = 5; // bg + 4 characters (lady, duke, carl, los-cabos-dead)
+  const sceneReady = imagesLoaded >= totalImages;
+  const handleImageLoad = () => setImagesLoaded((prev) => prev + 1);
 
   // Animate Duke Extreme between two poses
   const [elFuegoPose, setElFuegoPose] = useState(0);
@@ -268,9 +272,9 @@ export function GameScene({
   });
 
   return (
-    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
+    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass} transition-opacity duration-300 ${sceneReady ? 'opacity-100' : 'opacity-0'}`} onClick={() => onEmptyClick?.()}>
       {/* Background */}
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
+      <img src={breakroomBackground} alt="" className="absolute inset-0 w-full h-full object-cover" onLoad={handleImageLoad} />
 
       {/* Table */}
       <img
