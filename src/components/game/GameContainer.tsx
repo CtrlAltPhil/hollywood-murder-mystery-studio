@@ -356,7 +356,7 @@ export function GameContainer() {
         <div className="w-full max-w-5xl aspect-[4/3]">
           <TitleScreen 
             onStart={handleStart}
-            onLoadGame={handleLoadGame}
+            onLoadGame={hasSaveData ? handleLoadGame : undefined}
             {...menuProps}
           />
         </div>
