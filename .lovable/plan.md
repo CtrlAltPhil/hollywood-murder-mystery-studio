@@ -1,46 +1,46 @@
 
 
-# New Scene: Garden Path & Locked Shed with Combination Lock
+# Reimagine Shed Lock & Add Shed Interior Scene
 
 ## Overview
-Add a new navigable area — a **Garden Path** — accessible from the left side of the Backyard. It features a locked shed with a 3-digit combination lock (code: **754**, found on the scrawled note in the Production Room). Opening the shed advances the investigation.
+Replace the current "giant combo lock on shed door" close-up with a smaller, more realistic padlock interaction, and create a new **Shed Interior** scene that the player enters after unlocking. The shed interior contains inspectable items including the wire cutters.
 
 ## Changes
 
-### 1. Generate Garden Path Background
-Use the AI image generation API to create `src/assets/backgrounds/garden-path.png` — a nighttime outdoor path with hedges, a gravel walkway, and a wooden shed on the right side. Match the Backyard's dark Hollywood estate aesthetic.
+### 1. Rework the Lock Interaction in `GardenPathScene.tsx`
+- Remove the full-screen shed close-up with the oversized combo lock UI
+- Instead, when the player interacts with the shed door (open/use), show a **small padlock overlay** anchored to the shed door area -- a compact 3-digit lock widget (roughly 15-20% of the screen) positioned near the shed handle, not filling the whole view
+- On correct code (754): set `shedUnlocked` flag, show brief unlock feedback
+- On subsequent visits when unlocked: clicking the shed navigates to the new `shed-interior` room
+- Remove the wire cutters pickup from GardenPathScene entirely
 
-### 2. Generate Shed Close-Up + Lock Assets
-- `src/assets/backgrounds/shed-closeup.png` — frontal view of the shed door with a visible combination padlock
-- The combination lock UI will be built in CSS/React (three digit wheels), no separate asset needed
+### 2. Create `ShedInteriorScene.tsx`
+New scene following the standard scene architecture:
+- **Background**: AI-generated `shed-interior.png` -- dark, cluttered tool shed interior (workbench, shelves, old crates, rusty tools on wall hooks)
+- **Hotspots**:
+  - **Wire Cutters** (pickup) -- "A sturdy pair of wire cutters. These have been used recently... the blades have fresh copper residue on them." Links to the cut wires in the Production Room
+  - **Workbench** (look) -- "A dusty workbench covered in old tools and wood shavings. Someone's been working here recently."
+  - **Shelving** (look) -- "Rusty shelves with paint cans and garden chemicals. Nothing useful."
+  - **Old Crate** (look/open) -- "A wooden crate marked 'PROPS - DO NOT REMOVE'. It's empty now."
+  - **Back to Garden** -- exit hotspot returning to `garden-path`
+- Wire cutters use the existing `wire-cutters.png` sprite, positioned on the workbench
 
-### 3. Create `GardenPathScene.tsx`
-New scene component following the BackyardScene pattern:
-- **Background**: garden-path.png
-- **Hotspots**: shed door, garden bench, old lantern, path back to backyard (right side nav)
-- **Shed interaction**: Looking at it describes a padlocked shed. Using/opening it triggers a **combination lock overlay** (three scrollable digit inputs, 0-9 each). Entering **754** unlocks it, sets flag `shedUnlocked`, and transitions to shed interior view or reveals contents.
-- **Combination Lock UI**: A modal overlay with three styled digit selectors. Wrong code shows "The lock doesn't budge." Correct code plays pickup SFX, sets flag, and opens the shed.
+### 3. Update `GameContainer.tsx`
+- Import `ShedInteriorScene`
+- Add `case 'shed-interior'` to the room switch
 
-### 4. Add Navigation from Backyard
-Add a new hotspot in `BackyardScene.tsx` on the left edge:
-- "Garden Path" — navigates to `garden-path` room
-- Nav indicator: `◄ Garden Path` on the left side
+### 4. Update `preloadAssets.ts`
+- Add `shed-interior.png` to preload list
 
-### 5. Wire into GameContainer
-- Import `GardenPathScene`
-- Add `case 'garden-path'` to the room switch with `setFlag` and `onAddToInventory` props
+### 5. Generate Asset
+- `src/assets/backgrounds/shed-interior.png` -- AI-generated dark tool shed interior matching the estate's aesthetic
 
-### 6. Shed Contents (what's inside)
-Once unlocked, the shed reveals a **wire cutters** item — useful for the frayed wires in the Production Room or cutting through the overgrown hedge in the Backyard. This creates a new puzzle chain.
-
-## Files
-
+## Files Modified/Created
 | File | Change |
 |------|--------|
-| `src/assets/backgrounds/garden-path.png` | AI-generated scene background |
-| `src/assets/backgrounds/shed-closeup.png` | AI-generated shed door close-up |
-| `src/components/game/GardenPathScene.tsx` | New scene with hotspots + combination lock overlay |
-| `src/components/game/BackyardScene.tsx` | Add left-side navigation hotspot to garden path |
-| `src/components/game/GameContainer.tsx` | Import + add case for `garden-path` room |
-| `src/utils/preloadAssets.ts` | Add new assets to preload list |
+| `src/components/game/GardenPathScene.tsx` | Replace full-screen lock close-up with compact padlock widget; navigate to shed-interior when unlocked |
+| `src/components/game/ShedInteriorScene.tsx` | New scene with inspectable items + wire cutters pickup |
+| `src/components/game/GameContainer.tsx` | Add shed-interior case |
+| `src/utils/preloadAssets.ts` | Add shed-interior.png |
+| `src/assets/backgrounds/shed-interior.png` | New AI-generated background |
 
