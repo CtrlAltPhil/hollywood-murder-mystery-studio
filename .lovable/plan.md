@@ -1,46 +1,50 @@
 
 
-# Reimagine Shed Lock & Add Shed Interior Scene
+# Film Projector Cutscene — Wires Repaired Outcome
 
 ## Overview
-Replace the current "giant combo lock on shed door" close-up with a smaller, more realistic padlock interaction, and create a new **Shed Interior** scene that the player enters after unlocking. The shed interior contains inspectable items including the wire cutters.
+When the player repairs the frayed wires, the film projector in the Production Room powers on. The player can then interact with the projector to watch a cutscene — a grainy film recording that reveals critical evidence (e.g., a secret meeting, a confrontation, or someone tampering with the electrical box before the blackout).
 
 ## Changes
 
-### 1. Rework the Lock Interaction in `GardenPathScene.tsx`
-- Remove the full-screen shed close-up with the oversized combo lock UI
-- Instead, when the player interacts with the shed door (open/use), show a **small padlock overlay** anchored to the shed door area -- a compact 3-digit lock widget (roughly 15-20% of the screen) positioned near the shed handle, not filling the whole view
-- On correct code (754): set `shedUnlocked` flag, show brief unlock feedback
-- On subsequent visits when unlocked: clicking the shed navigates to the new `shed-interior` room
-- Remove the wire cutters pickup from GardenPathScene entirely
+### 1. Update Production Room after Wires Repaired
+In `ProductionRoomScene.tsx`:
+- Add a new hotspot for the **Film Projector** (near the camera/green screen area)
+- When `wiresRepaired` is false: "The projector is dark. No power."
+- When `wiresRepaired` is true: the projector hums, a light glows. Using or looking at it triggers `__PLAY_PROJECTOR__`
+- Add a subtle visual indicator (e.g., a small glowing light overlay) when the projector is powered on
 
-### 2. Create `ShedInteriorScene.tsx`
-New scene following the standard scene architecture:
-- **Background**: AI-generated `shed-interior.png` -- dark, cluttered tool shed interior (workbench, shelves, old crates, rusty tools on wall hooks)
-- **Hotspots**:
-  - **Wire Cutters** (pickup) -- "A sturdy pair of wire cutters. These have been used recently... the blades have fresh copper residue on them." Links to the cut wires in the Production Room
-  - **Workbench** (look) -- "A dusty workbench covered in old tools and wood shavings. Someone's been working here recently."
-  - **Shelving** (look) -- "Rusty shelves with paint cans and garden chemicals. Nothing useful."
-  - **Old Crate** (look/open) -- "A wooden crate marked 'PROPS - DO NOT REMOVE'. It's empty now."
-  - **Back to Garden** -- exit hotspot returning to `garden-path`
-- Wire cutters use the existing `wire-cutters.png` sprite, positioned on the workbench
+### 2. Create Projector Cutscene Component
+New file `src/components/game/ProjectorCutscene.tsx`:
+- A full-screen overlay styled as a grainy film projection (dark vignette, film grain effect, slight flicker via CSS)
+- Displays a sequence of text cards and/or still images revealing the recording's content — e.g.:
+  - *"The recording shows the production room hours before the party..."*
+  - *"A figure enters and opens the electrical box..."*
+  - *"They cut the red conduit wire with wire cutters, then place something inside the box door..."*
+  - *"The figure turns — it's [character name or silhouette]..."*
+- Player clicks to advance through frames, then the cutscene ends and returns to the Production Room
+- Sets a flag `projectorWatched` when complete
 
-### 3. Update `GameContainer.tsx`
-- Import `ShedInteriorScene`
-- Add `case 'shed-interior'` to the room switch
+### 3. Wire into GameContainer
+- Handle `__PLAY_PROJECTOR__` action: show the projector cutscene overlay
+- Add state for `showProjectorCutscene`
+- On cutscene complete: set `projectorWatched` flag, log evidence entry
 
-### 4. Update `preloadAssets.ts`
-- Add `shed-interior.png` to preload list
+### 4. Add Evidence Entry
+In `evidenceMap.ts`, add a `projectorWatched` flag entry:
+- Title: "Security Camera Recording"
+- Description: Summary of what the recording revealed
+- Category: "Testimonies" or "Documents"
 
-### 5. Generate Asset
-- `src/assets/backgrounds/shed-interior.png` -- AI-generated dark tool shed interior matching the estate's aesthetic
+### 5. Update Preload
+Add any new assets (film grain overlay texture if used) to `preloadAssets.ts`
 
-## Files Modified/Created
+## Files
+
 | File | Change |
 |------|--------|
-| `src/components/game/GardenPathScene.tsx` | Replace full-screen lock close-up with compact padlock widget; navigate to shed-interior when unlocked |
-| `src/components/game/ShedInteriorScene.tsx` | New scene with inspectable items + wire cutters pickup |
-| `src/components/game/GameContainer.tsx` | Add shed-interior case |
-| `src/utils/preloadAssets.ts` | Add shed-interior.png |
-| `src/assets/backgrounds/shed-interior.png` | New AI-generated background |
+| `src/components/game/ProductionRoomScene.tsx` | Add projector hotspot with powered-on/off states |
+| `src/components/game/ProjectorCutscene.tsx` | New — grainy film cutscene overlay component |
+| `src/components/game/GameContainer.tsx` | Handle `__PLAY_PROJECTOR__`, show cutscene, set flag |
+| `src/data/evidenceMap.ts` | Add `projectorWatched` evidence entry |
 
