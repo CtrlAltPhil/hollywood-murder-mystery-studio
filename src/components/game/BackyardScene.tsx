@@ -192,8 +192,8 @@ export function BackyardScene({
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass} transition-opacity duration-300 ${sceneReady ? 'opacity-100' : 'opacity-0'}`} onClick={() => onEmptyClick?.()}>
-      <img src={backyardBackground} alt="" className="absolute inset-0 w-full h-full object-cover" onLoad={handleImageLoad} />
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${backyardBackground})` }} />
 
       {/* Waterfall animation - only show when fountain is on */}
       {!fountainOff && (
@@ -202,7 +202,6 @@ export function BackyardScene({
           alt=""
           className="absolute pointer-events-none z-10"
           style={{ left: "21%", top: "18%", width: "45%", height: "75%", objectFit: "fill" }}
-          onLoad={waterfallFrame === 0 ? handleImageLoad : undefined}
         />
       )}
 
