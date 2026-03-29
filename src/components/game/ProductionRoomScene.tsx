@@ -268,7 +268,6 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
           pickup: "It's taped firmly to the door. I'll make a note of the number instead.",
           use: "It's just a note with '754' written on it. I should remember this number.",
         },
-        onLook: () => onSetFlag?.("note754Found"),
       },
       {
         id: "ebox-back-open",
