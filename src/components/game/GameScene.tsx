@@ -299,7 +299,6 @@ export function GameScene({
         src={losCabosDeadImage}
         alt="Los Cabos"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        className="absolute z-10 pointer-events-none pixelated object-contain"
         style={{
           right: "15%",
           bottom: "-2%",
@@ -363,7 +362,6 @@ export function GameScene({
         <img
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
-          className="w-full h-full pixelated object-contain transition-opacity duration-300"
           className="w-full h-full pixelated object-contain transition-opacity duration-300"
         />
         {shockBubbles["Duke Extreme"] && (
