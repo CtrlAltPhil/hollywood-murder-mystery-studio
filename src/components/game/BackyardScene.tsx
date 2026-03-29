@@ -160,15 +160,6 @@ export function BackyardScene({
         use: "__NAVIGATE__hallway",
       },
     },
-      position: { x: 50, y: 95 },
-      width: 60,
-      height: 10,
-      interactions: {
-        look: "__NAVIGATE__hallway",
-        open: "__NAVIGATE__hallway",
-        use: "__NAVIGATE__hallway",
-      },
-    },
   ];
 
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
