@@ -38,7 +38,7 @@ export function ShedInteriorScene({
             width: 10,
             height: 15,
             interactions: {
-              look: (() => { setFlag("wireCuttersCopperResidue", true); return "A sturdy pair of wire cutters. These have been used recently... the blades have fresh copper residue on them."; }) as unknown as string,
+              look: "A sturdy pair of wire cutters. These have been used recently... the blades have fresh copper residue on them.",
               pickup: "__PICKUP_WIRE_CUTTERS__",
               use: "__PICKUP_WIRE_CUTTERS__",
             },
@@ -79,7 +79,7 @@ export function ShedInteriorScene({
       width: 18,
       height: 16,
       interactions: {
-        look: (() => { setFlag("propsCrateInspected", true); return "A wooden crate marked 'PROPS - DO NOT REMOVE'. It's empty now. Someone moved the props out of here."; }) as unknown as string,
+        look: "A wooden crate marked 'PROPS - DO NOT REMOVE'. It's empty now.",
         open: "It's already open. There's nothing inside.",
         push: "The crate scrapes across the floor but there's nothing underneath.",
         pickup: "It's too bulky to carry around.",
