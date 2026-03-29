@@ -22,6 +22,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
   const [electricalBoxView, setElectricalBoxView] = useState<ElectricalBoxView>("none");
   const boxUnlocked = gameState.flags.electricalBoxUnlocked === true;
   const [boxOpened, setBoxOpened] = useState(false);
+  const wiresRepaired = gameState.flags.wiresRepaired === true;
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -139,6 +140,24 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
           ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
           : "It's locked. I need a key.",
         use_with_fountain_key: "__UNLOCK_EBOX__",
+      },
+    },
+    {
+      id: "film-projector",
+      name: "Film Projector",
+      position: { x: 18, y: 45 },
+      width: 12,
+      height: 20,
+      interactions: {
+        look: wiresRepaired
+          ? "The projector is humming softly. A reel is loaded and ready to play. There's a recording on here."
+          : "A film projector sitting on a cart. The power light is dead — no electricity.",
+        use: wiresRepaired
+          ? "__PLAY_PROJECTOR__"
+          : "No power. The projector won't turn on.",
+        open: wiresRepaired
+          ? "__PLAY_PROJECTOR__"
+          : "It won't do anything without power.",
       },
     },
   ];
