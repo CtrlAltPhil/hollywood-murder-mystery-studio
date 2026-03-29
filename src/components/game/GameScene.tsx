@@ -56,6 +56,23 @@ export function GameScene({
     return () => clearInterval(interval);
   }, []);
 
+  // Temporary reaction states — show reaction sprite briefly then revert
+  const [tempReaction, setTempReaction] = useState<Record<string, boolean>>({});
+  const reactionTimers = useRef<Record<string, NodeJS.Timeout>>({});
+
+  const triggerTempReaction = useCallback((key: string, durationMs = 3000) => {
+    setTempReaction((prev) => ({ ...prev, [key]: true }));
+    if (reactionTimers.current[key]) clearTimeout(reactionTimers.current[key]);
+    reactionTimers.current[key] = setTimeout(() => {
+      setTempReaction((prev) => ({ ...prev, [key]: false }));
+    }, durationMs);
+  }, []);
+
+  // Clean up timers
+  useEffect(() => {
+    return () => Object.values(reactionTimers.current).forEach(clearTimeout);
+  }, []);
+
   // Shocked reactions when gameplay first starts
   const SHOCK_MESSAGES = [
     { speaker: "Lady Fantastique", delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
