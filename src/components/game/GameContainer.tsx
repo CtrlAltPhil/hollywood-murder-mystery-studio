@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useGameState } from '@/hooks/useGameState';
+import { preloadImages, getAllAssets, getRoomAssets } from '@/utils/preloadAssets';
 import { useNotesState } from '@/hooks/useNotesState';
 import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
