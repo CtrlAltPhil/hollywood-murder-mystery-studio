@@ -30,6 +30,12 @@ export const itemEvidenceMap: Record<string, EvidenceEntry> = {
     description: 'A wine glass with a strange residue at the bottom. Someone may have been drugged.',
     category: 'Physical Evidence',
   },
+  'fountain_key': {
+    id: 'electrical-box-key',
+    title: 'Electrical Box Key',
+    description: 'A small key found hidden at the bottom of the koi pond, concealed by the fountain\'s flow. It fits the electrical box in the production room.',
+    category: 'Physical Evidence',
+  },
   'dagger': {
     id: 'murder-weapon',
     title: 'Murder Weapon',

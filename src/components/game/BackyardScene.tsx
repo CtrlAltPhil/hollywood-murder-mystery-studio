@@ -6,6 +6,7 @@ import waterfall1 from "@/assets/props/waterfall1.png";
 import waterfall2 from "@/assets/props/waterfall2.png";
 import waterfall3 from "@/assets/props/waterfall3.png";
 import waterfall4 from "@/assets/props/waterfall4.png";
+import electricalBoxKeyImage from "@/assets/Electrical_Box_Key.png";
 
 interface BackyardSceneProps {
   gameState: GameState;
@@ -178,10 +179,10 @@ export function BackyardScene({
       const interaction = hotspot.interactions[verb];
       if (interaction === "__PICKUP_FOUNTAIN_KEY__") {
         setFlag("fountainKeyTaken", true);
-        onAddToInventory({ id: "fountain_key", name: "Mysterious Key", image: "/placeholder.svg" });
+        onAddToInventory({ id: "fountain_key", name: "Electrical Box Key", image: electricalBoxKeyImage });
         onHotspotClick({
           ...hotspot,
-          interactions: { pickup: "I reach into the still water and pull out a small brass key. It was hidden under the fountain's flow this whole time! I wonder what it unlocks..." },
+          interactions: { pickup: "I reach into the still water and pull out a small key. It was hidden under the fountain's flow this whole time! It looks like it could fit an electrical panel or utility box." },
         });
         return;
       }

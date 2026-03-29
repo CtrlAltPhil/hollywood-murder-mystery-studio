@@ -183,6 +183,14 @@ export function GameContainer() {
             selectVerb(null);
             return;
           }
+          if (interaction === '__UNLOCK_EBOX__') {
+            setFlag('electricalBoxUnlocked', true);
+            removeFromInventory('fountain_key');
+            setActionText('The key fits! I hear a click — the electrical box is now unlocked.');
+            playSfx('pickup');
+            selectVerb(null);
+            return;
+          }
           setActionText(interaction);
         } else if (typeof interaction === 'function') {
           const result = interaction();

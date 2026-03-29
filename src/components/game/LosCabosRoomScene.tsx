@@ -15,7 +15,7 @@ interface LosCabosRoomSceneProps {
 
 export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, onAddToInventory, setFlag, debugMode }: LosCabosRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
-  const hasFountainKey = gameState.inventory.some(i => i.id === "fountain_key");
+  const hasDrawerKey = gameState.flags?.hasDrawerKey === true;
   const drawerOpened = gameState.flags?.drawerOpened;
 
   const hotspots: SimpleHotspot[] = [
@@ -43,14 +43,10 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
           : "One of the front drawers on the desk. It has a small keyhole — it's locked.",
         open: drawerOpened
           ? 'The drawer is already open. A crumpled note sits inside. It reads: "Decline the offer or else." The handwriting is rushed and unsteady.'
-          : hasFountainKey
-            ? "__UNLOCK_DRAWER__"
-            : "It's locked. I need some kind of small key to open it.",
-        use: hasFountainKey && !drawerOpened
-          ? "__UNLOCK_DRAWER__"
-          : drawerOpened
-            ? 'The drawer is already open. A crumpled note sits inside. It reads: "Decline the offer or else."'
-            : "It's locked tight. There's a small keyhole.",
+          : "It's locked. I need some kind of small key to open it.",
+        use: drawerOpened
+          ? 'The drawer is already open.'
+          : "It's locked. I need a key.",
         pickup: "I can't pick up a drawer.",
       },
     },
@@ -143,23 +139,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
     const verb = gameState.selectedVerb || "look";
     const interaction = hotspot.interactions[verb];
 
-    if (interaction === "__UNLOCK_DRAWER__") {
-      setFlag("drawerOpened", true);
-      // Remove the fountain key from inventory
-      const keyIndex = gameState.inventory.findIndex(i => i.id === "fountain_key");
-      if (keyIndex !== -1) {
-        // We'll signal the pickup to trigger key consumption via a flag
-        setFlag("fountainKeyUsed", true);
-      }
-      onHotspotClick({
-        ...hotspot,
-        interactions: {
-          ...hotspot.interactions,
-          [verb]: "I use the small key from the fountain... it fits! The drawer slides open. Inside there's a crumpled note with hasty handwriting.",
-        },
-      });
-      return;
-    }
+    handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
 
 
     handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
