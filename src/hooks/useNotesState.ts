@@ -59,4 +59,5 @@ export function useNotesState() {
     clearUnread,
     resetNotes,
     restoreNotes,
+  };
 }
