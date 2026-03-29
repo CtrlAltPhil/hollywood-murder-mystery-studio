@@ -2,8 +2,6 @@ import { useState } from "react";
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import gardenPathBackground from "@/assets/backgrounds/garden-path.png";
-import shedCloseupBackground from "@/assets/backgrounds/shed-closeup.png";
-import wireCuttersImage from "@/assets/props/wire-cutters.png";
 
 interface GardenPathSceneProps {
   gameState: GameState;
@@ -24,13 +22,11 @@ export function GardenPathScene({
   onEmptyClick,
   debugMode,
   setFlag,
-  onAddToInventory,
 }: GardenPathSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const shedUnlocked = gameState.flags.shedUnlocked === true;
-  const wireCuttersTaken = gameState.flags.wireCuttersTaken === true;
 
-  const [showShedCloseup, setShowShedCloseup] = useState(false);
+  const [showLockWidget, setShowLockWidget] = useState(false);
   const [comboDigits, setComboDigits] = useState([0, 0, 0]);
   const [shakeCombo, setShakeCombo] = useState(false);
   const [showUnlockFlash, setShowUnlockFlash] = useState(false);
@@ -47,7 +43,10 @@ export function GardenPathScene({
     if (comboDigits[0] === 7 && comboDigits[1] === 5 && comboDigits[2] === 4) {
       setShowUnlockFlash(true);
       setFlag("shedUnlocked", true);
-      setTimeout(() => setShowUnlockFlash(false), 600);
+      setTimeout(() => {
+        setShowUnlockFlash(false);
+        setShowLockWidget(false);
+      }, 600);
     } else {
       setShakeCombo(true);
       onHotspotClick({
@@ -62,126 +61,6 @@ export function GardenPathScene({
     }
   };
 
-  // Shed close-up view with combination lock
-  if (showShedCloseup && !shedUnlocked) {
-    return (
-      <div className="relative w-full h-full cursor-default" onClick={(e) => e.stopPropagation()}>
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${shedCloseupBackground})` }} />
-
-        {/* Combination lock overlay */}
-        <div className="absolute inset-0 flex items-center justify-center z-20">
-          <div
-            className={`flex flex-col items-center gap-3 bg-zinc-800/90 border-2 border-amber-700 rounded-lg p-6 shadow-2xl ${shakeCombo ? "animate-shake" : ""}`}
-            style={{ minWidth: "200px" }}
-          >
-            <div className="text-amber-400 font-pixel text-xs mb-2">COMBINATION LOCK</div>
-            <div className="flex gap-4">
-              {comboDigits.map((digit, i) => (
-                <div key={i} className="flex flex-col items-center gap-1">
-                  <button
-                    className="text-amber-300 hover:text-amber-100 text-lg font-bold px-2 py-0.5 bg-zinc-700 rounded hover:bg-zinc-600 transition-colors"
-                    onClick={() => cycleDigit(i, 1)}
-                  >
-                    ▲
-                  </button>
-                  <div className="w-10 h-12 bg-zinc-900 border-2 border-amber-600 rounded flex items-center justify-center text-amber-200 font-pixel text-xl">
-                    {digit}
-                  </div>
-                  <button
-                    className="text-amber-300 hover:text-amber-100 text-lg font-bold px-2 py-0.5 bg-zinc-700 rounded hover:bg-zinc-600 transition-colors"
-                    onClick={() => cycleDigit(i, -1)}
-                  >
-                    ▼
-                  </button>
-                </div>
-              ))}
-            </div>
-            <button
-              className="mt-2 px-6 py-1.5 bg-amber-700 hover:bg-amber-600 text-white font-pixel text-xs rounded transition-colors"
-              onClick={tryUnlock}
-            >
-              TRY CODE
-            </button>
-            <button
-              className="mt-1 text-zinc-400 hover:text-zinc-200 font-pixel text-[10px] transition-colors"
-              onClick={() => setShowShedCloseup(false)}
-            >
-              ▼ STEP BACK ▼
-            </button>
-          </div>
-        </div>
-
-        {/* Unlock flash */}
-        {showUnlockFlash && (
-          <div className="absolute inset-0 bg-amber-200/30 z-30 pointer-events-none animate-pulse" />
-        )}
-      </div>
-    );
-  }
-
-  // Shed close-up view when unlocked (show wire cutters)
-  if (showShedCloseup && shedUnlocked) {
-    return (
-      <div className="relative w-full h-full cursor-default" onClick={(e) => e.stopPropagation()}>
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${shedCloseupBackground})` }} />
-        
-        {/* Open shed overlay */}
-        <div className="absolute inset-0 bg-black/40 z-10" />
-        <div className="absolute z-20 text-amber-400 font-pixel text-xs top-4 left-1/2 -translate-x-1/2">
-          The shed is open
-        </div>
-
-        {/* Wire cutters inside shed */}
-        {!wireCuttersTaken && (
-          <div
-            className="absolute z-20 cursor-inherit hover:bg-white/20 transition-colors rounded"
-            style={{ left: "38%", top: "35%", width: "24%", height: "30%" }}
-            onMouseEnter={() => onHotspotHover("Wire Cutters")}
-            onMouseLeave={() => onHotspotHover("")}
-            onClick={() => {
-              const verb = gameState.selectedVerb;
-              if (verb === "pickup" || verb === "use" || !verb) {
-                setFlag("wireCuttersTaken", true);
-                onAddToInventory({ id: "wire_cutters", name: "Wire Cutters", image: wireCuttersImage });
-                onHotspotClick({
-                  id: "wire-cutters",
-                  name: "Wire Cutters",
-                  position: { x: 50, y: 50 },
-                  width: 10,
-                  height: 10,
-                  interactions: { pickup: "A sturdy pair of wire cutters. These could cut through just about anything." },
-                });
-              } else if (verb === "look") {
-                onHotspotClick({
-                  id: "wire-cutters",
-                  name: "Wire Cutters",
-                  position: { x: 50, y: 50 },
-                  width: 10,
-                  height: 10,
-                  interactions: { look: "A pair of heavy-duty wire cutters, hanging on a hook inside the shed." },
-                });
-              }
-            }}
-          >
-            <img
-              src={wireCuttersImage}
-              alt="Wire Cutters"
-              className="w-full h-full object-contain pointer-events-none drop-shadow-lg"
-            />
-          </div>
-        )}
-
-        <button
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 text-zinc-400 hover:text-zinc-200 font-pixel text-[10px] transition-colors"
-          onClick={() => setShowShedCloseup(false)}
-        >
-          ▼ STEP BACK ▼
-        </button>
-      </div>
-    );
-  }
-
-  // Main garden path scene
   const hotspots: SimpleHotspot[] = [
     {
       id: "shed-door",
@@ -191,14 +70,14 @@ export function GardenPathScene({
       height: 45,
       interactions: shedUnlocked
         ? {
-            look: "The shed door hangs open. I can see some tools inside.",
-            open: "__SHED_CLOSEUP__",
-            use: "__SHED_CLOSEUP__",
+            look: "The shed door hangs open. I should take a look inside.",
+            open: "__NAVIGATE__shed-interior",
+            use: "__NAVIGATE__shed-interior",
           }
         : {
             look: "A sturdy wooden shed with a heavy combination lock on the door. Three digits... I wonder what the code could be.",
-            open: "__SHED_CLOSEUP__",
-            use: "__SHED_CLOSEUP__",
+            open: "__SHOW_LOCK__",
+            use: "__SHOW_LOCK__",
             push: "The door won't budge. That lock is solid.",
             pull: "It's locked tight.",
             pickup: "I can't pick up a whole shed.",
@@ -267,18 +146,18 @@ export function GardenPathScene({
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
     const verb = gameState.selectedVerb;
 
-    // Shed closeup trigger
-    if (hotspot.id === "shed-door" && verb) {
-      const interaction = hotspot.interactions[verb];
-      if (interaction === "__SHED_CLOSEUP__") {
-        setShowShedCloseup(true);
+    // Shed lock trigger
+    if (hotspot.id === "shed-door" && !shedUnlocked) {
+      const interaction = verb ? hotspot.interactions[verb] : undefined;
+      if (interaction === "__SHOW_LOCK__" || !verb) {
+        setShowLockWidget(true);
         return;
       }
     }
 
-    // Default no-verb click on shed opens closeup
-    if (hotspot.id === "shed-door" && !verb) {
-      setShowShedCloseup(true);
+    // Shed enter when unlocked (no verb click)
+    if (hotspot.id === "shed-door" && shedUnlocked && !verb) {
+      onChangeRoom("shed-interior");
       return;
     }
 
@@ -286,13 +165,61 @@ export function GardenPathScene({
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
+    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => { setShowLockWidget(false); onEmptyClick?.(); }}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${gardenPathBackground})` }} />
 
       {/* Navigation indicators */}
       <div className="absolute right-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         Backyard ►
       </div>
+
+      {/* Compact padlock widget near the shed door */}
+      {showLockWidget && !shedUnlocked && (
+        <div
+          className="absolute z-40"
+          style={{ left: "62%", top: "30%"}}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div
+            className={`flex flex-col items-center gap-1.5 bg-zinc-800/95 border border-amber-700/80 rounded-md p-3 shadow-xl backdrop-blur-sm ${shakeCombo ? "animate-shake" : ""}`}
+            style={{ minWidth: "120px" }}
+          >
+            <div className="text-amber-400/80 font-pixel text-[8px] tracking-wider">🔒 LOCKED</div>
+            <div className="flex gap-2">
+              {comboDigits.map((digit, i) => (
+                <div key={i} className="flex flex-col items-center gap-0.5">
+                  <button
+                    className="text-amber-300/70 hover:text-amber-100 text-[10px] font-bold px-1 bg-zinc-700/60 rounded hover:bg-zinc-600 transition-colors"
+                    onClick={() => cycleDigit(i, 1)}
+                  >
+                    ▲
+                  </button>
+                  <div className="w-7 h-8 bg-zinc-900 border border-amber-600/70 rounded flex items-center justify-center text-amber-200 font-pixel text-sm">
+                    {digit}
+                  </div>
+                  <button
+                    className="text-amber-300/70 hover:text-amber-100 text-[10px] font-bold px-1 bg-zinc-700/60 rounded hover:bg-zinc-600 transition-colors"
+                    onClick={() => cycleDigit(i, -1)}
+                  >
+                    ▼
+                  </button>
+                </div>
+              ))}
+            </div>
+            <button
+              className="px-4 py-1 bg-amber-700/80 hover:bg-amber-600 text-white font-pixel text-[8px] rounded transition-colors"
+              onClick={tryUnlock}
+            >
+              TRY
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Unlock flash */}
+      {showUnlockFlash && (
+        <div className="absolute inset-0 bg-amber-200/20 z-50 pointer-events-none animate-pulse" />
+      )}
 
       {hotspots.map((hotspot) => (
         <div

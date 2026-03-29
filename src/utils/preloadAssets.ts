@@ -26,7 +26,7 @@ import losCabosRoomBg from "@/assets/backgrounds/los-cabos-room.png";
 import studyBg from "@/assets/backgrounds/study.png";
 import backyardBg from "@/assets/backgrounds/backyard.png";
 import gardenPathBg from "@/assets/backgrounds/garden-path.png";
-import shedCloseupBg from "@/assets/backgrounds/shed-closeup.png";
+import shedInteriorBg from "@/assets/backgrounds/shed-interior.png";
 import dukeRoomBg from "@/assets/backgrounds/duke-extreme-room.png";
 
 import carlImg from "@/assets/characters/carl.png";
@@ -71,7 +71,8 @@ export const assetManifest: Record<string, string[]> = {
   "los-cabos-room": [losCabosRoomBg, losCabos2Img],
   study: [studyBg],
   backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg],
-  "garden-path": [gardenPathBg, shedCloseupBg, wireCuttersImg],
+  "garden-path": [gardenPathBg],
+  "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
 };
 
