@@ -12,6 +12,7 @@ interface ProductionRoomSceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
+  onSetFlag?: (flag: string) => void;
 }
 
 type ElectricalBoxView = "none" | "closed" | "open";
