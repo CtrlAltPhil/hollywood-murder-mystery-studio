@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import { DialogueEntry, EvidenceEntry } from '@/types/game';
-import { flagEvidenceMap, itemEvidenceMap } from '@/data/evidenceMap';
-import { flagEvidenceMapExtended } from '@/data/evidenceMap';
+import { flagEvidenceMap, itemEvidenceMap, flagEvidenceMapExtended } from '@/data/evidenceMap';
 
 export function useNotesState() {
   const [dialogueLog, setDialogueLog] = useState<DialogueEntry[]>([]);
