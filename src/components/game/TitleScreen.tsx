@@ -178,13 +178,21 @@ export function TitleScreen({
       </div>
 
       {/* Press Start Button */}
-      <div className="absolute top-[52%] left-0 right-0 text-center">
+      <div className="absolute top-[52%] left-0 right-0 text-center flex flex-col items-center gap-4">
         <button
           onClick={onStart}
           className="text-2xl md:text-3xl tracking-widest text-yellow-400 pulse-glow hover:scale-105 transition-transform cursor-pointer"
         >
           PRESS START
         </button>
+        {hasSaveData && onLoadGame && (
+          <button
+            onClick={onLoadGame}
+            className="text-sm md:text-base tracking-widest text-yellow-400/70 hover:text-yellow-400 hover:scale-105 transition-all cursor-pointer"
+          >
+            CONTINUE
+          </button>
+        )}
       </div>
 
       {/* Fireflies */}
