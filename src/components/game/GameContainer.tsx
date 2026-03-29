@@ -50,6 +50,8 @@ export function GameContainer() {
     checkFlagEvidence,
     checkItemEvidence,
     clearUnread,
+    resetNotes,
+    restoreNotes,
   } = useNotesState();
 
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
