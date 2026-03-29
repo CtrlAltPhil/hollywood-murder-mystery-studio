@@ -266,7 +266,7 @@ export function GameContainer() {
       case 'kitchen':
         return <KitchenScene {...sceneProps} />;
       case 'production-room':
-        return <ProductionRoomScene {...sceneProps} />;
+        return <ProductionRoomScene {...sceneProps} onSetFlag={(flag) => setFlagWithEvidence(flag, true)} />;
       case 'lady-fantastique-room':
         return <LadyFantastiqueRoomScene {...sceneProps} />;
       case 'los-cabos-room':

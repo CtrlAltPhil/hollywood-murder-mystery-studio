@@ -49,3 +49,18 @@ export const itemEvidenceMap: Record<string, EvidenceEntry> = {
     category: 'Physical Evidence',
   },
 };
+
+export const flagEvidenceMapExtended: Record<string, EvidenceEntry> = {
+  electricalBoxOpened: {
+    id: 'frayed-wires',
+    title: 'Sabotaged Electrical Box',
+    description: 'The electrical box in the production room has been tampered with. The red conduit pipe was deliberately cut and the wires are frayed and exposed. This could be what caused the blackout.',
+    category: 'Physical Evidence',
+  },
+  note754Found: {
+    id: 'note-754',
+    title: 'Mysterious Number: 754',
+    description: 'A piece of paper taped inside the electrical box door with "754" scrawled in red. The significance of this number is unknown.',
+    category: 'Documents',
+  },
+};

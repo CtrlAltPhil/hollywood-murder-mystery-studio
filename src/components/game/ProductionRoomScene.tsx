@@ -12,11 +12,12 @@ interface ProductionRoomSceneProps {
   onChangeRoom: (roomId: string) => void;
   onEmptyClick?: () => void;
   debugMode?: boolean;
+  onSetFlag?: (flag: string) => void;
 }
 
 type ElectricalBoxView = "none" | "closed" | "open";
 
-export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: ProductionRoomSceneProps) {
+export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode, onSetFlag }: ProductionRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const [electricalBoxView, setElectricalBoxView] = useState<ElectricalBoxView>("none");
   const [boxOpened, setBoxOpened] = useState(false);
@@ -156,12 +157,14 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
           open: () => {
             setBoxOpened(true);
             setElectricalBoxView("open");
+            onSetFlag?.("electricalBoxOpened");
             return "";
           },
           look: "A sturdy electrical box. The label says 'DO NOT TOUCH.' The latch looks like it can be opened.",
           use: () => {
             setBoxOpened(true);
             setElectricalBoxView("open");
+            onSetFlag?.("electricalBoxOpened");
             return "";
           },
         },
@@ -234,7 +237,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
           />
         ))}
         {/* Back prompt */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-amber-300/70 text-xs font-mono pointer-events-none">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-white text-xs font-mono pointer-events-none bg-black/60 px-3 py-1 rounded">
           Click below to go back
         </div>
       </div>
@@ -262,7 +265,10 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
         width: 18,
         height: 35,
         interactions: {
-          look: "A piece of paper taped to the inside of the door. Someone has scrawled '754' in red. What does that number mean?",
+          look: () => {
+            onSetFlag?.("note754Found");
+            return "A piece of paper taped to the inside of the door. Someone has scrawled '754' in red. What does that number mean?";
+          },
           pickup: "It's taped firmly to the door. I'll make a note of the number instead.",
           use: "It's just a note with '754' written on it. I should remember this number.",
         },
@@ -328,7 +334,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
             }}
           />
         ))}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-amber-300/70 text-xs font-mono pointer-events-none">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-white text-xs font-mono pointer-events-none bg-black/60 px-3 py-1 rounded">
           Click below to go back
         </div>
       </div>
