@@ -77,7 +77,7 @@ export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick,
       {hotspots.map((hotspot) => (
         <div
           key={hotspot.id}
-          className={`absolute cursor-pointer transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
+          className={`absolute cursor-inherit transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
           style={{
             left: `${hotspot.position.x - hotspot.width / 2}%`,
             top: `${hotspot.position.y - hotspot.height / 2}%`,
