@@ -16,6 +16,7 @@ import { StudyScene } from './StudyScene';
 import { BackyardScene } from './BackyardScene';
 import { GardenPathScene } from './GardenPathScene';
 import { ShedInteriorScene } from './ShedInteriorScene';
+import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
@@ -72,6 +73,7 @@ export function GameContainer() {
   const [crashPlayed, setCrashPlayed] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
+  const [showProjectorCutscene, setShowProjectorCutscene] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
@@ -276,6 +278,10 @@ export function GameContainer() {
           }
           return;
         }
+        if (interaction === '__PLAY_PROJECTOR__') {
+          setShowProjectorCutscene(true);
+          return;
+        }
         setActionText(interaction);
       } else if (typeof interaction === 'function') {
         const resultText = interaction();
@@ -458,6 +464,16 @@ export function GameContainer() {
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
+
+          {showProjectorCutscene && (
+            <ProjectorCutscene
+              onComplete={() => {
+                setShowProjectorCutscene(false);
+                setFlagWithEvidence('projectorWatched', true);
+                setActionText('The recording ended. Someone sabotaged the electrical box before the party... and they wore a silver signet ring.');
+              }}
+            />
+          )}
           
           {/* Room transition overlay - fade from black */}
           <div 

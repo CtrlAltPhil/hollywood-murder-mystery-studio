@@ -99,4 +99,10 @@ export const flagEvidenceMapExtended: Record<string, EvidenceEntry> = {
     description: 'Used the wire cutters to strip and reconnect the severed wires in the electrical box. The production room power system has been restored.',
     category: 'Physical Evidence',
   },
+  projectorWatched: {
+    id: 'projector-recording',
+    title: 'Security Camera Recording',
+    description: 'The film projector showed a recording of someone sabotaging the electrical box before the party. They cut the red conduit wire and taped a note with "754" inside the door. Their face was obscured, but they wore a distinctive silver signet ring on their left hand.',
+    category: 'Documents',
+  },
 };
