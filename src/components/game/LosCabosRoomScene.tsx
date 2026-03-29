@@ -47,9 +47,6 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
         use: drawerOpened
           ? 'The drawer is already open.'
           : "It's locked. I need a key.",
-          : drawerOpened
-            ? 'The drawer is already open. A crumpled note sits inside. It reads: "Decline the offer or else."'
-            : "It's locked tight. There's a small keyhole.",
         pickup: "I can't pick up a drawer.",
       },
     },
