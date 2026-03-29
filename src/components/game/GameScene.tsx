@@ -43,10 +43,6 @@ export function GameScene({
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
-  const totalImages = 5; // bg + 4 characters (lady, duke, carl, los-cabos-dead)
-  const sceneReady = imagesLoaded >= totalImages;
-  const handleImageLoad = () => setImagesLoaded((prev) => prev + 1);
 
   // Animate Duke Extreme between two poses
   const [elFuegoPose, setElFuegoPose] = useState(0);
