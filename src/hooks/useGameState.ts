@@ -117,7 +117,6 @@ export function useGameState() {
   return {
     gameState,
     restoreState,
-    gameState,
     setPhase,
     selectVerb,
     selectItem,
