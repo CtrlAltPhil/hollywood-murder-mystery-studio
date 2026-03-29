@@ -91,15 +91,34 @@
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:white;stroke:black;stroke-width:1'><path d='M10 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm0-2a8 8 0 1 0 4.906 14.32l4.387 4.387a1 1 0 0 0 1.414-1.414l-4.387-4.387A8 8 0 0 0 10 2z'/></svg>") 10 10, auto;
 }
 
-/* Pick up (Open Hand / Grab) */
+/* Pick up (Open Hand reaching down) */
 .cursor-pickup {
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:white;stroke:black;stroke-width:1'><path d='M12 2a2 2 0 0 1 2 2v6h1a2 2 0 0 1 0 4v3a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-3a2 2 0 0 1 0-4h1V4a2 2 0 0 1 2-2z'/></svg>") 12 12, auto;
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2'/><path d='M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2'/><path d='M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8'/><path d='M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15'/></svg>") 12 2, auto;
 }
 
-/* Use / Push / Pull / Open / Close (Pointer) */
-.cursor-use, .cursor-open, .cursor-close, .cursor-push, .cursor-pull {
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:hsl(60,90%,70%);stroke:black;stroke-width:1'><polygon points='3,3 3,21 12,12'/></svg>") 3 3, pointer;
+/* Use (Gear/wrench) */
+.cursor-use {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='hsl(60,90%%,70%%)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z'/><path d='M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z'/><path d='M12 2v2'/><path d='M12 22v-2'/><path d='m17 20.66-1-1.73'/><path d='M11 10.27 7 3.34'/><path d='m20.66 17-1.73-1'/><path d='m3.34 7 1.73 1'/><path d='M14 12h8'/><path d='M2 12h2'/><path d='m20.66 7-1.73 1'/><path d='m3.34 17 1.73-1'/><path d='m17 3.34-1 1.73'/><path d='m11 13.73-4 6.93'/></svg>") 12 12, auto;
 }
+
+/* Open (Door open) */
+.cursor-open {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='hsl(120,70%%,70%%)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 4h3a2 2 0 0 1 2 2v14'/><path d='M2 20h3'/><path d='M13 20h9'/><path d='M10 12v.01'/><path d='M13 4.562v16.157a1 1 0 0 1-1.242.97L5 20V5.562a2 2 0 0 1 1.515-1.94l4-1A2 2 0 0 1 13 4.561Z'/></svg>") 12 12, auto;
+}
+
+/* Close (X circle) */
+.cursor-close {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='hsl(0,70%%,70%%)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><path d='m15 9-6 6'/><path d='m9 9 6 6'/></svg>") 12 12, auto;
+}
+
+/* Push (Arrow right to line) */
+.cursor-push {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='hsl(200,70%%,70%%)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 12h13'/><path d='m12 8 4 4-4 4'/><path d='M20 4v16'/></svg>") 12 12, auto;
+}
+
+/* Pull (Arrow left from line) */
+.cursor-pull {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='hsl(280,70%%,70%%)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M8 12h13'/><path d='m12 16-4-4 4-4'/><path d='M4 4v16'/></svg>") 12 12, auto;
 
 /* Talk to (Speech Bubble) */
 .cursor-talk {
