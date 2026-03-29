@@ -35,9 +35,6 @@ export function BackyardScene({
 
   const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
   const [waterfallFrame, setWaterfallFrame] = useState(0);
-  const [imagesLoaded, setImagesLoaded] = useState(0);
-  const totalImagesToLoad = 1 + (fountainOff ? 0 : 1); // background + waterfall (if on)
-  const sceneReady = imagesLoaded >= totalImagesToLoad;
 
   useEffect(() => {
     if (fountainOff) return;
@@ -46,8 +43,6 @@ export function BackyardScene({
     }, 12);
     return () => clearInterval(interval);
   }, [waterfallFrames.length, fountainOff]);
-
-  const handleImageLoad = () => setImagesLoaded((prev) => prev + 1);
 
   const hotspots: SimpleHotspot[] = [
     {
