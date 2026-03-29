@@ -464,6 +464,9 @@ export function GameContainer() {
                 }
                 if (option.nextNodeId) {
                   const nextNode = getDialogNodeById(option.nextNodeId);
+                  if (nextNode?.onEnter?.flag) {
+                    setFlag(nextNode.onEnter.flag, true);
+                  }
                   advanceDialog(nextNode);
                 } else {
                   advanceDialog(null);
@@ -473,6 +476,9 @@ export function GameContainer() {
                 const nextId = gameState.dialogState.currentNode?.nextNodeId;
                 if (nextId) {
                   const nextNode = getDialogNodeById(nextId);
+                  if (nextNode?.onEnter?.flag) {
+                    setFlag(nextNode.onEnter.flag, true);
+                  }
                   advanceDialog(nextNode);
                 } else {
                   advanceDialog(null);

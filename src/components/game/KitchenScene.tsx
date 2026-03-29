@@ -6,6 +6,7 @@ import chefAllegroImage from "@/assets/characters/chef-allegro.png";
 import chefAllegroBlinkImage from "@/assets/characters/chef-allegro-blink.png";
 import sousChefSallyImage from "@/assets/characters/sous-chef-sally.png";
 import sousChefSallyAngryImage from "@/assets/characters/sous-chef-sally-angry.png";
+import chefAllegroDefensiveImage from "@/assets/characters/chef-allegro-defensive.png";
 
 interface KitchenSceneProps {
   gameState: GameState;
@@ -169,20 +170,28 @@ export function KitchenScene({
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${kitchenBackground})` }} />
 
       {/* Chef Allegro */}
-      <img
-        src={chefBlinking ? chefAllegroBlinkImage : chefAllegroImage}
-        alt="Chef Allegro"
-        className="absolute z-20 pointer-events-none pixelated object-contain transition-opacity duration-150"
-        style={{ left: "30%", top: "22%", width: "16%", height: "68%" }}
-      />
+      <div
+        className="animate-breathing"
+        style={{ position: "absolute", left: "30%", top: "22%", width: "16%", height: "68%", transformOrigin: "bottom center" }}
+      >
+        <img
+          src={gameState.flags.chefDefensive ? chefAllegroDefensiveImage : (chefBlinking ? chefAllegroBlinkImage : chefAllegroImage)}
+          alt="Chef Allegro"
+          className="z-20 pointer-events-none pixelated object-contain w-full h-full transition-all duration-300"
+        />
+      </div>
 
       {/* Sous Chef Sally */}
-      <img
-        src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
-        alt="Sous Chef Sally"
-        className="absolute z-20 pointer-events-none pixelated object-contain transition-opacity duration-300"
-        style={{ right: "30%", top: "22%", width: "16%", height: "68%" }}
-      />
+      <div
+        className="animate-fidget"
+        style={{ position: "absolute", right: "30%", top: "22%", width: "16%", height: "68%", transformOrigin: "bottom center" }}
+      >
+        <img
+          src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
+          alt="Sous Chef Sally"
+          className="z-20 pointer-events-none pixelated object-contain w-full h-full transition-opacity duration-300"
+        />
+      </div>
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Hallway ▼
