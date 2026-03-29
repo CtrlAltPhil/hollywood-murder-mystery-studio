@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useGameState } from '@/hooks/useGameState';
+import { preloadImages, getAllAssets, getRoomAssets } from '@/utils/preloadAssets';
 import { useNotesState } from '@/hooks/useNotesState';
 import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
@@ -67,6 +68,14 @@ export function GameContainer() {
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
   const [hoverText, setHoverText] = useState('');
+  const [assetsPreloaded, setAssetsPreloaded] = useState(false);
+
+  // Preload all game assets while on title screen
+  useEffect(() => {
+    if (gameState.phase === 'title' && !assetsPreloaded) {
+      preloadImages(getAllAssets()).then(() => setAssetsPreloaded(true));
+    }
+  }, [gameState.phase, assetsPreloaded]);
 
   useEffect(() => {
     if (gameState.phase === 'blackout' && !crashPlayed) {
@@ -101,7 +110,9 @@ export function GameContainer() {
     setPhase('intro');
   };
 
-  const handleIntroComplete = () => {
+  const handleIntroComplete = async () => {
+    // Preload breakroom assets before revealing gameplay (screen is black during blackout)
+    await preloadImages(getRoomAssets('breakroom'));
     setPhase('gameplay');
     const flag = 'murderRevealed';
     setFlag(flag, true);
@@ -136,7 +147,10 @@ export function GameContainer() {
 
   const handleChangeRoom = (roomId: string) => {
     setRoomTransition(true);
-    setTimeout(() => {
+    // Preload target room assets during the fade-to-black
+    const preloadPromise = preloadImages(getRoomAssets(roomId));
+    setTimeout(async () => {
+      await preloadPromise; // Wait for assets if still loading
       changeRoom(roomId, { x: 400, y: 350 });
       setHoverText('');
       selectVerb(null);

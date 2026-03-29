@@ -43,6 +43,10 @@ export function GameScene({
 }: GameSceneProps) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const cursorClass = getCursorClass(gameState.selectedVerb);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+  const totalImages = 5; // bg + 4 characters (lady, duke, carl, los-cabos-dead)
+  const sceneReady = imagesLoaded >= totalImages;
+  const handleImageLoad = () => setImagesLoaded((prev) => prev + 1);
 
   // Animate Duke Extreme between two poses
   const [elFuegoPose, setElFuegoPose] = useState(0);
@@ -268,9 +272,9 @@ export function GameScene({
   });
 
   return (
-    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
+    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass} transition-opacity duration-300 ${sceneReady ? 'opacity-100' : 'opacity-0'}`} onClick={() => onEmptyClick?.()}>
       {/* Background */}
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
+      <img src={breakroomBackground} alt="" className="absolute inset-0 w-full h-full object-cover" onLoad={handleImageLoad} />
 
       {/* Table */}
       <img
@@ -299,6 +303,7 @@ export function GameScene({
         src={losCabosDeadImage}
         alt="Los Cabos"
         className="absolute z-10 pointer-events-none pixelated object-contain"
+        onLoad={handleImageLoad}
         style={{
           right: "15%",
           bottom: "-2%",
@@ -345,7 +350,7 @@ export function GameScene({
         className="absolute z-20 pointer-events-none"
         style={{ left: "8%", bottom: "2%", width: "auto", height: "45%" }}
       >
-        <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" />
+        <img src={ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain" onLoad={handleImageLoad} />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -363,6 +368,7 @@ export function GameScene({
           src={elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
           className="w-full h-full pixelated object-contain transition-opacity duration-300"
+          onLoad={handleImageLoad}
         />
         {shockBubbles["Duke Extreme"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
@@ -377,7 +383,7 @@ export function GameScene({
         className="absolute z-20 pointer-events-none"
         style={{ left: "53%", bottom: "1%", width: "auto", height: "45%" }}
       >
-        <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" />
+        <img src={carlImage} alt="Carl" className="w-full h-full pixelated object-contain" onLoad={handleImageLoad} />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Carl"]}
