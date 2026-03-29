@@ -5,9 +5,12 @@ import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/
 // Import assets
 import breakroomBackground from "@/assets/backgrounds/breakroom.jpg";
 import carlImage from "@/assets/characters/carl.png";
+import carlSmirkingImage from "@/assets/characters/carl-smirking.png";
 import elFuegoImage from "@/assets/characters/el-fuego.png";
 import elFuegoImage2 from "@/assets/characters/el-fuego-2.png";
+import elFuegoPanickedImage from "@/assets/characters/el-fuego-panicked.png";
 import ladyImage from "@/assets/characters/lady.png";
+import ladyNervousImage from "@/assets/characters/lady-nervous.png";
 import losCabosImage from "@/assets/characters/los-cabos.png";
 import losCabosDeadImage from "@/assets/characters/los-cabos-dead.png";
 import tableImage from "@/assets/props/table.png";
