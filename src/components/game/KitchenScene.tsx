@@ -136,6 +136,10 @@ export function KitchenScene({
         talk: "__DIALOG__chef-allegro",
         pickup: "I can't pick up a chef!",
         use: "I should talk to him instead.",
+        use_with_wine_glass: '"That residue... Dio mio! I poured that wine myself. Someone must have tampered with it after!" Chef Allegro looks genuinely shaken.',
+        use_with_dagger: '"That\'s not from MY kitchen! My knives are all accounted for... well, except one. But that\'s not it!" He looks defensive.',
+        use_with_meat_stick: '"You\'re showing me my own food? I know what a meat stick looks like, detective."',
+        use_with_money_bag: '"Cash? I don\'t deal in cash. I deal in flavors. You should ask Duke Extreme about that."',
       },
     },
     {
@@ -149,6 +153,10 @@ export function KitchenScene({
         talk: "__DIALOG__sous-chef-sally",
         pickup: "That's not how you treat kitchen staff.",
         use: "I should talk to her instead.",
+        use_with_wine_glass: '"I poured the wine, yes. But I didn\'t put anything IN it! ...Why are you looking at me like that?"',
+        use_with_dagger: '"I\'ve never seen that before! That\'s NOT one of our kitchen knives." Sally backs away nervously.',
+        use_with_meat_stick: '"That\'s Chef\'s specialty. I just do the prep work."',
+        use_with_money_bag: '"Money? I barely make enough to pay rent. Ask someone who actually gets paid around here."',
       },
     },
     {
