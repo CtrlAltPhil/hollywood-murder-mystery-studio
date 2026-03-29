@@ -158,9 +158,9 @@ export function GameScene({
       interactions: {
         look: "A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?",
         pickup: () => {
-          if (!gameState.flags.glassesTaken) {
+          if (!gameState.flags.wineGlassTaken) {
             onAddToInventory({ id: "wine-glass", name: "Suspicious Wine Glass", image: wineGlassInventoryImage });
-            setFlag("glassesTaken", true);
+            setFlag("wineGlassTaken", true);
             return "I carefully pick up the glass with the strange residue. This could be evidence.";
           }
           return "I already took the suspicious glass.";
@@ -295,7 +295,7 @@ export function GameScene({
   // Filter out collected items
   const activeHotspots = hotspots.filter((h) => {
     if (h.id === "dagger" && gameState.flags.daggerTaken) return false;
-    if (h.id === "wine-glasses" && gameState.flags.glassesTaken) return false;
+    if (h.id === "wine-glasses" && gameState.flags.wineGlassTaken) return false;
     return true;
   });
 
