@@ -246,6 +246,7 @@ export function GameScene({
         use: "I should talk to her instead.",
         use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady Fantastique recoils in horror.',
         use_with_wine_glass: () => {
+          triggerTempReaction("ladyNervous", 3000);
           setFlag("ladyNervous", true);
           return '"That\'s my glass! I mean... it looks like mine. So what?" Lady Fantastique\'s composure cracks.';
         },
@@ -263,6 +264,7 @@ export function GameScene({
         pickup: "That's not how you treat people.",
         use: "I should talk to him instead.",
         use_with_dagger: () => {
+          triggerTempReaction("dukePanicked", 3000);
           setFlag("dukePanicked", true);
           return '"Where did you... I\'ve never seen that before! I swear!" Duke Extreme backs away in a panic.';
         },
@@ -281,6 +283,7 @@ export function GameScene({
         pickup: "I don't think Carl would appreciate that.",
         use: "I should talk to him instead.",
         use_with_dagger: () => {
+          triggerTempReaction("carlSmirking", 3000);
           setFlag("carlSmirking", true);
           return 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive." A faint smirk crosses his face.';
         },
