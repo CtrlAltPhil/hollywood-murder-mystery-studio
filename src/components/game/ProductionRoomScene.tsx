@@ -264,13 +264,11 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
         width: 18,
         height: 35,
         interactions: {
-          look: () => {
-            onSetFlag?.("note754Found");
-            return "A piece of paper taped to the inside of the door. Someone has scrawled '754' in red. What does that number mean?";
-          },
+          look: "A piece of paper taped to the inside of the door. Someone has scrawled '754' in red. What does that number mean?",
           pickup: "It's taped firmly to the door. I'll make a note of the number instead.",
           use: "It's just a note with '754' written on it. I should remember this number.",
         },
+        onLook: () => onSetFlag?.("note754Found"),
       },
       {
         id: "ebox-back-open",
