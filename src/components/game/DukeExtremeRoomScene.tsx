@@ -105,17 +105,6 @@ export function DukeExtremeRoomScene({
       },
     },
     {
-      id: "footstool",
-      name: "Footstool",
-      position: { x: 42, y: 80 },
-      width: 16,
-      height: 12,
-      interactions: {
-        look: "A leather footstool matching the recliner. There's a bag of money sitting on it.",
-        push: "I shouldn't move anything. This could all be evidence.",
-      },
-    },
-    {
       id: "back-to-hallway",
       name: "Hallway",
       position: { x: 50, y: 95 },
