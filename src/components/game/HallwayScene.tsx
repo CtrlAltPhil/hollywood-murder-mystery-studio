@@ -63,7 +63,7 @@ export function HallwayScene({
       name: "Los Cabos' Room",
       position: { x: 40, y: 50 },
       width: 5,
-      height: 15,
+      height: 20,
       interactions: {
         look: "The door to Los Cabos' room. Poor guy...",
         open: "__NAVIGATE__los-cabos-room",
@@ -87,21 +87,11 @@ export function HallwayScene({
       name: "Study",
       position: { x: 60, y: 50 },
       width: 5,
-      height: 15,
+      height: 20,
       interactions: {
         look: 'A door marked "Study Room."',
         open: "__NAVIGATE__study",
         use: "__NAVIGATE__study",
-      },
-    },
-    {
-      id: "hallway-posters",
-      name: "Movie Posters",
-      position: { x: 50, y: 20 },
-      width: 80,
-      height: 15,
-      interactions: {
-        look: 'Old movie posters line the walls. "Aeons", "Ancient Crimes"... GB Studios has had better days.',
       },
     },
     {
