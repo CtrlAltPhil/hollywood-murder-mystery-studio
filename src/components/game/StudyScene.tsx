@@ -91,9 +91,9 @@ export function StudyScene({
     {
       id: "waste-bin",
       name: "Waste Bin",
-      position: { x: 25, y: 85 },
-      width: 10,
-      height: 14,
+      position: { x: 27, y: 90 },
+      width: 8,
+      height: 16,
       interactions: {
         look: "A metal waste bin. There's crumpled paper inside.",
         open: 'I dig through the trash. A torn note reads: "...can\'t let him leave. The studio depends on—" The rest is missing.',
