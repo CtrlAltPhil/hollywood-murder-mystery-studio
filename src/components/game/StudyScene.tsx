@@ -91,7 +91,7 @@ export function StudyScene({
     {
       id: "waste-bin",
       name: "Waste Bin",
-      position: { x: 22, y: 80 },
+      position: { x: 25, y: 85 },
       width: 10,
       height: 14,
       interactions: {
@@ -105,7 +105,7 @@ export function StudyScene({
       id: "door-exit",
       name: "Door to Hallway",
       position: { x: 50, y: 95 },
-      width: 60,
+      width: 30,
       height: 10,
       interactions: {
         look: "__NAVIGATE__hallway",
