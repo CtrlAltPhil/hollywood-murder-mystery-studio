@@ -87,7 +87,7 @@ export function DukeExtremeRoomScene({
     {
       id: "fire-painting",
       name: "Fire Painting",
-      position: { x: 60, y: 15 },
+      position: { x: 65, y: 20 },
       width: 10,
       height: 14,
       interactions: {
@@ -97,7 +97,7 @@ export function DukeExtremeRoomScene({
     {
       id: "el-fuego-sign",
       name: "'EL!!! FUEGO' Sign",
-      position: { x: 62, y: 35 },
+      position: { x: 65, y: 40 },
       width: 12,
       height: 12,
       interactions: {
