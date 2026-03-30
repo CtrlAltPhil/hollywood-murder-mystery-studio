@@ -32,7 +32,7 @@ export function StudyScene({
     {
       id: "creep-poster",
       name: '"The Creep" Poster',
-      position: { x: 18, y: 38 },
+      position: { x: 23, y: 38 },
       width: 16,
       height: 35,
       interactions: {
