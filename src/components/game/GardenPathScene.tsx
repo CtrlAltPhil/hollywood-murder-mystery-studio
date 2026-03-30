@@ -32,7 +32,7 @@ export function GardenPathScene({
   const [showUnlockFlash, setShowUnlockFlash] = useState(false);
 
   const cycleDigit = (index: number, direction: 1 | -1) => {
-    setComboDigits(prev => {
+    setComboDigits((prev) => {
       const next = [...prev];
       next[index] = (next[index] + direction + 10) % 10;
       return next;
@@ -86,7 +86,7 @@ export function GardenPathScene({
     {
       id: "garden-bench",
       name: "Garden Bench",
-      position: { x: 15, y: 72 },
+      position: { x: 15, y: 93 },
       width: 16,
       height: 18,
       interactions: {
@@ -98,7 +98,7 @@ export function GardenPathScene({
     {
       id: "stone-lantern",
       name: "Stone Lantern",
-      position: { x: 82, y: 75 },
+      position: { x: 82, y: 90 },
       width: 10,
       height: 20,
       interactions: {
@@ -165,8 +165,17 @@ export function GardenPathScene({
   };
 
   return (
-    <div className={`relative w-full h-full ${cursorClass}`} onClick={() => { setShowLockWidget(false); onEmptyClick?.(); }}>
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${gardenPathBackground})` }} />
+    <div
+      className={`relative w-full h-full ${cursorClass}`}
+      onClick={() => {
+        setShowLockWidget(false);
+        onEmptyClick?.();
+      }}
+    >
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${gardenPathBackground})` }}
+      />
 
       {/* Navigation indicators */}
       <div className="absolute right-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
@@ -175,11 +184,7 @@ export function GardenPathScene({
 
       {/* Compact padlock widget near the shed door */}
       {showLockWidget && !shedUnlocked && (
-        <div
-          className="absolute z-40"
-          style={{ left: "62%", top: "30%"}}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="absolute z-40" style={{ left: "62%", top: "30%" }} onClick={(e) => e.stopPropagation()}>
           <div
             className={`flex flex-col items-center gap-1.5 bg-zinc-800/95 border border-amber-700/80 rounded-md p-3 shadow-xl backdrop-blur-sm ${shakeCombo ? "animate-shake" : ""}`}
             style={{ minWidth: "120px" }}
@@ -217,9 +222,7 @@ export function GardenPathScene({
       )}
 
       {/* Unlock flash */}
-      {showUnlockFlash && (
-        <div className="absolute inset-0 bg-amber-200/20 z-50 pointer-events-none animate-pulse" />
-      )}
+      {showUnlockFlash && <div className="absolute inset-0 bg-amber-200/20 z-50 pointer-events-none animate-pulse" />}
 
       {hotspots.map((hotspot) => (
         <div
