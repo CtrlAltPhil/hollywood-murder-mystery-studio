@@ -87,9 +87,9 @@ export function ProductionRoomScene({
     {
       id: "cables",
       name: "Cables and Wires",
-      position: { x: 65, y: 90 },
+      position: { x: 65, y: 95 },
       width: 30,
-      height: 12,
+      height: 5,
       interactions: {
         look: "A mess of power cables and extension cords snaking across the floor. A tripping hazard.",
         pickup: "I don't need a bunch of tangled cables.",
@@ -122,9 +122,9 @@ export function ProductionRoomScene({
     {
       id: "cable-reel",
       name: "Cable Reel",
-      position: { x: 80, y: 78 },
+      position: { x: 80, y: 85 },
       width: 10,
-      height: 14,
+      height: 10,
       interactions: {
         look: "A large cable reel. Looks like it belongs to the lighting rig.",
         pickup: "Too heavy.",
