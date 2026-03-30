@@ -76,8 +76,8 @@ export function DukeExtremeRoomScene({
     {
       id: "el-fuego-portrait",
       name: "El Fuego Portrait",
-      position: { x: 35, y: 20 },
-      width: 18,
+      position: { x: 37, y: 35 },
+      width: 15,
       height: 30,
       interactions: {
         look: "A large portrait of Duke Extreme in his 'El Fuego' character. He looks very proud of himself. The frame is gilded and way too big for this room.",
