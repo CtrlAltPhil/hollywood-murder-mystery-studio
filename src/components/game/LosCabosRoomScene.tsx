@@ -121,9 +121,9 @@ export function LosCabosRoomScene({
     {
       id: "door-exit",
       name: "Door to Hallway",
-      position: { x: 5, y: 50 },
-      width: 8,
-      height: 45,
+      position: { x: 10, y: 60 },
+      width: 10,
+      height: 60,
       interactions: {
         look: "The door back to the hallway.",
         open: "__NAVIGATE__hallway",
