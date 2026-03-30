@@ -184,7 +184,7 @@ export function GardenPathScene({
 
       {/* Compact padlock widget near the shed door */}
       {showLockWidget && !shedUnlocked && (
-        <div className="absolute z-40" style={{ left: "62%", top: "30%" }} onClick={(e) => e.stopPropagation()}>
+        <div className="absolute z-40" style={{ left: "70%", top: "50%" }} onClick={(e) => e.stopPropagation()}>
           <div
             className={`flex flex-col items-center gap-1.5 bg-zinc-800/95 border border-amber-700/80 rounded-md p-3 shadow-xl backdrop-blur-sm ${shakeCombo ? "animate-shake" : ""}`}
             style={{ minWidth: "120px" }}
