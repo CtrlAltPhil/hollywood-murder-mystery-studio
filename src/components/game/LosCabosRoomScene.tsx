@@ -119,7 +119,7 @@ export function LosCabosRoomScene({
     {
       id: "ec-box",
       name: "Cardboard Box",
-      position: { x: 90, y: 85 },
+      position: { x: 67, y: 80 },
       width: 10,
       height: 12,
       interactions: {
