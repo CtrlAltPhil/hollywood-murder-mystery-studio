@@ -40,8 +40,8 @@ export function DukeExtremeRoomScene({
     {
       id: "recliner",
       name: "Leather Recliner",
-      position: { x: 30, y: 55 },
-      width: 30,
+      position: { x: 25, y: 70 },
+      width: 20,
       height: 45,
       interactions: {
         look: "A massive leather recliner. It looks extremely comfortable. Duke Extreme clearly likes the finer things.",
