@@ -26,7 +26,7 @@ export function DukeExtremeRoomScene({
     {
       id: "money-bag",
       name: "Money Bag",
-      position: { x: 54, y: 75 },
+      position: { x: 53, y: 77 },
       width: 12,
       height: 15,
       interactions: {
