@@ -13,7 +13,16 @@ interface LosCabosRoomSceneProps {
   debugMode?: boolean;
 }
 
-export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, onAddToInventory, setFlag, debugMode }: LosCabosRoomSceneProps) {
+export function LosCabosRoomScene({
+  gameState,
+  onHotspotHover,
+  onHotspotClick,
+  onChangeRoom,
+  onEmptyClick,
+  onAddToInventory,
+  setFlag,
+  debugMode,
+}: LosCabosRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const hasDrawerKey = gameState.flags?.hasDrawerKey === true;
   const drawerOpened = gameState.flags?.drawerOpened;
@@ -44,16 +53,14 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
         open: drawerOpened
           ? 'The drawer is already open. A crumpled note sits inside. It reads: "Decline the offer or else." The handwriting is rushed and unsteady.'
           : "It's locked. I need some kind of small key to open it.",
-        use: drawerOpened
-          ? 'The drawer is already open.'
-          : "It's locked. I need a key.",
+        use: drawerOpened ? "The drawer is already open." : "It's locked. I need a key.",
         pickup: "I can't pick up a drawer.",
       },
     },
     {
       id: "trophies",
       name: "Awards & Trophies",
-      position: { x: 65, y: 55 },
+      position: { x: 45, y: 55 },
       width: 16,
       height: 20,
       interactions: {
@@ -78,7 +85,7 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
     {
       id: "ladder",
       name: "Ladder",
-      position: { x: 70, y: 50 },
+      position: { x: 65, y: 50 },
       width: 8,
       height: 30,
       interactions: {
@@ -141,13 +148,15 @@ export function LosCabosRoomScene({ gameState, onHotspotHover, onHotspotClick, o
 
     handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
 
-
     handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
   };
 
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${losCabosRoomBackground})` }} />
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${losCabosRoomBackground})` }}
+      />
 
       {/* Visual indicator for opened drawer */}
       {drawerOpened && (
