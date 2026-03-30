@@ -48,9 +48,9 @@ export function KitchenScene({
     {
       id: "chalkboard",
       name: "Chalkboard",
-      position: { x: 18, y: 40 },
+      position: { x: 13, y: 40 },
       width: 22,
-      height: 35,
+      height: 30,
       interactions: {
         look: '"Stock Pot Specifications... Main Stews... Daily Specials." Someone was planning quite the menu for the party.',
         use: "I don't need to write anything on it.",
