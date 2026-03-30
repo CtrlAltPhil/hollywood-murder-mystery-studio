@@ -171,7 +171,7 @@ export function GameScene({
     {
       id: "charcuterie-board",
       name: "Charcuterie Board",
-      position: { x: 32, y: 73 },
+      position: { x: 37, y: 73 },
       width: 8,
       height: 10,
       interactions: {
@@ -248,14 +248,14 @@ export function GameScene({
         use_with_wine_glass: () => {
           triggerTempReaction("ladyNervous", 3000);
           setFlag("ladyNervous", true);
-          return '"That\'s my glass! I mean... it looks like mine. So what?" Lady Fantastique\'s composure cracks.';
+          return "\"That's my glass! I mean... it looks like mine. So what?\" Lady Fantastique's composure cracks.";
         },
       },
     },
     {
       id: "el-fuego",
       name: "Duke Extreme",
-      position: { x: 42, y: 75 },
+      position: { x: 47, y: 75 },
       width: 10,
       height: 32,
       interactions: {
@@ -274,7 +274,7 @@ export function GameScene({
     {
       id: "carl",
       name: "Carl",
-      position: { x: 57, y: 75 },
+      position: { x: 62, y: 75 },
       width: 10,
       height: 32,
       interactions: {
@@ -374,10 +374,14 @@ export function GameScene({
 
       {/* Lady Fantastique */}
       <div
-        className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? 'animate-nervous-shake' : 'animate-breathing'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? "animate-nervous-shake" : "animate-breathing"}`}
         style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage} alt="Lady Fantastique" className="w-full h-full pixelated object-contain transition-all duration-500" />
+        <img
+          src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage}
+          alt="Lady Fantastique"
+          className="w-full h-full pixelated object-contain transition-all duration-500"
+        />
         {shockBubbles["Lady Fantastique"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Lady Fantastique"]}
@@ -388,11 +392,11 @@ export function GameScene({
 
       {/* Duke Extreme */}
       <div
-        className={`absolute z-20 pointer-events-none ${tempReaction.dukePanicked ? 'animate-nervous-shake' : 'animate-sway'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.dukePanicked ? "animate-nervous-shake" : "animate-sway"}`}
         style={{ left: "38%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
         <img
-          src={tempReaction.dukePanicked ? elFuegoPanickedImage : (elFuegoPose === 0 ? elFuegoImage : elFuegoImage2)}
+          src={tempReaction.dukePanicked ? elFuegoPanickedImage : elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
           alt="Duke Extreme"
           className="w-full h-full pixelated object-contain transition-all duration-500"
         />
@@ -406,10 +410,14 @@ export function GameScene({
 
       {/* Carl */}
       <div
-        className={`absolute z-20 pointer-events-none ${tempReaction.carlSmirking ? '' : 'animate-weight-shift'}`}
+        className={`absolute z-20 pointer-events-none ${tempReaction.carlSmirking ? "" : "animate-weight-shift"}`}
         style={{ left: "53%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
       >
-        <img src={tempReaction.carlSmirking ? carlSmirkingImage : carlImage} alt="Carl" className="w-full h-full pixelated object-contain transition-all duration-500" />
+        <img
+          src={tempReaction.carlSmirking ? carlSmirkingImage : carlImage}
+          alt="Carl"
+          className="w-full h-full pixelated object-contain transition-all duration-500"
+        />
         {shockBubbles["Carl"] && (
           <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
             {shockBubbles["Carl"]}
