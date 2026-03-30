@@ -99,9 +99,9 @@ export function ProductionRoomScene({
     {
       id: "stage-lights",
       name: "Stage Lights",
-      position: { x: 35, y: 15 },
-      width: 50,
-      height: 15,
+      position: { x: 50, y: 5 },
+      width: 80,
+      height: 10,
       interactions: {
         look: "Powerful stage lights hanging from the ceiling. Two of them are still on, pointing at the green screen.",
         use: "I can't reach them from down here.",
