@@ -11,7 +11,14 @@ interface HallwayKitchenSceneProps {
   debugMode?: boolean;
 }
 
-export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: HallwayKitchenSceneProps) {
+export function HallwayKitchenScene({
+  gameState,
+  onHotspotHover,
+  onHotspotClick,
+  onChangeRoom,
+  onEmptyClick,
+  debugMode,
+}: HallwayKitchenSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -56,7 +63,7 @@ export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick,
       id: "back-to-hallway",
       name: "Hallway",
       position: { x: 50, y: 95 },
-      width: 60,
+      width: 30,
       height: 10,
       interactions: {
         look: "__NAVIGATE__hallway",
@@ -68,7 +75,10 @@ export function HallwayKitchenScene({ gameState, onHotspotHover, onHotspotClick,
 
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${hallwayKitchenBackground})` }} />
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${hallwayKitchenBackground})` }}
+      />
 
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Hallway ▼
