@@ -27,7 +27,7 @@ export function HallwayKitchenScene({
       name: "Kitchen Door",
       position: { x: 50, y: 50 },
       width: 20,
-      height: 50,
+      height: 40,
       interactions: {
         look: "Heavy metal double doors leading to the kitchen.",
         open: "__NAVIGATE__kitchen",
