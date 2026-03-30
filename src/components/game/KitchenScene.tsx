@@ -84,8 +84,8 @@ export function KitchenScene({
     {
       id: "cutting-board",
       name: "Cutting Board with Vegetables",
-      position: { x: 5, y: 63 },
-      width: 14,
+      position: { x: 8, y: 63 },
+      width: 16,
       height: 12,
       interactions: {
         look: "Carrots, onions, peppers... Someone was in the middle of prep work when things went south.",
