@@ -64,17 +64,18 @@ export function BackyardScene({
       position: { x: 46, y: 80 },
       width: 25,
       height: 18,
-      interactions: fountainOff && !fountainKeyTaken
-        ? {
-            look: "With the fountain off, the water is still. I can see something shiny glinting at the bottom of the pond!",
-            pickup: "__PICKUP_FOUNTAIN_KEY__",
-            use: "I should try to grab that shiny thing in the water.",
-          }
-        : {
-            look: "A small koi pond. The water is dark and murky tonight. I can barely see the bottom.",
-            use: "I'm not sticking my hand in there.",
-            pickup: "I can't pick up a pond.",
-          },
+      interactions:
+        fountainOff && !fountainKeyTaken
+          ? {
+              look: "With the fountain off, the water is still. I can see something shiny glinting at the bottom of the pond!",
+              pickup: "__PICKUP_FOUNTAIN_KEY__",
+              use: "I should try to grab that shiny thing in the water.",
+            }
+          : {
+              look: "A small koi pond. The water is dark and murky tonight. I can barely see the bottom.",
+              use: "I'm not sticking my hand in there.",
+              pickup: "I can't pick up a pond.",
+            },
     },
     {
       id: "left-column",
@@ -152,7 +153,7 @@ export function BackyardScene({
       id: "back-inside",
       name: "French Doors (Inside)",
       position: { x: 50, y: 95 },
-      width: 60,
+      width: 30,
       height: 10,
       interactions: {
         look: "__NAVIGATE__hallway",
@@ -173,13 +174,18 @@ export function BackyardScene({
           setFlag("fountainOff", false);
           onHotspotClick({
             ...hotspot,
-            interactions: { [verb]: "I flip the switch. The fountain hums back to life and water starts flowing again." },
+            interactions: {
+              [verb]: "I flip the switch. The fountain hums back to life and water starts flowing again.",
+            },
           });
         } else {
           setFlag("fountainOff", true);
           onHotspotClick({
             ...hotspot,
-            interactions: { [verb]: "I flip the hidden switch. The fountain sputters and goes quiet. The water in the pond becomes still..." },
+            interactions: {
+              [verb]:
+                "I flip the hidden switch. The fountain sputters and goes quiet. The water in the pond becomes still...",
+            },
           });
         }
         return;
@@ -194,7 +200,10 @@ export function BackyardScene({
         onAddToInventory({ id: "fountain_key", name: "Electrical Box Key", image: electricalBoxKeyImage });
         onHotspotClick({
           ...hotspot,
-          interactions: { pickup: "I reach into the still water and pull out a small key. It was hidden under the fountain's flow this whole time! It looks like it could fit an electrical panel or utility box." },
+          interactions: {
+            pickup:
+              "I reach into the still water and pull out a small key. It was hidden under the fountain's flow this whole time! It looks like it could fit an electrical panel or utility box.",
+          },
         });
         return;
       }
@@ -225,15 +234,36 @@ export function BackyardScene({
         >
           {/* Sparkle effect - multiple small stars */}
           <div className="relative w-full h-full">
-            <div className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping" style={{ left: "50%", top: "40%", animationDuration: "1.2s", animationDelay: "0s" }} />
-            <div className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ left: "30%", top: "60%", animationDuration: "1.5s", animationDelay: "0.3s" }} />
-            <div className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping" style={{ left: "70%", top: "50%", animationDuration: "1s", animationDelay: "0.6s" }} />
-            <div className="absolute w-1 h-1 bg-yellow-300 rounded-full animate-ping" style={{ left: "55%", top: "70%", animationDuration: "1.8s", animationDelay: "0.9s" }} />
-            <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ left: "40%", top: "30%", animationDuration: "1.3s", animationDelay: "0.4s" }} />
+            <div
+              className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping"
+              style={{ left: "50%", top: "40%", animationDuration: "1.2s", animationDelay: "0s" }}
+            />
+            <div
+              className="absolute w-1 h-1 bg-white rounded-full animate-ping"
+              style={{ left: "30%", top: "60%", animationDuration: "1.5s", animationDelay: "0.3s" }}
+            />
+            <div
+              className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping"
+              style={{ left: "70%", top: "50%", animationDuration: "1s", animationDelay: "0.6s" }}
+            />
+            <div
+              className="absolute w-1 h-1 bg-yellow-300 rounded-full animate-ping"
+              style={{ left: "55%", top: "70%", animationDuration: "1.8s", animationDelay: "0.9s" }}
+            />
+            <div
+              className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping"
+              style={{ left: "40%", top: "30%", animationDuration: "1.3s", animationDelay: "0.4s" }}
+            />
             {/* Central star shape */}
             <div className="absolute" style={{ left: "45%", top: "45%", width: "10%", height: "10%" }}>
-              <div className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
-              <div className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
+              <div
+                className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"
+                style={{ animationDuration: "0.8s" }}
+              />
+              <div
+                className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"
+                style={{ animationDuration: "0.8s" }}
+              />
             </div>
           </div>
         </div>
