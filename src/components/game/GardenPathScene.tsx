@@ -98,7 +98,7 @@ export function GardenPathScene({
     {
       id: "stone-lantern",
       name: "Stone Lantern",
-      position: { x: 82, y: 90 },
+      position: { x: 87, y: 90 },
       width: 10,
       height: 20,
       interactions: {
