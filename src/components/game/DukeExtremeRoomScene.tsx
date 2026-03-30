@@ -64,7 +64,7 @@ export function DukeExtremeRoomScene({
     {
       id: "remote",
       name: "TV Remote",
-      position: { x: 88, y: 60 },
+      position: { x: 85, y: 63 },
       width: 8,
       height: 6,
       interactions: {
