@@ -119,7 +119,7 @@ export function HallwayScene({
       id: "kitchen-direction",
       name: "Kitchen Hallway",
       position: { x: 50, y: 95 },
-      width: 60,
+      width: 30,
       height: 10,
       interactions: {
         look: "__NAVIGATE__hallway-kitchen",
