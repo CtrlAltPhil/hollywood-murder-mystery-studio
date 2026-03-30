@@ -284,8 +284,8 @@ export function ProductionRoomScene({
       {
         id: "ebox-wires",
         name: "Frayed Wires",
-        position: { x: 38, y: 50 },
-        width: 20,
+        position: { x: 45, y: 50 },
+        width: 15,
         height: 40,
         interactions: {
           look: "Three conduit pipes — blue, red, and green. The red one has been cut open and the wires are frayed and exposed. This looks deliberate.",
@@ -297,7 +297,7 @@ export function ProductionRoomScene({
       {
         id: "ebox-note-754",
         name: "Note",
-        position: { x: 65, y: 45 },
+        position: { x: 75, y: 45 },
         width: 18,
         height: 35,
         interactions: {
