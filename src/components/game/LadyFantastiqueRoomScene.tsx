@@ -11,7 +11,14 @@ interface LadyFantastiqueRoomSceneProps {
   debugMode?: boolean;
 }
 
-export function LadyFantastiqueRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode }: LadyFantastiqueRoomSceneProps) {
+export function LadyFantastiqueRoomScene({
+  gameState,
+  onHotspotHover,
+  onHotspotClick,
+  onChangeRoom,
+  onEmptyClick,
+  debugMode,
+}: LadyFantastiqueRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
   const hotspots: SimpleHotspot[] = [
@@ -65,9 +72,9 @@ export function LadyFantastiqueRoomScene({ gameState, onHotspotHover, onHotspotC
     {
       id: "star-wallpaper",
       name: "Star Wallpaper",
-      position: { x: 50, y: 15 },
-      width: 80,
-      height: 15,
+      position: { x: 15, y: 35 },
+      width: 30,
+      height: 30,
       interactions: {
         look: "Gold and silver stars decorate the deep red walls. Lady Fantastique certainly has a flair for the dramatic.",
       },
@@ -87,9 +94,9 @@ export function LadyFantastiqueRoomScene({ gameState, onHotspotHover, onHotspotC
     {
       id: "door-exit",
       name: "Door to Hallway",
-      position: { x: 94, y: 45 },
-      width: 8,
-      height: 40,
+      position: { x: 94, y: 55 },
+      width: 10,
+      height: 60,
       interactions: {
         look: "The door back to the hallway.",
         open: "__NAVIGATE__hallway",
