@@ -102,18 +102,6 @@ export function StudyScene({
       },
     },
     {
-      id: "phone",
-      name: "Phone",
-      position: { x: 60, y: 58 },
-      width: 6,
-      height: 8,
-      interactions: {
-        look: "A smartphone left on the desk. The screen is cracked. It's locked with a passcode.",
-        pickup: "I pocket the phone. Might be able to unlock it later.",
-        use: "It's locked. I'd need a passcode or fingerprint to get in.",
-      },
-    },
-    {
       id: "door-exit",
       name: "Door to Hallway",
       position: { x: 50, y: 95 },
@@ -135,7 +123,7 @@ export function StudyScene({
         {
           id: "backyard-key",
           name: "Old Key",
-          position: { x: 18, y: 92 },
+          position: { x: 16, y: 92 },
           width: 8,
           height: 10,
           interactions: {
