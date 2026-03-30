@@ -25,9 +25,9 @@ export function LadyFantastiqueRoomScene({
     {
       id: "stage-presence-poster",
       name: '"Stage Presence" Poster',
-      position: { x: 33, y: 35 },
-      width: 14,
-      height: 30,
+      position: { x: 33, y: 37 },
+      width: 12,
+      height: 25,
       interactions: {
         look: '"Stage Presence" — a framed poster of Lady Fantastique in her breakout role. She looks younger here.',
         use: "It's just a poster on the wall.",
@@ -36,9 +36,9 @@ export function LadyFantastiqueRoomScene({
     {
       id: "fantastic-drama-poster",
       name: '"Fantastic Drama" Poster',
-      position: { x: 50, y: 35 },
-      width: 14,
-      height: 30,
+      position: { x: 45, y: 37 },
+      width: 12,
+      height: 25,
       interactions: {
         look: '"Fantastic Drama" — another starring role. Lady Fantastique was quite the star... before Los Cabos overtook her.',
         use: "It's just a poster.",
@@ -73,8 +73,8 @@ export function LadyFantastiqueRoomScene({
       id: "star-wallpaper",
       name: "Star Wallpaper",
       position: { x: 15, y: 35 },
-      width: 30,
-      height: 30,
+      width: 25,
+      height: 20,
       interactions: {
         look: "Gold and silver stars decorate the deep red walls. Lady Fantastique certainly has a flair for the dramatic.",
       },
