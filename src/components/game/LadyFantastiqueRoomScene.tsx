@@ -95,7 +95,7 @@ export function LadyFantastiqueRoomScene({
       id: "door-exit",
       name: "Door to Hallway",
       position: { x: 94, y: 55 },
-      width: 10,
+      width: 8,
       height: 60,
       interactions: {
         look: "The door back to the hallway.",
