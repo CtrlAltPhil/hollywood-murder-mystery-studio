@@ -97,9 +97,9 @@ export function LosCabosRoomScene({
     {
       id: "suitcases",
       name: "Suitcases",
-      position: { x: 55, y: 82 },
-      width: 14,
-      height: 14,
+      position: { x: 44, y: 70 },
+      width: 5,
+      height: 5,
       interactions: {
         look: "Packed suitcases. Was Los Cabos planning to leave? These are ready to go.",
         open: "I open one. Clothes, a passport, and a one-way ticket to Buenos Aires. He was planning to disappear.",
