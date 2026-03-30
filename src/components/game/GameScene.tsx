@@ -190,9 +190,9 @@ export function GameScene({
     {
       id: "table",
       name: "Party Table",
-      position: { x: 28, y: 85 },
-      width: 14,
-      height: 8,
+      position: { x: 33, y: 83 },
+      width: 16,
+      height: 12,
       interactions: {
         look: "A festive party table. Most of the food has been knocked over in the commotion.",
         pickup: "I can't carry the whole table!",
