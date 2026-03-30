@@ -8,6 +8,7 @@ interface GameMenuProps {
   onSave: () => void;
   onRestart: () => void;
   onLoadGame?: () => void;
+  onDeleteSave?: () => void;
   musicVolume: number;
   sfxVolume: number;
   brightness: number;

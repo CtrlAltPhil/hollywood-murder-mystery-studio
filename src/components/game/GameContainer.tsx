@@ -472,6 +472,7 @@ export function GameContainer() {
             onSave={handleSave}
             onRestart={handleRestart}
             onLoadGame={hasSaveData ? handleLoadGame : undefined}
+            onDeleteSave={hasSaveData ? handleDeleteSave : undefined}
             {...menuProps}
           />
         )}
