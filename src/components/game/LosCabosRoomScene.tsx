@@ -72,9 +72,9 @@ export function LosCabosRoomScene({
     {
       id: "bunk-bed",
       name: "Bunk Bed",
-      position: { x: 80, y: 40 },
-      width: 20,
-      height: 45,
+      position: { x: 85, y: 25 },
+      width: 30,
+      height: 10,
       interactions: {
         look: "A sturdy wooden bunk bed. The top bunk is neatly made, but the bottom one has crumpled sheets — someone was sleeping here recently.",
         open: "I check under the mattress. There's a crumpled photo of Los Cabos and Lady Fantastique together, torn in half.",
