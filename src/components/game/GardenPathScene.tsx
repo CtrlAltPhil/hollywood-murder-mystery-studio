@@ -52,7 +52,7 @@ export function GardenPathScene({
       onHotspotClick({
         id: "combo-lock",
         name: "Combination Lock",
-        position: { x: 50, y: 50 },
+        position: { x: 78, y: 60 },
         width: 10,
         height: 10,
         interactions: { use: "The lock doesn't budge. Wrong combination." },
