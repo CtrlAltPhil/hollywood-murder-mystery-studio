@@ -310,7 +310,7 @@ export function ProductionRoomScene({
         id: "ebox-back-open",
         name: "Back",
         position: { x: 50, y: 92 },
-        width: 100,
+        width: 30,
         height: 16,
         interactions: {
           look: "__BACK__",
