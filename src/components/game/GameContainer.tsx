@@ -183,11 +183,17 @@ export function GameContainer() {
   };
 
   const handleRestart = () => {
-    if (confirm('Are you sure you want to restart? Unsaved progress will be lost.')) {
+    if (confirm('Return to title screen? Unsaved progress will be lost.')) {
+      resetNotes();
+      setIsMenuOpen(false);
+      setPhase('title');
+    }
+  };
+
+  const handleDeleteSave = () => {
+    if (confirm('Delete your saved game? This cannot be undone.')) {
       localStorage.removeItem('hmm_save_game');
       setHasSaveData(false);
-      resetNotes();
-      window.location.reload();
     }
   };
 
@@ -466,6 +472,7 @@ export function GameContainer() {
             onSave={handleSave}
             onRestart={handleRestart}
             onLoadGame={hasSaveData ? handleLoadGame : undefined}
+            onDeleteSave={hasSaveData ? handleDeleteSave : undefined}
             {...menuProps}
           />
         )}
