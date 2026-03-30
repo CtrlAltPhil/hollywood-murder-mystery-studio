@@ -31,7 +31,7 @@ export function LosCabosRoomScene({
     {
       id: "desk",
       name: "Writing Desk",
-      position: { x: 25, y: 48 },
+      position: { x: 30, y: 65 },
       width: 22,
       height: 22,
       interactions: {
@@ -43,9 +43,9 @@ export function LosCabosRoomScene({
     {
       id: "desk-drawer",
       name: drawerOpened ? "Open Drawer" : "Desk Drawer",
-      position: { x: 22, y: 68 },
-      width: 14,
-      height: 10,
+      position: { x: 32, y: 70 },
+      width: 5,
+      height: 5,
       interactions: {
         look: drawerOpened
           ? 'The drawer is open. Inside there\'s a crumpled note with shaky handwriting. It reads: "Decline the offer or else." Someone was threatening Los Cabos... but who? And what offer?'
