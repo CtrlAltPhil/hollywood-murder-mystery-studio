@@ -107,18 +107,6 @@ export function LosCabosRoomScene({
       },
     },
     {
-      id: "ec-box",
-      name: "Cardboard Box",
-      position: { x: 67, y: 80 },
-      width: 10,
-      height: 12,
-      interactions: {
-        look: 'A box labeled "EC." What does EC stand for? El Cabos? Or something else?',
-        open: 'Inside are old scripts with angry margin notes. "THIS IS GARBAGE" written in red ink.',
-        pickup: "Too heavy to carry.",
-      },
-    },
-    {
       id: "door-exit",
       name: "Door to Hallway",
       position: { x: 10, y: 60 },
