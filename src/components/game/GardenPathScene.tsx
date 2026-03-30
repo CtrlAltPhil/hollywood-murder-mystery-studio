@@ -65,8 +65,8 @@ export function GardenPathScene({
     {
       id: "shed-door",
       name: shedUnlocked ? "Shed (Open)" : "Shed",
-      position: { x: 68, y: 50 },
-      width: 18,
+      position: { x: 70, y: 60 },
+      width: 14,
       height: 45,
       interactions: shedUnlocked
         ? {
@@ -110,7 +110,7 @@ export function GardenPathScene({
     {
       id: "hedges",
       name: "Hedges",
-      position: { x: 40, y: 35 },
+      position: { x: 15, y: 15 },
       width: 20,
       height: 25,
       interactions: {
