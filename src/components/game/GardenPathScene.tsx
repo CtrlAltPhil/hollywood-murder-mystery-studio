@@ -133,7 +133,7 @@ export function GardenPathScene({
       id: "back-to-backyard",
       name: "Backyard",
       position: { x: 95, y: 50 },
-      width: 10,
+      width: 8,
       height: 80,
       interactions: {
         look: "__NAVIGATE__backyard",
