@@ -108,7 +108,7 @@ export function DukeExtremeRoomScene({
       id: "back-to-hallway",
       name: "Hallway",
       position: { x: 50, y: 95 },
-      width: 60,
+      width: 30,
       height: 10,
       interactions: {
         look: "__NAVIGATE__hallway",
