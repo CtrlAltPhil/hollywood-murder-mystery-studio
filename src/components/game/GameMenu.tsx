@@ -148,10 +148,18 @@ export function GameMenu({
           {!isTitleScreen && (
             <Button 
               onClick={onRestart}
+              className="w-full text-lg py-6 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 transition-all hover:scale-105"
+            >
+              RETURN TO TITLE
+            </Button>
+          )}
+          {onDeleteSave && (
+            <Button 
+              onClick={onDeleteSave}
               variant="destructive"
               className="w-full text-lg py-6 border border-red-900 transition-all hover:scale-105 hover:bg-red-900/50"
             >
-              RESTART TO TITLE
+              DELETE SAVE
             </Button>
           )}
           {isTitleScreen && (
