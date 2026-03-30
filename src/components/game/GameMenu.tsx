@@ -24,7 +24,7 @@ interface GameMenuProps {
 const SECRET_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
 export function GameMenu({ 
-  onResume, onSave, onRestart, onLoadGame, musicVolume, sfxVolume, brightness, 
+  onResume, onSave, onRestart, onLoadGame, onDeleteSave, musicVolume, sfxVolume, brightness, 
   onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange, isTitleScreen,
   debugMode, onDebugModeToggle
 }: GameMenuProps) {
