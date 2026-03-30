@@ -60,9 +60,9 @@ export function LosCabosRoomScene({
     {
       id: "trophies",
       name: "Awards & Trophies",
-      position: { x: 45, y: 55 },
+      position: { x: 50, y: 55 },
       width: 16,
-      height: 20,
+      height: 15,
       interactions: {
         look: 'A collection of awards and trophies. "Best Actor," "Lifetime Achievement"... Los Cabos was at the top of his game.',
         pickup: "These belong to the deceased. I shouldn't take them.",
