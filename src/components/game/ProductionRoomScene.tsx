@@ -134,9 +134,9 @@ export function ProductionRoomScene({
     {
       id: "electrical-box",
       name: "Electrical Box",
-      position: { x: 85, y: 42 },
-      width: 8,
-      height: 18,
+      position: { x: 85, y: 50 },
+      width: 12,
+      height: 20,
       interactions: {
         look: boxUnlocked
           ? () => {
