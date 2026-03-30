@@ -136,8 +136,10 @@ export function KitchenScene({
         talk: "__DIALOG__chef-allegro",
         pickup: "I can't pick up a chef!",
         use: "I should talk to him instead.",
-        use_with_wine_glass: '"That residue... Dio mio! I poured that wine myself. Someone must have tampered with it after!" Chef Allegro looks genuinely shaken.',
-        use_with_dagger: '"That\'s not from MY kitchen! My knives are all accounted for... well, except one. But that\'s not it!" He looks defensive.',
+        use_with_wine_glass:
+          '"That residue... Dio mio! I poured that wine myself. Someone must have tampered with it after!" Chef Allegro looks genuinely shaken.',
+        use_with_dagger:
+          "\"That's not from MY kitchen! My knives are all accounted for... well, except one. But that's not it!\" He looks defensive.",
         use_with_meat_stick: '"You\'re showing me my own food? I know what a meat stick looks like, detective."',
         use_with_money_bag: '"Cash? I don\'t deal in cash. I deal in flavors. You should ask Duke Extreme about that."',
       },
@@ -153,17 +155,20 @@ export function KitchenScene({
         talk: "__DIALOG__sous-chef-sally",
         pickup: "That's not how you treat kitchen staff.",
         use: "I should talk to her instead.",
-        use_with_wine_glass: '"I poured the wine, yes. But I didn\'t put anything IN it! ...Why are you looking at me like that?"',
-        use_with_dagger: '"I\'ve never seen that before! That\'s NOT one of our kitchen knives." Sally backs away nervously.',
-        use_with_meat_stick: '"That\'s Chef\'s specialty. I just do the prep work."',
-        use_with_money_bag: '"Money? I barely make enough to pay rent. Ask someone who actually gets paid around here."',
+        use_with_wine_glass:
+          '"I poured the wine, yes. But I didn\'t put anything IN it! ...Why are you looking at me like that?"',
+        use_with_dagger:
+          "\"I've never seen that before! That's NOT one of our kitchen knives.\" Sally backs away nervously.",
+        use_with_meat_stick: "\"That's Chef's specialty. I just do the prep work.\"",
+        use_with_money_bag:
+          '"Money? I barely make enough to pay rent. Ask someone who actually gets paid around here."',
       },
     },
     {
       id: "back-to-hallway-kitchen",
       name: "Hallway",
       position: { x: 50, y: 95 },
-      width: 60,
+      width: 30,
       height: 10,
       interactions: {
         look: "__NAVIGATE__hallway-kitchen",
@@ -180,10 +185,23 @@ export function KitchenScene({
       {/* Chef Allegro */}
       <div
         className="animate-breathing"
-        style={{ position: "absolute", left: "30%", top: "22%", width: "16%", height: "68%", transformOrigin: "bottom center" }}
+        style={{
+          position: "absolute",
+          left: "30%",
+          top: "22%",
+          width: "16%",
+          height: "68%",
+          transformOrigin: "bottom center",
+        }}
       >
         <img
-          src={gameState.flags.chefDefensive ? chefAllegroDefensiveImage : (chefBlinking ? chefAllegroBlinkImage : chefAllegroImage)}
+          src={
+            gameState.flags.chefDefensive
+              ? chefAllegroDefensiveImage
+              : chefBlinking
+                ? chefAllegroBlinkImage
+                : chefAllegroImage
+          }
           alt="Chef Allegro"
           className="z-20 pointer-events-none pixelated object-contain w-full h-full transition-all duration-300"
         />
@@ -192,7 +210,14 @@ export function KitchenScene({
       {/* Sous Chef Sally */}
       <div
         className="animate-fidget"
-        style={{ position: "absolute", right: "30%", top: "22%", width: "16%", height: "68%", transformOrigin: "bottom center" }}
+        style={{
+          position: "absolute",
+          right: "30%",
+          top: "22%",
+          width: "16%",
+          height: "68%",
+          transformOrigin: "bottom center",
+        }}
       >
         <img
           src={sallyAngry ? sousChefSallyAngryImage : sousChefSallyImage}
