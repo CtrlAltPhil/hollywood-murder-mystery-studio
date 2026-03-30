@@ -107,16 +107,6 @@ export function LosCabosRoomScene({
       },
     },
     {
-      id: "wall-plaques",
-      name: "Wall Plaques",
-      position: { x: 50, y: 30 },
-      width: 20,
-      height: 15,
-      interactions: {
-        look: 'Framed certificates and plaques. "GB Studios Employee of the Year" — three years running.',
-      },
-    },
-    {
       id: "ec-box",
       name: "Cardboard Box",
       position: { x: 67, y: 80 },
