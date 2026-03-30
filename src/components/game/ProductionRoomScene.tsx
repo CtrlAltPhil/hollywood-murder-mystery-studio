@@ -17,7 +17,15 @@ interface ProductionRoomSceneProps {
 
 type ElectricalBoxView = "none" | "closed" | "open";
 
-export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick, onChangeRoom, onEmptyClick, debugMode, onSetFlag }: ProductionRoomSceneProps) {
+export function ProductionRoomScene({
+  gameState,
+  onHotspotHover,
+  onHotspotClick,
+  onChangeRoom,
+  onEmptyClick,
+  debugMode,
+  onSetFlag,
+}: ProductionRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const [electricalBoxView, setElectricalBoxView] = useState<ElectricalBoxView>("none");
   const boxUnlocked = gameState.flags.electricalBoxUnlocked === true;
@@ -29,8 +37,8 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
       id: "camera",
       name: "Camera",
       position: { x: 30, y: 60 },
-      width: 18,
-      height: 30,
+      width: 15,
+      height: 25,
       interactions: {
         look: "A professional film camera on a tripod. The recording light is off, but the lens cap is missing.",
         use: "I press the power button. The viewfinder flickers on — there's still a tape inside!",
@@ -60,7 +68,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
         look: 'Stacked cardboard boxes. Some are labeled "PROPS" and others "WARDROBE."',
         open: "I open one of the boxes. Old costumes and wigs... nothing useful.",
         pickup: "They're too bulky to carry.",
-        push: 'I push one aside. There\'s a crumpled note underneath — looks like a call sheet with Los Cabos\' name circled in red.',
+        push: "I push one aside. There's a crumpled note underneath — looks like a call sheet with Los Cabos' name circled in red.",
       },
     },
     {
@@ -131,13 +139,22 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
       height: 18,
       interactions: {
         look: boxUnlocked
-          ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
+          ? () => {
+              setElectricalBoxView(boxOpened ? "open" : "closed");
+              return "";
+            }
           : "A heavy-duty electrical box mounted on the wall. There's a keyhole on the front — it's locked.",
         open: boxUnlocked
-          ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
+          ? () => {
+              setElectricalBoxView(boxOpened ? "open" : "closed");
+              return "";
+            }
           : "It's locked. I need a key to open this.",
         use: boxUnlocked
-          ? (() => { setElectricalBoxView(boxOpened ? "open" : "closed"); return ""; })
+          ? () => {
+              setElectricalBoxView(boxOpened ? "open" : "closed");
+              return "";
+            }
           : "It's locked. I need a key.",
         use_with_fountain_key: "__UNLOCK_EBOX__",
       },
@@ -145,19 +162,15 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
     {
       id: "film-projector",
       name: "Film Projector",
-      position: { x: 18, y: 45 },
-      width: 12,
-      height: 20,
+      position: { x: 22, y: 50 },
+      width: 8,
+      height: 8,
       interactions: {
         look: wiresRepaired
           ? "The projector is humming softly. A reel is loaded and ready to play. There's a recording on here."
           : "A film projector sitting on a cart. The power light is dead — no electricity.",
-        use: wiresRepaired
-          ? "__PLAY_PROJECTOR__"
-          : "No power. The projector won't turn on.",
-        open: wiresRepaired
-          ? "__PLAY_PROJECTOR__"
-          : "It won't do anything without power.",
+        use: wiresRepaired ? "__PLAY_PROJECTOR__" : "No power. The projector won't turn on.",
+        open: wiresRepaired ? "__PLAY_PROJECTOR__" : "It won't do anything without power.",
       },
     },
   ];
@@ -209,7 +222,11 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
     return (
       <div className={`relative w-full h-full ${cursorClass}`}>
         <div className="absolute inset-0 bg-[#c8cdd4] flex items-center justify-center">
-          <img src={electricalBoxFront} alt="Electrical Box (Closed)" style={{ maxHeight: "85%", maxWidth: "85%", objectFit: "contain" }} />
+          <img
+            src={electricalBoxFront}
+            alt="Electrical Box (Closed)"
+            style={{ maxHeight: "85%", maxWidth: "85%", objectFit: "contain" }}
+          />
         </div>
         {closeUpHotspots.map((hotspot) => (
           <div
@@ -225,7 +242,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
             onMouseLeave={() => onHotspotHover("")}
             onClick={(e) => {
               e.stopPropagation();
-              if (Object.values(hotspot.interactions).some(v => v === "__BACK__")) {
+              if (Object.values(hotspot.interactions).some((v) => v === "__BACK__")) {
                 const verb = gameState.selectedVerb || "open";
                 if (hotspot.interactions[verb] === "__BACK__" || !gameState.selectedVerb) {
                   setElectricalBoxView("none");
@@ -311,7 +328,11 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
     return (
       <div className={`relative w-full h-full ${cursorClass}`}>
         <div className="absolute inset-0 bg-[#c8cdd4] flex items-center justify-center">
-          <img src={electricalBoxOpen} alt="Electrical Box (Open)" style={{ maxHeight: "85%", maxWidth: "85%", objectFit: "contain" }} />
+          <img
+            src={electricalBoxOpen}
+            alt="Electrical Box (Open)"
+            style={{ maxHeight: "85%", maxWidth: "85%", objectFit: "contain" }}
+          />
         </div>
         {openHotspots.map((hotspot) => (
           <div
@@ -327,7 +348,7 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
             onMouseLeave={() => onHotspotHover("")}
             onClick={(e) => {
               e.stopPropagation();
-              if (Object.values(hotspot.interactions).some(v => v === "__BACK__")) {
+              if (Object.values(hotspot.interactions).some((v) => v === "__BACK__")) {
                 const verb = gameState.selectedVerb || "open";
                 if (hotspot.interactions[verb] === "__BACK__" || !gameState.selectedVerb) {
                   setElectricalBoxView("none");
@@ -335,7 +356,10 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
                 }
               }
               // Set flag when looking at the note
-              if (hotspot.id === "ebox-note-754" && (gameState.selectedVerb === "look" || gameState.selectedVerb === "use")) {
+              if (
+                hotspot.id === "ebox-note-754" &&
+                (gameState.selectedVerb === "look" || gameState.selectedVerb === "use")
+              ) {
                 onSetFlag?.("note754Found");
               }
               const verb = gameState.selectedVerb;
@@ -370,19 +394,22 @@ export function ProductionRoomScene({ gameState, onHotspotHover, onHotspotClick,
   // Main production room view
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${productionRoomBackground})` }} />
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${productionRoomBackground})` }}
+      />
 
       {/* Projector glow when powered on */}
       {wiresRepaired && (
         <div
           className="absolute pointer-events-none animate-pulse"
           style={{
-            left: '14%',
-            top: '38%',
-            width: '8%',
-            height: '6%',
-            background: 'radial-gradient(ellipse, rgba(255, 200, 100, 0.5) 0%, transparent 70%)',
-            filter: 'blur(4px)',
+            left: "14%",
+            top: "38%",
+            width: "8%",
+            height: "6%",
+            background: "radial-gradient(ellipse, rgba(255, 200, 100, 0.5) 0%, transparent 70%)",
+            filter: "blur(4px)",
           }}
         />
       )}
