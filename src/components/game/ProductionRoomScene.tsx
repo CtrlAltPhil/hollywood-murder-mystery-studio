@@ -49,7 +49,7 @@ export function ProductionRoomScene({
     {
       id: "green-screen",
       name: "Green Screen",
-      position: { x: 55, y: 45 },
+      position: { x: 50, y: 45 },
       width: 25,
       height: 35,
       interactions: {
@@ -61,7 +61,7 @@ export function ProductionRoomScene({
     {
       id: "boxes",
       name: "Cardboard Boxes",
-      position: { x: 58, y: 70 },
+      position: { x: 53, y: 70 },
       width: 16,
       height: 20,
       interactions: {
@@ -74,7 +74,7 @@ export function ProductionRoomScene({
     {
       id: "fire-extinguisher",
       name: "Fire Extinguisher",
-      position: { x: 93, y: 65 },
+      position: { x: 94, y: 65 },
       width: 6,
       height: 18,
       interactions: {
@@ -87,7 +87,7 @@ export function ProductionRoomScene({
     {
       id: "cables",
       name: "Cables and Wires",
-      position: { x: 65, y: 88 },
+      position: { x: 65, y: 90 },
       width: 30,
       height: 12,
       interactions: {
