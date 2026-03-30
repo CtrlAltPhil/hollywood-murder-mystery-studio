@@ -110,9 +110,9 @@ export function ProductionRoomScene({
     {
       id: "door-exit",
       name: "Door",
-      position: { x: 6, y: 55 },
-      width: 10,
-      height: 40,
+      position: { x: 8, y: 65 },
+      width: 12,
+      height: 60,
       interactions: {
         look: "The door back to the hallway.",
         open: "__NAVIGATE__hallway",
