@@ -79,7 +79,7 @@ export function StudyScene({
     {
       id: "office-chair",
       name: "Office Chair",
-      position: { x: 78, y: 70 },
+      position: { x: 85, y: 70 },
       width: 16,
       height: 25,
       interactions: {
