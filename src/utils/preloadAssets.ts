@@ -28,6 +28,7 @@ import backyardBg from "@/assets/backgrounds/backyard.png";
 import gardenPathBg from "@/assets/backgrounds/garden-path.png";
 import shedInteriorBg from "@/assets/backgrounds/shed-interior.png";
 import dukeRoomBg from "@/assets/backgrounds/duke-extreme-room.png";
+import parkingLotBg from "@/assets/backgrounds/parking-lot.png";
 
 import carlImg from "@/assets/characters/carl.png";
 import elFuegoImg from "@/assets/characters/el-fuego.png";
@@ -74,7 +75,7 @@ export const assetManifest: Record<string, string[]> = {
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
-  "parking-lot": [],
+  "parking-lot": [parkingLotBg],
 };
 
 // Get all assets as a flat array
