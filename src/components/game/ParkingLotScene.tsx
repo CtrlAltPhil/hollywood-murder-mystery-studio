@@ -1,6 +1,8 @@
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
+import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
+import tornPhotoImg from "@/assets/props/torn-photograph.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
@@ -59,12 +61,12 @@ export function ParkingLotScene({
         pickup: () => {
           if (!handkerchiefTaken) {
             setFlag("handkerchiefTaken", true);
-            onAddToInventory({ id: "monogrammed_handkerchief", name: "Monogrammed Handkerchief", image: "" });
+            onAddToInventory({ id: "monogrammed_handkerchief", name: "Monogrammed Handkerchief", image: handkerchiefImg });
             return "I pick up the handkerchief. It's fine silk, embroidered with the initials \"L.A.\" — Luke Adams? Who is that?";
           }
           if (!photoTaken) {
             setFlag("photoTaken", true);
-            onAddToInventory({ id: "torn_photograph", name: "Torn Photograph", image: "" });
+            onAddToInventory({ id: "torn_photograph", name: "Torn Photograph", image: tornPhotoImg });
             return "I grab the torn photograph. It shows two men shaking hands over a contract. One of them looks like... Carl? The other face is torn away.";
           }
           return "I've already taken everything from the trunk.";

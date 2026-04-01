@@ -57,6 +57,8 @@ import eboxKey from "@/assets/Electrical_Box_Key.png";
 import moneyBag from "@/assets/money_bag.png";
 import backyardKeyImg from "@/assets/props/backyard-key.png";
 import wireCuttersImg from "@/assets/props/wire-cutters.png";
+import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
+import tornPhotoImg from "@/assets/props/torn-photograph.png";
 
 // Scene-grouped manifest
 export const assetManifest: Record<string, string[]> = {
@@ -75,7 +77,7 @@ export const assetManifest: Record<string, string[]> = {
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
-  "parking-lot": [parkingLotBg],
+  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg],
 };
 
 // Get all assets as a flat array
