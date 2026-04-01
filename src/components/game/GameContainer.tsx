@@ -18,6 +18,7 @@ import { GardenPathScene } from './GardenPathScene';
 import { ShedInteriorScene } from './ShedInteriorScene';
 import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
+import { ParkingLotScene } from './ParkingLotScene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
