@@ -296,6 +296,7 @@ export function GameScene({
   const activeHotspots = hotspots.filter((h) => {
     if (h.id === "dagger" && gameState.flags.daggerTaken) return false;
     if (h.id === "wine-glasses" && gameState.flags.wineGlassTaken) return false;
+    if (h.id === "lady" && gameState.flags.handkerchiefTaken) return false;
     return true;
   });
 
