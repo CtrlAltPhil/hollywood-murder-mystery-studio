@@ -61,7 +61,7 @@ export function ParkingLotScene({
         pickup: () => {
           if (!handkerchiefTaken) {
             setFlag("handkerchiefTaken", true);
-            onAddToInventory({ id: "monogrammed_handkerchief", name: "Monogrammed Handkerchief", image: "" });
+            onAddToInventory({ id: "monogrammed_handkerchief", name: "Monogrammed Handkerchief", image: handkerchiefImg });
             return "I pick up the handkerchief. It's fine silk, embroidered with the initials \"L.A.\" — Luke Adams? Who is that?";
           }
           if (!photoTaken) {
