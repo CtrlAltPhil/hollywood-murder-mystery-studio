@@ -1025,6 +1025,10 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
     case 'carl':
       return buildDynamicRoot(carlTree['carl-root'], carlEvidenceOptions, flags);
     case 'lady':
+      // Use room-specific dialog when Lady Fantastique has relocated
+      if (flags.handkerchiefTaken) {
+        return buildDynamicRoot(ladyRoomTree['lady-room-root'], ladyRoomEvidenceOptions, flags);
+      }
       return buildDynamicRoot(ladyTree['lady-root'], ladyEvidenceOptions, flags);
     case 'el-fuego':
       return buildDynamicRoot(elFuegoTree['fuego-root'], fuegoEvidenceOptions, flags);
