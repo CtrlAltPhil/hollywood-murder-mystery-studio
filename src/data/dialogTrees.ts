@@ -1045,5 +1045,5 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
  * Looks up a dialog node by ID across all character trees.
  */
 export function getDialogNodeById(nodeId: string): DialogNode | null {
-  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? chefAllegroTree[nodeId] ?? sallyTree[nodeId] ?? null;
+  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? chefAllegroTree[nodeId] ?? sallyTree[nodeId] ?? ladyRoomTree[nodeId] ?? null;
 }

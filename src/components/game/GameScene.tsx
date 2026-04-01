@@ -117,11 +117,23 @@ export function GameScene({
       height: 50,
       interactions: {
         look: "A sturdy wooden door leading to the hallway.",
-        open: "__NAVIGATE__hallway",
+        open: (() => {
+          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          return allTalked ? "__NAVIGATE__hallway" : "I should properly interrogate each suspect here before I leave this room.";
+        })(),
         close: "It's already closed.",
-        use: "__NAVIGATE__hallway",
-        push: "__NAVIGATE__hallway",
-        pull: "__NAVIGATE__hallway",
+        use: (() => {
+          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          return allTalked ? "__NAVIGATE__hallway" : "I need to talk to everyone in this room first. Can't let anyone off the hook.";
+        })(),
+        push: (() => {
+          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          return allTalked ? "__NAVIGATE__hallway" : "Not yet. I haven't questioned all the suspects.";
+        })(),
+        pull: (() => {
+          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          return allTalked ? "__NAVIGATE__hallway" : "I can't leave until I've spoken to everyone here.";
+        })(),
       },
     },
     {

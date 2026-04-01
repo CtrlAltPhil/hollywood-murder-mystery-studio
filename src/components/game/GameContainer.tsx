@@ -284,6 +284,15 @@ export function GameContainer() {
       if (typeof interaction === 'string') {
         if (interaction.startsWith('__DIALOG__')) {
           const characterId = interaction.replace('__DIALOG__', '');
+          // Track that the player has spoken with this character
+          const talkFlagMap: Record<string, string> = {
+            'carl': 'talkedToCarl',
+            'lady': 'talkedToLady',
+            'el-fuego': 'talkedToDuke',
+          };
+          if (talkFlagMap[characterId]) {
+            setFlag(talkFlagMap[characterId], true);
+          }
           const rootNode = getDialogTree(characterId, gameState.flags);
           if (rootNode) {
             startDialog(
