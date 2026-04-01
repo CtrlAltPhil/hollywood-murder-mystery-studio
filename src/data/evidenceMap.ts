@@ -105,4 +105,22 @@ export const flagEvidenceMapExtended: Record<string, EvidenceEntry> = {
     description: 'The film projector showed a recording of someone sabotaging the electrical box before the party. They cut the red conduit wire and taped a note with "754" inside the door. Their face was obscured, but they wore a distinctive silver signet ring on their left hand.',
     category: 'Documents',
   },
+  handkerchiefTaken: {
+    id: 'monogrammed-handkerchief',
+    title: 'Monogrammed Handkerchief',
+    description: 'A fine silk handkerchief found in the trunk of Duke Extreme\'s SUV. Embroidered with the initials "L.A." — possibly standing for "Luke Adams." Who is Luke Adams, and why was this in Duke\'s car?',
+    category: 'Physical Evidence',
+  },
+  photoTaken: {
+    id: 'torn-photograph',
+    title: 'Torn Photograph',
+    description: 'A photograph torn in half, showing two men shaking hands over a contract. One of them resembles Carl. The other person\'s face has been deliberately torn away.',
+    category: 'Physical Evidence',
+  },
+  securityCameraFound: {
+    id: 'cut-security-camera',
+    title: 'Disabled Security Camera',
+    description: 'The security camera in the parking lot has been disabled — the cable was cut cleanly with a sharp tool, just like the wires in the production room electrical box.',
+    category: 'Physical Evidence',
+  },
 };

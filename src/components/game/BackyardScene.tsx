@@ -288,6 +288,9 @@ export function BackyardScene({
       <div className="absolute left-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ◄ Garden Path
       </div>
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
+        Parking Lot ►
+      </div>
 
       {hotspots.map((hotspot) => (
         <div

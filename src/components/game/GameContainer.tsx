@@ -314,6 +314,8 @@ export function GameContainer() {
       'dagger': 'An ornate dagger covered in blood. The murder weapon.',
       'money-bag': 'A black duffel bag stuffed with bundles of cash. What was Duke Extreme up to?',
       'wire_cutters': 'Heavy-duty wire cutters from the garden shed. Could cut through wires or thick branches.',
+      'monogrammed_handkerchief': 'A fine silk handkerchief embroidered with the initials "L.A." — Luke Adams? Found in the trunk of Duke Extreme\'s SUV.',
+      'torn_photograph': 'A torn photograph showing two men shaking hands over a contract. One of them looks like Carl. The other face is torn away.',
     };
     setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
