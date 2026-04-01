@@ -161,6 +161,18 @@ export function BackyardScene({
         use: "__NAVIGATE__hallway",
       },
     },
+    {
+      id: "parking-lot",
+      name: "Parking Lot",
+      position: { x: 97, y: 50 },
+      width: 6,
+      height: 80,
+      interactions: {
+        look: "__NAVIGATE__parking-lot",
+        open: "__NAVIGATE__parking-lot",
+        use: "__NAVIGATE__parking-lot",
+      },
+    },
   ];
 
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
@@ -275,6 +287,9 @@ export function BackyardScene({
       </div>
       <div className="absolute left-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ◄ Garden Path
+      </div>
+      <div className="absolute right-2 top-1/2 -translate-y-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
+        Parking Lot ►
       </div>
 
       {hotspots.map((hotspot) => (

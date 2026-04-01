@@ -1,6 +1,7 @@
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import ladyRoomBackground from "@/assets/backgrounds/lady-fantastique-room.png";
+import ladyImage from "@/assets/characters/lady.png";
 
 interface LadyFantastiqueRoomSceneProps {
   gameState: GameState;
@@ -20,6 +21,7 @@ export function LadyFantastiqueRoomScene({
   debugMode,
 }: LadyFantastiqueRoomSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
+  const ladyPresent = gameState.flags.handkerchiefTaken === true;
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -103,11 +105,46 @@ export function LadyFantastiqueRoomScene({
         use: "__NAVIGATE__hallway",
       },
     },
+    ...(ladyPresent
+      ? [
+          {
+            id: "lady-fantastique",
+            name: "Lady Fantastique",
+            position: { x: 50, y: 72 },
+            width: 12,
+            height: 35,
+            interactions: {
+              look: "Lady Fantastique is here in her room now, sitting at the edge of her bed. She looks troubled.",
+              talk: "__DIALOG__lady",
+              pickup: "I can't pick up a person!",
+              use: "I should talk to her instead.",
+              use_with_monogrammed_handkerchief:
+                '"Those initials... L.A. — that\'s Luke Adams. Carl\'s real name." Lady Fantastique looks away. "He changed it when he came to Hollywood. Nobody was supposed to know."',
+              use_with_torn_photograph:
+                '"That photograph... I\'ve seen it before. Carl — Luke — he kept it in his office. It was from the buyout deal signing. He was obsessed with that deal."',
+            },
+          } as SimpleHotspot,
+        ]
+      : []),
   ];
 
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${ladyRoomBackground})` }} />
+
+      {/* Lady Fantastique sprite - only after she relocates here */}
+      {ladyPresent && (
+        <div
+          className="absolute z-20 pointer-events-none animate-breathing"
+          style={{ left: "44%", bottom: "5%", width: "auto", height: "42%", transformOrigin: "bottom center" }}
+        >
+          <img
+            src={ladyImage}
+            alt="Lady Fantastique"
+            className="w-full h-full pixelated object-contain"
+          />
+        </div>
+      )}
 
       {hotspots.map((hotspot) => (
         <div
@@ -125,7 +162,13 @@ export function LadyFantastiqueRoomScene({
             e.stopPropagation();
             handleSceneHotspotClick(hotspot, gameState.selectedVerb, onChangeRoom, onHotspotClick);
           }}
-        />
+        >
+          {debugMode && (
+            <span className="absolute top-0 left-0 text-[8px] text-green-300 bg-black/70 px-1 rounded-br">
+              {hotspot.id}
+            </span>
+          )}
+        </div>
       ))}
     </div>
   );
