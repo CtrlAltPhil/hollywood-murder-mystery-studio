@@ -1,5 +1,6 @@
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
+import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
