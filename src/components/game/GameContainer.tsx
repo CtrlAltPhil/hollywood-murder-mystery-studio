@@ -370,6 +370,8 @@ export function GameContainer() {
         return <ShedInteriorScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
       case 'duke-extreme-room':
         return <DukeExtremeRoomScene {...sceneProps} />;
+      case 'parking-lot':
+        return <ParkingLotScene {...sceneProps} setFlag={setFlagWithEvidence} onAddToInventory={handleAddToInventory} />;
       default:
         return (
           <GameScene
