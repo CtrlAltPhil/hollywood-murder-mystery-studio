@@ -59,7 +59,6 @@ import backyardKeyImg from "@/assets/props/backyard-key.png";
 import wireCuttersImg from "@/assets/props/wire-cutters.png";
 import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
 import tornPhotoImg from "@/assets/props/torn-photograph.png";
-import wireCuttersImg from "@/assets/props/wire-cutters.png";
 
 // Scene-grouped manifest
 export const assetManifest: Record<string, string[]> = {
