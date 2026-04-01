@@ -373,23 +373,25 @@ export function GameScene({
         />
       )}
 
-      {/* Lady Fantastique */}
-      <div
-        className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? "animate-nervous-shake" : "animate-breathing"}`}
-        style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
-      >
-        <img
-          src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage}
-          alt="Lady Fantastique"
-          className="w-full h-full pixelated object-contain transition-all duration-500"
-        />
-        {shockBubbles["Lady Fantastique"] && (
-          <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
-            {shockBubbles["Lady Fantastique"]}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
-          </div>
-        )}
-      </div>
+      {/* Lady Fantastique - only in breakroom before handkerchief is found */}
+      {!gameState.flags.handkerchiefTaken && (
+        <div
+          className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? "animate-nervous-shake" : "animate-breathing"}`}
+          style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
+        >
+          <img
+            src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage}
+            alt="Lady Fantastique"
+            className="w-full h-full pixelated object-contain transition-all duration-500"
+          />
+          {shockBubbles["Lady Fantastique"] && (
+            <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
+              {shockBubbles["Lady Fantastique"]}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Duke Extreme */}
       <div
