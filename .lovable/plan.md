@@ -1,50 +1,45 @@
 
 
-# Film Projector Cutscene — Wires Repaired Outcome
+# Parking Lot Scene + NPC Relocation
 
-## Overview
-When the player repairs the frayed wires, the film projector in the Production Room powers on. The player can then interact with the projector to watch a cutscene — a grainy film recording that reveals critical evidence (e.g., a secret meeting, a confrontation, or someone tampering with the electrical box before the blackout).
+## What We're Building
 
-## Changes
+1. **New Parking Lot scene** accessible from the Backyard (right side exit), containing:
+   - **Duke Extreme's car** — vanity plate "XTRM DUK", open trunk with a **monogrammed handkerchief** (initials "L.A." — Luke Adams, Carl's alias) and a **torn photograph**
+   - **Police vehicle** — the player's car, with hotspot interactions ("My cruiser. At least it's still in one piece.")
+   - **Dumpster** — red herring (crumpled deal memo)
+   - **Security camera** — cable cut cleanly (ties to wire cutters evidence)
+   - **Oil stain** — beneath Duke's car, suggests recent activity
 
-### 1. Update Production Room after Wires Repaired
-In `ProductionRoomScene.tsx`:
-- Add a new hotspot for the **Film Projector** (near the camera/green screen area)
-- When `wiresRepaired` is false: "The projector is dark. No power."
-- When `wiresRepaired` is true: the projector hums, a light glows. Using or looking at it triggers `__PLAY_PROJECTOR__`
-- Add a subtle visual indicator (e.g., a small glowing light overlay) when the projector is powered on
+2. **New inventory items**:
+   - `monogrammed_handkerchief` — initials "L.A." ; picking it up sets flag `handkerchiefTaken`
+   - `torn_photograph` — shows two people at a signing; sets flag `photoTaken`
 
-### 2. Create Projector Cutscene Component
-New file `src/components/game/ProjectorCutscene.tsx`:
-- A full-screen overlay styled as a grainy film projection (dark vignette, film grain effect, slight flicker via CSS)
-- Displays a sequence of text cards and/or still images revealing the recording's content — e.g.:
-  - *"The recording shows the production room hours before the party..."*
-  - *"A figure enters and opens the electrical box..."*
-  - *"They cut the red conduit wire with wire cutters, then place something inside the box door..."*
-  - *"The figure turns — it's [character name or silhouette]..."*
-- Player clicks to advance through frames, then the cutscene ends and returns to the Production Room
-- Sets a flag `projectorWatched` when complete
+3. **NPC relocation logic**: Once `handkerchiefTaken` is true, Lady Fantastique moves from her current location (Breakroom) to her room. This will be handled by checking the flag in the Breakroom scene (hide her character hotspot) and ensuring she appears in `LadyFantastiqueRoomScene`.
 
-### 3. Wire into GameContainer
-- Handle `__PLAY_PROJECTOR__` action: show the projector cutscene overlay
-- Add state for `showProjectorCutscene`
-- On cutscene complete: set `projectorWatched` flag, log evidence entry
+4. **Evidence map updates**: New entries for the handkerchief, torn photograph, and security camera discovery.
 
-### 4. Add Evidence Entry
-In `evidenceMap.ts`, add a `projectorWatched` flag entry:
-- Title: "Security Camera Recording"
-- Description: Summary of what the recording revealed
-- Category: "Testimonies" or "Documents"
+5. **Luke Adams / Carl connection**: The handkerchief's "L.A." initials will be noted in evidence. Dialog branches connecting "Luke Adams" to Carl will come in a follow-up pass when we build out the dialog trees.
 
-### 5. Update Preload
-Add any new assets (film grain overlay texture if used) to `preloadAssets.ts`
+## Technical Plan
 
-## Files
+### New Files
+- `src/components/game/ParkingLotScene.tsx` — follows the exact same pattern as BackyardScene (SimpleHotspot array, getCursorClass, handleSceneHotspotClick, flag-gated pickups). Background will be a CSS gradient/procedural dark parking lot until a proper asset is added. Props: `gameState`, `onHotspotHover`, `onHotspotClick`, `onChangeRoom`, `onEmptyClick`, `debugMode`, `setFlag`, `onAddToInventory`.
 
-| File | Change |
-|------|--------|
-| `src/components/game/ProductionRoomScene.tsx` | Add projector hotspot with powered-on/off states |
-| `src/components/game/ProjectorCutscene.tsx` | New — grainy film cutscene overlay component |
-| `src/components/game/GameContainer.tsx` | Handle `__PLAY_PROJECTOR__`, show cutscene, set flag |
-| `src/data/evidenceMap.ts` | Add `projectorWatched` evidence entry |
+### Modified Files
+
+- **`BackyardScene.tsx`** — Add a new hotspot on the right side ("Parking Lot") that navigates to `parking-lot`. Add a right-side nav indicator.
+
+- **`GameContainer.tsx`**:
+  - Import `ParkingLotScene`
+  - Add `case 'parking-lot'` in `renderCurrentRoom` switch
+  - Add item descriptions for `monogrammed_handkerchief` and `torn_photograph` in the descriptions map
+
+- **`evidenceMap.ts`** — Add entries for `monogrammed_handkerchief`, `torn_photograph`, and a flag entry for `securityCameraFound`
+
+- **`preloadAssets.ts`** — Register parking lot room assets
+
+- **`GameScene.tsx` (Breakroom)** — Check `handkerchiefTaken` flag; if true, hide Lady Fantastique's character hotspot so she appears to have relocated
+
+- **`LadyFantastiqueRoomScene.tsx`** — Ensure Lady Fantastique's character appears when `handkerchiefTaken` is true (she may already be there; will verify and adjust)
 
