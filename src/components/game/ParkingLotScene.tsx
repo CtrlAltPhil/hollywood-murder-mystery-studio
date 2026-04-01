@@ -1,6 +1,8 @@
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
+import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
+import tornPhotoImg from "@/assets/props/torn-photograph.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
