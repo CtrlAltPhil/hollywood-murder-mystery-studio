@@ -744,6 +744,204 @@ const sallyTree: DialogTree = {
   },
 };
 
+// ─── LADY FANTASTIQUE (IN HER ROOM) ─────────────────────────────
+const ladyRoomTree: DialogTree = {
+  'lady-room-root': {
+    id: 'lady-room-root',
+    speaker: 'Lady Fantastique',
+    text: "*sitting on the edge of the bed, eyes red* I needed some space. This room... it's the only place that still feels safe. What do you want?",
+    options: [
+      { text: "Why did you come back to your room?", nextNodeId: 'lady-room-why' },
+      { text: "Tell me more about your history with Los Cabos.", nextNodeId: 'lady-room-history' },
+      { text: "Do you know someone named Luke Adams?", nextNodeId: 'lady-room-luke' },
+      { text: "I'll give you some space.", nextNodeId: null },
+    ],
+  },
+  'lady-room-why': {
+    id: 'lady-room-why',
+    speaker: 'Lady Fantastique',
+    text: "Because I couldn't stand being in that room anymore. The blood... his body... and the way Carl was just STANDING there. Cold as ice. Like it didn't even bother him.",
+    options: [
+      { text: "You think Carl isn't bothered by the murder?", nextNodeId: 'lady-room-carl-cold' },
+      { text: "Were you and Los Cabos more than colleagues?", nextNodeId: 'lady-room-romantic' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-carl-cold': {
+    id: 'lady-room-carl-cold',
+    speaker: 'Lady Fantastique',
+    text: "Bothered? The man didn't even flinch! His business partner is dead on the floor and Carl's calculating his next move. That's not grief — that's an opportunity to him. It makes me sick.",
+    options: [
+      { text: "Has Carl always been like that?", nextNodeId: 'lady-room-carl-always' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-carl-always': {
+    id: 'lady-room-carl-always',
+    speaker: 'Lady Fantastique',
+    text: "He's always been ruthless, but lately it's been worse. Ever since the buyout offer came in, he's been... different. More secretive. More controlling. Like he was waiting for something to happen.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-romantic': {
+    id: 'lady-room-romantic',
+    speaker: 'Lady Fantastique',
+    text: "*long pause* ...We had something, once. Years ago, before he became the big star director. He was kind back then. Gentle. But Hollywood changes people. He chose his career over us. I never forgave him for that.",
+    options: [
+      { text: "Is that why you argued with him tonight?", nextNodeId: 'lady-room-argument-detail' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-argument-detail': {
+    id: 'lady-room-argument-detail',
+    speaker: 'Lady Fantastique',
+    text: "Partly. He gave MY role to a younger actress. But what really hurt was HOW he told me — in front of everyone, like I didn't matter. After everything we'd been through together. I said things I regret now... but I didn't kill him. I loved him. Even after everything.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-history': {
+    id: 'lady-room-history',
+    speaker: 'Lady Fantastique',
+    text: "We go back twenty years. He cast me in my first film — 'Stage Presence.' I was nobody, and he made me a star. We built this studio together, really. But as his name grew, mine started to fade. That's Hollywood for you.",
+    options: [
+      { text: "Did you resent him for that?", nextNodeId: 'lady-room-resent' },
+      { text: "What about his partnership with Carl?", nextNodeId: 'lady-room-carl-partnership' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-resent': {
+    id: 'lady-room-resent',
+    speaker: 'Lady Fantastique',
+    text: "Resent? That's a strong word. I was... disappointed. He promised me we'd always work together. 'You're my muse,' he said. Then one day I wasn't. The industry moved on and he moved with it. Without me.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-carl-partnership': {
+    id: 'lady-room-carl-partnership',
+    speaker: 'Lady Fantastique',
+    text: "Carl came along about five years ago. Brought the money. But something was always off about that man. He appeared out of nowhere with deep pockets and a fake smile. Nobody even knows his real background. He just... showed up.",
+    options: [
+      { text: "Fake smile? You don't trust Carl?", nextNodeId: 'lady-room-carl-trust' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-carl-trust': {
+    id: 'lady-room-carl-trust',
+    speaker: 'Lady Fantastique',
+    text: "Trust him? Nobody should trust Carl. He changes his story depending on who he's talking to. I once heard him on the phone using a completely different name. Like he was someone else entirely. It gave me chills.",
+    onEnter: { flag: 'ladyMentionedCarlAlias' },
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-luke': {
+    id: 'lady-room-luke',
+    speaker: 'Lady Fantastique',
+    text: "*sharp intake of breath* Where did you hear that name?",
+    options: [
+      { text: "I found a handkerchief with the initials 'L.A.' — Luke Adams.", nextNodeId: 'lady-room-luke-handkerchief' },
+      { text: "Just a name that came up in the investigation.", nextNodeId: 'lady-room-luke-vague' },
+    ],
+  },
+  'lady-room-luke-handkerchief': {
+    id: 'lady-room-luke-handkerchief',
+    speaker: 'Lady Fantastique',
+    text: "Luke Adams... that's Carl's real name. He changed it when he came to Hollywood. Said 'Carl' sounded more sophisticated. Nobody was supposed to know about his past. But I found out.",
+    onEnter: { flag: 'lukeAdamsRevealed' },
+    options: [
+      { text: "How did you find out?", nextNodeId: 'lady-room-luke-how' },
+      { text: "Why would he hide his real name?", nextNodeId: 'lady-room-luke-why' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-luke-vague': {
+    id: 'lady-room-luke-vague',
+    speaker: 'Lady Fantastique',
+    text: "Don't play coy with me, detective. If you know that name, you know more than you're letting on. Luke Adams is Carl's real name. Before Hollywood. Before the money. Before the lies.",
+    onEnter: { flag: 'lukeAdamsRevealed' },
+    options: [
+      { text: "Why would Carl hide his identity?", nextNodeId: 'lady-room-luke-why' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-luke-how': {
+    id: 'lady-room-luke-how',
+    speaker: 'Lady Fantastique',
+    text: "I found old documents in the studio safe last year. A birth certificate, a name change filing. 'Luke Adams' became 'Carl' — just Carl, no surname. Like Madonna or Cher, but for a con man. When I confronted him, he threatened to ruin my career if I told anyone.",
+    options: [
+      { text: "He threatened you? That sounds like motive.", nextNodeId: 'lady-room-luke-threat' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-luke-threat': {
+    id: 'lady-room-luke-threat',
+    speaker: 'Lady Fantastique',
+    text: "Motive for ME? Or motive for HIM? Think about it — if Los Cabos found out Carl was hiding his identity, the partnership would be over. And with the buyout deal... Carl had everything to lose. Everything.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-luke-why': {
+    id: 'lady-room-luke-why',
+    speaker: 'Lady Fantastique',
+    text: "Because Luke Adams has a past. Fraud charges in Nevada. A failed business that bilked investors. He reinvented himself as 'Carl' — mysterious, sophisticated, wealthy. But it's all built on lies. And now someone is dead.",
+    onEnter: { flag: 'carlFraudRevealed' },
+    nextNodeId: 'lady-room-root',
+  },
+  // Evidence options when in room
+  'lady-room-dagger-react': {
+    id: 'lady-room-dagger-react',
+    speaker: 'Lady Fantastique',
+    text: "You brought that HERE? *recoils* ...Wait. Look at the handle. See those scratches? Someone filed off an inscription. The original props all had the film title engraved. Whoever sharpened this tried to hide its origin.",
+    options: [
+      { text: "Carl said he handled the props. Could he have done this?", nextNodeId: 'lady-room-dagger-carl' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-dagger-carl': {
+    id: 'lady-room-dagger-carl',
+    speaker: 'Lady Fantastique',
+    text: "Carl? That man doesn't get his hands dirty. But he'd know someone who would. Duke Extreme handled weapons on set... and he's been doing whatever Carl tells him lately. Follow the money, detective.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-note-react': {
+    id: 'lady-room-note-react',
+    speaker: 'Lady Fantastique',
+    text: "That handwriting... *squints* I've seen it before. On memos around the studio. Carl always writes his M's with that strange flourish. Compare it yourself if you don't believe me.",
+    onEnter: { flag: 'carlHandwritingClue' },
+    options: [
+      { text: "You're saying Carl wrote this threatening note?", nextNodeId: 'lady-room-note-carl' },
+      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+    ],
+  },
+  'lady-room-note-carl': {
+    id: 'lady-room-note-carl',
+    speaker: 'Lady Fantastique',
+    text: "I'm saying the handwriting looks familiar. But Carl's too smart to leave something so obvious... unless he wanted someone else to take the fall. He's always three steps ahead. That's what makes him dangerous.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-photo-react': {
+    id: 'lady-room-photo-react',
+    speaker: 'Lady Fantastique',
+    text: "That photograph... *takes it gently* This is from the buyout signing meeting. That's Carl — Luke — shaking hands with the buyer. He told Los Cabos the deal fell through. But it didn't, did it? He was working behind Los Cabos' back the whole time.",
+    onEnter: { flag: 'carlBetrayalRevealed' },
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-money-bag-react': {
+    id: 'lady-room-money-bag-react',
+    speaker: 'Lady Fantastique',
+    text: "Cash? That's the buyout advance, I'd bet my career on it. Carl funneled money to Duke Extreme to pressure Los Cabos. When pressure didn't work... someone escalated. And now Los Cabos is dead.",
+    nextNodeId: 'lady-room-root',
+  },
+  'lady-room-wine-react': {
+    id: 'lady-room-wine-react',
+    speaker: 'Lady Fantastique',
+    text: "Carl ordered that specific wine for Los Cabos. He made a point of it — 'only the best for our host.' But what if the wine was always part of the plan? Drug him first, then... *shudders* It's too horrible to think about.",
+    nextNodeId: 'lady-room-root',
+  },
+};
+
+const ladyRoomEvidenceOptions: EvidenceOption[] = [
+  { flag: 'daggerTaken', option: { text: "Take another look at this dagger. Notice anything new?", nextNodeId: 'lady-room-dagger-react' } },
+  { flag: 'drawerOpened', option: { text: "About that threatening note — do you recognize the handwriting?", nextNodeId: 'lady-room-note-react' } },
+  { flag: 'photoTaken', option: { text: "I found this torn photograph. Recognize anyone?", nextNodeId: 'lady-room-photo-react' } },
+  { flag: 'wineGlassTaken', option: { text: "The drugged wine — Carl ordered it specifically for Los Cabos, didn't he?", nextNodeId: 'lady-room-wine-react' } },
+  { flag: 'moneyBagTaken', option: { text: "About that cash in Duke Extreme's room — where do you think it came from?", nextNodeId: 'lady-room-money-bag-react' } },
+];
+
 // ─── EVIDENCE-AWARE OPTION BUILDERS ───────────────────────────────
 
 interface EvidenceOption {
@@ -827,6 +1025,10 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
     case 'carl':
       return buildDynamicRoot(carlTree['carl-root'], carlEvidenceOptions, flags);
     case 'lady':
+      // Use room-specific dialog when Lady Fantastique has relocated
+      if (flags.handkerchiefTaken) {
+        return buildDynamicRoot(ladyRoomTree['lady-room-root'], ladyRoomEvidenceOptions, flags);
+      }
       return buildDynamicRoot(ladyTree['lady-root'], ladyEvidenceOptions, flags);
     case 'el-fuego':
       return buildDynamicRoot(elFuegoTree['fuego-root'], fuegoEvidenceOptions, flags);
@@ -843,5 +1045,5 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
  * Looks up a dialog node by ID across all character trees.
  */
 export function getDialogNodeById(nodeId: string): DialogNode | null {
-  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? chefAllegroTree[nodeId] ?? sallyTree[nodeId] ?? null;
+  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? chefAllegroTree[nodeId] ?? sallyTree[nodeId] ?? ladyRoomTree[nodeId] ?? null;
 }
