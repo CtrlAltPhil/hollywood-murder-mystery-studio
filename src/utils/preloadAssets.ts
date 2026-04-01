@@ -77,7 +77,7 @@ export const assetManifest: Record<string, string[]> = {
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
-  "parking-lot": [parkingLotBg],
+  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg],
 };
 
 // Get all assets as a flat array
