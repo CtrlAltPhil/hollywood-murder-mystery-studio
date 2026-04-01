@@ -66,7 +66,7 @@ export function ParkingLotScene({
           }
           if (!photoTaken) {
             setFlag("photoTaken", true);
-            onAddToInventory({ id: "torn_photograph", name: "Torn Photograph", image: "" });
+            onAddToInventory({ id: "torn_photograph", name: "Torn Photograph", image: tornPhotoImg });
             return "I grab the torn photograph. It shows two men shaking hands over a contract. One of them looks like... Carl? The other face is torn away.";
           }
           return "I've already taken everything from the trunk.";
