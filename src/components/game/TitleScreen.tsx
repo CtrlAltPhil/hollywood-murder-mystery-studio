@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import gbStudiosBackground from '@/assets/backgrounds/gb-studios.jpg';
-import { GameMenu } from './GameMenu';
-import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
+import { useState, useEffect, useCallback } from "react";
+import gbStudiosBackground from "@/assets/backgrounds/gb-studios.jpg";
+import { GameMenu } from "./GameMenu";
+import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
 
 interface TitleScreenProps {
   onStart: () => void;
@@ -17,10 +17,17 @@ interface TitleScreenProps {
   onDebugModeToggle: (v: boolean) => void;
 }
 
-export function TitleScreen({ 
-  onStart, onLoadGame, musicVolume, sfxVolume, brightness,
-  onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange,
-  debugMode, onDebugModeToggle
+export function TitleScreen({
+  onStart,
+  onLoadGame,
+  musicVolume,
+  sfxVolume,
+  brightness,
+  onMusicVolumeChange,
+  onSfxVolumeChange,
+  onBrightnessChange,
+  debugMode,
+  onDebugModeToggle,
 }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
   const [carPosition, setCarPosition] = useState(-250);
@@ -63,7 +70,7 @@ export function TitleScreen({
         const t3 = setTimeout(() => setShowLightning(false), 100);
         flickerTimeouts.push(t3);
       }, 200);
-      
+
       flickerTimeouts.push(t1, t2);
       const nextDelay = 2000 + Math.random() * 5000;
       timeoutId = setTimeout(triggerLightning, nextDelay);
@@ -90,7 +97,7 @@ export function TitleScreen({
         setCarPosition(-250);
         lastSpawnTime = now;
       } else {
-        setCarPosition(prev => {
+        setCarPosition((prev) => {
           if (prev > window.innerWidth + 250) return prev;
           return prev + 3;
         });
@@ -102,23 +109,23 @@ export function TitleScreen({
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const hasSaveData = !!localStorage.getItem('hmm_save_game');
+  const hasSaveData = !!localStorage.getItem("hmm_save_game");
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-background">
       {/* Background Image */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center pixelated"
-        style={{ 
+        style={{
           backgroundImage: `url(${gbStudiosBackground})`,
-          filter: 'brightness(0.9) contrast(1.05)',
+          filter: "brightness(0.9) contrast(1.05)",
         }}
       />
 
       {/* Lightning Flash Overlay */}
-      <div 
+      <div
         className={`absolute inset-0 bg-[hsl(var(--game-lightning))] pointer-events-none transition-opacity duration-75 ${
-          showLightning ? 'opacity-50' : 'opacity-0'
+          showLightning ? "opacity-50" : "opacity-0"
         }`}
       />
 
@@ -127,14 +134,19 @@ export function TitleScreen({
 
       {/* Menu Button */}
       <div className="absolute top-4 right-4 z-40">
-        <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)} className="text-white/50 hover:text-white hover:bg-white/10">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setIsMenuOpen(true)}
+          className="text-white/50 hover:text-white hover:bg-white/10"
+        >
           <Settings className="w-6 h-6" />
         </Button>
       </div>
 
       {/* Menu Overlay */}
       {isMenuOpen && (
-        <GameMenu 
+        <GameMenu
           onResume={() => setIsMenuOpen(false)}
           onSave={() => {}}
           onRestart={() => {}}
@@ -152,10 +164,7 @@ export function TitleScreen({
       )}
 
       {/* Car Silhouette */}
-      <div 
-        className="absolute bottom-[2%] h-16 transition-none"
-        style={{ left: carPosition }}
-      >
+      <div className="absolute bottom-[2%] h-16 transition-none" style={{ left: carPosition }}>
         <div className="relative">
           <div className="w-48 h-12 bg-[hsl(220,20%,15%)] rounded-t-xl relative">
             <div className="absolute -top-6 left-8 w-28 h-8 bg-[hsl(220,20%,12%)] rounded-t-lg" />
@@ -169,9 +178,7 @@ export function TitleScreen({
 
       {/* Title */}
       <div className="absolute top-[8%] left-0 right-0 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-wider title-glow text-yellow-400">
-          HOLLYWOOD
-        </h1>
+        <h1 className="text-4xl md:text-6xl font-bold tracking-wider title-glow text-yellow-400">HOLLYWOOD</h1>
         <h2 className="text-5xl md:text-7xl font-bold tracking-widest title-glow text-yellow-400 mt-2">
           MURDER MYSTERY
         </h2>
@@ -197,21 +204,21 @@ export function TitleScreen({
 
       {/* Fireflies */}
       {[
-        { id: 'ff-easter', x: 8, y: 62, delay: 0, isEasterEgg: true },
-        { id: 'ff2', x: 11, y: 58, delay: 1.2, isEasterEgg: false },
-        { id: 'ff3', x: 14, y: 65, delay: 0.6, isEasterEgg: false },
-        { id: 'ff4', x: 88, y: 60, delay: 0.3, isEasterEgg: false },
-        { id: 'ff5', x: 91, y: 64, delay: 1.5, isEasterEgg: false },
-        { id: 'ff6', x: 85, y: 57, delay: 0.9, isEasterEgg: false },
+        { id: "ff-easter", x: 8, y: 62, delay: 0, isEasterEgg: true },
+        { id: "ff2", x: 11, y: 58, delay: 1.2, isEasterEgg: false },
+        { id: "ff3", x: 14, y: 65, delay: 0.6, isEasterEgg: false },
+        { id: "ff4", x: 88, y: 60, delay: 0.3, isEasterEgg: false },
+        { id: "ff5", x: 91, y: 64, delay: 1.5, isEasterEgg: false },
+        { id: "ff6", x: 85, y: 57, delay: 0.9, isEasterEgg: false },
       ].map((ff) => (
         <div
           key={ff.id}
-          className={`absolute w-2 h-2 rounded-full ${ff.isEasterEgg ? 'cursor-pointer z-20' : 'pointer-events-none'}`}
+          className={`absolute w-4 h-4 rounded-full ${ff.isEasterEgg ? "cursor-pointer z-20" : "pointer-events-none"}`}
           style={{
             left: `${ff.x}%`,
             top: `${ff.y}%`,
-            background: 'radial-gradient(circle, hsl(55, 90%, 75%) 0%, hsl(45, 80%, 50%, 0) 70%)',
-            boxShadow: '0 0 6px 3px hsl(50, 90%, 60%, 0.4)',
+            background: "radial-gradient(circle, hsl(55, 90%, 75%) 0%, hsl(45, 80%, 50%, 0) 70%)",
+            boxShadow: "0 0 6px 3px hsl(50, 90%, 60%, 0.4)",
             animation: `fireflyFloat 3s ease-in-out ${ff.delay}s infinite alternate, fireflyGlow 2s ease-in-out ${ff.delay}s infinite alternate`,
           }}
           onClick={ff.isEasterEgg ? handleFireflyClick : undefined}
@@ -227,25 +234,23 @@ export function TitleScreen({
 
       {/* Easter Egg Modal */}
       {easterEggVisible && (
-        <div 
+        <div
           className="absolute inset-0 z-50 flex items-center justify-center bg-black/80"
           onClick={() => setEasterEggVisible(false)}
         >
-          <div 
+          <div
             className="max-w-md mx-4 p-6 border-2 border-yellow-400/60 rounded-lg text-center"
-            style={{ background: 'linear-gradient(135deg, hsl(220, 30%, 12%), hsl(260, 20%, 15%))' }}
+            style={{ background: "linear-gradient(135deg, hsl(220, 30%, 12%), hsl(260, 20%, 15%))" }}
             onClick={(e) => e.stopPropagation()}
           >
-            <p className="text-yellow-400 text-xs leading-relaxed font-pixel mb-4">
-              ✨ You found a secret! ✨
-            </p>
+            <p className="text-yellow-400 text-xs leading-relaxed font-pixel mb-4">✨ You found a secret! ✨</p>
             <p className="text-yellow-200/90 text-[10px] leading-relaxed font-pixel mb-4">
-              This game was crafted by Lucas — a storyteller at heart who believes every mystery deserves to be unraveled, 
-              every character deserves a voice, and every late night spent writing dialogue is worth it if it makes someone smile. 
-              From point-and-click adventures to campfire tales, Lucas has always loved weaving stories that pull you in 
-              and never quite let go. Thanks for playing. 💛
+              This game was crafted by Lucas — a storyteller at heart who believes every mystery deserves to be
+              unraveled, every character deserves a voice, and every late night spent writing dialogue is worth it if it
+              makes someone smile. From point-and-click adventures to campfire tales, Lucas has always loved weaving
+              stories that pull you in and never quite let go. Thanks for playing. 💛
             </p>
-            <button 
+            <button
               onClick={() => setEasterEggVisible(false)}
               className="text-yellow-400 text-[10px] font-pixel hover:text-yellow-300 cursor-pointer"
             >
@@ -256,9 +261,10 @@ export function TitleScreen({
       )}
 
       {/* Vignette Effect */}
-      <div className="absolute inset-0 pointer-events-none" 
+      <div
+        className="absolute inset-0 pointer-events-none"
         style={{
-          boxShadow: 'inset 0 0 100px 30px hsl(220, 30%, 5%)',
+          boxShadow: "inset 0 0 100px 30px hsl(220, 30%, 5%)",
         }}
       />
 
