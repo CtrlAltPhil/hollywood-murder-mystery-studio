@@ -3,12 +3,16 @@ import { DialogNode, DialogOption } from '@/types/game';
 
 interface DialogBoxProps {
   node: DialogNode;
+  isRevisit?: boolean;
   onOptionSelect: (option: DialogOption) => void;
   onContinue: () => void;
   playDialogBlip?: (speaker: string) => void;
 }
 
-export function DialogBox({ node, onOptionSelect, onContinue, playDialogBlip }: DialogBoxProps) {
+export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDialogBlip }: DialogBoxProps) {
+  // Use shortText on revisit if available
+  const activeText = isRevisit && node.shortText ? node.shortText : node.text;
+
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
 
@@ -19,24 +23,24 @@ export function DialogBox({ node, onOptionSelect, onContinue, playDialogBlip }: 
     let index = 0;
     const interval = setInterval(() => {
       index++;
-      setDisplayedText(node.text.slice(0, index));
-      if (playDialogBlip && node.text[index - 1] !== ' ') {
+      setDisplayedText(activeText.slice(0, index));
+      if (playDialogBlip && activeText[index - 1] !== ' ') {
         playDialogBlip(node.speaker);
       }
-      if (index >= node.text.length) {
+      if (index >= activeText.length) {
         clearInterval(interval);
         setIsTyping(false);
       }
     }, 30);
     return () => clearInterval(interval);
-  }, [node.id, node.text]);
+  }, [node.id, activeText]);
 
   const skipTyping = useCallback(() => {
     if (isTyping) {
-      setDisplayedText(node.text);
+      setDisplayedText(activeText);
       setIsTyping(false);
     }
-  }, [isTyping, node.text]);
+  }, [isTyping, activeText]);
 
   const hasOptions = node.options && node.options.length > 0;
 

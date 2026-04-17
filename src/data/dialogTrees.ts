@@ -9,6 +9,7 @@ const carlTree: DialogTree = {
     id: 'carl-root',
     speaker: 'Carl',
     text: "Hmm? Oh, you want to talk. Fine. What do you want to know?",
+    shortText: "What else?",
     options: [
       { text: "What were you doing when the lights went out?", nextNodeId: 'carl-alibi' },
       { text: "Did you see anything suspicious?", nextNodeId: 'carl-suspicious' },
@@ -23,7 +24,7 @@ const carlTree: DialogTree = {
     options: [
       { text: "Can anyone confirm that?", nextNodeId: 'carl-confirm' },
       { text: "That's convenient — no witnesses.", nextNodeId: 'carl-defensive' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-confirm': {
@@ -45,7 +46,7 @@ const carlTree: DialogTree = {
     options: [
       { text: "What were they arguing about?", nextNodeId: 'carl-lady-argument' },
       { text: "Anyone else acting strange?", nextNodeId: 'carl-elfuego-note' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-lady-argument': {
@@ -66,7 +67,7 @@ const carlTree: DialogTree = {
     text: "Business. Purely business. Los Cabos and I co-produced three films together. He handled the creative, I handled the money. A perfectly functional arrangement.",
     options: [
       { text: "Was the arrangement still 'functional'?", nextNodeId: 'carl-money' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-money': {
@@ -84,7 +85,7 @@ const carlTree: DialogTree = {
     options: [
       { text: "Who had access to the prop room?", nextNodeId: 'carl-prop-room' },
       { text: "Your fingerprints might be on it.", nextNodeId: 'carl-fingerprints' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-prop-room': {
@@ -107,7 +108,7 @@ const carlTree: DialogTree = {
     options: [
       { text: "Who made the offer?", nextNodeId: 'carl-note-offer' },
       { text: "You're his business partner. Did YOU want him to take the deal?", nextNodeId: 'carl-note-accusation' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-note-offer': {
@@ -130,7 +131,7 @@ const carlTree: DialogTree = {
     options: [
       { text: "You ordered a specific wine just for him? That's suspicious.", nextNodeId: 'carl-wine-suspicious' },
       { text: "Who else handled the wine before it reached him?", nextNodeId: 'carl-wine-handled' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-wine-suspicious': {
@@ -153,7 +154,7 @@ const carlTree: DialogTree = {
     options: [
       { text: "Could it be connected to the buyout offer?", nextNodeId: 'carl-money-bag-buyout' },
       { text: "You handle the finances. Is money missing from the studio?", nextNodeId: 'carl-money-bag-missing' },
-      { text: "I have more questions.", nextNodeId: 'carl-root' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
   'carl-money-bag-buyout': {
@@ -176,6 +177,7 @@ const ladyTree: DialogTree = {
     id: 'lady-root',
     speaker: 'Lady Fantastique',
     text: "*sniff* I still can't believe this is happening... What do you want?",
+    shortText: "Yes, darling?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'lady-alibi' },
       { text: "Someone said you were arguing with Los Cabos earlier.", nextNodeId: 'lady-argument' },
@@ -190,7 +192,7 @@ const ladyTree: DialogTree = {
     options: [
       { text: "How long were you in the restroom?", nextNodeId: 'lady-timeline' },
       { text: "Did you see anyone on the way back?", nextNodeId: 'lady-saw-someone' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-timeline': {
@@ -199,7 +201,7 @@ const ladyTree: DialogTree = {
     text: "I don't know... five minutes? Ten? I wasn't watching the clock. Why does it matter?",
     options: [
       { text: "That's a long time to be freshening up during a party.", nextNodeId: 'lady-pressed' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-pressed': {
@@ -221,7 +223,7 @@ const ladyTree: DialogTree = {
     options: [
       { text: "That sounds like a pretty strong motive.", nextNodeId: 'lady-motive' },
       { text: "Who did he give the role to?", nextNodeId: 'lady-role' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-motive': {
@@ -251,7 +253,7 @@ const ladyTree: DialogTree = {
     options: [
       { text: "You designed it? So you knew exactly where it was kept.", nextNodeId: 'lady-dagger-defense' },
       { text: "Who could have sharpened it?", nextNodeId: 'lady-dagger-sharpened' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-dagger-defense': {
@@ -274,7 +276,7 @@ const ladyTree: DialogTree = {
     options: [
       { text: "Selling? Selling the studio?", nextNodeId: 'lady-note-selling' },
       { text: "You seem to know more than you're letting on.", nextNodeId: 'lady-note-pressed' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-note-selling': {
@@ -297,7 +299,7 @@ const ladyTree: DialogTree = {
     options: [
       { text: "Did you see who gave him the glass?", nextNodeId: 'lady-wine-who' },
       { text: "You noticed he was unwell and didn't say anything?", nextNodeId: 'lady-wine-guilt' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-wine-who': {
@@ -320,7 +322,7 @@ const ladyTree: DialogTree = {
     options: [
       { text: "Maybe someone paid him to do something.", nextNodeId: 'lady-money-bag-paid' },
       { text: "He borrowed money from you too?", nextNodeId: 'lady-money-bag-borrow' },
-      { text: "I have more questions.", nextNodeId: 'lady-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
   'lady-money-bag-paid': {
@@ -343,6 +345,7 @@ const elFuegoTree: DialogTree = {
     id: 'fuego-root',
     speaker: 'Duke Extreme',
     text: "¡Ay, this is terrible! Terrible! What— what do you want to ask me?",
+    shortText: "Yeah? What now?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'fuego-alibi' },
       { text: "You seem really nervous. Why?", nextNodeId: 'fuego-nervous' },
@@ -357,7 +360,7 @@ const elFuegoTree: DialogTree = {
     options: [
       { text: "The kitchen is pretty close to where the body was found.", nextNodeId: 'fuego-proximity' },
       { text: "Anyone see you in the kitchen?", nextNodeId: 'fuego-witness' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-proximity': {
@@ -378,7 +381,7 @@ const elFuegoTree: DialogTree = {
     text: "NERVOUS?! A man is DEAD! Of course I'm nervous! Wouldn't you be?! ...I just... I have a bad feeling someone in this room did it.",
     options: [
       { text: "Do you suspect someone specific?", nextNodeId: 'fuego-suspect' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-suspect': {
@@ -393,7 +396,7 @@ const elFuegoTree: DialogTree = {
     text: "Los Cabos gave me my break in Hollywood. Stunt coordinator on 'Midnight in Marrakech.' I owe— I OWED him everything. Why would I hurt him?",
     options: [
       { text: "I heard he was going to cut you from the next project.", nextNodeId: 'fuego-cut' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-cut': {
@@ -411,7 +414,7 @@ const elFuegoTree: DialogTree = {
     options: [
       { text: "You're the stunt coordinator. You had the most access to these weapons.", nextNodeId: 'fuego-dagger-access' },
       { text: "Who else could have taken it from the prop room?", nextNodeId: 'fuego-dagger-who' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-dagger-access': {
@@ -434,7 +437,7 @@ const elFuegoTree: DialogTree = {
     options: [
       { text: "You seem to recognize it. Did you write this?", nextNodeId: 'fuego-note-wrote' },
       { text: "It was in Los Cabos' desk. About a business offer. Know anything?", nextNodeId: 'fuego-note-offer' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-note-wrote': {
@@ -443,7 +446,7 @@ const elFuegoTree: DialogTree = {
     text: "NO! No no no! I didn't write that! I can't even— my handwriting is terrible, ask anyone! Look, I heard rumors about some deal, but I had nothing to do with this!",
     options: [
       { text: "What rumors?", nextNodeId: 'fuego-note-rumors' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-note-rumors': {
@@ -466,7 +469,7 @@ const elFuegoTree: DialogTree = {
     options: [
       { text: "Focus. Did you see anyone near Los Cabos' drink?", nextNodeId: 'fuego-wine-near' },
       { text: "You were in the kitchen all night. Did you see anyone tampering with drinks?", nextNodeId: 'fuego-wine-kitchen' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-wine-near': {
@@ -489,7 +492,7 @@ const elFuegoTree: DialogTree = {
     options: [
       { text: "Where did you get a bag full of cash, Duke?", nextNodeId: 'fuego-money-bag-where' },
       { text: "Someone paid you, didn't they? To 'convince' Los Cabos?", nextNodeId: 'fuego-money-bag-paid' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-money-bag-where': {
@@ -498,7 +501,7 @@ const elFuegoTree: DialogTree = {
     text: "It's— it's my savings! From stunt work! I've been saving for years! ...Okay, fine. Someone gave it to me. An advance. For a job. A LEGITIMATE job! Consulting work!",
     options: [
       { text: "Consulting for the people trying to buy the studio?", nextNodeId: 'fuego-money-bag-consulting' },
-      { text: "I have more questions.", nextNodeId: 'fuego-root' },
+      { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
   'fuego-money-bag-consulting': {
@@ -521,6 +524,7 @@ const chefAllegroTree: DialogTree = {
     id: 'chef-root',
     speaker: 'Chef Allegro',
     text: "Ah, welcome to my kitchen! Well... not the best night for a visit, eh? What can I do for you?",
+    shortText: "Anything else, eh?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'chef-alibi' },
       { text: "Did you notice anything unusual tonight?", nextNodeId: 'chef-unusual' },
@@ -534,7 +538,7 @@ const chefAllegroTree: DialogTree = {
     text: "Right here! In my kitchen! Where else would I be? I was preparing the next course — a magnificent bouillabaisse. Then the lights went out and everything went to chaos.",
     options: [
       { text: "Was anyone else in the kitchen with you?", nextNodeId: 'chef-witness' },
-      { text: "I have more questions.", nextNodeId: 'chef-root' },
+      { text: "Back to questions.", nextNodeId: 'chef-root' },
     ],
   },
   'chef-witness': {
@@ -550,7 +554,7 @@ const chefAllegroTree: DialogTree = {
     options: [
       { text: "What time was this?", nextNodeId: 'chef-time' },
       { text: "Could it have been one of the guests?", nextNodeId: 'chef-guest' },
-      { text: "I have more questions.", nextNodeId: 'chef-root' },
+      { text: "Back to questions.", nextNodeId: 'chef-root' },
     ],
   },
   'chef-time': {
@@ -571,7 +575,7 @@ const chefAllegroTree: DialogTree = {
     text: "Only the finest! Bruschetta, stuffed mushrooms, the wine selection was personally curated by Mr. Los Cabos himself. He had... very specific tastes. God rest his soul.",
     options: [
       { text: "Did anyone ask you to prepare anything special?", nextNodeId: 'chef-special' },
-      { text: "I have more questions.", nextNodeId: 'chef-root' },
+      { text: "Back to questions.", nextNodeId: 'chef-root' },
     ],
   },
   'chef-special': {
@@ -589,7 +593,7 @@ const chefAllegroTree: DialogTree = {
     options: [
       { text: "Walk me through exactly what happened with the wine.", nextNodeId: 'chef-wine-walkthrough' },
       { text: "Who touched the glass after you poured it?", nextNodeId: 'chef-wine-touched' },
-      { text: "I have more questions.", nextNodeId: 'chef-root' },
+      { text: "Back to questions.", nextNodeId: 'chef-root' },
     ],
   },
   'chef-wine-walkthrough': {
@@ -598,7 +602,7 @@ const chefAllegroTree: DialogTree = {
     text: "Carl gave me the bottle — a 1987 Château Margaux. I opened it, let it breathe. Sally poured it into a glass. She put it on the tray with the others. Then... I went back to my stove. The tray sat on the counter for a few minutes before anyone took it out.",
     options: [
       { text: "A few minutes unattended. That's long enough to spike it.", nextNodeId: 'chef-wine-unattended' },
-      { text: "I have more questions.", nextNodeId: 'chef-root' },
+      { text: "Back to questions.", nextNodeId: 'chef-root' },
     ],
   },
   'chef-wine-unattended': {
@@ -621,7 +625,7 @@ const chefAllegroTree: DialogTree = {
     options: [
       { text: "Did Los Cabos ever seem worried or scared to you?", nextNodeId: 'chef-note-worried' },
       { text: "Did you ever overhear anything about a business deal?", nextNodeId: 'chef-note-business' },
-      { text: "I have more questions.", nextNodeId: 'chef-root' },
+      { text: "Back to questions.", nextNodeId: 'chef-root' },
     ],
   },
   'chef-note-worried': {
@@ -644,6 +648,7 @@ const sallyTree: DialogTree = {
     id: 'sally-root',
     speaker: 'Sous Chef Sally',
     text: "*chopping vegetables aggressively* What? I'm busy. Make it quick.",
+    shortText: "What now?",
     options: [
       { text: "Where were you when the murder happened?", nextNodeId: 'sally-alibi' },
       { text: "You seem on edge. Everything okay?", nextNodeId: 'sally-edge' },
@@ -657,7 +662,7 @@ const sallyTree: DialogTree = {
     text: "In the kitchen. With Chef Allegro. Prepping food. Where else would I be? I'm the sous chef — I don't exactly get to mingle with the guests.",
     options: [
       { text: "Did you leave the kitchen at any point?", nextNodeId: 'sally-left' },
-      { text: "I have more questions.", nextNodeId: 'sally-root' },
+      { text: "Back to questions.", nextNodeId: 'sally-root' },
     ],
   },
   'sally-left': {
@@ -672,7 +677,7 @@ const sallyTree: DialogTree = {
     text: "Of course I'm on edge! Someone got murdered twenty feet from my kitchen! And now everyone's a suspect. Including me, apparently.",
     options: [
       { text: "Did you know Los Cabos personally?", nextNodeId: 'sally-personal' },
-      { text: "I have more questions.", nextNodeId: 'sally-root' },
+      { text: "Back to questions.", nextNodeId: 'sally-root' },
     ],
   },
   'sally-personal': {
@@ -694,7 +699,7 @@ const sallyTree: DialogTree = {
     text: "That's... that's not a kitchen knife. That's a prop. I've seen it in the production room before. Someone took it from the display case.",
     options: [
       { text: "How do you know it's from the production room?", nextNodeId: 'sally-dagger-how' },
-      { text: "I have more questions.", nextNodeId: 'sally-root' },
+      { text: "Back to questions.", nextNodeId: 'sally-root' },
     ],
   },
   'sally-dagger-how': {
@@ -711,7 +716,7 @@ const sallyTree: DialogTree = {
     options: [
       { text: "The glass sat on the counter for a while. Who was near it?", nextNodeId: 'sally-wine-counter' },
       { text: "You carried the tray out. Could someone have added something then?", nextNodeId: 'sally-wine-tray' },
-      { text: "I have more questions.", nextNodeId: 'sally-root' },
+      { text: "Back to questions.", nextNodeId: 'sally-root' },
     ],
   },
   'sally-wine-counter': {
@@ -733,7 +738,7 @@ const sallyTree: DialogTree = {
     text: "'Decline the offer or else'? ...That's dark. Mr. Los Cabos never mentioned anything like that to me. But I DID see Carl and Duke Extreme whispering together in the hallway last week. They went quiet the second they saw me.",
     options: [
       { text: "Carl and Duke Extreme together? What do you think they were planning?", nextNodeId: 'sally-note-planning' },
-      { text: "I have more questions.", nextNodeId: 'sally-root' },
+      { text: "Back to questions.", nextNodeId: 'sally-root' },
     ],
   },
   'sally-note-planning': {
@@ -750,6 +755,7 @@ const ladyRoomTree: DialogTree = {
     id: 'lady-room-root',
     speaker: 'Lady Fantastique',
     text: "*sitting on the edge of the bed, eyes red* I needed some space. This room... it's the only place that still feels safe. What do you want?",
+    shortText: "More questions?",
     options: [
       { text: "Why did you come back to your room?", nextNodeId: 'lady-room-why' },
       { text: "Tell me more about your history with Los Cabos.", nextNodeId: 'lady-room-history' },
@@ -764,7 +770,7 @@ const ladyRoomTree: DialogTree = {
     options: [
       { text: "You think Carl isn't bothered by the murder?", nextNodeId: 'lady-room-carl-cold' },
       { text: "Were you and Los Cabos more than colleagues?", nextNodeId: 'lady-room-romantic' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-carl-cold': {
@@ -773,7 +779,7 @@ const ladyRoomTree: DialogTree = {
     text: "Bothered? The man didn't even flinch! His business partner is dead on the floor and Carl's calculating his next move. That's not grief — that's an opportunity to him. It makes me sick.",
     options: [
       { text: "Has Carl always been like that?", nextNodeId: 'lady-room-carl-always' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-carl-always': {
@@ -788,7 +794,7 @@ const ladyRoomTree: DialogTree = {
     text: "*long pause* ...We had something, once. Years ago, before he became the big star director. He was kind back then. Gentle. But Hollywood changes people. He chose his career over us. I never forgave him for that.",
     options: [
       { text: "Is that why you argued with him tonight?", nextNodeId: 'lady-room-argument-detail' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-argument-detail': {
@@ -804,7 +810,7 @@ const ladyRoomTree: DialogTree = {
     options: [
       { text: "Did you resent him for that?", nextNodeId: 'lady-room-resent' },
       { text: "What about his partnership with Carl?", nextNodeId: 'lady-room-carl-partnership' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-resent': {
@@ -819,7 +825,7 @@ const ladyRoomTree: DialogTree = {
     text: "Carl came along about five years ago. Brought the money. But something was always off about that man. He appeared out of nowhere with deep pockets and a fake smile. Nobody even knows his real background. He just... showed up.",
     options: [
       { text: "Fake smile? You don't trust Carl?", nextNodeId: 'lady-room-carl-trust' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-carl-trust': {
@@ -846,7 +852,7 @@ const ladyRoomTree: DialogTree = {
     options: [
       { text: "How did you find out?", nextNodeId: 'lady-room-luke-how' },
       { text: "Why would he hide his real name?", nextNodeId: 'lady-room-luke-why' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-luke-vague': {
@@ -856,7 +862,7 @@ const ladyRoomTree: DialogTree = {
     onEnter: { flag: 'lukeAdamsRevealed' },
     options: [
       { text: "Why would Carl hide his identity?", nextNodeId: 'lady-room-luke-why' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-luke-how': {
@@ -865,7 +871,7 @@ const ladyRoomTree: DialogTree = {
     text: "I found old documents in the studio safe last year. A birth certificate, a name change filing. 'Luke Adams' became 'Carl' — just Carl, no surname. Like Madonna or Cher, but for a con man. When I confronted him, he threatened to ruin my career if I told anyone.",
     options: [
       { text: "He threatened you? That sounds like motive.", nextNodeId: 'lady-room-luke-threat' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-luke-threat': {
@@ -888,7 +894,7 @@ const ladyRoomTree: DialogTree = {
     text: "You brought that HERE? *recoils* ...Wait. Look at the handle. See those scratches? Someone filed off an inscription. The original props all had the film title engraved. Whoever sharpened this tried to hide its origin.",
     options: [
       { text: "Carl said he handled the props. Could he have done this?", nextNodeId: 'lady-room-dagger-carl' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-dagger-carl': {
@@ -904,7 +910,7 @@ const ladyRoomTree: DialogTree = {
     onEnter: { flag: 'carlHandwritingClue' },
     options: [
       { text: "You're saying Carl wrote this threatening note?", nextNodeId: 'lady-room-note-carl' },
-      { text: "I have more questions.", nextNodeId: 'lady-room-root' },
+      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-note-carl': {

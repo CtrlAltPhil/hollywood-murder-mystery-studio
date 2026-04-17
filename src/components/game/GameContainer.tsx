@@ -62,6 +62,9 @@ export function GameContainer() {
 
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const lastLoggedNodeId = useRef<string | null>(null);
+  const visitedDialogNodes = useRef<Set<string>>(new Set());
+  const currentDialogSpeaker = useRef<string | null>(null);
+  const [isCurrentNodeRevisit, setIsCurrentNodeRevisit] = useState(false);
 
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
@@ -100,17 +103,37 @@ export function GameContainer() {
     }
   }, [gameState.phase, crashPlayed, playSfx]);
 
-  // Auto-log dialogue when a new dialog node appears
+  // Auto-log dialogue when a new dialog node appears, and track visited nodes per conversation
   useEffect(() => {
     const node = gameState.dialogState.currentNode;
-    if (node && node.id !== lastLoggedNodeId.current) {
-      lastLoggedNodeId.current = node.id;
-      logDialogue(node.speaker, node.text);
-    }
-    if (!node) {
+    const character = gameState.dialogState.character;
+
+    if (node) {
+      // Reset visited set when conversation starts or speaker changes
+      if (currentDialogSpeaker.current !== (character?.id ?? null)) {
+        visitedDialogNodes.current = new Set();
+        currentDialogSpeaker.current = character?.id ?? null;
+      }
+
+      // Treat any node sharing the same base id (e.g. "carl-root" vs "carl-root-dynamic") as the same
+      const baseId = node.id.replace(/-dynamic$/, '');
+      const wasVisited = visitedDialogNodes.current.has(baseId);
+      setIsCurrentNodeRevisit(wasVisited && !!node.shortText);
+      visitedDialogNodes.current.add(baseId);
+
+      if (node.id !== lastLoggedNodeId.current) {
+        lastLoggedNodeId.current = node.id;
+        // Log the text the player will actually see
+        const loggedText = wasVisited && node.shortText ? node.shortText : node.text;
+        logDialogue(node.speaker, loggedText);
+      }
+    } else {
       lastLoggedNodeId.current = null;
+      visitedDialogNodes.current = new Set();
+      currentDialogSpeaker.current = null;
+      setIsCurrentNodeRevisit(false);
     }
-  }, [gameState.dialogState.currentNode, logDialogue]);
+  }, [gameState.dialogState.currentNode, gameState.dialogState.character, logDialogue]);
 
   const handleMusicVolumeChange = (v: number) => {
     setMusicVolume(v);
@@ -516,6 +539,7 @@ export function GameContainer() {
           {gameState.dialogState.isActive && gameState.dialogState.currentNode && (
             <DialogBox
               node={gameState.dialogState.currentNode}
+              isRevisit={isCurrentNodeRevisit}
               onOptionSelect={(option) => {
                 if (option.onSelect) option.onSelect();
                 // Sally gets angry when accused, reverts after 3 seconds

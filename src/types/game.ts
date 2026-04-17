@@ -50,6 +50,7 @@ export interface DialogNode {
   id: string;
   speaker: string;
   text: string;
+  shortText?: string; // shown when revisiting this node within the same conversation
   options?: DialogOption[];
   nextNodeId?: string | null;
   onEnter?: { flag: string };
