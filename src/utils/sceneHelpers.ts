@@ -43,14 +43,21 @@ export function handleSceneHotspotClick(
     }
   }
   // Default: doors auto-open when no verb selected
-  if (
-    !verb &&
-    hotspot.interactions.open &&
-    typeof hotspot.interactions.open === "string" &&
-    (hotspot.interactions.open as string).startsWith("__NAVIGATE__")
-  ) {
-    onChangeRoom((hotspot.interactions.open as string).replace("__NAVIGATE__", ""));
-    return;
+  if (!verb && hotspot.interactions.open) {
+    const openInteraction = hotspot.interactions.open;
+    if (typeof openInteraction === "string") {
+      if (openInteraction.startsWith("__NAVIGATE__")) {
+        onChangeRoom(openInteraction.replace("__NAVIGATE__", ""));
+        return;
+      }
+      // Blocked door (or other open-with-message): forward as if 'open' verb was selected
+      onHotspotClick({ ...hotspot, __defaultVerb: "open" } as SimpleHotspot);
+      return;
+    }
+    if (typeof openInteraction === "function") {
+      onHotspotClick({ ...hotspot, __defaultVerb: "open" } as SimpleHotspot);
+      return;
+    }
   }
   onHotspotClick(hotspot);
 }
