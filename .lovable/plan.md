@@ -1,45 +1,60 @@
 
 
-# Parking Lot Scene + NPC Relocation
+## Problem
+When a dialogue branch ends with `nextNodeId: 'carl-root'`, the player is returned to the root node and the character's full intro line ("Hmm? Oh, you want to talk. Fine. What do you want to know?") is typed out again — slow and repetitive.
 
-## What We're Building
+## Solution: "Return to options" without re-typing
 
-1. **New Parking Lot scene** accessible from the Backyard (right side exit), containing:
-   - **Duke Extreme's car** — vanity plate "XTRM DUK", open trunk with a **monogrammed handkerchief** (initials "L.A." — Luke Adams, Carl's alias) and a **torn photograph**
-   - **Police vehicle** — the player's car, with hotspot interactions ("My cruiser. At least it's still in one piece.")
-   - **Dumpster** — red herring (crumpled deal memo)
-   - **Security camera** — cable cut cleanly (ties to wire cutters evidence)
-   - **Oil stain** — beneath Duke's car, suggests recent activity
+Introduce a lightweight **re-prompt** mechanism that shows the root's option list again with a short, varied filler line (or no typing at all) instead of replaying the full intro.
 
-2. **New inventory items**:
-   - `monogrammed_handkerchief` — initials "L.A." ; picking it up sets flag `handkerchiefTaken`
-   - `torn_photograph` — shows two people at a signing; sets flag `photoTaken`
+### Approach
 
-3. **NPC relocation logic**: Once `handkerchiefTaken` is true, Lady Fantastique moves from her current location (Breakroom) to her room. This will be handled by checking the flag in the Breakroom scene (hide her character hotspot) and ensuring she appears in `LadyFantastiqueRoomScene`.
+Add an optional `shortText` field to `DialogNode` in `src/types/game.ts`. When the dialog system navigates to a node that has already been visited in the current conversation, `DialogBox` renders `shortText` (e.g. "Anything else?") instead of `text`. First visit still uses the full `text`.
 
-4. **Evidence map updates**: New entries for the handkerchief, torn photograph, and security camera discovery.
+```ts
+// types/game.ts
+export interface DialogNode {
+  id: string;
+  speaker: string;
+  text: string;
+  shortText?: string;  // shown on revisit
+  // ...existing fields
+}
+```
 
-5. **Luke Adams / Carl connection**: The handkerchief's "L.A." initials will be noted in evidence. Dialog branches connecting "Luke Adams" to Carl will come in a follow-up pass when we build out the dialog trees.
+### Implementation
 
-## Technical Plan
+1. **`src/types/game.ts`** — add `shortText?: string` to `DialogNode`.
 
-### New Files
-- `src/components/game/ParkingLotScene.tsx` — follows the exact same pattern as BackyardScene (SimpleHotspot array, getCursorClass, handleSceneHotspotClick, flag-gated pickups). Background will be a CSS gradient/procedural dark parking lot until a proper asset is added. Props: `gameState`, `onHotspotHover`, `onHotspotClick`, `onChangeRoom`, `onEmptyClick`, `debugMode`, `setFlag`, `onAddToInventory`.
+2. **`src/components/game/DialogBox.tsx`**:
+   - Accept a new prop `isRevisit: boolean`.
+   - When `isRevisit && node.shortText` is true, use `shortText` for the typewriter (much shorter, finishes near-instantly).
+   - Optionally skip the typewriter entirely on revisit (render immediately) for snappier flow.
 
-### Modified Files
+3. **`src/components/game/GameContainer.tsx`** (or wherever dialog state lives):
+   - Track a `Set<string>` of visited node IDs for the current conversation.
+   - Reset the set when a new conversation starts (speaker change / dialog opens).
+   - Pass `isRevisit={visitedNodes.has(node.id)}` to `DialogBox`.
+   - Add the current node ID to the set whenever it changes.
 
-- **`BackyardScene.tsx`** — Add a new hotspot on the right side ("Parking Lot") that navigates to `parking-lot`. Add a right-side nav indicator.
+4. **`src/data/dialogTrees.ts`** — add `shortText` to each character's root node:
+   - Carl: `"What else?"`
+   - Lady Fantastique: `"Yes, darling?"`
+   - Lady Fantastique (room tree): `"More questions?"`
+   - Duke Extreme: `"Yeah? What now?"`
+   - Chef Allegro: `"Anything else, eh?"`
+   - (etc. — root nodes only; mid-branch nodes don't need it)
 
-- **`GameContainer.tsx`**:
-  - Import `ParkingLotScene`
-  - Add `case 'parking-lot'` in `renderCurrentRoom` switch
-  - Add item descriptions for `monogrammed_handkerchief` and `torn_photograph` in the descriptions map
+5. **Optional polish**: rename branch-end option labels from `"I have more questions."` → `"Back to questions."` for clarity. (Quick find/replace across `dialogTrees.ts`.)
 
-- **`evidenceMap.ts`** — Add entries for `monogrammed_handkerchief`, `torn_photograph`, and a flag entry for `securityCameraFound`
+### Why this approach
+- Backward compatible: nodes without `shortText` still play their full `text`.
+- No structural change to the dialog tree — just a per-node hint.
+- Conversation-scoped (not permanent) so re-entering a conversation later still gets the full intro.
 
-- **`preloadAssets.ts`** — Register parking lot room assets
-
-- **`GameScene.tsx` (Breakroom)** — Check `handkerchiefTaken` flag; if true, hide Lady Fantastique's character hotspot so she appears to have relocated
-
-- **`LadyFantastiqueRoomScene.tsx`** — Ensure Lady Fantastique's character appears when `handkerchiefTaken` is true (she may already be there; will verify and adjust)
+### Files touched
+- `src/types/game.ts` (add field)
+- `src/components/game/DialogBox.tsx` (revisit-aware rendering)
+- `src/components/game/GameContainer.tsx` (track visited node IDs)
+- `src/data/dialogTrees.ts` (add `shortText` to root nodes; optional label tidy)
 
