@@ -62,6 +62,9 @@ export function GameContainer() {
 
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const lastLoggedNodeId = useRef<string | null>(null);
+  const visitedDialogNodes = useRef<Set<string>>(new Set());
+  const currentDialogSpeaker = useRef<string | null>(null);
+  const [isCurrentNodeRevisit, setIsCurrentNodeRevisit] = useState(false);
 
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
