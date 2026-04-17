@@ -173,6 +173,28 @@ export function ParkingLotScene({
         ▼ Back to Backyard ▼
       </div>
 
+      {/* Sparkling items in trunk after inspection */}
+      {trunkInspected && !handkerchiefTaken && (
+        <div
+          className="absolute pointer-events-none z-20"
+          style={{ left: "78%", top: "58%", width: "5%", height: "6%" }}
+        >
+          <img src={handkerchiefImg} alt="" className="w-full h-full object-contain drop-shadow-[0_0_4px_rgba(255,255,200,0.9)]" style={{ imageRendering: "pixelated" }} />
+          <span className="absolute -top-1 -right-1 text-yellow-200 text-sm animate-pulse">✦</span>
+          <span className="absolute bottom-0 left-0 text-yellow-100 text-xs animate-pulse" style={{ animationDelay: "0.4s" }}>✦</span>
+        </div>
+      )}
+      {trunkInspected && !photoTaken && (
+        <div
+          className="absolute pointer-events-none z-20"
+          style={{ left: "85%", top: "60%", width: "6%", height: "6%" }}
+        >
+          <img src={tornPhotoImg} alt="" className="w-full h-full object-contain drop-shadow-[0_0_4px_rgba(255,255,200,0.9)]" style={{ imageRendering: "pixelated" }} />
+          <span className="absolute -top-1 -right-1 text-yellow-200 text-sm animate-pulse" style={{ animationDelay: "0.2s" }}>✦</span>
+          <span className="absolute bottom-0 left-0 text-yellow-100 text-xs animate-pulse" style={{ animationDelay: "0.6s" }}>✦</span>
+        </div>
+      )}
+
       {/* Hotspots */}
       {activeHotspots.map((hotspot) => (
         <div
