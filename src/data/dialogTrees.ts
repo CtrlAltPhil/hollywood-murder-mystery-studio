@@ -9,6 +9,7 @@ const carlTree: DialogTree = {
     id: 'carl-root',
     speaker: 'Carl',
     text: "Hmm? Oh, you want to talk. Fine. What do you want to know?",
+    shortText: "What else?",
     options: [
       { text: "What were you doing when the lights went out?", nextNodeId: 'carl-alibi' },
       { text: "Did you see anything suspicious?", nextNodeId: 'carl-suspicious' },
@@ -176,6 +177,7 @@ const ladyTree: DialogTree = {
     id: 'lady-root',
     speaker: 'Lady Fantastique',
     text: "*sniff* I still can't believe this is happening... What do you want?",
+    shortText: "Yes, darling?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'lady-alibi' },
       { text: "Someone said you were arguing with Los Cabos earlier.", nextNodeId: 'lady-argument' },
@@ -343,6 +345,7 @@ const elFuegoTree: DialogTree = {
     id: 'fuego-root',
     speaker: 'Duke Extreme',
     text: "¡Ay, this is terrible! Terrible! What— what do you want to ask me?",
+    shortText: "Yeah? What now?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'fuego-alibi' },
       { text: "You seem really nervous. Why?", nextNodeId: 'fuego-nervous' },
@@ -521,6 +524,7 @@ const chefAllegroTree: DialogTree = {
     id: 'chef-root',
     speaker: 'Chef Allegro',
     text: "Ah, welcome to my kitchen! Well... not the best night for a visit, eh? What can I do for you?",
+    shortText: "Anything else, eh?",
     options: [
       { text: "Where were you when the lights went out?", nextNodeId: 'chef-alibi' },
       { text: "Did you notice anything unusual tonight?", nextNodeId: 'chef-unusual' },
@@ -644,6 +648,7 @@ const sallyTree: DialogTree = {
     id: 'sally-root',
     speaker: 'Sous Chef Sally',
     text: "*chopping vegetables aggressively* What? I'm busy. Make it quick.",
+    shortText: "What now?",
     options: [
       { text: "Where were you when the murder happened?", nextNodeId: 'sally-alibi' },
       { text: "You seem on edge. Everything okay?", nextNodeId: 'sally-edge' },
@@ -750,6 +755,7 @@ const ladyRoomTree: DialogTree = {
     id: 'lady-room-root',
     speaker: 'Lady Fantastique',
     text: "*sitting on the edge of the bed, eyes red* I needed some space. This room... it's the only place that still feels safe. What do you want?",
+    shortText: "More questions?",
     options: [
       { text: "Why did you come back to your room?", nextNodeId: 'lady-room-why' },
       { text: "Tell me more about your history with Los Cabos.", nextNodeId: 'lady-room-history' },
