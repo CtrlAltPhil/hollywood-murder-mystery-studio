@@ -52,6 +52,7 @@ export function ParkingLotScene({
       height: 18,
       interactions: {
         look: () => {
+          setFlag("trunkInspected", true);
           if (!handkerchiefTaken && !photoTaken) {
             return "The trunk is wide open. Inside I can see a monogrammed handkerchief and what looks like a torn photograph. Someone left in a hurry.";
           }
