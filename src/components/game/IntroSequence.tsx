@@ -111,11 +111,11 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
         <div className="absolute bottom-[2%] left-[20%] z-10">
           <img src={tableImage} alt="Party Table" className="h-44 pixelated object-contain" />
           {/* Wine glasses centered on table */}
-          <div className="absolute top-[10%] left-[25%]">
+          <div className="absolute top-[10%] left-[30%]">
             <img src={wineGlassesImage} alt="Wine Glasses" className="h-24 pixelated object-contain" />
           </div>
           {/* Charcuterie board sitting above table */}
-          <div className="absolute top-[10%] left-[10%]">
+          <div className="absolute top-[10%] left-[5%]">
             <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-20 pixelated object-contain" />
           </div>
         </div>
