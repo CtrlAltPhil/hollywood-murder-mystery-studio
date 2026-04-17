@@ -173,25 +173,39 @@ export function ParkingLotScene({
         ▼ Back to Backyard ▼
       </div>
 
-      {/* Sparkling items in trunk after inspection */}
+      {/* Sparkling items in trunk after inspection (multi-point shimmer) */}
       {trunkInspected && !handkerchiefTaken && (
         <div
-          className="absolute pointer-events-none z-20"
-          style={{ left: "78%", top: "58%", width: "5%", height: "6%" }}
+          className="absolute z-20 pointer-events-none"
+          style={{ left: "76%", top: "56%", width: "7%", height: "7%" }}
         >
-          <img src={handkerchiefImg} alt="" className="w-full h-full object-contain drop-shadow-[0_0_4px_rgba(255,255,200,0.9)]" style={{ imageRendering: "pixelated" }} />
-          <span className="absolute -top-1 -right-1 text-yellow-200 text-sm animate-pulse">✦</span>
-          <span className="absolute bottom-0 left-0 text-yellow-100 text-xs animate-pulse" style={{ animationDelay: "0.4s" }}>✦</span>
+          <div className="relative w-full h-full">
+            <div className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping" style={{ left: "50%", top: "40%", animationDuration: "1.2s", animationDelay: "0s" }} />
+            <div className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ left: "30%", top: "60%", animationDuration: "1.5s", animationDelay: "0.3s" }} />
+            <div className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping" style={{ left: "70%", top: "50%", animationDuration: "1s", animationDelay: "0.6s" }} />
+            <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ left: "40%", top: "30%", animationDuration: "1.3s", animationDelay: "0.4s" }} />
+            <div className="absolute" style={{ left: "45%", top: "45%", width: "10%", height: "10%" }}>
+              <div className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
+              <div className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
+            </div>
+          </div>
         </div>
       )}
       {trunkInspected && !photoTaken && (
         <div
-          className="absolute pointer-events-none z-20"
-          style={{ left: "85%", top: "60%", width: "6%", height: "6%" }}
+          className="absolute z-20 pointer-events-none"
+          style={{ left: "86%", top: "58%", width: "7%", height: "7%" }}
         >
-          <img src={tornPhotoImg} alt="" className="w-full h-full object-contain drop-shadow-[0_0_4px_rgba(255,255,200,0.9)]" style={{ imageRendering: "pixelated" }} />
-          <span className="absolute -top-1 -right-1 text-yellow-200 text-sm animate-pulse" style={{ animationDelay: "0.2s" }}>✦</span>
-          <span className="absolute bottom-0 left-0 text-yellow-100 text-xs animate-pulse" style={{ animationDelay: "0.6s" }}>✦</span>
+          <div className="relative w-full h-full">
+            <div className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping" style={{ left: "50%", top: "40%", animationDuration: "1.4s", animationDelay: "0.2s" }} />
+            <div className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ left: "30%", top: "60%", animationDuration: "1.1s", animationDelay: "0.5s" }} />
+            <div className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping" style={{ left: "70%", top: "50%", animationDuration: "1.6s", animationDelay: "0.8s" }} />
+            <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ left: "55%", top: "70%", animationDuration: "1.3s", animationDelay: "0.1s" }} />
+            <div className="absolute" style={{ left: "45%", top: "45%", width: "10%", height: "10%" }}>
+              <div className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.9s" }} />
+              <div className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.9s" }} />
+            </div>
+          </div>
         </div>
       )}
 
