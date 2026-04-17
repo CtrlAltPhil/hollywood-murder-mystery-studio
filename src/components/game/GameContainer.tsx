@@ -256,7 +256,7 @@ export function GameContainer() {
   const sharedHotspotClick = (hotspot: any) => {
     setHoverText('');
 
-    const verb = gameState.selectedVerb;
+    const verb = gameState.selectedVerb ?? hotspot.__defaultVerb ?? null;
     const item = gameState.selectedItem;
 
     if (verb === 'use' && item) {
