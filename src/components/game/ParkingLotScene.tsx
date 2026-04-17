@@ -28,6 +28,7 @@ export function ParkingLotScene({
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const handkerchiefTaken = gameState.flags.handkerchiefTaken === true;
   const photoTaken = gameState.flags.photoTaken === true;
+  const trunkInspected = gameState.flags.trunkInspected === true;
 
   const hotspots: SimpleHotspot[] = [
     {
