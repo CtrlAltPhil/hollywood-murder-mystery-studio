@@ -3,6 +3,7 @@ import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/
 import studyBackground from "@/assets/backgrounds/study.png";
 import backyardKeySprite from "@/assets/props/backyard-key.png";
 import backyardKeyInventory from "@/assets/props/backyard-key-inventory.png";
+import inheritanceAgreementImg from "@/assets/props/inheritance-agreement.png";
 
 interface StudySceneProps {
   gameState: GameState;
