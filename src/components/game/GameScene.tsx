@@ -476,6 +476,28 @@ export function GameScene({
           }}
         />
       ))}
+
+      {/* Input lock overlay — swallows clicks/hovers during shock reactions and Stanley intro */}
+      {inputLocked && (
+        <div
+          className="absolute inset-0 z-40 cursor-none"
+          onClick={(e) => e.stopPropagation()}
+          onMouseMove={(e) => e.stopPropagation()}
+        />
+      )}
+
+      {/* Stanley Wilson intro card */}
+      {showStanleyCard && (
+        <div className="absolute inset-x-0 bottom-0 z-50 flex items-end justify-center pb-8 pointer-events-none animate-[fade-in_0.5s_ease-out]">
+          <div className="bg-black/90 border-2 border-white/80 px-6 py-4 max-w-md text-center">
+            <p className="text-white text-sm font-bold tracking-wider mb-1">DETECTIVE STANLEY WILSON</p>
+            <p className="text-white/80 text-xs leading-relaxed">
+              Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book.
+              He has solved every case he has ever been assigned — and he does not intend to stop now.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
