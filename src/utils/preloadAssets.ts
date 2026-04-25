@@ -41,6 +41,9 @@ import chefAllegroBlinkImg from "@/assets/characters/chef-allegro-blink.png";
 import sousChefSallyImg from "@/assets/characters/sous-chef-sally.png";
 import sousChefSallyAngryImg from "@/assets/characters/sous-chef-sally-angry.png";
 import losCabos2Img from "@/assets/characters/los-cabos-2.png";
+import mrCowardlyImg from "@/assets/characters/mr-cowardly.png";
+import lukeAdamsImg from "@/assets/characters/luke-adams.png";
+import inheritanceAgreementImg from "@/assets/props/inheritance-agreement.png";
 
 import tableImg from "@/assets/props/table.png";
 import wineGlassesImg from "@/assets/props/wine-glasses.png";
@@ -66,13 +69,13 @@ export const assetManifest: Record<string, string[]> = {
     breakroomBg, carlImg, elFuegoImg, elFuegoImg2, ladyImg,
     losCabosDeadImg, tableImg, wineGlassesImg, daggerImg, charcuterieImg,
   ],
-  hallway: [hallwayBg],
+  hallway: [hallwayBg, mrCowardlyImg],
   "hallway-kitchen": [hallwayKitchenBg],
   kitchen: [kitchenBg, chefAllegroImg, chefAllegroBlinkImg, sousChefSallyImg, sousChefSallyAngryImg],
   "production-room": [productionRoomBg, eboxFront, eboxOpen],
   "lady-fantastique-room": [ladyRoomBg, ladyImg],
   "los-cabos-room": [losCabosRoomBg, losCabos2Img],
-  study: [studyBg],
+  study: [studyBg, inheritanceAgreementImg],
   backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg],
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],

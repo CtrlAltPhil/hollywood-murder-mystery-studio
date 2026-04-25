@@ -20,6 +20,24 @@ export const flagEvidenceMap: Record<string, EvidenceEntry> = {
     description: 'Used a key to unlock the french doors leading to the backyard.',
     category: 'Physical Evidence',
   },
+  inheritanceFound: {
+    id: 'inheritance-agreement',
+    title: 'Talent Inheritance Agreement',
+    description: "Sealed envelope from Jack Celston's desk drawer. Assigns ALL of Los Cabos' studio assets — contracts, residuals, and IP — to Luke Adams in the event of Los Cabos' death. Direct financial motive.",
+    category: 'Documents',
+  },
+  cowardlyStrangerSeen: {
+    id: 'cowardly-stranger-testimony',
+    title: "Cowardly's Testimony",
+    description: "The janitor saw a tall, dark-haired man in a black suit walk into the party room about a minute before the lights cut out. Not catering staff. Cold eyes.",
+    category: 'Testimonies',
+  },
+  lukeAlibiGiven: {
+    id: 'luke-alibi',
+    title: "Luke Adams' Alibi",
+    description: "Luke claims he was alone in the storage room looking for a power strip when the murder happened. No witnesses. Suspiciously composed.",
+    category: 'Testimonies',
+  },
 };
 
 // Maps inventory item IDs to evidence entries
