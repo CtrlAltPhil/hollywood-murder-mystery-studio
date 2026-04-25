@@ -38,6 +38,12 @@ export const flagEvidenceMap: Record<string, EvidenceEntry> = {
     description: "Luke claims he was alone in the storage room looking for a power strip when the murder happened. No witnesses. Suspiciously composed.",
     category: 'Testimonies',
   },
+  caseSolved: {
+    id: 'case-solved',
+    title: 'CASE CLOSED',
+    description: 'Luke Adams confessed to murdering Los Cabos to claim the inherited studio assets. Justice served.',
+    category: 'Testimonies',
+  },
 };
 
 // Maps inventory item IDs to evidence entries
