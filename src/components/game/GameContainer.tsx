@@ -20,6 +20,7 @@ import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ParkingLotScene } from './ParkingLotScene';
 import { AccusationCutscene } from './AccusationCutscene';
+import { NewspaperEnding } from './NewspaperEnding';
 import { CreditsScreen } from './CreditsScreen';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
@@ -82,6 +83,7 @@ export function GameContainer() {
   const [roomTransition, setRoomTransition] = useState(false);
   const [showProjectorCutscene, setShowProjectorCutscene] = useState(false);
   const [showAccusationCutscene, setShowAccusationCutscene] = useState(false);
+  const [showNewspaperEnding, setShowNewspaperEnding] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
@@ -597,6 +599,15 @@ export function GameContainer() {
                 setShowAccusationCutscene(false);
                 setFlagWithEvidence('caseSolved', true);
                 setActionText('Case closed. Luke Adams has been arrested for the murder of Los Cabos.');
+                setShowNewspaperEnding(true);
+              }}
+            />
+          )}
+
+          {showNewspaperEnding && (
+            <NewspaperEnding
+              onComplete={() => {
+                setShowNewspaperEnding(false);
                 setPhase('credits');
               }}
             />
