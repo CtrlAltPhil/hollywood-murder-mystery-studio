@@ -31,7 +31,7 @@ export function LadyFantastiqueRoomScene({
       width: 12,
       height: 25,
       interactions: {
-        look: '"Stage Presence" — a framed poster of Lady Fantastique in her breakout role. She looks younger here.',
+        look: '"Stage Presence" — a framed poster of Lady Fantastica in her breakout role. She looks younger here.',
         use: "It's just a poster on the wall.",
       },
     },
@@ -42,7 +42,7 @@ export function LadyFantastiqueRoomScene({
       width: 12,
       height: 25,
       interactions: {
-        look: '"Fantastic Drama" — another starring role. Lady Fantastique was quite the star... before Los Cabos overtook her.',
+        look: '"Fantastic Drama" — another starring role. Lady Fantastica was quite the star... before Los Cabos overtook her.',
         use: "It's just a poster.",
       },
     },
@@ -78,7 +78,7 @@ export function LadyFantastiqueRoomScene({
       width: 25,
       height: 20,
       interactions: {
-        look: "Gold and silver stars decorate the deep red walls. Lady Fantastique certainly has a flair for the dramatic.",
+        look: "Gold and silver stars decorate the deep red walls. Lady Fantastica certainly has a flair for the dramatic.",
       },
     },
     {
@@ -109,17 +109,17 @@ export function LadyFantastiqueRoomScene({
       ? [
           {
             id: "lady-fantastique",
-            name: "Lady Fantastique",
+            name: "Lady Fantastica",
             position: { x: 50, y: 72 },
             width: 12,
             height: 35,
             interactions: {
-              look: "Lady Fantastique is here in her room now, sitting at the edge of her bed. She looks troubled.",
+              look: "Lady Fantastica is here in her room now, sitting at the edge of her bed. She looks troubled.",
               talk: "__DIALOG__lady",
               pickup: "I can't pick up a person!",
               use: "I should talk to her instead.",
               use_with_monogrammed_handkerchief:
-                '"Those initials... L.A. — that\'s Luke Adams. Carl\'s real name." Lady Fantastique looks away. "He changed it when he came to Hollywood. Nobody was supposed to know."',
+                '"Those initials... L.A. — that\'s Luke Adams. Carl\'s real name." Lady Fantastica looks away. "He changed it when he came to Hollywood. Nobody was supposed to know."',
               use_with_torn_photograph:
                 '"That photograph... I\'ve seen it before. Carl — Luke — he kept it in his office. It was from the buyout deal signing. He was obsessed with that deal."',
             },
@@ -132,7 +132,7 @@ export function LadyFantastiqueRoomScene({
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${ladyRoomBackground})` }} />
 
-      {/* Lady Fantastique sprite - only after she relocates here */}
+      {/* Lady Fantastica sprite - only after she relocates here */}
       {ladyPresent && (
         <div
           className="absolute z-20 pointer-events-none animate-breathing"
@@ -140,7 +140,7 @@ export function LadyFantastiqueRoomScene({
         >
           <img
             src={ladyImage}
-            alt="Lady Fantastique"
+            alt="Lady Fantastica"
             className="w-full h-full pixelated object-contain"
           />
         </div>

@@ -48,12 +48,12 @@ export function HallwayScene({
     },
     {
       id: "lady-fantastique-room-door",
-      name: "Lady Fantastique's Room",
+      name: "Lady Fantastica's Room",
       position: { x: 30, y: 55 },
       width: 10,
       height: 50,
       interactions: {
-        look: "The door to Lady Fantastique's private room.",
+        look: "The door to Lady Fantastica's private room.",
         open: "__NAVIGATE__lady-fantastique-room",
         use: "__NAVIGATE__lady-fantastique-room",
       },

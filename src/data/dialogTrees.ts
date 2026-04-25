@@ -4,76 +4,72 @@ import { DialogNode, DialogOption } from '@/types/game';
 type DialogTree = Record<string, DialogNode>;
 
 // ─── CARL ───────────────────────────────────────────────
+// Per the official script: Carl works props & lights at Green Box Studios.
+// He's flustered, nervous, and completely innocent — but his job makes him
+// look guilty, so he over-explains everything.
 const carlTree: DialogTree = {
   'carl-root': {
     id: 'carl-root',
     speaker: 'Carl',
-    text: "Hmm? Oh, you want to talk. Fine. What do you want to know?",
-    shortText: "What else?",
+    text: "Carl! My name is Carl. I work here — props and lights. What— what do you want to know?",
+    shortText: "Y-yes, Detective?",
     options: [
-      { text: "What were you doing when the lights went out?", nextNodeId: 'carl-alibi' },
-      { text: "Did you see anything suspicious?", nextNodeId: 'carl-suspicious' },
-      { text: "What was your relationship with Los Cabos?", nextNodeId: 'carl-relationship' },
+      { text: "What did you hear when the lights went out?", nextNodeId: 'carl-alibi' },
+      { text: "Did you see anyone near the light switch?", nextNodeId: 'carl-switch' },
+      { text: "Where exactly were you standing?", nextNodeId: 'carl-position' },
       { text: "Never mind.", nextNodeId: null },
     ],
   },
   'carl-alibi': {
     id: 'carl-alibi',
     speaker: 'Carl',
-    text: "I was admiring the vintage film posters near the entrance. Quite a fine collection, really. When the lights came back... well, you can see for yourself.",
+    text: "Right. Yes. Okay. I heard — footsteps. Fast ones. And then a thud. And I wanted to do something but it was so dark and I didn't know what was happening and I just — I froze.",
     options: [
-      { text: "Can anyone confirm that?", nextNodeId: 'carl-confirm' },
-      { text: "That's convenient — no witnesses.", nextNodeId: 'carl-defensive' },
+      { text: "Footsteps from where?", nextNodeId: 'carl-footsteps-where' },
+      { text: "Calm down. Did you hear anything else?", nextNodeId: 'carl-anything-else' },
       { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
-  'carl-confirm': {
-    id: 'carl-confirm',
+  'carl-footsteps-where': {
+    id: 'carl-footsteps-where',
     speaker: 'Carl',
-    text: "I don't need anyone to confirm it. I know where I was. Perhaps you should be asking the others where THEY were.",
+    text: "From — from the door. The left door. Quick steps. Then the thud over by the window where Mr. Los Cabos was standing. I— I just froze, Detective.",
     nextNodeId: 'carl-root',
   },
-  'carl-defensive': {
-    id: 'carl-defensive',
+  'carl-anything-else': {
+    id: 'carl-anything-else',
     speaker: 'Carl',
-    text: "Are you accusing me? How gauche. I had no reason to harm Los Cabos. We were business partners. His death is... inconvenient for my investments.",
+    text: "Just the footsteps and the thud. Lady Fantastica was in the middle of one of her stories, then everything went black. The whole generator went down. I know that sound — I work with the lights, that wasn't a switch, that was the WHOLE system.",
     nextNodeId: 'carl-root',
   },
-  'carl-suspicious': {
-    id: 'carl-suspicious',
+  'carl-switch': {
+    id: 'carl-switch',
     speaker: 'Carl',
-    text: "Now that you mention it... I saw Lady Fantastique having quite a heated argument with Los Cabos earlier. She seemed furious about something. You might want to ask her about that.",
+    text: "No! And I would know, Detective. I know every light switch in this building. That's literally my job. Nobody was at the switch. Whoever did this didn't flip a switch — they killed the POWER.",
     options: [
-      { text: "What were they arguing about?", nextNodeId: 'carl-lady-argument' },
-      { text: "Anyone else acting strange?", nextNodeId: 'carl-elfuego-note' },
+      { text: "How would someone kill the power?", nextNodeId: 'carl-power' },
       { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
-  'carl-lady-argument': {
-    id: 'carl-lady-argument',
+  'carl-power': {
+    id: 'carl-power',
     speaker: 'Carl',
-    text: "I couldn't hear the details, but Lady Fantastique was pointing her finger at him and her voice was raised. Something about a 'betrayal.' Make of that what you will.",
+    text: "The electrical box is in the production room. If someone got at it before the party — cut the wires, tripped the main — the whole studio would go dark. But I keep that room locked! I— I think I keep it locked.",
     nextNodeId: 'carl-root',
   },
-  'carl-elfuego-note': {
-    id: 'carl-elfuego-note',
+  'carl-position': {
+    id: 'carl-position',
     speaker: 'Carl',
-    text: "Duke Extreme kept disappearing to the kitchen. He said he was getting drinks, but he was gone for quite a long time each trip. Nervous fellow, that one.",
-    nextNodeId: 'carl-root',
+    text: "I was — I was near the middle of the room. Which I know sounds bad because that's closer to Los Cabos but I was just standing there I wasn't moving toward him I promise—",
+    options: [
+      { text: "Did you know Los Cabos personally?", nextNodeId: 'carl-relationship' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
+    ],
   },
   'carl-relationship': {
     id: 'carl-relationship',
     speaker: 'Carl',
-    text: "Business. Purely business. Los Cabos and I co-produced three films together. He handled the creative, I handled the money. A perfectly functional arrangement.",
-    options: [
-      { text: "Was the arrangement still 'functional'?", nextNodeId: 'carl-money' },
-      { text: "Back to questions.", nextNodeId: 'carl-root' },
-    ],
-  },
-  'carl-money': {
-    id: 'carl-money',
-    speaker: 'Carl',
-    text: "...Our latest project was over budget, if that's what you're digging at. But I would never kill someone over money. That's what lawyers are for.",
+    text: "Personally?! No! I mean — yes — I worked his sets, hung his lights, but I'm CREW. He probably didn't even know my name. I had no reason to hurt him. None! Why would I?!",
     nextNodeId: 'carl-root',
   },
   // Dagger-unlocked nodes
@@ -91,7 +87,7 @@ const carlTree: DialogTree = {
   'carl-prop-room': {
     id: 'carl-prop-room',
     speaker: 'Carl',
-    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady Fantastique did costumes for it.",
+    text: "Anyone at the studio, technically. But Duke Extreme was a stunt coordinator on that film — he'd know exactly where the props are stored. And Lady Fantastica did costumes for it.",
     nextNodeId: 'carl-root',
   },
   'carl-fingerprints': {
@@ -171,83 +167,66 @@ const carlTree: DialogTree = {
   },
 };
 
-// ─── LADY FANTASTIQUE ───────────────────────────────────────────────
+// ─── LADY FANTASTICA ───────────────────────────────────────────────
+// Per the official script: dramatic, self-absorbed, makes everything about her.
+// Key clue she carries: someone bumped her chair from behind, coming from the LEFT door.
 const ladyTree: DialogTree = {
   'lady-root': {
     id: 'lady-root',
-    speaker: 'Lady Fantastique',
-    text: "*sniff* I still can't believe this is happening... What do you want?",
+    speaker: 'Lady Fantastica',
+    text: "*fanning herself dramatically* Detective, I am barely holding myself together right now. Do you have any idea how sensitive I am?",
     shortText: "Yes, darling?",
     options: [
-      { text: "Where were you when the lights went out?", nextNodeId: 'lady-alibi' },
-      { text: "Someone said you were arguing with Los Cabos earlier.", nextNodeId: 'lady-argument' },
-      { text: "How well did you know Los Cabos?", nextNodeId: 'lady-relationship' },
+      { text: "Did you see anything before the lights went out?", nextNodeId: 'lady-before' },
+      { text: "Did you see anyone near Los Cabos?", nextNodeId: 'lady-near-victim' },
+      { text: "Tell me about your relationship with Los Cabos.", nextNodeId: 'lady-relationship' },
       { text: "I'll let you be for now.", nextNodeId: null },
     ],
   },
-  'lady-alibi': {
-    id: 'lady-alibi',
-    speaker: 'Lady Fantastique',
-    text: "I was in the restroom freshening up. A lady needs her privacy. When I came back, everyone was screaming...",
+  'lady-before': {
+    id: 'lady-before',
+    speaker: 'Lady Fantastica',
+    text: "I was in the middle of telling everyone about my new film — which by the way is going to be absolutely magnificent — when everything went dark. It was deeply traumatic. Especially for someone of my emotional depth.",
     options: [
-      { text: "How long were you in the restroom?", nextNodeId: 'lady-timeline' },
-      { text: "Did you see anyone on the way back?", nextNodeId: 'lady-saw-someone' },
+      { text: "Focus, please. Did anything else happen?", nextNodeId: 'lady-near-victim' },
       { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
-  'lady-timeline': {
-    id: 'lady-timeline',
-    speaker: 'Lady Fantastique',
-    text: "I don't know... five minutes? Ten? I wasn't watching the clock. Why does it matter?",
+  'lady-near-victim': {
+    id: 'lady-near-victim',
+    speaker: 'Lady Fantastica',
+    text: "*pausing, then gasping as if suddenly remembering* Now that you mention it — someone bumped into my chair just before the lights went out. Nearly spilled wine on my dress! Do you know how much this dress costs, Detective?",
+    onEnter: { flag: 'ladyChairBumped' },
     options: [
-      { text: "That's a long time to be freshening up during a party.", nextNodeId: 'lady-pressed' },
+      { text: "Which direction did they come from?", nextNodeId: 'lady-direction' },
+      { text: "Did you see who it was?", nextNodeId: 'lady-who' },
       { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
-  'lady-pressed': {
-    id: 'lady-pressed',
-    speaker: 'Lady Fantastique',
-    text: "I— I was upset, okay?! After the argument. I needed to compose myself. Is that a crime now too?!",
+  'lady-direction': {
+    id: 'lady-direction',
+    speaker: 'Lady Fantastica',
+    text: "Through that door on the left. They moved quickly toward the back of the room. But honestly I was so distracted by my dress that I barely noticed. This is all very overwhelming for someone of my profile, you understand.",
+    onEnter: { flag: 'ladyLeftDoor' },
     nextNodeId: 'lady-root',
   },
-  'lady-saw-someone': {
-    id: 'lady-saw-someone',
-    speaker: 'Lady Fantastique',
-    text: "Now that you ask... I thought I saw someone near the hallway, but it was dark. I couldn't tell who it was. They moved fast.",
-    nextNodeId: 'lady-root',
-  },
-  'lady-argument': {
-    id: 'lady-argument',
-    speaker: 'Lady Fantastique',
-    text: "Who told you that?! ...Fine. Yes, we had words. He promised me the lead role in his next film, then gave it to someone else. I was furious. But I didn't KILL him over it!",
-    options: [
-      { text: "That sounds like a pretty strong motive.", nextNodeId: 'lady-motive' },
-      { text: "Who did he give the role to?", nextNodeId: 'lady-role' },
-      { text: "Back to questions.", nextNodeId: 'lady-root' },
-    ],
-  },
-  'lady-motive': {
-    id: 'lady-motive',
-    speaker: 'Lady Fantastique',
-    text: "A motive?! In this town, everyone has a motive! You should look at Duke Extreme — that man has a temper like a volcano. I've seen him throw chairs on set!",
-    nextNodeId: 'lady-root',
-  },
-  'lady-role': {
-    id: 'lady-role',
-    speaker: 'Lady Fantastique',
-    text: "Some newcomer. Nobody. That's what made it sting. Years of loyalty and he replaces me with... ugh. But it doesn't matter now, does it?",
+  'lady-who': {
+    id: 'lady-who',
+    speaker: 'Lady Fantastica',
+    text: "Darling, it was PITCH BLACK. I am an actress, not an owl. But whoever it was, they were in a hurry. And they came from that left door — I'm absolutely SURE of it.",
+    onEnter: { flag: 'ladyLeftDoor' },
     nextNodeId: 'lady-root',
   },
   'lady-relationship': {
     id: 'lady-relationship',
-    speaker: 'Lady Fantastique',
-    text: "We worked together for years. He was my director, my mentor. I thought we had something special — professionally, I mean. Turns out I was just another actress to him.",
+    speaker: 'Lady Fantastica',
+    text: "Los Cabos was a TREASURE. Charming, talented — almost as charismatic as I am. We were going to be in a film together next spring. And now... *sniffles theatrically* ...now I'll have to find a new co-star.",
     nextNodeId: 'lady-root',
   },
   // Dagger-unlocked nodes
   'lady-dagger-react': {
     id: 'lady-dagger-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Oh god, is that... that's from the Marrakech film! I designed the sheath for it. It's supposed to be a prop — but someone must have sharpened the blade!",
     onEnter: { flag: 'ladyNervous' },
     options: [
@@ -258,20 +237,20 @@ const ladyTree: DialogTree = {
   },
   'lady-dagger-defense': {
     id: 'lady-dagger-defense',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "I designed the COSTUME, not the weapon! I barely touched it! Carl and Duke Extreme handled all the action props. Talk to THEM!",
     nextNodeId: 'lady-root',
   },
   'lady-dagger-sharpened': {
     id: 'lady-dagger-sharpened',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Duke Extreme was the stunt coordinator. He managed all the weapons on set. He would know how to make a prop blade lethal...",
     nextNodeId: 'lady-root',
   },
   // Threatening note nodes
   'lady-note-react': {
     id: 'lady-note-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "'Decline the offer or else'? *goes pale* Oh my... I— I overheard Los Cabos on the phone last week. He sounded frightened. He said something like 'I won't be bullied into selling.'",
     options: [
       { text: "Selling? Selling the studio?", nextNodeId: 'lady-note-selling' },
@@ -281,20 +260,20 @@ const ladyTree: DialogTree = {
   },
   'lady-note-selling': {
     id: 'lady-note-selling',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "That's what it sounded like. And if the studio sold... I'd lose my contract. Duke Extreme too. Carl's the only one who'd profit — he owns a share. But I didn't write that awful note!",
     nextNodeId: 'lady-root',
   },
   'lady-note-pressed': {
     id: 'lady-note-pressed',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "I'm not hiding anything! I just... didn't think it was connected. Los Cabos had enemies. This industry chews people up. But a DEATH THREAT? That changes everything.",
     nextNodeId: 'lady-root',
   },
   // Wine glass nodes
   'lady-wine-react': {
     id: 'lady-wine-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Drugged wine? *hand to mouth* That would explain... Los Cabos was acting strangely before the blackout. He seemed dizzy, unfocused. I thought he'd had too much to drink.",
     options: [
       { text: "Did you see who gave him the glass?", nextNodeId: 'lady-wine-who' },
@@ -304,20 +283,20 @@ const ladyTree: DialogTree = {
   },
   'lady-wine-who': {
     id: 'lady-wine-who',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Carl handed it to him. Made a big show of it too — 'A toast to our host!' he said. But... Sally was the one who carried the tray from the kitchen. Anyone could have slipped something in.",
     nextNodeId: 'lady-root',
   },
   'lady-wine-guilt': {
     id: 'lady-wine-guilt',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "I— we weren't speaking! After the argument! If I had known... if I had gone to him instead of storming off... maybe he'd still be... *breaks down crying*",
     nextNodeId: 'lady-root',
   },
   // Money bag nodes
   'lady-money-bag-react': {
     id: 'lady-money-bag-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Cash? In Duke Extreme's room? That man has been borrowing money from everyone for months! Where did he suddenly get a bag full of cash?!",
     options: [
       { text: "Maybe someone paid him to do something.", nextNodeId: 'lady-money-bag-paid' },
@@ -327,82 +306,72 @@ const ladyTree: DialogTree = {
   },
   'lady-money-bag-paid': {
     id: 'lady-money-bag-paid',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Paid him to... oh no. You don't think someone HIRED him to kill Los Cabos? He was always desperate for money. And he knows weapons from his stunt work. Oh god...",
     nextNodeId: 'lady-root',
   },
   'lady-money-bag-borrow': {
     id: 'lady-money-bag-borrow',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Five thousand dollars last month! Said his car was being repossessed. I felt sorry for him. But now he's sitting on a bag of cash? That lying little—!",
     nextNodeId: 'lady-root',
   },
 };
 
 // ─── DUKE EXTREME ───────────────────────────────────────────
+// Per the official script: gentle giant. Calm, measured, man of few words.
+// Cooperative. Key clue he carries: heard door open → fast deliberate footsteps
+// across the room → power cut → thud.
 const elFuegoTree: DialogTree = {
   'fuego-root': {
     id: 'fuego-root',
     speaker: 'Duke Extreme',
-    text: "¡Ay, this is terrible! Terrible! What— what do you want to ask me?",
-    shortText: "Yeah? What now?",
+    text: "*arms folded, speaking slowly* Detective. Ask me what you need.",
+    shortText: "Yeah, Detective?",
     options: [
-      { text: "Where were you when the lights went out?", nextNodeId: 'fuego-alibi' },
-      { text: "You seem really nervous. Why?", nextNodeId: 'fuego-nervous' },
+      { text: "Walk me through what happened tonight.", nextNodeId: 'fuego-walkthrough' },
+      { text: "What did you hear in the dark?", nextNodeId: 'fuego-heard' },
       { text: "Tell me about your relationship with Los Cabos.", nextNodeId: 'fuego-relationship' },
       { text: "I'll talk to you later.", nextNodeId: null },
     ],
   },
-  'fuego-alibi': {
-    id: 'fuego-alibi',
+  'fuego-walkthrough': {
+    id: 'fuego-walkthrough',
     speaker: 'Duke Extreme',
-    text: "I was in the kitchen! Getting more drinks! The tequila ran out and— look, I was just being a good guest, okay?",
+    text: "We were all eating. Talking. Normal dinner. Then the lights went out. Pitch black.",
     options: [
-      { text: "The kitchen is pretty close to where the body was found.", nextNodeId: 'fuego-proximity' },
-      { text: "Anyone see you in the kitchen?", nextNodeId: 'fuego-witness' },
+      { text: "What happened next?", nextNodeId: 'fuego-heard' },
       { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
-  'fuego-proximity': {
-    id: 'fuego-proximity',
+  'fuego-heard': {
+    id: 'fuego-heard',
     speaker: 'Duke Extreme',
-    text: "What— what are you saying?! Just because I was nearby doesn't mean— ¡Dios mío! You can't think I did this!",
-    nextNodeId: 'fuego-root',
-  },
-  'fuego-witness': {
-    id: 'fuego-witness',
-    speaker: 'Duke Extreme',
-    text: "I... no. I was alone in there. But that doesn't prove anything! Carl was alone with his 'posters' too!",
-    nextNodeId: 'fuego-root',
-  },
-  'fuego-nervous': {
-    id: 'fuego-nervous',
-    speaker: 'Duke Extreme',
-    text: "NERVOUS?! A man is DEAD! Of course I'm nervous! Wouldn't you be?! ...I just... I have a bad feeling someone in this room did it.",
+    text: "A door opening. Fast footsteps coming into the room. Then silence for a second. Then a thud. Lights came back on and he was on the floor.",
+    onEnter: { flag: 'dukeHeardFootsteps' },
     options: [
-      { text: "Do you suspect someone specific?", nextNodeId: 'fuego-suspect' },
+      { text: "How fast were the footsteps?", nextNodeId: 'fuego-footsteps-speed' },
+      { text: "Did you hear them leave again?", nextNodeId: 'fuego-footsteps-leave' },
       { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
-  'fuego-suspect': {
-    id: 'fuego-suspect',
+  'fuego-footsteps-speed': {
+    id: 'fuego-footsteps-speed',
     speaker: 'Duke Extreme',
-    text: "Have you looked at Carl? The man's ice cold. His business partner just got murdered and he's standing there like it's a Tuesday. That's not normal, amigo.",
+    text: "Fast. Deliberate. Like someone who knew exactly where they were going.",
+    onEnter: { flag: 'dukeDeliberateFootsteps' },
+    nextNodeId: 'fuego-root',
+  },
+  'fuego-footsteps-leave': {
+    id: 'fuego-footsteps-leave',
+    speaker: 'Duke Extreme',
+    text: "*pausing, thinking carefully* Yes. Whoever came in... must have got back out. Same door. Same speed.",
     nextNodeId: 'fuego-root',
   },
   'fuego-relationship': {
     id: 'fuego-relationship',
     speaker: 'Duke Extreme',
-    text: "Los Cabos gave me my break in Hollywood. Stunt coordinator on 'Midnight in Marrakech.' I owe— I OWED him everything. Why would I hurt him?",
-    options: [
-      { text: "I heard he was going to cut you from the next project.", nextNodeId: 'fuego-cut' },
-      { text: "Back to questions.", nextNodeId: 'fuego-root' },
-    ],
-  },
-  'fuego-cut': {
-    id: 'fuego-cut',
-    speaker: 'Duke Extreme',
-    text: "That's— who told you that?! That's a LIE! We had a great working relationship! ...Okay, maybe he mentioned bringing in someone younger, but we were going to talk about it!",
+    text: "Worked a couple of his films. Stunt double on 'Midnight in Marrakech.' He was fair to me. A good man. I had no reason to want him gone.",
     nextNodeId: 'fuego-root',
   },
   // Dagger-unlocked nodes
@@ -420,13 +389,13 @@ const elFuegoTree: DialogTree = {
   'fuego-dagger-access': {
     id: 'fuego-dagger-access',
     speaker: 'Duke Extreme',
-    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady Fantastique was in and out for costumes! The prop room lock has been broken for months!",
+    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady Fantastica was in and out for costumes! The prop room lock has been broken for months!",
     nextNodeId: 'fuego-root',
   },
   'fuego-dagger-who': {
     id: 'fuego-dagger-who',
     speaker: 'Duke Extreme',
-    text: "Anyone! Carl, Lady Fantastique, even Los Cabos himself had keys. But... Lady Fantastique was on set last week picking up costume pieces. She could have taken it then.",
+    text: "Anyone! Carl, Lady Fantastica, even Los Cabos himself had keys. But... Lady Fantastica was on set last week picking up costume pieces. She could have taken it then.",
     nextNodeId: 'fuego-root',
   },
   // Threatening note nodes
@@ -753,7 +722,7 @@ const sallyTree: DialogTree = {
 const ladyRoomTree: DialogTree = {
   'lady-room-root': {
     id: 'lady-room-root',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "*sitting on the edge of the bed, eyes red* I needed some space. This room... it's the only place that still feels safe. What do you want?",
     shortText: "More questions?",
     options: [
@@ -765,7 +734,7 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-why': {
     id: 'lady-room-why',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Because I couldn't stand being in that room anymore. The blood... his body... and the way Carl was just STANDING there. Cold as ice. Like it didn't even bother him.",
     options: [
       { text: "You think Carl isn't bothered by the murder?", nextNodeId: 'lady-room-carl-cold' },
@@ -775,7 +744,7 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-carl-cold': {
     id: 'lady-room-carl-cold',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Bothered? The man didn't even flinch! His business partner is dead on the floor and Carl's calculating his next move. That's not grief — that's an opportunity to him. It makes me sick.",
     options: [
       { text: "Has Carl always been like that?", nextNodeId: 'lady-room-carl-always' },
@@ -784,13 +753,13 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-carl-always': {
     id: 'lady-room-carl-always',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "He's always been ruthless, but lately it's been worse. Ever since the buyout offer came in, he's been... different. More secretive. More controlling. Like he was waiting for something to happen.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-romantic': {
     id: 'lady-room-romantic',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "*long pause* ...We had something, once. Years ago, before he became the big star director. He was kind back then. Gentle. But Hollywood changes people. He chose his career over us. I never forgave him for that.",
     options: [
       { text: "Is that why you argued with him tonight?", nextNodeId: 'lady-room-argument-detail' },
@@ -799,13 +768,13 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-argument-detail': {
     id: 'lady-room-argument-detail',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Partly. He gave MY role to a younger actress. But what really hurt was HOW he told me — in front of everyone, like I didn't matter. After everything we'd been through together. I said things I regret now... but I didn't kill him. I loved him. Even after everything.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-history': {
     id: 'lady-room-history',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "We go back twenty years. He cast me in my first film — 'Stage Presence.' I was nobody, and he made me a star. We built this studio together, really. But as his name grew, mine started to fade. That's Hollywood for you.",
     options: [
       { text: "Did you resent him for that?", nextNodeId: 'lady-room-resent' },
@@ -815,13 +784,13 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-resent': {
     id: 'lady-room-resent',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Resent? That's a strong word. I was... disappointed. He promised me we'd always work together. 'You're my muse,' he said. Then one day I wasn't. The industry moved on and he moved with it. Without me.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-carl-partnership': {
     id: 'lady-room-carl-partnership',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Carl came along about five years ago. Brought the money. But something was always off about that man. He appeared out of nowhere with deep pockets and a fake smile. Nobody even knows his real background. He just... showed up.",
     options: [
       { text: "Fake smile? You don't trust Carl?", nextNodeId: 'lady-room-carl-trust' },
@@ -830,14 +799,14 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-carl-trust': {
     id: 'lady-room-carl-trust',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Trust him? Nobody should trust Carl. He changes his story depending on who he's talking to. I once heard him on the phone using a completely different name. Like he was someone else entirely. It gave me chills.",
     onEnter: { flag: 'ladyMentionedCarlAlias' },
     nextNodeId: 'lady-room-root',
   },
   'lady-room-luke': {
     id: 'lady-room-luke',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "*sharp intake of breath* Where did you hear that name?",
     options: [
       { text: "I found a handkerchief with the initials 'L.A.' — Luke Adams.", nextNodeId: 'lady-room-luke-handkerchief' },
@@ -846,7 +815,7 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-luke-handkerchief': {
     id: 'lady-room-luke-handkerchief',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Luke Adams... that's Carl's real name. He changed it when he came to Hollywood. Said 'Carl' sounded more sophisticated. Nobody was supposed to know about his past. But I found out.",
     onEnter: { flag: 'lukeAdamsRevealed' },
     options: [
@@ -857,7 +826,7 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-luke-vague': {
     id: 'lady-room-luke-vague',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Don't play coy with me, detective. If you know that name, you know more than you're letting on. Luke Adams is Carl's real name. Before Hollywood. Before the money. Before the lies.",
     onEnter: { flag: 'lukeAdamsRevealed' },
     options: [
@@ -867,7 +836,7 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-luke-how': {
     id: 'lady-room-luke-how',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "I found old documents in the studio safe last year. A birth certificate, a name change filing. 'Luke Adams' became 'Carl' — just Carl, no surname. Like Madonna or Cher, but for a con man. When I confronted him, he threatened to ruin my career if I told anyone.",
     options: [
       { text: "He threatened you? That sounds like motive.", nextNodeId: 'lady-room-luke-threat' },
@@ -876,13 +845,13 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-luke-threat': {
     id: 'lady-room-luke-threat',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Motive for ME? Or motive for HIM? Think about it — if Los Cabos found out Carl was hiding his identity, the partnership would be over. And with the buyout deal... Carl had everything to lose. Everything.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-luke-why': {
     id: 'lady-room-luke-why',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Because Luke Adams has a past. Fraud charges in Nevada. A failed business that bilked investors. He reinvented himself as 'Carl' — mysterious, sophisticated, wealthy. But it's all built on lies. And now someone is dead.",
     onEnter: { flag: 'carlFraudRevealed' },
     nextNodeId: 'lady-room-root',
@@ -890,7 +859,7 @@ const ladyRoomTree: DialogTree = {
   // Evidence options when in room
   'lady-room-dagger-react': {
     id: 'lady-room-dagger-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "You brought that HERE? *recoils* ...Wait. Look at the handle. See those scratches? Someone filed off an inscription. The original props all had the film title engraved. Whoever sharpened this tried to hide its origin.",
     options: [
       { text: "Carl said he handled the props. Could he have done this?", nextNodeId: 'lady-room-dagger-carl' },
@@ -899,13 +868,13 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-dagger-carl': {
     id: 'lady-room-dagger-carl',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Carl? That man doesn't get his hands dirty. But he'd know someone who would. Duke Extreme handled weapons on set... and he's been doing whatever Carl tells him lately. Follow the money, detective.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-note-react': {
     id: 'lady-room-note-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "That handwriting... *squints* I've seen it before. On memos around the studio. Carl always writes his M's with that strange flourish. Compare it yourself if you don't believe me.",
     onEnter: { flag: 'carlHandwritingClue' },
     options: [
@@ -915,26 +884,26 @@ const ladyRoomTree: DialogTree = {
   },
   'lady-room-note-carl': {
     id: 'lady-room-note-carl',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "I'm saying the handwriting looks familiar. But Carl's too smart to leave something so obvious... unless he wanted someone else to take the fall. He's always three steps ahead. That's what makes him dangerous.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-photo-react': {
     id: 'lady-room-photo-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "That photograph... *takes it gently* This is from the buyout signing meeting. That's Carl — Luke — shaking hands with the buyer. He told Los Cabos the deal fell through. But it didn't, did it? He was working behind Los Cabos' back the whole time.",
     onEnter: { flag: 'carlBetrayalRevealed' },
     nextNodeId: 'lady-room-root',
   },
   'lady-room-money-bag-react': {
     id: 'lady-room-money-bag-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Cash? That's the buyout advance, I'd bet my career on it. Carl funneled money to Duke Extreme to pressure Los Cabos. When pressure didn't work... someone escalated. And now Los Cabos is dead.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-wine-react': {
     id: 'lady-room-wine-react',
-    speaker: 'Lady Fantastique',
+    speaker: 'Lady Fantastica',
     text: "Carl ordered that specific wine for Los Cabos. He made a point of it — 'only the best for our host.' But what if the wine was always part of the plan? Drug him first, then... *shudders* It's too horrible to think about.",
     nextNodeId: 'lady-room-root',
   },
@@ -1031,7 +1000,7 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
     case 'carl':
       return buildDynamicRoot(carlTree['carl-root'], carlEvidenceOptions, flags);
     case 'lady':
-      // Use room-specific dialog when Lady Fantastique has relocated
+      // Use room-specific dialog when Lady Fantastica has relocated
       if (flags.handkerchiefTaken) {
         return buildDynamicRoot(ladyRoomTree['lady-room-root'], ladyRoomEvidenceOptions, flags);
       }
