@@ -147,6 +147,10 @@ export function GameContainer() {
   };
 
   const handleStart = () => {
+    // Reset all flags/inventory so a fresh playthrough always re-plays the
+    // shock reactions + Stanley Wilson intro on the first gameplay scene.
+    resetGame();
+    resetNotes();
     setPhase('intro');
   };
 
