@@ -106,22 +106,35 @@ export function GameContainer() {
     }
   }, [gameState.phase, crashPlayed, playSfx]);
 
-  // Auto-trigger the final accusation cutscene once the player has gathered
-  // the four key pieces of evidence pointing to Luke Adams.
+  // Mark the player as ready to accuse once they have gathered the four key
+  // pieces of evidence pointing to Luke Adams. This unlocks a new dialogue
+  // option in Luke's parking-lot conversation. The actual cutscene only
+  // triggers when the player makes the accusation themselves.
   useEffect(() => {
     if (
       gameState.phase === 'gameplay' &&
-      !showAccusationCutscene &&
-      !gameState.flags.accusationTriggered &&
+      !gameState.flags.readyToAccuse &&
       gameState.flags.inheritanceFound &&
       gameState.flags.lukeAlibiGiven &&
       gameState.flags.cowardlyStrangerSeen &&
       gameState.flags.projectorWatched
     ) {
-      setFlag('accusationTriggered', true);
+      setFlag('readyToAccuse', true);
+    }
+  }, [gameState.phase, gameState.flags, setFlag]);
+
+  // When the player triggers the accusation via Luke's dialogue, show the
+  // final cutscene.
+  useEffect(() => {
+    if (
+      gameState.phase === 'gameplay' &&
+      gameState.flags.accusationTriggered &&
+      !showAccusationCutscene &&
+      !gameState.flags.caseSolved
+    ) {
       setShowAccusationCutscene(true);
     }
-  }, [gameState.phase, gameState.flags, showAccusationCutscene, setFlag]);
+  }, [gameState.phase, gameState.flags.accusationTriggered, gameState.flags.caseSolved, showAccusationCutscene]);
 
   // Auto-log dialogue when a new dialog node appears, and track visited nodes per conversation
   useEffect(() => {
