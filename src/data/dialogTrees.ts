@@ -1106,6 +1106,10 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
       return buildDynamicRoot(chefAllegroTree['chef-root'], chefEvidenceOptions, flags);
     case 'sous-chef-sally':
       return buildDynamicRoot(sallyTree['sally-root'], sallyEvidenceOptions, flags);
+    case 'cowardly':
+      return buildDynamicRoot(cowardlyTree['cowardly-root'], cowardlyEvidenceOptions, flags);
+    case 'luke':
+      return buildDynamicRoot(lukeTree['luke-root'], lukeEvidenceOptions, flags);
     default:
       return null;
   }
@@ -1115,5 +1119,15 @@ export function getDialogTree(characterId: string, flags: Record<string, boolean
  * Looks up a dialog node by ID across all character trees.
  */
 export function getDialogNodeById(nodeId: string): DialogNode | null {
-  return carlTree[nodeId] ?? ladyTree[nodeId] ?? elFuegoTree[nodeId] ?? chefAllegroTree[nodeId] ?? sallyTree[nodeId] ?? ladyRoomTree[nodeId] ?? null;
+  return (
+    carlTree[nodeId] ??
+    ladyTree[nodeId] ??
+    elFuegoTree[nodeId] ??
+    chefAllegroTree[nodeId] ??
+    sallyTree[nodeId] ??
+    ladyRoomTree[nodeId] ??
+    cowardlyTree[nodeId] ??
+    lukeTree[nodeId] ??
+    null
+  );
 }
