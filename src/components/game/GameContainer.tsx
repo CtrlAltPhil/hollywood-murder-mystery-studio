@@ -318,6 +318,8 @@ export function GameContainer() {
             'carl': 'talkedToCarl',
             'lady': 'talkedToLady',
             'el-fuego': 'talkedToDuke',
+            'cowardly': 'talkedToCowardly',
+            'luke': 'talkedToLuke',
           };
           if (talkFlagMap[characterId]) {
             setFlag(talkFlagMap[characterId], true);
