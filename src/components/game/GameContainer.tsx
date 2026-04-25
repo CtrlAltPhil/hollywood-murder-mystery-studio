@@ -559,6 +559,16 @@ export function GameContainer() {
               }}
             />
           )}
+
+          {showAccusationCutscene && (
+            <AccusationCutscene
+              onComplete={() => {
+                setShowAccusationCutscene(false);
+                setFlagWithEvidence('caseSolved', true);
+                setActionText('Case closed. Luke Adams has been arrested for the murder of Los Cabos.');
+              }}
+            />
+          )}
           
           {/* Room transition overlay - fade from black */}
           <div 
