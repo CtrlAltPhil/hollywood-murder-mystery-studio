@@ -42,6 +42,7 @@ import sousChefSallyImg from "@/assets/characters/sous-chef-sally.png";
 import sousChefSallyAngryImg from "@/assets/characters/sous-chef-sally-angry.png";
 import losCabos2Img from "@/assets/characters/los-cabos-2.png";
 import mrCowardlyImg from "@/assets/characters/mr-cowardly.png";
+import mrCowardlyScaredImg from "@/assets/characters/mr-cowardly-scared.png";
 import lukeAdamsImg from "@/assets/characters/luke-adams.png";
 import inheritanceAgreementImg from "@/assets/props/inheritance-agreement.png";
 
@@ -69,7 +70,7 @@ export const assetManifest: Record<string, string[]> = {
     breakroomBg, carlImg, elFuegoImg, elFuegoImg2, ladyImg,
     losCabosDeadImg, tableImg, wineGlassesImg, daggerImg, charcuterieImg,
   ],
-  hallway: [hallwayBg, mrCowardlyImg],
+  hallway: [hallwayBg, mrCowardlyImg, mrCowardlyScaredImg],
   "hallway-kitchen": [hallwayKitchenBg],
   kitchen: [kitchenBg, chefAllegroImg, chefAllegroBlinkImg, sousChefSallyImg, sousChefSallyAngryImg],
   "production-room": [productionRoomBg, eboxFront, eboxOpen],
