@@ -75,10 +75,10 @@ export function GameScene({
 
   // Shocked reactions when gameplay first starts
   const SHOCK_MESSAGES = [
-    { speaker: "Lady Fantastique", delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
+    { speaker: "Lady Fantastica", delay: 500, duration: 3000, text: "Oh my God! Los Cabos!!" },
     { speaker: "Carl", delay: 2000, duration: 3000, text: "He's... he's dead." },
     { speaker: "Duke Extreme", delay: 4000, duration: 3000, text: "¡Dios mío! Who did this?!" },
-    { speaker: "Lady Fantastique", delay: 6000, duration: 3000, text: "Someone call the police!" },
+    { speaker: "Lady Fantastica", delay: 6000, duration: 3000, text: "Someone call the police!" },
     { speaker: "Carl", delay: 8000, duration: 3500, text: "Nobody leaves this room." },
   ];
 
@@ -247,20 +247,20 @@ export function GameScene({
     },
     {
       id: "lady",
-      name: "Lady Fantastique",
+      name: "Lady Fantastica",
       position: { x: 15, y: 82 },
       width: 10,
       height: 32,
       interactions: {
-        look: "Lady Fantastique looks shaken but composed. She was close to Los Cabos...",
+        look: "Lady Fantastica looks shaken but composed. She was close to Los Cabos...",
         talk: "__DIALOG__lady",
         pickup: "I can't pick up a person!",
         use: "I should talk to her instead.",
-        use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady Fantastique recoils in horror.',
+        use_with_dagger: '"Is that the... oh God, keep it away from me!" Lady Fantastica recoils in horror.',
         use_with_wine_glass: () => {
           triggerTempReaction("ladyNervous", 3000);
           setFlag("ladyNervous", true);
-          return "\"That's my glass! I mean... it looks like mine. So what?\" Lady Fantastique's composure cracks.";
+          return "\"That's my glass! I mean... it looks like mine. So what?\" Lady Fantastica's composure cracks.";
         },
       },
     },
@@ -385,7 +385,7 @@ export function GameScene({
         />
       )}
 
-      {/* Lady Fantastique - only in breakroom before handkerchief is found */}
+      {/* Lady Fantastica - only in breakroom before handkerchief is found */}
       {!gameState.flags.handkerchiefTaken && (
         <div
           className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? "animate-nervous-shake" : "animate-breathing"}`}
@@ -393,12 +393,12 @@ export function GameScene({
         >
           <img
             src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage}
-            alt="Lady Fantastique"
+            alt="Lady Fantastica"
             className="w-full h-full pixelated object-contain transition-all duration-500"
           />
-          {shockBubbles["Lady Fantastique"] && (
+          {shockBubbles["Lady Fantastica"] && (
             <div className="absolute -top-14 left-1/2 -translate-x-1/2 bg-white text-black text-[10px] px-3 py-2 rounded-lg max-w-[150px] text-center shadow-lg animate-[fade-in_0.3s_ease-out]">
-              {shockBubbles["Lady Fantastique"]}
+              {shockBubbles["Lady Fantastica"]}
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-white" />
             </div>
           )}

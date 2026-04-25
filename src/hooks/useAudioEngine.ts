@@ -14,7 +14,7 @@ interface AudioEngine {
 // Speaker pitch map (Hz)
 const SPEAKER_PITCHES: Record<string, number> = {
   Carl: 140,
-  'Lady Fantastique': 380,
+  'Lady Fantastica': 380,
   'Duke Extreme': 220,
   You: 260,
 };

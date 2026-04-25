@@ -77,7 +77,7 @@ export function LosCabosRoomScene({
       height: 10,
       interactions: {
         look: "A sturdy wooden bunk bed. The top bunk is neatly made, but the bottom one has crumpled sheets — someone was sleeping here recently.",
-        open: "I check under the mattress. There's a crumpled photo of Los Cabos and Lady Fantastique together, torn in half.",
+        open: "I check under the mattress. There's a crumpled photo of Los Cabos and Lady Fantastica together, torn in half.",
         use: "No time for sleep.",
         push: "I push the bed. Something clinks underneath — a small key falls out.",
       },
