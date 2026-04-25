@@ -45,13 +45,13 @@ export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDia
   const hasOptions = node.options && node.options.length > 0;
 
   return (
-    <div className="absolute inset-x-0 bottom-0 z-40">
+    <div className="absolute inset-x-0 bottom-0 z-40 flex justify-center pointer-events-none">
       {/* Backdrop click to skip typewriter */}
       {isTyping && (
-        <div className="absolute inset-0" onClick={skipTyping} />
+        <div className="absolute inset-0 pointer-events-auto" onClick={skipTyping} />
       )}
 
-      <div className="bg-zinc-900/95 backdrop-blur-sm border-t-2 border-amber-500/60 p-4">
+      <div className="relative pointer-events-auto w-[92%] max-w-3xl mb-3 bg-zinc-900/85 backdrop-blur-sm border-2 border-amber-500/60 rounded-md p-4 shadow-[0_0_18px_hsla(0,0%,0%,0.6)]">
         {/* Speaker name */}
         <div className="mb-2">
           <span
