@@ -106,6 +106,23 @@ export function GameContainer() {
     }
   }, [gameState.phase, crashPlayed, playSfx]);
 
+  // Auto-trigger the final accusation cutscene once the player has gathered
+  // the four key pieces of evidence pointing to Luke Adams.
+  useEffect(() => {
+    if (
+      gameState.phase === 'gameplay' &&
+      !showAccusationCutscene &&
+      !gameState.flags.accusationTriggered &&
+      gameState.flags.inheritanceFound &&
+      gameState.flags.lukeAlibiGiven &&
+      gameState.flags.cowardlyStrangerSeen &&
+      gameState.flags.projectorWatched
+    ) {
+      setFlag('accusationTriggered', true);
+      setShowAccusationCutscene(true);
+    }
+  }, [gameState.phase, gameState.flags, showAccusationCutscene, setFlag]);
+
   // Auto-log dialogue when a new dialog node appears, and track visited nodes per conversation
   useEffect(() => {
     const node = gameState.dialogState.currentNode;
