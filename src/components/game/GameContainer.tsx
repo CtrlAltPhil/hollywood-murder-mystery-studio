@@ -19,6 +19,7 @@ import { ShedInteriorScene } from './ShedInteriorScene';
 import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ParkingLotScene } from './ParkingLotScene';
+import { AccusationCutscene } from './AccusationCutscene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
@@ -79,6 +80,7 @@ export function GameContainer() {
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
   const [showProjectorCutscene, setShowProjectorCutscene] = useState(false);
+  const [showAccusationCutscene, setShowAccusationCutscene] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
@@ -103,6 +105,23 @@ export function GameContainer() {
       setCrashPlayed(true);
     }
   }, [gameState.phase, crashPlayed, playSfx]);
+
+  // Auto-trigger the final accusation cutscene once the player has gathered
+  // the four key pieces of evidence pointing to Luke Adams.
+  useEffect(() => {
+    if (
+      gameState.phase === 'gameplay' &&
+      !showAccusationCutscene &&
+      !gameState.flags.accusationTriggered &&
+      gameState.flags.inheritanceFound &&
+      gameState.flags.lukeAlibiGiven &&
+      gameState.flags.cowardlyStrangerSeen &&
+      gameState.flags.projectorWatched
+    ) {
+      setFlag('accusationTriggered', true);
+      setShowAccusationCutscene(true);
+    }
+  }, [gameState.phase, gameState.flags, showAccusationCutscene, setFlag]);
 
   // Auto-log dialogue when a new dialog node appears, and track visited nodes per conversation
   useEffect(() => {
@@ -318,6 +337,8 @@ export function GameContainer() {
             'carl': 'talkedToCarl',
             'lady': 'talkedToLady',
             'el-fuego': 'talkedToDuke',
+            'cowardly': 'talkedToCowardly',
+            'luke': 'talkedToLuke',
           };
           if (talkFlagMap[characterId]) {
             setFlag(talkFlagMap[characterId], true);
@@ -333,6 +354,12 @@ export function GameContainer() {
         }
         if (interaction === '__PLAY_PROJECTOR__') {
           setShowProjectorCutscene(true);
+          return;
+        }
+        if (interaction === '__BOLT_COWARDLY__') {
+          setFlag('cowardlyCornered', true);
+          setActionText("He yelps and bolts to the corner of the hallway!");
+          playSfx('pickup');
           return;
         }
         setActionText(interaction);
@@ -529,6 +556,16 @@ export function GameContainer() {
                 setShowProjectorCutscene(false);
                 setFlagWithEvidence('projectorWatched', true);
                 setActionText('The recording ended. Someone sabotaged the electrical box before the party... and they wore a silver signet ring.');
+              }}
+            />
+          )}
+
+          {showAccusationCutscene && (
+            <AccusationCutscene
+              onComplete={() => {
+                setShowAccusationCutscene(false);
+                setFlagWithEvidence('caseSolved', true);
+                setActionText('Case closed. Luke Adams has been arrested for the murder of Los Cabos.');
               }}
             />
           )}

@@ -3,6 +3,7 @@ import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/
 import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
 import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
 import tornPhotoImg from "@/assets/props/torn-photograph.png";
+import lukeAdamsImg from "@/assets/characters/luke-adams.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
@@ -140,6 +141,17 @@ export function ParkingLotScene({
       },
     },
     {
+      id: "luke-adams",
+      name: "Luke Adams",
+      position: { x: 14, y: 60 },
+      width: 8,
+      height: 22,
+      interactions: {
+        look: "A man in a sharp suit, leaning against the wall and smoking. He's been watching me. He must be Luke Adams — the name on the handkerchief.",
+        talk: "__DIALOG__luke",
+      },
+    },
+    {
       id: "back-to-backyard",
       name: "Backyard",
       position: { x: 50, y: 95 },
@@ -172,6 +184,22 @@ export function ParkingLotScene({
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
         ▼ Back to Backyard ▼
       </div>
+
+      {/* Luke Adams — leaning against the wall, smoking */}
+      <img
+        src={lukeAdamsImg}
+        alt="Luke Adams"
+        className="absolute pointer-events-none z-10"
+        style={{
+          left: "14%",
+          top: "60%",
+          height: "26%",
+          transform: "translate(-50%, -100%)",
+          imageRendering: "pixelated",
+          animation: "luke-lean 4s ease-in-out infinite",
+          transformOrigin: "bottom center",
+        }}
+      />
 
       {/* Sparkling items in trunk after inspection (multi-point shimmer) */}
       {trunkInspected && !handkerchiefTaken && (

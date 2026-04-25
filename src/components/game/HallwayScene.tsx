@@ -1,6 +1,8 @@
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import hallwayBackground from "@/assets/backgrounds/hallway.png";
+import mrCowardlyImg from "@/assets/characters/mr-cowardly.png";
+import mrCowardlyScaredImg from "@/assets/characters/mr-cowardly-scared.png";
 
 interface HallwaySceneProps {
   gameState: GameState;
@@ -20,6 +22,16 @@ export function HallwayScene({
   debugMode,
 }: HallwaySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
+
+  // Mr. Cowardly state: starts in the middle of the hall.
+  // First click → he "bolts" to the far corner (cornered = true, scared sprite).
+  // Once cornered, the talk hotspot triggers his dialog.
+  const cornered = gameState.flags.cowardlyCornered === true;
+
+  // Sprite anchor (% of scene). Bottom-aligned via translate.
+  const cowardlyAnchor = cornered
+    ? { x: 6, y: 78 }    // pinned to far-left corner
+    : { x: 50, y: 78 };  // mid-hallway, looking suspicious
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -129,18 +141,55 @@ export function HallwayScene({
     },
   ];
 
+  // Mr. Cowardly hotspot — appears over his current sprite position.
+  const cowardlyHotspot: SimpleHotspot = {
+    id: "mr-cowardly",
+    name: "Mr. Cowardly",
+    position: { x: cowardlyAnchor.x, y: cowardlyAnchor.y - 10 },
+    width: 8,
+    height: 22,
+    interactions: cornered
+      ? {
+          look: "He's pressed against the wall, trembling. He's not going anywhere.",
+          talk: "__DIALOG__cowardly",
+        }
+      : {
+          look: "A jittery little man lurking in the hallway. He looks ready to bolt.",
+          talk: "__BOLT_COWARDLY__",
+        },
+  };
+
+  const allHotspots = [...hotspots, cowardlyHotspot];
+
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
     const verb = gameState.selectedVerb;
 
-    // Special case: locked french doors show a message instead of navigating
+    // Special: clicking Mr. Cowardly with no verb (or talk) before he's cornered
+    if (hotspot.id === "mr-cowardly" && !cornered && (!verb || verb === "talk")) {
+      // First contact: he bolts. Trigger via parent so flag/sound flow stays consistent.
+      onHotspotClick({
+        ...hotspot,
+        interactions: { talk: "__BOLT_COWARDLY__" },
+        __defaultVerb: "talk",
+      } as SimpleHotspot);
+      return;
+    }
+
+    // Special: locked french doors show a message instead of navigating
     if (!verb && hotspot.id === "french-doors" && !gameState.flags.backyardUnlocked) {
       onHotspotHover("The doors are locked. I need to find a key.");
       return;
     }
 
-    // Special case: kitchen direction with no verb
+    // Special: kitchen direction with no verb
     if (hotspot.id === "kitchen-direction" && !verb) {
       onChangeRoom("hallway-kitchen");
+      return;
+    }
+
+    // Cornered Mr. Cowardly with no verb → open dialog
+    if (hotspot.id === "mr-cowardly" && cornered && !verb) {
+      onHotspotClick({ ...hotspot, __defaultVerb: "talk" } as SimpleHotspot);
       return;
     }
 
@@ -156,7 +205,22 @@ export function HallwayScene({
         ▼ Kitchen ▼
       </div>
 
-      {hotspots.map((hotspot) => (
+      {/* Mr. Cowardly sprite */}
+      <img
+        src={cornered ? mrCowardlyScaredImg : mrCowardlyImg}
+        alt="Mr. Cowardly"
+        className="absolute pointer-events-none z-10 transition-all duration-700 ease-out"
+        style={{
+          left: `${cowardlyAnchor.x}%`,
+          top: `${cowardlyAnchor.y}%`,
+          height: "26%",
+          transform: "translate(-50%, -100%)",
+          imageRendering: "pixelated",
+          animation: cornered ? "cowardly-tremble 0.25s ease-in-out infinite" : "cowardly-fidget 3s ease-in-out infinite",
+        }}
+      />
+
+      {allHotspots.map((hotspot) => (
         <div
           key={hotspot.id}
           className={`absolute cursor-inherit transition-colors rounded ${debugMode ? "border-2 border-green-400/70 bg-green-400/15" : "hover:bg-white/10"}`}
@@ -165,6 +229,7 @@ export function HallwayScene({
             top: `${hotspot.position.y - hotspot.height / 2}%`,
             width: `${hotspot.width}%`,
             height: `${hotspot.height}%`,
+            zIndex: hotspot.id === "mr-cowardly" ? 20 : undefined,
           }}
           onMouseEnter={() => onHotspotHover(hotspot.name)}
           onMouseLeave={() => onHotspotHover("")}
