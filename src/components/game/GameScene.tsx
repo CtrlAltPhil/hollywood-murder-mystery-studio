@@ -86,8 +86,10 @@ export function GameScene({
   const [showStanleyCard, setShowStanleyCard] = useState(false);
 
   useEffect(() => {
+    console.log('[SHOCK] useEffect run. shockReactionDone=', gameState.flags.shockReactionDone);
     if (gameState.flags.shockReactionDone) return;
     const timers: NodeJS.Timeout[] = [];
+    console.log('[SHOCK] scheduling', SHOCK_MESSAGES.length, 'messages');
     SHOCK_MESSAGES.forEach(({ speaker, delay, duration, text }) => {
       timers.push(
         setTimeout(() => {
