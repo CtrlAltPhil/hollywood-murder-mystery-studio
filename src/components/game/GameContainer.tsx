@@ -213,6 +213,7 @@ export function GameContainer() {
 
   const handleRestart = () => {
     if (confirm('Return to title screen? Unsaved progress will be lost.')) {
+      resetGame();
       resetNotes();
       setIsMenuOpen(false);
       setPhase('title');
