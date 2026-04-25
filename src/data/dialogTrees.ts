@@ -956,6 +956,101 @@ const sallyEvidenceOptions: EvidenceOption[] = [
   { flag: 'drawerOpened', option: { text: "I found a note: 'Decline the offer or else.' Any idea who wrote it?", nextNodeId: 'sally-note-react' } },
 ];
 
+// ─── MR. COWARDLY (janitor, terrified) ────────────────────────────
+// Per the script + user's "click twice to corner" decision: the *first*
+// approach in the hallway makes him bolt (handled in HallwayScene). After
+// the chase, this is the dialog he gives once cornered.
+const cowardlyTree: DialogTree = {
+  'cowardly-root': {
+    id: 'cowardly-root',
+    speaker: 'Mr. Cowardly',
+    text: "Okay, okay, okay! I didn't do nothing! I just clean up, that's all I do. P-please don't arrest me, Detective!",
+    shortText: "P-please don't arrest me!",
+    options: [
+      { text: "Relax. I just need to know what you saw tonight.", nextNodeId: 'cowardly-saw' },
+      { text: "Why did you run from me?", nextNodeId: 'cowardly-ran' },
+      { text: "Have you seen any strangers in the building?", nextNodeId: 'cowardly-stranger' },
+      { text: "We're done here.", nextNodeId: null },
+    ],
+  },
+  'cowardly-saw': {
+    id: 'cowardly-saw',
+    speaker: 'Mr. Cowardly',
+    text: "I — I was mopping the back hall. And I saw a guy. Tall fella, dark hair, fancy black suit. He wasn't catering staff, I know all the catering. He just walked right into the party room like he owned the place. Then the lights went out everywhere and I hid in the supply closet 'til they came back on.",
+    onEnter: { flag: 'cowardlyStrangerSeen' },
+    nextNodeId: 'cowardly-root',
+  },
+  'cowardly-ran': {
+    id: 'cowardly-ran',
+    speaker: 'Mr. Cowardly',
+    text: "Last time the cops came around here it was about a missing toolbox and they tried to PIN IT ON ME. I didn't take no toolbox! I just — I see a badge and my legs go before my brain does. Sorry, Detective.",
+    nextNodeId: 'cowardly-root',
+  },
+  'cowardly-stranger': {
+    id: 'cowardly-stranger',
+    speaker: 'Mr. Cowardly',
+    text: "Just the one guy I told you about. Tall, dark suit, slick hair. Real cold eyes. Walked into the party room about a minute before everything went dark. I'd recognize him if I saw him again — those eyes don't leave your head.",
+    onEnter: { flag: 'cowardlyStrangerSeen' },
+    nextNodeId: 'cowardly-root',
+  },
+};
+
+// ─── LUKE ADAMS (parking lot — calm, evasive) ─────────────────────
+// Pre-accusation interview. The auto-accusation cutscene takes over once
+// the player has gathered enough evidence (see ParkingLotScene logic).
+const lukeTree: DialogTree = {
+  'luke-root': {
+    id: 'luke-root',
+    speaker: 'Luke Adams',
+    text: "Detective. Quite a mess in there. Terrible thing. I'm Luke Adams — old friend of Mr. Celston. Just out here getting some air. How can I help you?",
+    shortText: "How can I help, Detective?",
+    options: [
+      { text: "Where were you when the lights went out?", nextNodeId: 'luke-alibi' },
+      { text: "How do you know Jack Celston?", nextNodeId: 'luke-celston' },
+      { text: "What's your relationship to Los Cabos?", nextNodeId: 'luke-victim' },
+      { text: "I'll come back if I have more questions.", nextNodeId: null },
+    ],
+  },
+  'luke-alibi': {
+    id: 'luke-alibi',
+    speaker: 'Luke Adams',
+    text: "Storage room, end of the hall. Alone. Looking for a power strip — my phone was dying. Heard the screams from the party room, came out, came straight here for some air. That's the whole story, Detective.",
+    onEnter: { flag: 'lukeAlibiGiven' },
+    nextNodeId: 'luke-root',
+  },
+  'luke-celston': {
+    id: 'luke-celston',
+    speaker: 'Luke Adams',
+    text: "Jack and I go way back. Business arrangements, mostly. He's a generous man. Always looking out for his friends.",
+    nextNodeId: 'luke-root',
+  },
+  'luke-victim': {
+    id: 'luke-victim',
+    speaker: 'Luke Adams',
+    text: "Los Cabos? Met him once, maybe twice. Talented man. Tragic loss for the studio. *checks watch* Truly tragic.",
+    nextNodeId: 'luke-root',
+  },
+  'luke-handkerchief-react': {
+    id: 'luke-handkerchief-react',
+    speaker: 'Luke Adams',
+    text: "*pauses* ...That's not mine. Lots of people have those initials. You'd be surprised. Anything else, Detective?",
+    nextNodeId: 'luke-root',
+  },
+  'luke-inheritance-react': {
+    id: 'luke-inheritance-react',
+    speaker: 'Luke Adams',
+    text: "*tightens jaw, looks past you* I don't know what you're talking about. That document is private. You shouldn't have it.",
+    nextNodeId: 'luke-root',
+  },
+};
+
+const cowardlyEvidenceOptions: EvidenceOption[] = [];
+
+const lukeEvidenceOptions: EvidenceOption[] = [
+  { flag: 'handkerchiefTaken', option: { text: '"L.A." monogrammed handkerchief — yours?', nextNodeId: 'luke-handkerchief-react' } },
+  { flag: 'inheritanceFound', option: { text: "I found the Talent Inheritance Agreement. You inherit everything.", nextNodeId: 'luke-inheritance-react' } },
+];
+
 /**
  * Builds a dynamic root node that includes evidence-based options
  * when the corresponding flags are set.
