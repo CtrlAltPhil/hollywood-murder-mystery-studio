@@ -3,6 +3,7 @@ import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/
 import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
 import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
 import tornPhotoImg from "@/assets/props/torn-photograph.png";
+import lukeAdamsImg from "@/assets/characters/luke-adams.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
@@ -137,6 +138,17 @@ export function ParkingLotScene({
       height: 6,
       interactions: {
         look: "The vanity plate: \"XTRM DUK\". Subtle, Duke. Real subtle.",
+      },
+    },
+    {
+      id: "luke-adams",
+      name: "Luke Adams",
+      position: { x: 14, y: 60 },
+      width: 8,
+      height: 22,
+      interactions: {
+        look: "A man in a sharp suit, leaning against the wall and smoking. He's been watching me. He must be Luke Adams — the name on the handkerchief.",
+        talk: "__DIALOG__luke",
       },
     },
     {
