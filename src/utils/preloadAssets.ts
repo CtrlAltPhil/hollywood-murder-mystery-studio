@@ -69,7 +69,7 @@ export const assetManifest: Record<string, string[]> = {
     breakroomBg, carlImg, elFuegoImg, elFuegoImg2, ladyImg,
     losCabosDeadImg, tableImg, wineGlassesImg, daggerImg, charcuterieImg,
   ],
-  hallway: [hallwayBg],
+  hallway: [hallwayBg, mrCowardlyImg],
   "hallway-kitchen": [hallwayKitchenBg],
   kitchen: [kitchenBg, chefAllegroImg, chefAllegroBlinkImg, sousChefSallyImg, sousChefSallyAngryImg],
   "production-room": [productionRoomBg, eboxFront, eboxOpen],
@@ -79,7 +79,6 @@ export const assetManifest: Record<string, string[]> = {
   backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg],
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
-  hallway: [hallwayBg, mrCowardlyImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
   "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg],
 };
