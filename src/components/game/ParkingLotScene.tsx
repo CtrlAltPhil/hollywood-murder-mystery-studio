@@ -185,6 +185,22 @@ export function ParkingLotScene({
         ▼ Back to Backyard ▼
       </div>
 
+      {/* Luke Adams — leaning against the wall, smoking */}
+      <img
+        src={lukeAdamsImg}
+        alt="Luke Adams"
+        className="absolute pointer-events-none z-10"
+        style={{
+          left: "14%",
+          top: "60%",
+          height: "26%",
+          transform: "translate(-50%, -100%)",
+          imageRendering: "pixelated",
+          animation: "luke-lean 4s ease-in-out infinite",
+          transformOrigin: "bottom center",
+        }}
+      />
+
       {/* Sparkling items in trunk after inspection (multi-point shimmer) */}
       {trunkInspected && !handkerchiefTaken && (
         <div
