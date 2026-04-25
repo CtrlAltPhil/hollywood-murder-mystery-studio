@@ -118,12 +118,23 @@ export function HallwayScene({
             open: "__NAVIGATE__backyard",
             use: "__NAVIGATE__backyard",
           }
+        : cowardlyFled
+        ? {
+            // Cowardly slammed and locked them on his way out
+            look: "The french doors. That jittery little man slammed them shut behind him — they're locked tight now.",
+            open: "Locked. He must have jammed them from the other side. I need to find another way out — or a key.",
+            use: "Won't budge. He locked them on his way out.",
+            pull: "Locked.",
+            push: "Locked.",
+            use_with_backyard_key: "__UNLOCK_BACKYARD__",
+          }
         : {
+            // Pristine first state — but trying to go outside spooks Mr. Cowardly
             look: "Elegant french doors leading to the backyard garden. They appear to be locked.",
-            open: "The doors are locked. I need a key.",
-            use: "The doors won't budge. They're locked tight.",
-            pull: "Locked. I need to find a key somewhere.",
-            push: "Locked. I need to find a key somewhere.",
+            open: "__FLEE_COWARDLY__",
+            use: "__FLEE_COWARDLY__",
+            pull: "__FLEE_COWARDLY__",
+            push: "__FLEE_COWARDLY__",
             use_with_backyard_key: "__UNLOCK_BACKYARD__",
           },
     },
