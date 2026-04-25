@@ -44,6 +44,7 @@ export function GameContainer() {
     startDialog,
     advanceDialog,
     changeRoom,
+    resetGame,
   } = useGameState();
 
   const {
