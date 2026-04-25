@@ -33,6 +33,7 @@ export function BackyardScene({
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const fountainOff = gameState.flags.fountainOff === true;
   const fountainKeyTaken = gameState.flags.fountainKeyTaken === true;
+  const cowardlyHere = gameState.flags.cowardlyFled === true;
 
   const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
   const [waterfallFrame, setWaterfallFrame] = useState(0);
