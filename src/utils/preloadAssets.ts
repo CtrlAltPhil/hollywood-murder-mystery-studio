@@ -64,6 +64,8 @@ import wireCuttersImg from "@/assets/props/wire-cutters.png";
 import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
 import tornPhotoImg from "@/assets/props/torn-photograph.png";
 
+import newspaperEndingImg from "@/assets/newspaper-ending.png";
+
 // Scene-grouped manifest
 export const assetManifest: Record<string, string[]> = {
   breakroom: [
@@ -81,7 +83,9 @@ export const assetManifest: Record<string, string[]> = {
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
-  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg],
+  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg, lukeAdamsImg],
+  // Endgame assets — preloaded globally so the finale never pops in
+  _endgame: [lukeAdamsImg, newspaperEndingImg],
 };
 
 // Get all assets as a flat array
