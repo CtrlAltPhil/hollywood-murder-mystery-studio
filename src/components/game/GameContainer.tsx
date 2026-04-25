@@ -337,6 +337,12 @@ export function GameContainer() {
           setShowProjectorCutscene(true);
           return;
         }
+        if (interaction === '__BOLT_COWARDLY__') {
+          setFlag('cowardlyCornered', true);
+          setActionText("He yelps and bolts to the corner of the hallway!");
+          playSfx('pickup');
+          return;
+        }
         setActionText(interaction);
       } else if (typeof interaction === 'function') {
         const resultText = interaction();
