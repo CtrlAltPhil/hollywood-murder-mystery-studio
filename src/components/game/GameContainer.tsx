@@ -331,6 +331,13 @@ export function GameContainer() {
             selectVerb(null);
             return;
           }
+          if (interaction === '__CLEAR_HEDGE__') {
+            setFlag('hedgeCleared', true);
+            setActionText('I snip through the thick branches. The "glint" was just a candy wrapper caught in the thorns. False alarm — but at least the hedge is tidy now.');
+            playSfx('pickup');
+            selectVerb(null);
+            return;
+          }
           setActionText(interaction);
         } else if (typeof interaction === 'function') {
           const result = interaction();
