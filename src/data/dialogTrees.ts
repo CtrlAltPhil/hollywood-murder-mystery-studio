@@ -4,76 +4,72 @@ import { DialogNode, DialogOption } from '@/types/game';
 type DialogTree = Record<string, DialogNode>;
 
 // ─── CARL ───────────────────────────────────────────────
+// Per the official script: Carl works props & lights at Green Box Studios.
+// He's flustered, nervous, and completely innocent — but his job makes him
+// look guilty, so he over-explains everything.
 const carlTree: DialogTree = {
   'carl-root': {
     id: 'carl-root',
     speaker: 'Carl',
-    text: "Hmm? Oh, you want to talk. Fine. What do you want to know?",
-    shortText: "What else?",
+    text: "Carl! My name is Carl. I work here — props and lights. What— what do you want to know?",
+    shortText: "Y-yes, Detective?",
     options: [
-      { text: "What were you doing when the lights went out?", nextNodeId: 'carl-alibi' },
-      { text: "Did you see anything suspicious?", nextNodeId: 'carl-suspicious' },
-      { text: "What was your relationship with Los Cabos?", nextNodeId: 'carl-relationship' },
+      { text: "What did you hear when the lights went out?", nextNodeId: 'carl-alibi' },
+      { text: "Did you see anyone near the light switch?", nextNodeId: 'carl-switch' },
+      { text: "Where exactly were you standing?", nextNodeId: 'carl-position' },
       { text: "Never mind.", nextNodeId: null },
     ],
   },
   'carl-alibi': {
     id: 'carl-alibi',
     speaker: 'Carl',
-    text: "I was admiring the vintage film posters near the entrance. Quite a fine collection, really. When the lights came back... well, you can see for yourself.",
+    text: "Right. Yes. Okay. I heard — footsteps. Fast ones. And then a thud. And I wanted to do something but it was so dark and I didn't know what was happening and I just — I froze.",
     options: [
-      { text: "Can anyone confirm that?", nextNodeId: 'carl-confirm' },
-      { text: "That's convenient — no witnesses.", nextNodeId: 'carl-defensive' },
+      { text: "Footsteps from where?", nextNodeId: 'carl-footsteps-where' },
+      { text: "Calm down. Did you hear anything else?", nextNodeId: 'carl-anything-else' },
       { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
-  'carl-confirm': {
-    id: 'carl-confirm',
+  'carl-footsteps-where': {
+    id: 'carl-footsteps-where',
     speaker: 'Carl',
-    text: "I don't need anyone to confirm it. I know where I was. Perhaps you should be asking the others where THEY were.",
+    text: "From — from the door. The left door. Quick steps. Then the thud over by the window where Mr. Los Cabos was standing. I— I just froze, Detective.",
     nextNodeId: 'carl-root',
   },
-  'carl-defensive': {
-    id: 'carl-defensive',
+  'carl-anything-else': {
+    id: 'carl-anything-else',
     speaker: 'Carl',
-    text: "Are you accusing me? How gauche. I had no reason to harm Los Cabos. We were business partners. His death is... inconvenient for my investments.",
+    text: "Just the footsteps and the thud. Lady Fantastica was in the middle of one of her stories, then everything went black. The whole generator went down. I know that sound — I work with the lights, that wasn't a switch, that was the WHOLE system.",
     nextNodeId: 'carl-root',
   },
-  'carl-suspicious': {
-    id: 'carl-suspicious',
+  'carl-switch': {
+    id: 'carl-switch',
     speaker: 'Carl',
-    text: "Now that you mention it... I saw Lady Fantastique having quite a heated argument with Los Cabos earlier. She seemed furious about something. You might want to ask her about that.",
+    text: "No! And I would know, Detective. I know every light switch in this building. That's literally my job. Nobody was at the switch. Whoever did this didn't flip a switch — they killed the POWER.",
     options: [
-      { text: "What were they arguing about?", nextNodeId: 'carl-lady-argument' },
-      { text: "Anyone else acting strange?", nextNodeId: 'carl-elfuego-note' },
+      { text: "How would someone kill the power?", nextNodeId: 'carl-power' },
       { text: "Back to questions.", nextNodeId: 'carl-root' },
     ],
   },
-  'carl-lady-argument': {
-    id: 'carl-lady-argument',
+  'carl-power': {
+    id: 'carl-power',
     speaker: 'Carl',
-    text: "I couldn't hear the details, but Lady Fantastique was pointing her finger at him and her voice was raised. Something about a 'betrayal.' Make of that what you will.",
+    text: "The electrical box is in the production room. If someone got at it before the party — cut the wires, tripped the main — the whole studio would go dark. But I keep that room locked! I— I think I keep it locked.",
     nextNodeId: 'carl-root',
   },
-  'carl-elfuego-note': {
-    id: 'carl-elfuego-note',
+  'carl-position': {
+    id: 'carl-position',
     speaker: 'Carl',
-    text: "Duke Extreme kept disappearing to the kitchen. He said he was getting drinks, but he was gone for quite a long time each trip. Nervous fellow, that one.",
-    nextNodeId: 'carl-root',
+    text: "I was — I was near the middle of the room. Which I know sounds bad because that's closer to Los Cabos but I was just standing there I wasn't moving toward him I promise—",
+    options: [
+      { text: "Did you know Los Cabos personally?", nextNodeId: 'carl-relationship' },
+      { text: "Back to questions.", nextNodeId: 'carl-root' },
+    ],
   },
   'carl-relationship': {
     id: 'carl-relationship',
     speaker: 'Carl',
-    text: "Business. Purely business. Los Cabos and I co-produced three films together. He handled the creative, I handled the money. A perfectly functional arrangement.",
-    options: [
-      { text: "Was the arrangement still 'functional'?", nextNodeId: 'carl-money' },
-      { text: "Back to questions.", nextNodeId: 'carl-root' },
-    ],
-  },
-  'carl-money': {
-    id: 'carl-money',
-    speaker: 'Carl',
-    text: "...Our latest project was over budget, if that's what you're digging at. But I would never kill someone over money. That's what lawyers are for.",
+    text: "Personally?! No! I mean — yes — I worked his sets, hung his lights, but I'm CREW. He probably didn't even know my name. I had no reason to hurt him. None! Why would I?!",
     nextNodeId: 'carl-root',
   },
   // Dagger-unlocked nodes
