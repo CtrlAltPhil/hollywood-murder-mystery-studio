@@ -75,10 +75,11 @@ export const assetManifest: Record<string, string[]> = {
   "production-room": [productionRoomBg, eboxFront, eboxOpen],
   "lady-fantastique-room": [ladyRoomBg, ladyImg],
   "los-cabos-room": [losCabosRoomBg, losCabos2Img],
-  study: [studyBg],
+  study: [studyBg, inheritanceAgreementImg],
   backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg],
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
+  hallway: [hallwayBg, mrCowardlyImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
   "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg],
 };
