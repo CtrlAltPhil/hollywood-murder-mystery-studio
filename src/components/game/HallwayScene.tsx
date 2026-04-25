@@ -23,15 +23,15 @@ export function HallwayScene({
 }: HallwaySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
-  // Mr. Cowardly state: starts in the middle of the hall.
-  // First click → he "bolts" to the far corner (cornered = true, scared sprite).
-  // Once cornered, the talk hotspot triggers his dialog.
-  const cornered = gameState.flags.cowardlyCornered === true;
+  // Mr. Cowardly state:
+  //  - Starts mid-hallway, looking suspicious.
+  //  - First contact (clicking him OR trying the french doors) → he flees out
+  //    through the back garden door, locking it behind him. He'll then be
+  //    waiting in the backyard, just left of the koi pond.
+  const cowardlyFled = gameState.flags.cowardlyFled === true;
 
   // Sprite anchor (% of scene). Bottom-aligned via translate.
-  const cowardlyAnchor = cornered
-    ? { x: 6, y: 78 }    // pinned to far-left corner
-    : { x: 50, y: 78 };  // mid-hallway, looking suspicious
+  const cowardlyAnchor = { x: 50, y: 78 };
 
   const hotspots: SimpleHotspot[] = [
     {
