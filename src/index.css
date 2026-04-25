@@ -140,3 +140,22 @@
   0% { opacity: 0.3; }
   100% { opacity: 1; }
 }
+
+@keyframes cowardly-fidget {
+  0%, 100% { transform: translate(-50%, -100%) translateX(0); }
+  25%      { transform: translate(-50%, -100%) translateX(-2px); }
+  50%      { transform: translate(-50%, -100%) translateX(2px); }
+  75%      { transform: translate(-50%, -100%) translateX(-1px); }
+}
+
+@keyframes cowardly-tremble {
+  0%, 100% { transform: translate(-50%, -100%) translateX(0); }
+  25%      { transform: translate(-50%, -100%) translateX(-1.5px) translateY(0.5px); }
+  50%      { transform: translate(-50%, -100%) translateX(1.5px); }
+  75%      { transform: translate(-50%, -100%) translateX(-1px) translateY(-0.5px); }
+}
+
+@keyframes luke-lean {
+  0%, 100% { transform: translate(-50%, -100%) rotate(-1deg); }
+  50%      { transform: translate(-50%, -100%) rotate(1deg); }
+}
