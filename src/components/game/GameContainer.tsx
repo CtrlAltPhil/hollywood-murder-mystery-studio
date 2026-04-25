@@ -20,6 +20,7 @@ import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ParkingLotScene } from './ParkingLotScene';
 import { AccusationCutscene } from './AccusationCutscene';
+import { NewspaperEnding } from './NewspaperEnding';
 import { CreditsScreen } from './CreditsScreen';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
