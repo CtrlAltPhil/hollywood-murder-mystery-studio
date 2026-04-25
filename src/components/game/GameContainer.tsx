@@ -356,10 +356,13 @@ export function GameContainer() {
           setShowProjectorCutscene(true);
           return;
         }
-        if (interaction === '__BOLT_COWARDLY__') {
-          setFlag('cowardlyCornered', true);
-          setActionText("He yelps and bolts to the corner of the hallway!");
-          playSfx('pickup');
+        if (interaction === '__BOLT_COWARDLY__' || interaction === '__FLEE_COWARDLY__') {
+          // First contact: Mr. Cowardly panics and flees out through the
+          // french doors to the backyard, locking them on the way out.
+          // He'll be waiting just left of the koi pond.
+          setFlag('cowardlyFled', true);
+          setActionText("He yelps, shoves past me, and bolts out through the french doors — slamming them locked behind him!");
+          playSfx('crash');
           return;
         }
         setActionText(interaction);
