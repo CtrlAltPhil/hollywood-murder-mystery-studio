@@ -167,77 +167,60 @@ const carlTree: DialogTree = {
   },
 };
 
-// ─── LADY FANTASTIQUE ───────────────────────────────────────────────
+// ─── LADY FANTASTICA ───────────────────────────────────────────────
+// Per the official script: dramatic, self-absorbed, makes everything about her.
+// Key clue she carries: someone bumped her chair from behind, coming from the LEFT door.
 const ladyTree: DialogTree = {
   'lady-root': {
     id: 'lady-root',
-    speaker: 'Lady Fantastique',
-    text: "*sniff* I still can't believe this is happening... What do you want?",
+    speaker: 'Lady Fantastica',
+    text: "*fanning herself dramatically* Detective, I am barely holding myself together right now. Do you have any idea how sensitive I am?",
     shortText: "Yes, darling?",
     options: [
-      { text: "Where were you when the lights went out?", nextNodeId: 'lady-alibi' },
-      { text: "Someone said you were arguing with Los Cabos earlier.", nextNodeId: 'lady-argument' },
-      { text: "How well did you know Los Cabos?", nextNodeId: 'lady-relationship' },
+      { text: "Did you see anything before the lights went out?", nextNodeId: 'lady-before' },
+      { text: "Did you see anyone near Los Cabos?", nextNodeId: 'lady-near-victim' },
+      { text: "Tell me about your relationship with Los Cabos.", nextNodeId: 'lady-relationship' },
       { text: "I'll let you be for now.", nextNodeId: null },
     ],
   },
-  'lady-alibi': {
-    id: 'lady-alibi',
-    speaker: 'Lady Fantastique',
-    text: "I was in the restroom freshening up. A lady needs her privacy. When I came back, everyone was screaming...",
+  'lady-before': {
+    id: 'lady-before',
+    speaker: 'Lady Fantastica',
+    text: "I was in the middle of telling everyone about my new film — which by the way is going to be absolutely magnificent — when everything went dark. It was deeply traumatic. Especially for someone of my emotional depth.",
     options: [
-      { text: "How long were you in the restroom?", nextNodeId: 'lady-timeline' },
-      { text: "Did you see anyone on the way back?", nextNodeId: 'lady-saw-someone' },
+      { text: "Focus, please. Did anything else happen?", nextNodeId: 'lady-near-victim' },
       { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
-  'lady-timeline': {
-    id: 'lady-timeline',
-    speaker: 'Lady Fantastique',
-    text: "I don't know... five minutes? Ten? I wasn't watching the clock. Why does it matter?",
+  'lady-near-victim': {
+    id: 'lady-near-victim',
+    speaker: 'Lady Fantastica',
+    text: "*pausing, then gasping as if suddenly remembering* Now that you mention it — someone bumped into my chair just before the lights went out. Nearly spilled wine on my dress! Do you know how much this dress costs, Detective?",
+    onEnter: { flag: 'ladyChairBumped' },
     options: [
-      { text: "That's a long time to be freshening up during a party.", nextNodeId: 'lady-pressed' },
+      { text: "Which direction did they come from?", nextNodeId: 'lady-direction' },
+      { text: "Did you see who it was?", nextNodeId: 'lady-who' },
       { text: "Back to questions.", nextNodeId: 'lady-root' },
     ],
   },
-  'lady-pressed': {
-    id: 'lady-pressed',
-    speaker: 'Lady Fantastique',
-    text: "I— I was upset, okay?! After the argument. I needed to compose myself. Is that a crime now too?!",
+  'lady-direction': {
+    id: 'lady-direction',
+    speaker: 'Lady Fantastica',
+    text: "Through that door on the left. They moved quickly toward the back of the room. But honestly I was so distracted by my dress that I barely noticed. This is all very overwhelming for someone of my profile, you understand.",
+    onEnter: { flag: 'ladyLeftDoor' },
     nextNodeId: 'lady-root',
   },
-  'lady-saw-someone': {
-    id: 'lady-saw-someone',
-    speaker: 'Lady Fantastique',
-    text: "Now that you ask... I thought I saw someone near the hallway, but it was dark. I couldn't tell who it was. They moved fast.",
-    nextNodeId: 'lady-root',
-  },
-  'lady-argument': {
-    id: 'lady-argument',
-    speaker: 'Lady Fantastique',
-    text: "Who told you that?! ...Fine. Yes, we had words. He promised me the lead role in his next film, then gave it to someone else. I was furious. But I didn't KILL him over it!",
-    options: [
-      { text: "That sounds like a pretty strong motive.", nextNodeId: 'lady-motive' },
-      { text: "Who did he give the role to?", nextNodeId: 'lady-role' },
-      { text: "Back to questions.", nextNodeId: 'lady-root' },
-    ],
-  },
-  'lady-motive': {
-    id: 'lady-motive',
-    speaker: 'Lady Fantastique',
-    text: "A motive?! In this town, everyone has a motive! You should look at Duke Extreme — that man has a temper like a volcano. I've seen him throw chairs on set!",
-    nextNodeId: 'lady-root',
-  },
-  'lady-role': {
-    id: 'lady-role',
-    speaker: 'Lady Fantastique',
-    text: "Some newcomer. Nobody. That's what made it sting. Years of loyalty and he replaces me with... ugh. But it doesn't matter now, does it?",
+  'lady-who': {
+    id: 'lady-who',
+    speaker: 'Lady Fantastica',
+    text: "Darling, it was PITCH BLACK. I am an actress, not an owl. But whoever it was, they were in a hurry. And they came from that left door — I'm absolutely SURE of it.",
+    onEnter: { flag: 'ladyLeftDoor' },
     nextNodeId: 'lady-root',
   },
   'lady-relationship': {
     id: 'lady-relationship',
-    speaker: 'Lady Fantastique',
-    text: "We worked together for years. He was my director, my mentor. I thought we had something special — professionally, I mean. Turns out I was just another actress to him.",
+    speaker: 'Lady Fantastica',
+    text: "Los Cabos was a TREASURE. Charming, talented — almost as charismatic as I am. We were going to be in a film together next spring. And now... *sniffles theatrically* ...now I'll have to find a new co-star.",
     nextNodeId: 'lady-root',
   },
   // Dagger-unlocked nodes
