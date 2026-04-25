@@ -19,6 +19,7 @@ import { ShedInteriorScene } from './ShedInteriorScene';
 import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ParkingLotScene } from './ParkingLotScene';
+import { AccusationCutscene } from './AccusationCutscene';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
@@ -79,6 +80,7 @@ export function GameContainer() {
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
   const [showProjectorCutscene, setShowProjectorCutscene] = useState(false);
+  const [showAccusationCutscene, setShowAccusationCutscene] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
