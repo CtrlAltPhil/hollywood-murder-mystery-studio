@@ -6,14 +6,31 @@ interface CreditsScreenProps {
   onLoadGame?: () => void;
 }
 
-const CREDITS = [
+const CREDITS: { role: string; name: string }[] = [
   { role: "A Hollywood Murder Mystery", name: "" },
   { role: "Case Closed", name: "Detective Stanley Wilson" },
-  { role: "The Killer", name: "Luke Adams" },
-  { role: "The Victim", name: "Los Cabos" },
-  { role: "Featuring", name: "Mr. Cowardly · Lady Fantastique · Carl Celston · Duke Extreme" },
-  { role: "Written & Directed by", name: "You" },
-  { role: "Engine", name: "React · Tailwind · Web Audio" },
+
+  { role: "Story and Art by", name: "Lucas Celestini" },
+  { role: "Game Development by", name: "Lucas Celestini & Phil Celestini" },
+
+  { role: "Creative Director", name: "Lucas Celestini" },
+  { role: "Lead Designer", name: "Lucas Celestini" },
+  { role: "Character Design", name: "Lucas Celestini" },
+  { role: "Concept Art", name: "Lucas Celestini" },
+  { role: "Story & Script", name: "Lucas Celestini" },
+
+  { role: "Lead Programmer", name: "Phil Celestini" },
+  { role: "Systems & Tools", name: "Phil Celestini" },
+  { role: "Audio Design", name: "Phil Celestini" },
+  { role: "UI Engineering", name: "Phil Celestini" },
+  { role: "Quality Assurance", name: "Lucas Celestini & Phil Celestini" },
+  { role: "Producers", name: "Lucas Celestini & Phil Celestini" },
+  { role: "Executive Producers", name: "Lucas Celestini & Phil Celestini" },
+
+  { role: "Featuring", name: "Mr. Cowardly · Lady Fantastique · Carl Celston · Duke Extreme · Luke Adams" },
+  { role: "Built With", name: "React · Tailwind · Lovable" },
+
+  { role: "A Father–Son Production", name: "Celestini Studios" },
   { role: "Thanks for Playing", name: "" },
 ];
 
@@ -21,14 +38,14 @@ export function CreditsScreen({ onRestart, onLoadGame }: CreditsScreenProps) {
   const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => setShowButtons(true), 6000);
+    const t = setTimeout(() => setShowButtons(true), 8000);
     return () => clearTimeout(t);
   }, []);
 
   return (
     <div className="absolute inset-0 z-50 bg-black overflow-hidden flex items-center justify-center">
       {/* Scrolling credits */}
-      <div className="absolute inset-x-0 top-full animate-[credits-scroll_28s_linear_forwards] text-center text-white font-pixel">
+      <div className="absolute inset-x-0 top-full animate-[credits-scroll_42s_linear_forwards] text-center text-white font-pixel">
         {CREDITS.map((c, i) => (
           <div key={i} className="my-10">
             <div className="text-amber-400/80 text-xs uppercase tracking-widest mb-2">{c.role}</div>
@@ -62,7 +79,7 @@ export function CreditsScreen({ onRestart, onLoadGame }: CreditsScreenProps) {
       <style>{`
         @keyframes credits-scroll {
           from { transform: translateY(0); }
-          to { transform: translateY(-180%); }
+          to { transform: translateY(-220%); }
         }
         @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
         .animate-fade-in { animation: fade-in 0.8s ease-in forwards; }
