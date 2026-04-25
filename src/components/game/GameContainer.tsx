@@ -44,6 +44,7 @@ export function GameContainer() {
     startDialog,
     advanceDialog,
     changeRoom,
+    resetGame,
   } = useGameState();
 
   const {
@@ -146,6 +147,10 @@ export function GameContainer() {
   };
 
   const handleStart = () => {
+    // Reset all flags/inventory so a fresh playthrough always re-plays the
+    // shock reactions + Stanley Wilson intro on the first gameplay scene.
+    resetGame();
+    resetNotes();
     setPhase('intro');
   };
 
@@ -208,6 +213,7 @@ export function GameContainer() {
 
   const handleRestart = () => {
     if (confirm('Return to title screen? Unsaved progress will be lost.')) {
+      resetGame();
       resetNotes();
       setIsMenuOpen(false);
       setPhase('title');
