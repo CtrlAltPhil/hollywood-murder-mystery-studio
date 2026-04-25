@@ -192,7 +192,7 @@ export function BackyardScene({
     });
   }
 
-
+  const handleHotspotClick = (hotspot: SimpleHotspot) => {
     const verb = gameState.selectedVerb;
 
     // Toggle fountain switch
