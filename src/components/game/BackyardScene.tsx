@@ -7,6 +7,7 @@ import waterfall2 from "@/assets/props/waterfall2.png";
 import waterfall3 from "@/assets/props/waterfall3.png";
 import waterfall4 from "@/assets/props/waterfall4.png";
 import electricalBoxKeyImage from "@/assets/Electrical_Box_Key.png";
+import mrCowardlyScaredImg from "@/assets/characters/mr-cowardly-scared.png";
 
 interface BackyardSceneProps {
   gameState: GameState;
