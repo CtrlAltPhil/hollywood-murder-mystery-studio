@@ -83,6 +83,7 @@ export function GameContainer() {
   const [roomTransition, setRoomTransition] = useState(false);
   const [showProjectorCutscene, setShowProjectorCutscene] = useState(false);
   const [showAccusationCutscene, setShowAccusationCutscene] = useState(false);
+  const [showNewspaperEnding, setShowNewspaperEnding] = useState(false);
   const [hoverText, setHoverText] = useState('');
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
