@@ -83,6 +83,7 @@ export function GameScene({
   ];
 
   const [shockBubbles, setShockBubbles] = useState<Record<string, string>>({});
+  const [showStanleyCard, setShowStanleyCard] = useState(false);
 
   useEffect(() => {
     if (gameState.flags.shockReactionDone) return;
@@ -107,6 +108,21 @@ export function GameScene({
     timers.push(setTimeout(() => setFlag("shockReactionDone", true), lastMsg.delay + lastMsg.duration));
     return () => timers.forEach(clearTimeout);
   }, [gameState.flags.shockReactionDone]);
+
+  // Stanley Wilson intro card — appears after the shock reactions, holds for 5s, then unlocks input.
+  useEffect(() => {
+    if (!gameState.flags.shockReactionDone) return;
+    if (gameState.flags.stanleyIntroDone) return;
+    setShowStanleyCard(true);
+    const hideTimer = setTimeout(() => {
+      setShowStanleyCard(false);
+      setFlag("stanleyIntroDone", true);
+    }, 5000);
+    return () => clearTimeout(hideTimer);
+  }, [gameState.flags.shockReactionDone, gameState.flags.stanleyIntroDone]);
+
+  // Lock all player input until the shock reactions AND Stanley intro are done.
+  const inputLocked = !gameState.flags.stanleyIntroDone;
 
   const hotspots: SimpleHotspot[] = [
     {
