@@ -41,6 +41,9 @@ import chefAllegroBlinkImg from "@/assets/characters/chef-allegro-blink.png";
 import sousChefSallyImg from "@/assets/characters/sous-chef-sally.png";
 import sousChefSallyAngryImg from "@/assets/characters/sous-chef-sally-angry.png";
 import losCabos2Img from "@/assets/characters/los-cabos-2.png";
+import mrCowardlyImg from "@/assets/characters/mr-cowardly.png";
+import lukeAdamsImg from "@/assets/characters/luke-adams.png";
+import inheritanceAgreementImg from "@/assets/props/inheritance-agreement.png";
 
 import tableImg from "@/assets/props/table.png";
 import wineGlassesImg from "@/assets/props/wine-glasses.png";
