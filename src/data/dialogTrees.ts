@@ -319,69 +319,59 @@ const ladyTree: DialogTree = {
 };
 
 // ─── DUKE EXTREME ───────────────────────────────────────────
+// Per the official script: gentle giant. Calm, measured, man of few words.
+// Cooperative. Key clue he carries: heard door open → fast deliberate footsteps
+// across the room → power cut → thud.
 const elFuegoTree: DialogTree = {
   'fuego-root': {
     id: 'fuego-root',
     speaker: 'Duke Extreme',
-    text: "¡Ay, this is terrible! Terrible! What— what do you want to ask me?",
-    shortText: "Yeah? What now?",
+    text: "*arms folded, speaking slowly* Detective. Ask me what you need.",
+    shortText: "Yeah, Detective?",
     options: [
-      { text: "Where were you when the lights went out?", nextNodeId: 'fuego-alibi' },
-      { text: "You seem really nervous. Why?", nextNodeId: 'fuego-nervous' },
+      { text: "Walk me through what happened tonight.", nextNodeId: 'fuego-walkthrough' },
+      { text: "What did you hear in the dark?", nextNodeId: 'fuego-heard' },
       { text: "Tell me about your relationship with Los Cabos.", nextNodeId: 'fuego-relationship' },
       { text: "I'll talk to you later.", nextNodeId: null },
     ],
   },
-  'fuego-alibi': {
-    id: 'fuego-alibi',
+  'fuego-walkthrough': {
+    id: 'fuego-walkthrough',
     speaker: 'Duke Extreme',
-    text: "I was in the kitchen! Getting more drinks! The tequila ran out and— look, I was just being a good guest, okay?",
+    text: "We were all eating. Talking. Normal dinner. Then the lights went out. Pitch black.",
     options: [
-      { text: "The kitchen is pretty close to where the body was found.", nextNodeId: 'fuego-proximity' },
-      { text: "Anyone see you in the kitchen?", nextNodeId: 'fuego-witness' },
+      { text: "What happened next?", nextNodeId: 'fuego-heard' },
       { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
-  'fuego-proximity': {
-    id: 'fuego-proximity',
+  'fuego-heard': {
+    id: 'fuego-heard',
     speaker: 'Duke Extreme',
-    text: "What— what are you saying?! Just because I was nearby doesn't mean— ¡Dios mío! You can't think I did this!",
-    nextNodeId: 'fuego-root',
-  },
-  'fuego-witness': {
-    id: 'fuego-witness',
-    speaker: 'Duke Extreme',
-    text: "I... no. I was alone in there. But that doesn't prove anything! Carl was alone with his 'posters' too!",
-    nextNodeId: 'fuego-root',
-  },
-  'fuego-nervous': {
-    id: 'fuego-nervous',
-    speaker: 'Duke Extreme',
-    text: "NERVOUS?! A man is DEAD! Of course I'm nervous! Wouldn't you be?! ...I just... I have a bad feeling someone in this room did it.",
+    text: "A door opening. Fast footsteps coming into the room. Then silence for a second. Then a thud. Lights came back on and he was on the floor.",
+    onEnter: { flag: 'dukeHeardFootsteps' },
     options: [
-      { text: "Do you suspect someone specific?", nextNodeId: 'fuego-suspect' },
+      { text: "How fast were the footsteps?", nextNodeId: 'fuego-footsteps-speed' },
+      { text: "Did you hear them leave again?", nextNodeId: 'fuego-footsteps-leave' },
       { text: "Back to questions.", nextNodeId: 'fuego-root' },
     ],
   },
-  'fuego-suspect': {
-    id: 'fuego-suspect',
+  'fuego-footsteps-speed': {
+    id: 'fuego-footsteps-speed',
     speaker: 'Duke Extreme',
-    text: "Have you looked at Carl? The man's ice cold. His business partner just got murdered and he's standing there like it's a Tuesday. That's not normal, amigo.",
+    text: "Fast. Deliberate. Like someone who knew exactly where they were going.",
+    onEnter: { flag: 'dukeDeliberateFootsteps' },
+    nextNodeId: 'fuego-root',
+  },
+  'fuego-footsteps-leave': {
+    id: 'fuego-footsteps-leave',
+    speaker: 'Duke Extreme',
+    text: "*pausing, thinking carefully* Yes. Whoever came in... must have got back out. Same door. Same speed.",
     nextNodeId: 'fuego-root',
   },
   'fuego-relationship': {
     id: 'fuego-relationship',
     speaker: 'Duke Extreme',
-    text: "Los Cabos gave me my break in Hollywood. Stunt coordinator on 'Midnight in Marrakech.' I owe— I OWED him everything. Why would I hurt him?",
-    options: [
-      { text: "I heard he was going to cut you from the next project.", nextNodeId: 'fuego-cut' },
-      { text: "Back to questions.", nextNodeId: 'fuego-root' },
-    ],
-  },
-  'fuego-cut': {
-    id: 'fuego-cut',
-    speaker: 'Duke Extreme',
-    text: "That's— who told you that?! That's a LIE! We had a great working relationship! ...Okay, maybe he mentioned bringing in someone younger, but we were going to talk about it!",
+    text: "Worked a couple of his films. Stunt double on 'Midnight in Marrakech.' He was fair to me. A good man. I had no reason to want him gone.",
     nextNodeId: 'fuego-root',
   },
   // Dagger-unlocked nodes
