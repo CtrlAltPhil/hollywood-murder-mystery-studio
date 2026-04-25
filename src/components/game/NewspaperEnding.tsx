@@ -8,23 +8,23 @@ interface NewspaperEndingProps {
 const LINES: { speaker: string; text: string }[] = [
   {
     speaker: "Headline",
-    text: "STUDIO MOGUL ARRESTED — Jack Celston charged in the murder plot of beloved star Los Cabos.",
+    text: "STUDIO PARTNER UNMASKED — 'Carl' revealed as fugitive Luke Adams, charged in the murder of beloved star Los Cabos.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Studio chief Jack Celston was taken into custody late last night after Detective Stanley Wilson uncovered evidence that Celston hired hitman Luke Adams to murder leading man Los Cabos.",
+    text: "The Green Box Studios co-owner known only as 'Carl' was taken into custody late last night. Detective Stanley Wilson exposed his real identity as Luke Adams — a Nevada con artist with old fraud charges — who had reinvented himself in Hollywood five years ago.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Prosecutors say Celston feared losing the studio after a secret talent inheritance agreement guaranteed Los Cabos a controlling stake. Adams — a longtime 'fixer' — was paid to stage the killing during the cast party blackout.",
+    text: "Prosecutors say Adams murdered Los Cabos to bury a buyout deal his partner refused, and to keep his hidden past from ever reaching the front page. The blackout at the cast party gave him the cover he needed.",
   },
   {
     speaker: "Detective Wilson",
-    text: "It came down to four threads: a forged alibi, a monogrammed handkerchief in Duke Extreme's trunk, a sabotaged breaker box, and a witness too scared to lie. Pull on all four and the whole story unraveled.",
+    text: "It came down to four threads: the inheritance papers in the study, a handkerchief monogrammed 'L.A.' in Duke's trunk, Mr. Cowardly's missing alibi, and the projector reel that caught Carl in the act. Pull on all four and the whole story unraveled.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Both Celston and Adams now await trial. Detective Wilson has been commended for closing one of Hollywood's darkest cases. The studio lights, for once, have gone out for good.",
+    text: "Adams now awaits trial. Detective Wilson has been commended for closing one of Hollywood's darkest cases. The studio lights, for once, have gone out for good.",
   },
 ];
 
