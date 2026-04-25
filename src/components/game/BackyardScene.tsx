@@ -255,6 +255,23 @@ export function BackyardScene({
         />
       )}
 
+      {/* Mr. Cowardly — waiting just left of the koi pond after fleeing the hallway */}
+      {cowardlyHere && (
+        <img
+          src={mrCowardlyScaredImg}
+          alt="Mr. Cowardly"
+          className="absolute pointer-events-none z-10"
+          style={{
+            left: "22%",
+            top: "85%",
+            height: "22%",
+            transform: "translate(-50%, -100%)",
+            imageRendering: "pixelated",
+            animation: "cowardly-tremble 0.25s ease-in-out infinite",
+          }}
+        />
+      )}
+
       {/* Shiny item in the pond when fountain is off and key not taken */}
       {fountainOff && !fountainKeyTaken && (
         <div
