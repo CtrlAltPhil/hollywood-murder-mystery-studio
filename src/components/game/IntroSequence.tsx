@@ -77,36 +77,16 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
   }, [phase, setPhase]);
 
   // Blackout: hold black for the "fast deliberate footsteps + thud" beat,
-  // then bring up the lights to reveal the body and cycle through reactions.
+  // then hand off to gameplay (the breakroom scene handles the reveal + reactions).
   useEffect(() => {
     if (phase === "blackout") {
-      // Reveal the murder scene after the blackout beat
-      const revealTimer = setTimeout(() => {
-        setShowMurderScene(true);
-        setFadeState("visible");
-      }, 2200);
-
-      // Start cycling reaction lines shortly after lights come back on
-      const firstReaction = setTimeout(() => setReactionIdx(0), 3000);
-      const secondReaction = setTimeout(() => setReactionIdx(1), 5200);
-      const thirdReaction = setTimeout(() => setReactionIdx(2), 7400);
-      const stanleyCard = setTimeout(() => setShowStanleyCard(true), 9600);
-      const finishTimer = setTimeout(() => onComplete(), 13500);
-
-      return () => {
-        clearTimeout(revealTimer);
-        clearTimeout(firstReaction);
-        clearTimeout(secondReaction);
-        clearTimeout(thirdReaction);
-        clearTimeout(stanleyCard);
-        clearTimeout(finishTimer);
-      };
+      const finishTimer = setTimeout(() => onComplete(), 3500);
+      return () => clearTimeout(finishTimer);
     }
   }, [phase, onComplete]);
 
   const dialogue = PARTY_DIALOGUE[currentDialogue];
-  const reaction = reactionIdx >= 0 ? REACTION_LINES[reactionIdx] : null;
-  const isPartyScene = (phase === "party" || phase === "intro") && !showMurderScene && fadeState !== "black";
+  const isPartyScene = (phase === "party" || phase === "intro") && fadeState !== "black";
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-black">
