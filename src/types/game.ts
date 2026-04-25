@@ -1,6 +1,6 @@
 // Core game types for Hollywood Murder Mystery
 
-export type GamePhase = 'title' | 'intro' | 'party' | 'blackout' | 'murder-reveal' | 'gameplay';
+export type GamePhase = 'title' | 'intro' | 'party' | 'blackout' | 'murder-reveal' | 'gameplay' | 'credits';
 
 export type Verb = 'look' | 'pickup' | 'use' | 'open' | 'close' | 'talk' | 'push' | 'pull';
 
