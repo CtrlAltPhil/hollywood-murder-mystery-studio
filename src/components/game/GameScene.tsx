@@ -83,6 +83,7 @@ export function GameScene({
   ];
 
   const [shockBubbles, setShockBubbles] = useState<Record<string, string>>({});
+  const [showStanleyCard, setShowStanleyCard] = useState(false);
 
   useEffect(() => {
     if (gameState.flags.shockReactionDone) return;
@@ -107,6 +108,21 @@ export function GameScene({
     timers.push(setTimeout(() => setFlag("shockReactionDone", true), lastMsg.delay + lastMsg.duration));
     return () => timers.forEach(clearTimeout);
   }, [gameState.flags.shockReactionDone]);
+
+  // Stanley Wilson intro card — appears after the shock reactions, holds for 5s, then unlocks input.
+  useEffect(() => {
+    if (!gameState.flags.shockReactionDone) return;
+    if (gameState.flags.stanleyIntroDone) return;
+    setShowStanleyCard(true);
+    const hideTimer = setTimeout(() => {
+      setShowStanleyCard(false);
+      setFlag("stanleyIntroDone", true);
+    }, 5000);
+    return () => clearTimeout(hideTimer);
+  }, [gameState.flags.shockReactionDone, gameState.flags.stanleyIntroDone]);
+
+  // Lock all player input until the shock reactions AND Stanley intro are done.
+  const inputLocked = !gameState.flags.stanleyIntroDone;
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -313,7 +329,7 @@ export function GameScene({
   });
 
   return (
-    <div ref={sceneRef} className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
+    <div ref={sceneRef} className={`relative w-full h-full ${inputLocked ? "cursor-none" : cursorClass}`} onClick={() => { if (!inputLocked) onEmptyClick?.(); }}>
       {/* Background */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
@@ -460,6 +476,28 @@ export function GameScene({
           }}
         />
       ))}
+
+      {/* Input lock overlay — swallows clicks/hovers during shock reactions and Stanley intro */}
+      {inputLocked && (
+        <div
+          className="absolute inset-0 z-40 cursor-none"
+          onClick={(e) => e.stopPropagation()}
+          onMouseMove={(e) => e.stopPropagation()}
+        />
+      )}
+
+      {/* Stanley Wilson intro card */}
+      {showStanleyCard && (
+        <div className="absolute inset-x-0 bottom-0 z-50 flex items-end justify-center pb-8 pointer-events-none animate-[fade-in_0.5s_ease-out]">
+          <div className="bg-black/90 border-2 border-white/80 px-6 py-4 max-w-md text-center">
+            <p className="text-white text-sm font-bold tracking-wider mb-1">DETECTIVE STANLEY WILSON</p>
+            <p className="text-white/80 text-xs leading-relaxed">
+              Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book.
+              He has solved every case he has ever been assigned — and he does not intend to stop now.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

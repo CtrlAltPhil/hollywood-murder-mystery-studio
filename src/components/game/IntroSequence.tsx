@@ -27,19 +27,9 @@ const PARTY_DIALOGUE = [
   { speaker: "Duke Extreme", text: "The wine is exquisite tonight.", position: "left" },
 ];
 
-// Post-blackout reactions, shown one at a time over the murder scene.
-const REACTION_LINES = [
-  { speaker: "Lady Fantastica", text: "Oh my — SOMEONE CALL THE POLICE!" },
-  { speaker: "Duke Extreme", text: "Nobody move. Something's wrong here." },
-  { speaker: "Carl", text: "How... how is this possible?" },
-];
-
 export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProps) {
   const [fadeState, setFadeState] = useState<"in" | "out" | "black" | "visible">("visible");
-  const [showMurderScene, setShowMurderScene] = useState(false);
   const [currentDialogue, setCurrentDialogue] = useState(0);
-  const [reactionIdx, setReactionIdx] = useState(-1);
-  const [showStanleyCard, setShowStanleyCard] = useState(false);
   const [elFuegoPose, setElFuegoPose] = useState(0);
 
   // Animate El Fuego between poses
@@ -87,36 +77,16 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
   }, [phase, setPhase]);
 
   // Blackout: hold black for the "fast deliberate footsteps + thud" beat,
-  // then bring up the lights to reveal the body and cycle through reactions.
+  // then hand off to gameplay (the breakroom scene handles the reveal + reactions).
   useEffect(() => {
     if (phase === "blackout") {
-      // Reveal the murder scene after the blackout beat
-      const revealTimer = setTimeout(() => {
-        setShowMurderScene(true);
-        setFadeState("visible");
-      }, 2200);
-
-      // Start cycling reaction lines shortly after lights come back on
-      const firstReaction = setTimeout(() => setReactionIdx(0), 3000);
-      const secondReaction = setTimeout(() => setReactionIdx(1), 5200);
-      const thirdReaction = setTimeout(() => setReactionIdx(2), 7400);
-      const stanleyCard = setTimeout(() => setShowStanleyCard(true), 9600);
-      const finishTimer = setTimeout(() => onComplete(), 13500);
-
-      return () => {
-        clearTimeout(revealTimer);
-        clearTimeout(firstReaction);
-        clearTimeout(secondReaction);
-        clearTimeout(thirdReaction);
-        clearTimeout(stanleyCard);
-        clearTimeout(finishTimer);
-      };
+      const finishTimer = setTimeout(() => onComplete(), 3500);
+      return () => clearTimeout(finishTimer);
     }
   }, [phase, onComplete]);
 
   const dialogue = PARTY_DIALOGUE[currentDialogue];
-  const reaction = reactionIdx >= 0 ? REACTION_LINES[reactionIdx] : null;
-  const isPartyScene = (phase === "party" || phase === "intro") && !showMurderScene && fadeState !== "black";
+  const isPartyScene = (phase === "party" || phase === "intro") && fadeState !== "black";
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-black">
@@ -190,89 +160,11 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
         </>
       )}
 
-      {/* Murder Scene - lights are back on, body on the floor */}
-      {showMurderScene && (
-        <>
-          <div className="absolute bottom-[5%] left-[22%] z-10">
-            <img src={tableImage} alt="Party Table" className="h-28 pixelated object-contain" />
-            <div className="absolute top-[10%] left-[25%]">
-              <img src={wineGlassesImage} alt="Wine Glasses" className="h-12 pixelated object-contain" />
-            </div>
-            <div className="absolute top-1 left-[5%]">
-              <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-10 pixelated object-contain" />
-            </div>
-          </div>
-
-          {/* Surviving witnesses in shock */}
-          <div className="absolute bottom-[3%] left-[8%] z-20">
-            <img src={ladySprite} alt="Lady Fantastica" className="h-44 pixelated object-contain" />
-            {reaction?.speaker === "Lady Fantastica" && (
-              <SpeechBubble text={reaction.text} />
-            )}
-          </div>
-          <div className="absolute bottom-[3%] left-[35%] z-20">
-            <img
-              src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2}
-              alt="Duke Extreme"
-              className="h-44 pixelated object-contain transition-opacity duration-300"
-            />
-            {reaction?.speaker === "Duke Extreme" && (
-              <SpeechBubble text={reaction.text} />
-            )}
-          </div>
-          <div className="absolute bottom-[3%] left-[55%] z-20">
-            <img src={carlSprite} alt="Carl" className="h-44 pixelated object-contain" />
-            {reaction?.speaker === "Carl" && (
-              <SpeechBubble text={reaction.text} />
-            )}
-          </div>
-
-          {/* Los Cabos - body on the floor on the far right (where he was standing) */}
-          <div className="absolute bottom-[3%] right-[15%] transform -rotate-90 z-10">
-            <img
-              src={losCabosSprite}
-              alt="Los Cabos - Victim"
-              className="h-60 pixelated object-contain opacity-90"
-              style={{ filter: "grayscale(0.3) brightness(0.7) drop-shadow(2px 4px 6px rgba(0,0,0,0.8))" }}
-            />
-          </div>
-
-          {/* Blood pool */}
-          <div
-            className="absolute bottom-[2%] right-[12%] w-36 h-14 rounded-full opacity-60 z-5"
-            style={{ background: "radial-gradient(ellipse, hsl(0, 80%, 25%) 0%, transparent 70%)" }}
-          />
-
-          {/* Knife (per script — "a knife beside him") */}
-          <div className="absolute bottom-[5%] right-[8%] z-15">
-            <img
-              src={daggerImage}
-              alt="Bloody Knife"
-              className="h-12 pixelated object-contain transform rotate-45"
-              style={{ filter: "drop-shadow(0 0 8px rgba(180,0,0,0.6))" }}
-            />
-          </div>
-
-          {/* Stanley Wilson intro card */}
-          {showStanleyCard && (
-            <div className="absolute inset-x-0 bottom-0 z-30 flex items-end justify-center pb-8 animate-[fade-in_0.5s_ease-out]">
-              <div className="bg-black/90 border-2 border-white/80 px-6 py-4 max-w-md text-center">
-                <p className="text-white text-sm font-bold tracking-wider mb-1">DETECTIVE STANLEY WILSON</p>
-                <p className="text-white/80 text-xs leading-relaxed">
-                  Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book.
-                  He has solved every case he has ever been assigned — and he does not intend to stop now.
-                </p>
-              </div>
-            </div>
-          )}
-        </>
-      )}
-
       {/* Blackout overlay */}
       {fadeState === "black" && <div className="absolute inset-0 bg-black" />}
 
       {/* Blackout audio cue text */}
-      {phase === "blackout" && !showMurderScene && (
+      {phase === "blackout" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
           <p className="text-muted-foreground text-base animate-pulse">*the generator groans*</p>
           <p className="text-muted-foreground text-xs animate-pulse">*fast footsteps cross the room*</p>
