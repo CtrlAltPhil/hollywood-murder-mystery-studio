@@ -77,7 +77,7 @@ export const assetManifest: Record<string, string[]> = {
   "lady-fantastique-room": [ladyRoomBg, ladyImg],
   "los-cabos-room": [losCabosRoomBg, losCabos2Img],
   study: [studyBg, inheritanceAgreementImg],
-  backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg],
+  backyard: [backyardBg, waterfall1, waterfall2, waterfall3, waterfall4, eboxKey, backyardKeyImg, mrCowardlyScaredImg],
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],

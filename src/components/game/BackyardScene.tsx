@@ -7,6 +7,7 @@ import waterfall2 from "@/assets/props/waterfall2.png";
 import waterfall3 from "@/assets/props/waterfall3.png";
 import waterfall4 from "@/assets/props/waterfall4.png";
 import electricalBoxKeyImage from "@/assets/Electrical_Box_Key.png";
+import mrCowardlyScaredImg from "@/assets/characters/mr-cowardly-scared.png";
 
 interface BackyardSceneProps {
   gameState: GameState;
@@ -32,6 +33,7 @@ export function BackyardScene({
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const fountainOff = gameState.flags.fountainOff === true;
   const fountainKeyTaken = gameState.flags.fountainKeyTaken === true;
+  const cowardlyHere = gameState.flags.cowardlyFled === true;
 
   const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
   const [waterfallFrame, setWaterfallFrame] = useState(0);
@@ -175,6 +177,21 @@ export function BackyardScene({
     },
   ];
 
+  // Mr. Cowardly is hiding out here once he's fled the hallway.
+  if (cowardlyHere) {
+    hotspots.push({
+      id: "mr-cowardly",
+      name: "Mr. Cowardly",
+      position: { x: 22, y: 75 },
+      width: 8,
+      height: 22,
+      interactions: {
+        look: "There he is — pressed against the column, trembling. He's not going anywhere now.",
+        talk: "__DIALOG__cowardly",
+      },
+    });
+  }
+
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
     const verb = gameState.selectedVerb;
 
@@ -235,6 +252,23 @@ export function BackyardScene({
           alt=""
           className="absolute pointer-events-none z-10"
           style={{ left: "21%", top: "18%", width: "45%", height: "75%", objectFit: "fill" }}
+        />
+      )}
+
+      {/* Mr. Cowardly — waiting just left of the koi pond after fleeing the hallway */}
+      {cowardlyHere && (
+        <img
+          src={mrCowardlyScaredImg}
+          alt="Mr. Cowardly"
+          className="absolute pointer-events-none z-10"
+          style={{
+            left: "22%",
+            top: "85%",
+            height: "22%",
+            transform: "translate(-50%, -100%)",
+            imageRendering: "pixelated",
+            animation: "cowardly-tremble 0.25s ease-in-out infinite",
+          }}
         />
       )}
 

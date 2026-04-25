@@ -23,15 +23,15 @@ export function HallwayScene({
 }: HallwaySceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
-  // Mr. Cowardly state: starts in the middle of the hall.
-  // First click → he "bolts" to the far corner (cornered = true, scared sprite).
-  // Once cornered, the talk hotspot triggers his dialog.
-  const cornered = gameState.flags.cowardlyCornered === true;
+  // Mr. Cowardly state:
+  //  - Starts mid-hallway, looking suspicious.
+  //  - First contact (clicking him OR trying the french doors) → he flees out
+  //    through the back garden door, locking it behind him. He'll then be
+  //    waiting in the backyard, just left of the koi pond.
+  const cowardlyFled = gameState.flags.cowardlyFled === true;
 
   // Sprite anchor (% of scene). Bottom-aligned via translate.
-  const cowardlyAnchor = cornered
-    ? { x: 6, y: 78 }    // pinned to far-left corner
-    : { x: 50, y: 78 };  // mid-hallway, looking suspicious
+  const cowardlyAnchor = { x: 50, y: 78 };
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -118,12 +118,23 @@ export function HallwayScene({
             open: "__NAVIGATE__backyard",
             use: "__NAVIGATE__backyard",
           }
+        : cowardlyFled
+        ? {
+            // Cowardly slammed and locked them on his way out
+            look: "The french doors. That jittery little man slammed them shut behind him — they're locked tight now.",
+            open: "Locked. He must have jammed them from the other side. I need to find another way out — or a key.",
+            use: "Won't budge. He locked them on his way out.",
+            pull: "Locked.",
+            push: "Locked.",
+            use_with_backyard_key: "__UNLOCK_BACKYARD__",
+          }
         : {
+            // Pristine first state — but trying to go outside spooks Mr. Cowardly
             look: "Elegant french doors leading to the backyard garden. They appear to be locked.",
-            open: "The doors are locked. I need a key.",
-            use: "The doors won't budge. They're locked tight.",
-            pull: "Locked. I need to find a key somewhere.",
-            push: "Locked. I need to find a key somewhere.",
+            open: "__FLEE_COWARDLY__",
+            use: "__FLEE_COWARDLY__",
+            pull: "__FLEE_COWARDLY__",
+            push: "__FLEE_COWARDLY__",
             use_with_backyard_key: "__UNLOCK_BACKYARD__",
           },
     },
@@ -141,55 +152,61 @@ export function HallwayScene({
     },
   ];
 
-  // Mr. Cowardly hotspot — appears over his current sprite position.
-  const cowardlyHotspot: SimpleHotspot = {
-    id: "mr-cowardly",
-    name: "Mr. Cowardly",
-    position: { x: cowardlyAnchor.x, y: cowardlyAnchor.y - 10 },
-    width: 8,
-    height: 22,
-    interactions: cornered
-      ? {
-          look: "He's pressed against the wall, trembling. He's not going anywhere.",
-          talk: "__DIALOG__cowardly",
-        }
-      : {
+  // Mr. Cowardly hotspot — only present in the hallway before he flees.
+  const cowardlyHotspot: SimpleHotspot | null = cowardlyFled
+    ? null
+    : {
+        id: "mr-cowardly",
+        name: "Mr. Cowardly",
+        position: { x: cowardlyAnchor.x, y: cowardlyAnchor.y - 10 },
+        width: 8,
+        height: 22,
+        interactions: {
           look: "A jittery little man lurking in the hallway. He looks ready to bolt.",
-          talk: "__BOLT_COWARDLY__",
+          talk: "__FLEE_COWARDLY__",
         },
-  };
+      };
 
-  const allHotspots = [...hotspots, cowardlyHotspot];
+  const allHotspots = cowardlyHotspot ? [...hotspots, cowardlyHotspot] : hotspots;
 
   const handleHotspotClick = (hotspot: SimpleHotspot) => {
     const verb = gameState.selectedVerb;
 
-    // Special: clicking Mr. Cowardly with no verb (or talk) before he's cornered
-    if (hotspot.id === "mr-cowardly" && !cornered && (!verb || verb === "talk")) {
-      // First contact: he bolts. Trigger via parent so flag/sound flow stays consistent.
+    // First contact with Mr. Cowardly (no verb or talk) → he flees out the back.
+    if (hotspot.id === "mr-cowardly" && !cowardlyFled && (!verb || verb === "talk")) {
       onHotspotClick({
         ...hotspot,
-        interactions: { talk: "__BOLT_COWARDLY__" },
+        interactions: { talk: "__FLEE_COWARDLY__" },
         __defaultVerb: "talk",
       } as SimpleHotspot);
       return;
     }
 
-    // Special: locked french doors show a message instead of navigating
+    // First time approaching the french doors (still locked, Cowardly still here)
+    // also spooks him into fleeing through them.
+    if (
+      hotspot.id === "french-doors" &&
+      !cowardlyFled &&
+      !gameState.flags.backyardUnlocked &&
+      (!verb || verb === "open" || verb === "use" || verb === "pull" || verb === "push")
+    ) {
+      onHotspotClick({
+        ...hotspot,
+        interactions: { open: "__FLEE_COWARDLY__" },
+        __defaultVerb: "open",
+      } as SimpleHotspot);
+      return;
+    }
+
+    // Locked french doors (post-flee or still locked) with no verb → hint
     if (!verb && hotspot.id === "french-doors" && !gameState.flags.backyardUnlocked) {
-      onHotspotHover("The doors are locked. I need to find a key.");
+      onHotspotHover("The doors are locked.");
       return;
     }
 
     // Special: kitchen direction with no verb
     if (hotspot.id === "kitchen-direction" && !verb) {
       onChangeRoom("hallway-kitchen");
-      return;
-    }
-
-    // Cornered Mr. Cowardly with no verb → open dialog
-    if (hotspot.id === "mr-cowardly" && cornered && !verb) {
-      onHotspotClick({ ...hotspot, __defaultVerb: "talk" } as SimpleHotspot);
       return;
     }
 
@@ -205,21 +222,22 @@ export function HallwayScene({
         ▼ Kitchen ▼
       </div>
 
-      {/* Mr. Cowardly sprite */}
-      <img
-        src={cornered ? mrCowardlyScaredImg : mrCowardlyImg}
-        alt="Mr. Cowardly"
-        className="absolute pointer-events-none z-10 transition-all duration-700 ease-out"
-        style={{
-          left: `${cowardlyAnchor.x}%`,
-          top: `${cowardlyAnchor.y}%`,
-          height: "26%",
-          transform: "translate(-50%, -100%)",
-          imageRendering: "pixelated",
-          animation: cornered ? "cowardly-tremble 0.25s ease-in-out infinite" : "cowardly-fidget 3s ease-in-out infinite",
-        }}
-      />
-
+      {/* Mr. Cowardly sprite — only present until he flees out the back */}
+      {!cowardlyFled && (
+        <img
+          src={mrCowardlyImg}
+          alt="Mr. Cowardly"
+          className="absolute pointer-events-none z-10 transition-all duration-700 ease-out"
+          style={{
+            left: `${cowardlyAnchor.x}%`,
+            top: `${cowardlyAnchor.y}%`,
+            height: "26%",
+            transform: "translate(-50%, -100%)",
+            imageRendering: "pixelated",
+            animation: "cowardly-fidget 3s ease-in-out infinite",
+          }}
+        />
+      )}
       {allHotspots.map((hotspot) => (
         <div
           key={hotspot.id}
