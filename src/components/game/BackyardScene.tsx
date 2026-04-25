@@ -177,7 +177,22 @@ export function BackyardScene({
     },
   ];
 
-  const handleHotspotClick = (hotspot: SimpleHotspot) => {
+  // Mr. Cowardly is hiding out here once he's fled the hallway.
+  if (cowardlyHere) {
+    hotspots.push({
+      id: "mr-cowardly",
+      name: "Mr. Cowardly",
+      position: { x: 22, y: 75 },
+      width: 8,
+      height: 22,
+      interactions: {
+        look: "There he is — pressed against the column, trembling. He's not going anywhere now.",
+        talk: "__DIALOG__cowardly",
+      },
+    });
+  }
+
+
     const verb = gameState.selectedVerb;
 
     // Toggle fountain switch
