@@ -27,7 +27,7 @@ const CREDITS: { role: string; name: string }[] = [
   { role: "Producers", name: "Lucas Celestini & Phil Celestini" },
   { role: "Executive Producers", name: "Lucas Celestini & Phil Celestini" },
 
-  { role: "Featuring", name: "Mr. Cowardly · Lady Fantastique · Carl Celston · Duke Extreme · Luke Adams" },
+  { role: "Featuring", name: "Detective Stanley Wilson · Mr. Cowardly · Lady Fantastica · Duke Extreme · Chef Allegro · Sally · Carl / Luke Adams" },
   { role: "Built With", name: "React · Tailwind · Lovable" },
 
   { role: "A Father–Son Production", name: "Celestini Studios" },
