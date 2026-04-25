@@ -27,19 +27,9 @@ const PARTY_DIALOGUE = [
   { speaker: "Duke Extreme", text: "The wine is exquisite tonight.", position: "left" },
 ];
 
-// Post-blackout reactions, shown one at a time over the murder scene.
-const REACTION_LINES = [
-  { speaker: "Lady Fantastica", text: "Oh my — SOMEONE CALL THE POLICE!" },
-  { speaker: "Duke Extreme", text: "Nobody move. Something's wrong here." },
-  { speaker: "Carl", text: "How... how is this possible?" },
-];
-
 export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProps) {
   const [fadeState, setFadeState] = useState<"in" | "out" | "black" | "visible">("visible");
-  const [showMurderScene, setShowMurderScene] = useState(false);
   const [currentDialogue, setCurrentDialogue] = useState(0);
-  const [reactionIdx, setReactionIdx] = useState(-1);
-  const [showStanleyCard, setShowStanleyCard] = useState(false);
   const [elFuegoPose, setElFuegoPose] = useState(0);
 
   // Animate El Fuego between poses
