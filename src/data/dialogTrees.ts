@@ -1042,11 +1042,19 @@ const lukeTree: DialogTree = {
     text: "*tightens jaw, looks past you* I don't know what you're talking about. That document is private. You shouldn't have it.",
     nextNodeId: 'luke-root',
   },
+  'luke-accuse': {
+    id: 'luke-accuse',
+    speaker: 'Detective Wilson',
+    text: "Luke Adams. The inheritance papers, the monogrammed handkerchief in Duke's trunk, the man Mr. Cowardly saw skulking around the breaker box, your phantom alibi — it all points to you. You're under arrest for the murder of Los Cabos.",
+    onEnter: { flag: 'accusationTriggered' },
+    nextNodeId: null,
+  },
 };
 
 const cowardlyEvidenceOptions: EvidenceOption[] = [];
 
 const lukeEvidenceOptions: EvidenceOption[] = [
+  { flag: 'readyToAccuse', option: { text: "Luke Adams, you're under arrest for murder.", nextNodeId: 'luke-accuse' } },
   { flag: 'handkerchiefTaken', option: { text: '"L.A." monogrammed handkerchief — yours?', nextNodeId: 'luke-handkerchief-react' } },
   { flag: 'inheritanceFound', option: { text: "I found the Talent Inheritance Agreement. You inherit everything.", nextNodeId: 'luke-inheritance-react' } },
 ];

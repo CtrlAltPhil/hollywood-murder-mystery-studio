@@ -20,6 +20,7 @@ import { ProjectorCutscene } from './ProjectorCutscene';
 import { DukeExtremeRoomScene } from './DukeExtremeRoomScene';
 import { ParkingLotScene } from './ParkingLotScene';
 import { AccusationCutscene } from './AccusationCutscene';
+import { CreditsScreen } from './CreditsScreen';
 import { ScummUI } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
@@ -106,22 +107,35 @@ export function GameContainer() {
     }
   }, [gameState.phase, crashPlayed, playSfx]);
 
-  // Auto-trigger the final accusation cutscene once the player has gathered
-  // the four key pieces of evidence pointing to Luke Adams.
+  // Mark the player as ready to accuse once they have gathered the four key
+  // pieces of evidence pointing to Luke Adams. This unlocks a new dialogue
+  // option in Luke's parking-lot conversation. The actual cutscene only
+  // triggers when the player makes the accusation themselves.
   useEffect(() => {
     if (
       gameState.phase === 'gameplay' &&
-      !showAccusationCutscene &&
-      !gameState.flags.accusationTriggered &&
+      !gameState.flags.readyToAccuse &&
       gameState.flags.inheritanceFound &&
       gameState.flags.lukeAlibiGiven &&
       gameState.flags.cowardlyStrangerSeen &&
       gameState.flags.projectorWatched
     ) {
-      setFlag('accusationTriggered', true);
+      setFlag('readyToAccuse', true);
+    }
+  }, [gameState.phase, gameState.flags, setFlag]);
+
+  // When the player triggers the accusation via Luke's dialogue, show the
+  // final cutscene.
+  useEffect(() => {
+    if (
+      gameState.phase === 'gameplay' &&
+      gameState.flags.accusationTriggered &&
+      !showAccusationCutscene &&
+      !gameState.flags.caseSolved
+    ) {
       setShowAccusationCutscene(true);
     }
-  }, [gameState.phase, gameState.flags, showAccusationCutscene, setFlag]);
+  }, [gameState.phase, gameState.flags.accusationTriggered, gameState.flags.caseSolved, showAccusationCutscene]);
 
   // Auto-log dialogue when a new dialog node appears, and track visited nodes per conversation
   useEffect(() => {
@@ -505,6 +519,20 @@ export function GameContainer() {
     );
   }
 
+  // Credits screen after the case is solved
+  if (gameState.phase === 'credits') {
+    return (
+      <div className="w-full h-screen bg-black flex items-center justify-center p-4">
+        <div className="relative w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden" style={{ filter: `brightness(${brightness})` }}>
+          <CreditsScreen
+            onRestart={() => { resetGame(); resetNotes(); setPhase('title'); }}
+            onLoadGame={hasSaveData ? handleLoadGame : undefined}
+          />
+        </div>
+      </div>
+    );
+  }
+
   // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
@@ -569,6 +597,7 @@ export function GameContainer() {
                 setShowAccusationCutscene(false);
                 setFlagWithEvidence('caseSolved', true);
                 setActionText('Case closed. Luke Adams has been arrested for the murder of Los Cabos.');
+                setPhase('credits');
               }}
             />
           )}
