@@ -34,6 +34,7 @@ export function BackyardScene({
   const fountainOff = gameState.flags.fountainOff === true;
   const fountainKeyTaken = gameState.flags.fountainKeyTaken === true;
   const cowardlyHere = gameState.flags.cowardlyFled === true;
+  const hedgeCleared = gameState.flags.hedgeCleared === true;
 
   const waterfallFrames = [waterfall1, waterfall2, waterfall3, waterfall4];
   const [waterfallFrame, setWaterfallFrame] = useState(0);
@@ -42,7 +43,7 @@ export function BackyardScene({
     if (fountainOff) return;
     const interval = setInterval(() => {
       setWaterfallFrame((prev) => (prev >= waterfallFrames.length - 1 ? 0 : prev + 1));
-    }, 12);
+    }, 150);
     return () => clearInterval(interval);
   }, [waterfallFrames.length, fountainOff]);
 
@@ -113,11 +114,18 @@ export function BackyardScene({
       position: { x: 50, y: 50 },
       width: 25,
       height: 20,
-      interactions: {
-        look: "A dense, overgrown hedge. Something glints between the thorny branches.",
-        push: "I push the branches aside but they spring right back. The thorns sting.",
-        use: "I need something to cut through these branches.",
-      },
+      interactions: hedgeCleared
+        ? {
+            look: "The hedge is trimmed back where I cut it. Nothing else hidden in there now.",
+            push: "Just branches and leaves now.",
+          }
+        : {
+            look: "A dense, overgrown hedge. Something glints between the thorny branches.",
+            push: "I push the branches aside but they spring right back. The thorns sting.",
+            pull: "The branches are too thick to pull apart by hand.",
+            use: "I need something to cut through these branches.",
+            use_with_wire_cutters: "__CLEAR_HEDGE__",
+          },
     },
     {
       id: "night-sky",
