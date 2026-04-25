@@ -29,6 +29,8 @@ export function StudyScene({
   const keyTaken = gameState.flags.backyardKeyTaken;
   const cursorClass = getCursorClass(gameState.selectedVerb);
 
+  const inheritanceFound = gameState.flags.inheritanceFound === true;
+
   const hotspots: SimpleHotspot[] = [
     {
       id: "creep-poster",
@@ -37,31 +39,42 @@ export function StudyScene({
       width: 16,
       height: 35,
       interactions: {
-        look: '"The Creep — A Creepy Horror Film." One of GB Studios\' biggest hits. The tagline reads: "You can\'t escape what\'s already inside."',
+        look: '"The Creep — A Creepy Horror Film." One of GB Studios\' biggest hits, produced by Jack Celston himself. Tagline: "You can\'t escape what\'s already inside."',
         use: "It's just a movie poster.",
       },
     },
     {
       id: "gb-studios-sign",
-      name: "GB Studios Sign",
+      name: "Office Nameplate",
       position: { x: 80, y: 35 },
       width: 16,
       height: 28,
       interactions: {
-        look: '"GB Studios — Movie Production Study Room." This must be where the creative team plans their projects.',
+        look: '"JACK CELSTON — Owner & Executive Producer, GB Studios." This is Celston\'s personal office. He runs the whole place from here.',
         use: "It's bolted to the wall.",
       },
     },
     {
       id: "desk",
-      name: "Study Desk",
+      name: "Celston's Desk",
       position: { x: 50, y: 65 },
       width: 30,
       height: 25,
       interactions: {
-        look: "A cluttered desk covered in scripts, notes, and a desk lamp. Someone was working late.",
-        open: "I shuffle through the papers. There's a production schedule with tonight's party circled — and a note: \"It ends tonight.\"",
-        use: 'I flip through the scripts. One has "FINAL DRAFT" stamped on it with Los Cabos\' name crossed out.',
+        look: "Jack Celston's executive desk. Stacks of contracts, talent agreements, and a personal day planner. The bottom drawer is slightly ajar.",
+        open: () => {
+          if (!inheritanceFound) {
+            setFlag("inheritanceFound", true);
+            onAddToInventory({
+              id: "inheritance_agreement",
+              name: "Talent Inheritance Agreement",
+              image: inheritanceAgreementImg,
+            });
+            return "I pull open the bottom drawer. Inside is a sealed manila envelope marked 'TALENT INHERITANCE AGREEMENT.' I crack it open... it assigns ALL of Los Cabos' studio assets — contracts, residuals, IP rights — to one Luke Adams in the event of Los Cabos' death. This is the smoking gun.";
+          }
+          return "The drawer is empty now. I've already taken the inheritance agreement.";
+        },
+        use: 'I flip through the scripts on top. One has "FINAL DRAFT" stamped on it with Los Cabos\' name crossed out — Celston was already preparing to recast.',
         pickup: "I can't carry the whole desk.",
       },
     },
