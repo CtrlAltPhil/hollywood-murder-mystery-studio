@@ -519,6 +519,20 @@ export function GameContainer() {
     );
   }
 
+  // Credits screen after the case is solved
+  if (gameState.phase === 'credits') {
+    return (
+      <div className="w-full h-screen bg-black flex items-center justify-center p-4">
+        <div className="relative w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden" style={{ filter: `brightness(${brightness})` }}>
+          <CreditsScreen
+            onRestart={() => { resetGame(); resetNotes(); setPhase('title'); }}
+            onLoadGame={hasSaveData ? handleLoadGame : undefined}
+          />
+        </div>
+      </div>
+    );
+  }
+
   // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
