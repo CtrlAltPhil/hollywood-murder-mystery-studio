@@ -117,7 +117,7 @@ export function GameScene({
     const hideTimer = setTimeout(() => {
       setShowStanleyCard(false);
       setFlag("stanleyIntroDone", true);
-    }, 5000);
+    }, 8000);
     return () => clearTimeout(hideTimer);
   }, [gameState.flags.shockReactionDone, gameState.flags.stanleyIntroDone]);
 
