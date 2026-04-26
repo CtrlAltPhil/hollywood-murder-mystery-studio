@@ -204,7 +204,7 @@ export function ParkingLotScene({
 
       {/* Luke Adams — leaning against the wall, smoking */}
       <img
-        src={lukeAdamsImg}
+        src={lukeSprite}
         alt="Luke Adams"
         className="absolute pointer-events-none z-10"
         style={{
