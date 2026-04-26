@@ -121,8 +121,8 @@ export function KitchenScene({
       width: 10,
       height: 12,
       interactions: {
-        look: "A pile of dirty dishes. The sink has a faint reddish residue... wine? Or something else?",
-        use: "I turn on the faucet. Just water. The red stuff was probably wine... probably.",
+        look: "A pile of dirty dishes from the party. Someone clearly didn't get to finish cleaning up tonight.",
+        use: "I turn on the faucet. Just water. Not my job to do dishes.",
       },
     },
     {
@@ -137,7 +137,7 @@ export function KitchenScene({
         pickup: "I can't pick up a chef!",
         use: "I should talk to him instead.",
         use_with_wine_glass:
-          '"That residue... Dio mio! I poured that wine myself. Someone must have tampered with it after!" Chef Allegro looks genuinely shaken.',
+          '"A wine glass? Sì, sì, I served plenty of those tonight. Beautiful crystal, no? Was there something else, detective?"',
         use_with_dagger:
           "\"That's not from MY kitchen! My knives are all accounted for... well, except one. But that's not it!\" He looks defensive.",
         use_with_meat_stick: '"You\'re showing me my own food? I know what a meat stick looks like, detective."',

@@ -192,14 +192,14 @@ export function GameScene({
       width: 8,
       height: 10,
       interactions: {
-        look: "A tray of half-finished wine glasses. One of them has a strange residue... Was someone drugged?",
+        look: "A tray of half-finished wine glasses. Fancy crystal — the good stuff.",
         pickup: () => {
           if (!gameState.flags.wineGlassTaken) {
-            onAddToInventory({ id: "wine-glass", name: "Suspicious Wine Glass", image: wineGlassInventoryImage });
+            onAddToInventory({ id: "wine-glass", name: "Wine Glass", image: wineGlassInventoryImage });
             setFlag("wineGlassTaken", true);
-            return "I carefully pick up the glass with the strange residue. This could be evidence.";
+            return "I pocket one of the wine glasses. Might come in handy later.";
           }
-          return "I already took the suspicious glass.";
+          return "I already grabbed a wine glass.";
         },
         use: "I should pick one up first to examine it.",
       },
@@ -323,7 +323,7 @@ export function GameScene({
           setFlag("carlSmirking", true);
           return 'Carl examines the dagger coolly. "Interesting craftsmanship. Looks expensive." A faint smirk crosses his face.';
         },
-        use_with_wine_glass: '"Hmm, that residue... Could be a sedative. Someone was planning ahead."',
+        use_with_wine_glass: '"A wine glass? Detective, I have plenty of those. Was there something specific you wanted to ask?"',
       },
     },
   ];
