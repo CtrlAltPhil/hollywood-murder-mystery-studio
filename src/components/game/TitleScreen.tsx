@@ -206,14 +206,14 @@ export function TitleScreen({
       <div className="absolute top-[58%] left-0 right-0 text-center flex flex-col items-center gap-4">
         <button
           onClick={onStart}
-          className="font-cinzel text-xl md:text-2xl tracking-[0.4em] text-yellow-300 press-start-pulse hover:scale-105 transition-transform cursor-pointer"
+          className="font-cinzel md:text-2xl tracking-[0.4em] text-yellow-300 press-start-pulse hover:scale-105 transition-transform cursor-pointer font-bold text-3xl"
         >
           PRESS START
         </button>
         {hasSaveData && onLoadGame && (
           <button
             onClick={onLoadGame}
-            className="font-cinzel text-xs md:text-sm tracking-[0.4em] text-yellow-300/60 hover:text-yellow-300 hover:scale-105 transition-all cursor-pointer"
+            className="font-cinzel md:text-sm tracking-[0.4em] text-yellow-300/60 hover:text-yellow-300 hover:scale-105 transition-all cursor-pointer font-semibold text-lg"
           >
             CONTINUE
           </button>
