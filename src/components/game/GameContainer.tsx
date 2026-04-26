@@ -27,6 +27,7 @@ import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
 import { DebugGrid } from './DebugGrid';
 import { NotesOverlay } from './NotesOverlay';
+import { LetterOverlay } from './LetterOverlay';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings, NotebookPen } from 'lucide-react';
