@@ -192,9 +192,8 @@ export function TitleScreen({
           </h1>
 
           <div className="title-drop-2 flex items-center justify-center gap-3 my-3 md:my-4">
-            <div className="title-rule flex-1 max-w-[18%]" />
-            <span className="title-sub font-cinzel text-[10px] md:text-xs uppercase">A Noir Adventure</span>
-            <div className="title-rule flex-1 max-w-[18%]" />
+            <div className="title-rule flex-1 max-w-[25%]" />
+            <div className="title-rule flex-1 max-w-[25%]" />
           </div>
 
           <h2 className="title-drop-3 font-cinzel title-deco text-3xl md:text-5xl lg:text-6xl font-black tracking-[0.32em] leading-none">
