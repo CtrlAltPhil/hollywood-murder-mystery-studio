@@ -189,7 +189,7 @@ export function ParkingLotScene({
         className="absolute pointer-events-none z-10"
         style={{
           left: "14%",
-          top: "60%",
+          top: "100%",
           height: "26%",
           transform: "translate(-50%, -100%)",
           imageRendering: "pixelated",
