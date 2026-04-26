@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
 import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
 import tornPhotoImg from "@/assets/props/torn-photograph.png";
 import lukeAdamsImg from "@/assets/characters/luke-adams.png";
+import lukeAdamsImg2 from "@/assets/characters/luke-adams-2.png";
+import lukeAdamsSmirkImg from "@/assets/characters/luke-adams-smirk.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
