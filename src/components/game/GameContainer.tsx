@@ -594,12 +594,14 @@ export function GameContainer() {
             body={
               `THIS AGREEMENT, executed in confidence by Jack Celston, Owner & Executive Producer of Green Box Studios, hereby designates the assignment of all studio assets held in the name of the talent known as LOS CABOS.\n\n` +
               `In the event of the death, incapacitation, or permanent absence of said talent, ALL contracts, residuals, intellectual property rights, image licenses, and ongoing production interests attached to LOS CABOS shall transfer in full, without contest, to:\n\n` +
-              `    LUKE ADAMS — of Las Vegas, Nevada.\n\n` +
-              `This document is to remain sealed and undisclosed to the talent, his counsel, and all other parties associated with Green Box Studios until such time as it becomes operative.\n\n` +
-              `*This is the smoking gun. Celston had a paid arrangement with Luke Adams the entire time.*`
+              `    JACK CELSTON — sole and exclusive beneficiary.\n\n` +
+              `This document is to remain sealed and undisclosed to the talent, his counsel, and all other parties associated with Green Box Studios until such time as it becomes operative.`
             }
             signature="— Signed, Jack Celston"
-            onClose={() => setOpenLetterId(null)}
+            onClose={() => {
+              setOpenLetterId(null);
+              setActionText("This is the smoking gun. Celston stood to inherit everything if Los Cabos died — and he had Luke Adams on the payroll the whole time.");
+            }}
           />
         )}
 

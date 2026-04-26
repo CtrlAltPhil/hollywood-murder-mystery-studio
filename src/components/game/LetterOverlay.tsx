@@ -37,7 +37,6 @@ export function LetterOverlay({ title, body, signature, onClose }: LetterOverlay
           lineHeight: "1.9",
           imageRendering: "pixelated",
         }}
-        onClick={(e) => e.stopPropagation()}
       >
         <div
           className="text-center mb-6 pb-3 border-b-2"
@@ -62,10 +61,10 @@ export function LetterOverlay({ title, body, signature, onClose }: LetterOverlay
         )}
 
         <div
-          className="absolute bottom-2 right-4 animate-pulse"
+          className="mt-6 text-center animate-pulse"
           style={{ fontSize: "8px", color: "hsl(25, 40%, 30%)" }}
         >
-          ▼ click to close
+          ▼ click anywhere to close ▼
         </div>
       </div>
     </div>
