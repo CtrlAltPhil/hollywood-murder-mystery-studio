@@ -8,19 +8,19 @@ interface NewspaperEndingProps {
 const LINES: { speaker: string; text: string }[] = [
   {
     speaker: "Headline",
-    text: "STUDIO PARTNER UNMASKED — 'Carl' revealed as fugitive Luke Adams, charged in the murder of beloved star Los Cabos.",
+    text: "STUDIO MOGUL ARRESTED — Nevada con artist Luke Adams charged in the murder of beloved star Los Cabos.",
   },
   {
     speaker: "The Daily Reel",
-    text: "The Green Box Studios co-owner known only as 'Carl' was taken into custody late last night. Detective Stanley Wilson exposed his real identity as Luke Adams — a Nevada con artist with old fraud charges — who had reinvented himself in Hollywood five years ago.",
+    text: "Luke Adams, a Nevada fraudster long suspected of muscling small studios into hostile buyouts, was taken into custody late last night. Detective Stanley Wilson placed him at the scene of the Green Box Studios cast party — where Adams had slipped in unseen during the blackout.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Prosecutors say Adams murdered Los Cabos to bury a buyout deal his partner refused, and to keep his hidden past from ever reaching the front page. The blackout at the cast party gave him the cover he needed.",
+    text: "Prosecutors say Adams murdered Los Cabos when the director refused his latest buyout offer. With Los Cabos out of the way, Adams expected the studio to fall into his hands. Instead, it fell into the hands of the law.",
   },
   {
     speaker: "Detective Wilson",
-    text: "It came down to four threads: the inheritance papers in the study, a handkerchief monogrammed 'L.A.' in Duke's trunk, Mr. Cowardly's missing alibi, and the projector reel that caught Carl in the act. Pull on all four and the whole story unraveled.",
+    text: "It came down to four threads: the inheritance papers in the study, a handkerchief monogrammed 'L.A.' in Duke's trunk, Mr. Cowardly's missing alibi, and the projector reel that caught Adams in the act. Pull on all four and the whole story unraveled.",
   },
   {
     speaker: "The Daily Reel",
