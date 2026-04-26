@@ -409,6 +409,7 @@ export function GameContainer() {
       'wire_cutters': 'Heavy-duty wire cutters from the garden shed. Could cut through wires or thick branches.',
       'monogrammed_handkerchief': 'A fine silk handkerchief embroidered with the initials "L.A." — Luke Adams? Found in the trunk of Duke Extreme\'s SUV.',
       'torn_photograph': 'A torn photograph showing two men shaking hands over a contract. I don\'t recognize the visible man. The other face has been deliberately torn away.',
+      'inheritance_agreement': 'A sealed manila envelope from Jack Celston\'s desk, marked "TALENT INHERITANCE AGREEMENT."',
     };
     setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
