@@ -138,9 +138,12 @@ export function GameContainer() {
       !showAccusationCutscene &&
       !gameState.flags.caseSolved
     ) {
+      // Close any open dialog so its typewriter blip audio doesn't keep
+      // playing under the cutscene (the cutscene shows text instantly).
+      advanceDialog(null);
       setShowAccusationCutscene(true);
     }
-  }, [gameState.phase, gameState.flags.accusationTriggered, gameState.flags.caseSolved, showAccusationCutscene]);
+  }, [gameState.phase, gameState.flags.accusationTriggered, gameState.flags.caseSolved, showAccusationCutscene, advanceDialog]);
 
   // Auto-log dialogue when a new dialog node appears, and track visited nodes per conversation
   useEffect(() => {
