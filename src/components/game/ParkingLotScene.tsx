@@ -137,7 +137,7 @@ export function ParkingLotScene({
     {
       id: "luke-adams",
       name: "Luke Adams",
-      position: { x: 14, y: 60 },
+      position: { x: 14, y: 90 },
       width: 8,
       height: 22,
       interactions: {
