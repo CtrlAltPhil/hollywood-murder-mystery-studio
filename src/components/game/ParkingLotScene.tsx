@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { GameState } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
 import parkingLotBackground from "@/assets/backgrounds/parking-lot.png";
 import handkerchiefImg from "@/assets/props/monogrammed-handkerchief.png";
 import tornPhotoImg from "@/assets/props/torn-photograph.png";
 import lukeAdamsImg from "@/assets/characters/luke-adams.png";
+import lukeAdamsImg2 from "@/assets/characters/luke-adams-2.png";
+import lukeAdamsSmirkImg from "@/assets/characters/luke-adams-smirk.png";
 
 interface ParkingLotSceneProps {
   gameState: GameState;
@@ -28,6 +31,23 @@ export function ParkingLotScene({
 }: ParkingLotSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const handkerchiefTaken = gameState.flags.handkerchiefTaken === true;
+
+  // Cycle Luke between idle frames (standing -> smoking) for subtle animation
+  const [lukePose, setLukePose] = useState<0 | 1 | 2>(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 0: idle, 1: idle, 2: smoking — gives smoking a less frequent appearance
+      setLukePose((prev) => {
+        if (prev === 0) return 1;
+        if (prev === 1) return 2;
+        return 0;
+      });
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
+
+  const lukeTalking = gameState.dialogState.isActive && gameState.dialogState.character?.id === "luke";
+  const lukeSprite = lukeTalking ? lukeAdamsSmirkImg : lukePose === 2 ? lukeAdamsImg2 : lukeAdamsImg;
   const photoTaken = gameState.flags.photoTaken === true;
   const trunkInspected = gameState.flags.trunkInspected === true;
 
@@ -184,7 +204,7 @@ export function ParkingLotScene({
 
       {/* Luke Adams — leaning against the wall, smoking */}
       <img
-        src={lukeAdamsImg}
+        src={lukeSprite}
         alt="Luke Adams"
         className="absolute pointer-events-none z-10"
         style={{

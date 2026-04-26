@@ -44,6 +44,8 @@ import losCabos2Img from "@/assets/characters/los-cabos-2.png";
 import mrCowardlyImg from "@/assets/characters/mr-cowardly.png";
 import mrCowardlyScaredImg from "@/assets/characters/mr-cowardly-scared.png";
 import lukeAdamsImg from "@/assets/characters/luke-adams.png";
+import lukeAdamsImg2 from "@/assets/characters/luke-adams-2.png";
+import lukeAdamsSmirkImg from "@/assets/characters/luke-adams-smirk.png";
 import inheritanceAgreementImg from "@/assets/props/inheritance-agreement.png";
 
 import tableImg from "@/assets/props/table.png";
@@ -83,7 +85,7 @@ export const assetManifest: Record<string, string[]> = {
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
-  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg, lukeAdamsImg],
+  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg, lukeAdamsImg, lukeAdamsImg2, lukeAdamsSmirkImg],
   // Endgame assets — preloaded globally so the finale never pops in
   _endgame: [lukeAdamsImg, newspaperEndingImg],
 };
