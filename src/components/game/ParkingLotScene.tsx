@@ -34,12 +34,12 @@ export function ParkingLotScene({
   const hotspots: SimpleHotspot[] = [
     {
       id: "duke-car",
-      name: "Black SUV (\"XTRM DUK\")",
-      position: { x: 70, y: 55 },
-      width: 28,
-      height: 35,
+      name: 'Black SUV ("XTRM DUKE")',
+      position: { x: 70, y: 75 },
+      width: 20,
+      height: 20,
       interactions: {
-        look: "A matte black SUV with tinted windows. The vanity plate reads \"XTRM DUK\" — that's Duke Extreme's ride. The trunk is popped open.",
+        look: "A matte black SUV with tinted windows. The vanity plate reads \"XTRM DUKE\" — that's Duke Extreme's ride. The trunk is popped open.",
         open: "The trunk is already open. I should take a closer look inside.",
         use: "It's locked. I'm not getting in without keys.",
         push: "I'm not pushing a two-ton SUV.",
@@ -48,7 +48,7 @@ export function ParkingLotScene({
     {
       id: "open-trunk",
       name: "Open Trunk",
-      position: { x: 82, y: 62 },
+      position: { x: 85, y: 75 },
       width: 14,
       height: 18,
       interactions: {
@@ -64,8 +64,12 @@ export function ParkingLotScene({
         pickup: () => {
           if (!handkerchiefTaken) {
             setFlag("handkerchiefTaken", true);
-            onAddToInventory({ id: "monogrammed_handkerchief", name: "Monogrammed Handkerchief", image: handkerchiefImg });
-            return "I pick up the handkerchief. It's fine silk, embroidered with the initials \"L.A.\" — Luke Adams? Who is that?";
+            onAddToInventory({
+              id: "monogrammed_handkerchief",
+              name: "Monogrammed Handkerchief",
+              image: handkerchiefImg,
+            });
+            return 'I pick up the handkerchief. It\'s fine silk, embroidered with the initials "L.A." — Luke Adams? Who is that?';
           }
           if (!photoTaken) {
             setFlag("photoTaken", true);
@@ -80,9 +84,9 @@ export function ParkingLotScene({
     {
       id: "police-cruiser",
       name: "Police Cruiser",
-      position: { x: 25, y: 55 },
-      width: 28,
-      height: 35,
+      position: { x: 15, y: 85 },
+      width: 20,
+      height: 25,
       interactions: {
         look: "My cruiser. At least it's still in one piece. The radio light is blinking — dispatch is probably wondering where my report is.",
         open: "I don't need anything from the car right now. The answers are inside the studio.",
@@ -93,7 +97,7 @@ export function ParkingLotScene({
     {
       id: "dumpster",
       name: "Dumpster",
-      position: { x: 48, y: 45 },
+      position: { x: 35, y: 65 },
       width: 14,
       height: 20,
       interactions: {
@@ -106,7 +110,7 @@ export function ParkingLotScene({
     {
       id: "security-camera",
       name: "Security Camera",
-      position: { x: 50, y: 12 },
+      position: { x: 68, y: 40 },
       width: 10,
       height: 12,
       interactions: {
@@ -121,23 +125,13 @@ export function ParkingLotScene({
     {
       id: "oil-stain",
       name: "Oil Stain",
-      position: { x: 72, y: 82 },
+      position: { x: 65, y: 90 },
       width: 12,
       height: 8,
       interactions: {
         look: "A fresh oil stain on the pavement, right beneath Duke's SUV. The engine was running recently. Was someone planning a quick getaway?",
         use: "It's just oil on asphalt.",
         pickup: "I can't pick up an oil stain.",
-      },
-    },
-    {
-      id: "license-plate",
-      name: "License Plate",
-      position: { x: 62, y: 72 },
-      width: 8,
-      height: 6,
-      interactions: {
-        look: "The vanity plate: \"XTRM DUK\". Subtle, Duke. Real subtle.",
       },
     },
     {
@@ -178,7 +172,10 @@ export function ParkingLotScene({
   return (
     <div className={`relative w-full h-full ${cursorClass}`} onClick={() => onEmptyClick?.()}>
       {/* Background image */}
-      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${parkingLotBackground})` }} />
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${parkingLotBackground})` }}
+      />
 
       {/* Navigation indicator */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30 text-white/60 text-xs font-pixel animate-pulse">
@@ -208,13 +205,31 @@ export function ParkingLotScene({
           style={{ left: "76%", top: "56%", width: "7%", height: "7%" }}
         >
           <div className="relative w-full h-full">
-            <div className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping" style={{ left: "50%", top: "40%", animationDuration: "1.2s", animationDelay: "0s" }} />
-            <div className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ left: "30%", top: "60%", animationDuration: "1.5s", animationDelay: "0.3s" }} />
-            <div className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping" style={{ left: "70%", top: "50%", animationDuration: "1s", animationDelay: "0.6s" }} />
-            <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ left: "40%", top: "30%", animationDuration: "1.3s", animationDelay: "0.4s" }} />
+            <div
+              className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping"
+              style={{ left: "50%", top: "40%", animationDuration: "1.2s", animationDelay: "0s" }}
+            />
+            <div
+              className="absolute w-1 h-1 bg-white rounded-full animate-ping"
+              style={{ left: "30%", top: "60%", animationDuration: "1.5s", animationDelay: "0.3s" }}
+            />
+            <div
+              className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping"
+              style={{ left: "70%", top: "50%", animationDuration: "1s", animationDelay: "0.6s" }}
+            />
+            <div
+              className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping"
+              style={{ left: "40%", top: "30%", animationDuration: "1.3s", animationDelay: "0.4s" }}
+            />
             <div className="absolute" style={{ left: "45%", top: "45%", width: "10%", height: "10%" }}>
-              <div className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
-              <div className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.8s" }} />
+              <div
+                className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"
+                style={{ animationDuration: "0.8s" }}
+              />
+              <div
+                className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"
+                style={{ animationDuration: "0.8s" }}
+              />
             </div>
           </div>
         </div>
@@ -225,13 +240,31 @@ export function ParkingLotScene({
           style={{ left: "86%", top: "58%", width: "7%", height: "7%" }}
         >
           <div className="relative w-full h-full">
-            <div className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping" style={{ left: "50%", top: "40%", animationDuration: "1.4s", animationDelay: "0.2s" }} />
-            <div className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ left: "30%", top: "60%", animationDuration: "1.1s", animationDelay: "0.5s" }} />
-            <div className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping" style={{ left: "70%", top: "50%", animationDuration: "1.6s", animationDelay: "0.8s" }} />
-            <div className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping" style={{ left: "55%", top: "70%", animationDuration: "1.3s", animationDelay: "0.1s" }} />
+            <div
+              className="absolute w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping"
+              style={{ left: "50%", top: "40%", animationDuration: "1.4s", animationDelay: "0.2s" }}
+            />
+            <div
+              className="absolute w-1 h-1 bg-white rounded-full animate-ping"
+              style={{ left: "30%", top: "60%", animationDuration: "1.1s", animationDelay: "0.5s" }}
+            />
+            <div
+              className="absolute w-1.5 h-1.5 bg-yellow-100 rounded-full animate-ping"
+              style={{ left: "70%", top: "50%", animationDuration: "1.6s", animationDelay: "0.8s" }}
+            />
+            <div
+              className="absolute w-0.5 h-0.5 bg-white rounded-full animate-ping"
+              style={{ left: "55%", top: "70%", animationDuration: "1.3s", animationDelay: "0.1s" }}
+            />
             <div className="absolute" style={{ left: "45%", top: "45%", width: "10%", height: "10%" }}>
-              <div className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.9s" }} />
-              <div className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" style={{ animationDuration: "0.9s" }} />
+              <div
+                className="w-2 h-0.5 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"
+                style={{ animationDuration: "0.9s" }}
+              />
+              <div
+                className="w-0.5 h-2 bg-yellow-200/90 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse"
+                style={{ animationDuration: "0.9s" }}
+              />
             </div>
           </div>
         </div>
