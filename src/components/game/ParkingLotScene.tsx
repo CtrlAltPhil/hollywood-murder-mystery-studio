@@ -31,6 +31,23 @@ export function ParkingLotScene({
 }: ParkingLotSceneProps) {
   const cursorClass = getCursorClass(gameState.selectedVerb);
   const handkerchiefTaken = gameState.flags.handkerchiefTaken === true;
+
+  // Cycle Luke between idle frames (standing -> smoking) for subtle animation
+  const [lukePose, setLukePose] = useState<0 | 1 | 2>(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 0: idle, 1: idle, 2: smoking — gives smoking a less frequent appearance
+      setLukePose((prev) => {
+        if (prev === 0) return 1;
+        if (prev === 1) return 2;
+        return 0;
+      });
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
+
+  const lukeTalking = gameState.dialogState.isActive && gameState.dialogState.character?.id === "luke";
+  const lukeSprite = lukeTalking ? lukeAdamsSmirkImg : lukePose === 2 ? lukeAdamsImg2 : lukeAdamsImg;
   const photoTaken = gameState.flags.photoTaken === true;
   const trunkInspected = gameState.flags.trunkInspected === true;
 
