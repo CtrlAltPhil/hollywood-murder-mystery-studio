@@ -8,7 +8,6 @@ import waterfall3 from "@/assets/props/waterfall3.png";
 import waterfall4 from "@/assets/props/waterfall4.png";
 import electricalBoxKeyImage from "@/assets/Electrical_Box_Key.png";
 import mrCowardlyScaredImg from "@/assets/characters/mr-cowardly-scared.png";
-import mrCowardlyImg from "@/assets/characters/mr-cowardly.png";
 
 interface BackyardSceneProps {
   gameState: GameState;
@@ -47,21 +46,6 @@ export function BackyardScene({
     }, 150);
     return () => clearInterval(interval);
   }, [waterfallFrames.length, fountainOff]);
-
-  // Mr. Cowardly briefly panics (wide-eyed, mouth open, trembling) when the
-  // detective presses him on a question, then composes himself again.
-  const [cowardlyPanicking, setCowardlyPanicking] = useState(false);
-  const currentDialogNodeId = gameState.dialogState.currentNode?.id;
-  useEffect(() => {
-    if (!cowardlyHere) return;
-    // Any non-root cowardly response = he's been pushed and freaks out
-    const panicNodes = ['cowardly-saw', 'cowardly-ran', 'cowardly-stranger'];
-    if (currentDialogNodeId && panicNodes.includes(currentDialogNodeId)) {
-      setCowardlyPanicking(true);
-      const t = setTimeout(() => setCowardlyPanicking(false), 2500);
-      return () => clearTimeout(t);
-    }
-  }, [currentDialogNodeId, cowardlyHere]);
 
   const hotspots: SimpleHotspot[] = [
     {
@@ -206,9 +190,9 @@ export function BackyardScene({
     hotspots.push({
       id: "mr-cowardly",
       name: "Mr. Cowardly",
-      position: { x: 22, y: 65 },
-      width: 10,
-      height: 32,
+      position: { x: 22, y: 75 },
+      width: 8,
+      height: 22,
       interactions: {
         look: "There he is — pressed against the column, trembling. He's not going anywhere now.",
         talk: "__DIALOG__cowardly",
@@ -282,7 +266,7 @@ export function BackyardScene({
       {/* Mr. Cowardly — waiting just left of the koi pond after fleeing the hallway */}
       {cowardlyHere && (
         <img
-          src={cowardlyPanicking ? mrCowardlyScaredImg : mrCowardlyImg}
+          src={mrCowardlyScaredImg}
           alt="Mr. Cowardly"
           className="absolute pointer-events-none z-10"
           style={{
@@ -291,9 +275,7 @@ export function BackyardScene({
             height: "32%",
             transform: "translate(-50%, -100%)",
             imageRendering: "pixelated",
-            animation: cowardlyPanicking
-              ? "cowardly-tremble 0.25s ease-in-out infinite"
-              : undefined,
+            animation: "cowardly-tremble 0.25s ease-in-out infinite",
           }}
         />
       )}
