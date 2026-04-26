@@ -138,7 +138,7 @@ export const flagEvidenceMapExtended: Record<string, EvidenceEntry> = {
   photoTaken: {
     id: 'torn-photograph',
     title: 'Torn Photograph',
-    description: 'A photograph torn in half, showing two men shaking hands over a contract. One of them resembles Carl. The other person\'s face has been deliberately torn away.',
+    description: 'A photograph torn in half, showing two men shaking hands over a contract. The visible man is unfamiliar — the other person\'s face has been deliberately torn away.',
     category: 'Physical Evidence',
   },
   securityCameraFound: {
