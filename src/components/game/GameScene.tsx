@@ -488,12 +488,11 @@ export function GameScene({
 
       {/* Stanley Wilson intro card */}
       {showStanleyCard && (
-        <div className="absolute inset-x-0 bottom-0 z-50 flex items-end justify-center pb-8 pointer-events-none animate-[fade-in_0.5s_ease-out]">
-          <div className="bg-black/90 border-2 border-white/80 px-6 py-4 max-w-md text-center">
-            <p className="text-white text-sm font-bold tracking-wider mb-1">DETECTIVE STANLEY WILSON</p>
-            <p className="text-white/80 text-xs leading-relaxed">
-              Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book.
-              He has solved every case he has ever been assigned — and he does not intend to stop now.
+        <div className="bg-black/95 border-4 border-white/80 px-12 py-10 max-w-2xl text-center shadow-2xl">
+            <p className="text-white text-3xl font-bold tracking-widest mb-4">YOU ARE DETECTIVE STANLEY WILSON</p>
+            <p className="text-white/90 text-lg leading-relaxed">
+              A Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book.
+              You have solved every case you've ever been assigned — and you don't intend to stop now.
             </p>
           </div>
         </div>
