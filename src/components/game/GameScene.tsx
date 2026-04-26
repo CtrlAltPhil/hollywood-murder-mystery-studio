@@ -134,20 +134,28 @@ export function GameScene({
       interactions: {
         look: "A sturdy wooden door leading to the hallway.",
         open: (() => {
-          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
-          return allTalked ? "__NAVIGATE__hallway" : "I should properly interrogate each suspect here before I leave this room.";
+          const allTalked =
+            gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          return allTalked
+            ? "__NAVIGATE__hallway"
+            : "I should properly interrogate each suspect here before I leave this room.";
         })(),
         close: "It's already closed.",
         use: (() => {
-          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
-          return allTalked ? "__NAVIGATE__hallway" : "I need to talk to everyone in this room first. Can't let anyone off the hook.";
+          const allTalked =
+            gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          return allTalked
+            ? "__NAVIGATE__hallway"
+            : "I need to talk to everyone in this room first. Can't let anyone off the hook.";
         })(),
         push: (() => {
-          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          const allTalked =
+            gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
           return allTalked ? "__NAVIGATE__hallway" : "Not yet. I haven't questioned all the suspects.";
         })(),
         pull: (() => {
-          const allTalked = gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
+          const allTalked =
+            gameState.flags.talkedToCarl && gameState.flags.talkedToLady && gameState.flags.talkedToDuke;
           return allTalked ? "__NAVIGATE__hallway" : "I can't leave until I've spoken to everyone here.";
         })(),
       },
@@ -329,7 +337,13 @@ export function GameScene({
   });
 
   return (
-    <div ref={sceneRef} className={`relative w-full h-full ${inputLocked ? "cursor-none" : cursorClass}`} onClick={() => { if (!inputLocked) onEmptyClick?.(); }}>
+    <div
+      ref={sceneRef}
+      className={`relative w-full h-full ${inputLocked ? "cursor-none" : cursorClass}`}
+      onClick={() => {
+        if (!inputLocked) onEmptyClick?.();
+      }}
+    >
       {/* Background */}
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${breakroomBackground})` }} />
 
@@ -488,11 +502,12 @@ export function GameScene({
 
       {/* Stanley Wilson intro card */}
       {showStanleyCard && (
-        <div className="bg-black/95 border-4 border-white/80 px-12 py-10 max-w-2xl text-center shadow-2xl">
+        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none animate-[fade-in_0.5s_ease-out]">
+          <div className="bg-black/95 border-4 border-white/80 px-12 py-10 max-w-2xl text-center shadow-2xl">
             <p className="text-white text-3xl font-bold tracking-widest mb-4">YOU ARE DETECTIVE STANLEY WILSON</p>
             <p className="text-white/90 text-lg leading-relaxed">
-              A Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book.
-              You have solved every case you've ever been assigned — and you don't intend to stop now.
+              A Twenty year veteran of the Hollywood Police Department. Serious, sharp, and by the book. You have solved
+              every case you've ever been assigned — and you don't intend to stop now.
             </p>
           </div>
         </div>
