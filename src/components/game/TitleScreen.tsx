@@ -178,19 +178,29 @@ export function TitleScreen({
 
       {/* Title */}
       <div className="absolute top-[7%] left-0 right-0 text-center px-6">
-        <h1 className="title-drop-1 font-deco title-deco text-5xl md:text-7xl lg:text-8xl tracking-[0.18em] leading-none">
-          HOLLYWOOD
-        </h1>
+        {/* Dark backdrop to separate title from the gold GB Studios sign */}
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[260%] pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse at center, hsl(220, 40%, 4%, 0.92) 0%, hsl(220, 40%, 4%, 0.78) 35%, hsl(220, 40%, 4%, 0.4) 65%, transparent 85%)',
+          }}
+        />
+        <div className="relative">
+          <h1 className="title-drop-1 font-deco title-deco text-5xl md:text-7xl lg:text-8xl tracking-[0.18em] leading-none">
+            HOLLYWOOD
+          </h1>
 
-        <div className="title-drop-2 flex items-center justify-center gap-3 my-3 md:my-4">
-          <div className="title-rule flex-1 max-w-[18%]" />
-          <span className="title-sub font-cinzel text-[10px] md:text-xs uppercase">A Noir Adventure</span>
-          <div className="title-rule flex-1 max-w-[18%]" />
+          <div className="title-drop-2 flex items-center justify-center gap-3 my-3 md:my-4">
+            <div className="title-rule flex-1 max-w-[18%]" />
+            <span className="title-sub font-cinzel text-[10px] md:text-xs uppercase">A Noir Adventure</span>
+            <div className="title-rule flex-1 max-w-[18%]" />
+          </div>
+
+          <h2 className="title-drop-3 font-cinzel title-deco text-3xl md:text-5xl lg:text-6xl font-black tracking-[0.32em] leading-none">
+            MURDER MYSTERY
+          </h2>
         </div>
-
-        <h2 className="title-drop-3 font-cinzel title-deco text-3xl md:text-5xl lg:text-6xl font-black tracking-[0.32em] leading-none">
-          MURDER MYSTERY
-        </h2>
       </div>
 
       {/* Press Start Button */}
