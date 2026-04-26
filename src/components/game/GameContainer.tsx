@@ -27,6 +27,7 @@ import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
 import { DebugGrid } from './DebugGrid';
 import { NotesOverlay } from './NotesOverlay';
+import { LetterOverlay } from './LetterOverlay';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings, NotebookPen } from 'lucide-react';
@@ -85,6 +86,7 @@ export function GameContainer() {
   const [showAccusationCutscene, setShowAccusationCutscene] = useState(false);
   const [showNewspaperEnding, setShowNewspaperEnding] = useState(false);
   const [hoverText, setHoverText] = useState('');
+  const [openLetterId, setOpenLetterId] = useState<string | null>(null);
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
 
@@ -407,6 +409,7 @@ export function GameContainer() {
       'wire_cutters': 'Heavy-duty wire cutters from the garden shed. Could cut through wires or thick branches.',
       'monogrammed_handkerchief': 'A fine silk handkerchief embroidered with the initials "L.A." — Luke Adams? Found in the trunk of Duke Extreme\'s SUV.',
       'torn_photograph': 'A torn photograph showing two men shaking hands over a contract. I don\'t recognize the visible man. The other face has been deliberately torn away.',
+      'inheritance_agreement': 'A sealed manila envelope from Jack Celston\'s desk, marked "TALENT INHERITANCE AGREEMENT."',
     };
     setHoverText('');
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
@@ -576,6 +579,21 @@ export function GameContainer() {
           />
         )}
 
+        {openLetterId === 'inheritance_agreement' && (
+          <LetterOverlay
+            title="TALENT INHERITANCE AGREEMENT"
+            body={
+              `THIS AGREEMENT, executed in confidence by Jack Celston, Owner & Executive Producer of Green Box Studios, hereby designates the assignment of all studio assets held in the name of the talent known as LOS CABOS.\n\n` +
+              `In the event of the death, incapacitation, or permanent absence of said talent, ALL contracts, residuals, intellectual property rights, image licenses, and ongoing production interests attached to LOS CABOS shall transfer in full, without contest, to:\n\n` +
+              `    LUKE ADAMS — of Las Vegas, Nevada.\n\n` +
+              `This document is to remain sealed and undisclosed to the talent, his counsel, and all other parties associated with Green Box Studios until such time as it becomes operative.\n\n` +
+              `*This is the smoking gun. Celston had a paid arrangement with Luke Adams the entire time.*`
+            }
+            signature="— Signed, Jack Celston"
+            onClose={() => setOpenLetterId(null)}
+          />
+        )}
+
         {isMenuOpen && (
           <GameMenu 
             onResume={() => setIsMenuOpen(false)}
@@ -678,6 +696,10 @@ export function GameContainer() {
               if (gameState.selectedVerb === 'look') {
                 setHoverText('');
                 selectVerb(null);
+                if (item.id === 'inheritance_agreement') {
+                  setOpenLetterId('inheritance_agreement');
+                  return;
+                }
                 setActionText(item.description || `It's a ${item.name}.`);
               } else {
                 selectItem(item);

@@ -56,10 +56,23 @@ export function AccusationCutscene({ onComplete }: AccusationCutsceneProps) {
       </div>
 
       {/* Dialog */}
-      <div className="relative w-[90%] max-w-3xl mb-8 border-2 border-amber-400/70 bg-black/85 px-6 py-4 font-pixel text-white shadow-[0_0_24px_hsla(45,90%,60%,0.3)]">
-        <div className="text-amber-300 text-xs uppercase tracking-widest mb-2">{line.speaker}</div>
-        <div className="text-base leading-relaxed">{line.text}</div>
-        <div className="absolute bottom-1 right-3 text-amber-400/60 text-xs animate-pulse">
+      <div
+        className="relative w-[90%] max-w-3xl mb-8 border-2 border-amber-400/70 bg-black/85 px-6 py-4 text-white shadow-[0_0_24px_hsla(45,90%,60%,0.3)]"
+        style={{ fontFamily: '"Press Start 2P", monospace' }}
+      >
+        <div
+          className="text-amber-300 uppercase tracking-widest mb-3"
+          style={{ fontFamily: '"Press Start 2P", monospace', fontSize: '9px' }}
+        >
+          {line.speaker}
+        </div>
+        <div style={{ fontFamily: '"Press Start 2P", monospace', fontSize: '10px', lineHeight: '1.8' }}>
+          {line.text}
+        </div>
+        <div
+          className="absolute bottom-1 right-3 text-amber-400/60 animate-pulse"
+          style={{ fontFamily: '"Press Start 2P", monospace', fontSize: '8px' }}
+        >
           {index < LINES.length - 1 ? "▼ click to continue" : "▼ click to finish"}
         </div>
       </div>

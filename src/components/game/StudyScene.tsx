@@ -70,7 +70,7 @@ export function StudyScene({
               name: "Talent Inheritance Agreement",
               image: inheritanceAgreementImg,
             });
-            return "I pull open the bottom drawer. Inside is a sealed manila envelope marked 'TALENT INHERITANCE AGREEMENT.' I crack it open... it assigns ALL of Los Cabos' studio assets — contracts, residuals, IP rights — to one Luke Adams in the event of Los Cabos' death. This is the smoking gun.";
+            return "I pull open the bottom drawer. Inside is a sealed manila envelope marked 'TALENT INHERITANCE AGREEMENT.' I tuck it into my coat — I'll read it properly when I get a moment.";
           }
           return "The drawer is empty now. I've already taken the inheritance agreement.";
         },
