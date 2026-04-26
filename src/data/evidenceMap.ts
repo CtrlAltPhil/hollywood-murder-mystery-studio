@@ -50,8 +50,8 @@ export const flagEvidenceMap: Record<string, EvidenceEntry> = {
 export const itemEvidenceMap: Record<string, EvidenceEntry> = {
   'wine-glass': {
     id: 'wine-glass-evidence',
-    title: 'Suspicious Wine Glass',
-    description: 'A wine glass with a strange residue at the bottom. Someone may have been drugged.',
+    title: 'Wine Glass',
+    description: 'A fancy crystal wine glass from the party. No obvious significance — yet.',
     category: 'Physical Evidence',
   },
   'fountain_key': {

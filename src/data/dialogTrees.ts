@@ -913,7 +913,7 @@ const ladyRoomEvidenceOptions: EvidenceOption[] = [
   { flag: 'daggerTaken', option: { text: "Take another look at this dagger. Notice anything new?", nextNodeId: 'lady-room-dagger-react' } },
   { flag: 'drawerOpened', option: { text: "About that threatening note — do you recognize the handwriting?", nextNodeId: 'lady-room-note-react' } },
   { flag: 'photoTaken', option: { text: "I found this torn photograph. Recognize anyone?", nextNodeId: 'lady-room-photo-react' } },
-  { flag: 'wineGlassTaken', option: { text: "The drugged wine — Carl ordered it specifically for Los Cabos, didn't he?", nextNodeId: 'lady-room-wine-react' } },
+  
   { flag: 'moneyBagTaken', option: { text: "About that cash in Duke Extreme's room — where do you think it came from?", nextNodeId: 'lady-room-money-bag-react' } },
 ];
 
@@ -927,32 +927,32 @@ interface EvidenceOption {
 const carlEvidenceOptions: EvidenceOption[] = [
   { flag: 'daggerTaken', option: { text: "I found the murder weapon. Know anything about this dagger?", nextNodeId: 'carl-dagger-react' } },
   { flag: 'drawerOpened', option: { text: "I found a threatening note. 'Decline the offer or else.' Ring any bells?", nextNodeId: 'carl-note-react' } },
-  { flag: 'wineGlassTaken', option: { text: "This wine glass has a strange residue. You ordered that wine, didn't you?", nextNodeId: 'carl-wine-react' } },
+  
   { flag: 'moneyBagTaken', option: { text: "I found a bag of cash in Duke Extreme's room. Know anything about that?", nextNodeId: 'carl-money-bag-react' } },
 ];
 
 const ladyEvidenceOptions: EvidenceOption[] = [
   { flag: 'daggerTaken', option: { text: "Do you recognize this dagger?", nextNodeId: 'lady-dagger-react' } },
   { flag: 'drawerOpened', option: { text: "I found a note in Los Cabos' desk: 'Decline the offer or else.'", nextNodeId: 'lady-note-react' } },
-  { flag: 'wineGlassTaken', option: { text: "I found a wine glass with a suspicious residue. Los Cabos may have been drugged.", nextNodeId: 'lady-wine-react' } },
+  
   { flag: 'moneyBagTaken', option: { text: "I found a bag of cash hidden in Duke Extreme's room.", nextNodeId: 'lady-money-bag-react' } },
 ];
 
 const fuegoEvidenceOptions: EvidenceOption[] = [
   { flag: 'daggerTaken', option: { text: "This dagger — you handled weapons on the Marrakech set. Recognize it?", nextNodeId: 'fuego-dagger-react' } },
   { flag: 'drawerOpened', option: { text: "I found a threatening note: 'Decline the offer or else.' Know anything?", nextNodeId: 'fuego-note-react' } },
-  { flag: 'wineGlassTaken', option: { text: "Someone drugged the wine. You were in the kitchen all night.", nextNodeId: 'fuego-wine-react' } },
+  
   { flag: 'moneyBagTaken', option: { text: "I found a bag of cash in YOUR room, Duke. Care to explain?", nextNodeId: 'fuego-money-bag-react' } },
 ];
 
 const chefEvidenceOptions: EvidenceOption[] = [
-  { flag: 'wineGlassTaken', option: { text: "This wine glass has residue in it. The wine may have been drugged.", nextNodeId: 'chef-wine-react' } },
+  
   { flag: 'drawerOpened', option: { text: "I found a threatening note in Los Cabos' desk. Did he seem worried lately?", nextNodeId: 'chef-note-react' } },
 ];
 
 const sallyEvidenceOptions: EvidenceOption[] = [
   { flag: 'daggerTaken', option: { text: "Recognize this dagger?", nextNodeId: 'sally-dagger-react' } },
-  { flag: 'wineGlassTaken', option: { text: "This wine glass has a strange residue. You poured the wine, right?", nextNodeId: 'sally-wine-react' } },
+  
   { flag: 'drawerOpened', option: { text: "I found a note: 'Decline the offer or else.' Any idea who wrote it?", nextNodeId: 'sally-note-react' } },
 ];
 
