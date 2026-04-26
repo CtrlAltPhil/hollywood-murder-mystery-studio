@@ -159,3 +159,81 @@
   0%, 100% { transform: translate(-50%, -100%) rotate(-1deg); }
   50%      { transform: translate(-50%, -100%) rotate(1deg); }
 }
+
+/* ===== Title Screen: Art Deco Hollywood ===== */
+.font-deco {
+  font-family: 'Limelight', 'Cinzel', serif;
+}
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.title-deco {
+  background: linear-gradient(
+    180deg,
+    hsl(48, 95%, 78%) 0%,
+    hsl(45, 90%, 60%) 35%,
+    hsl(38, 85%, 45%) 65%,
+    hsl(30, 70%, 35%) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter:
+    drop-shadow(0 0 1px hsl(40, 90%, 55%))
+    drop-shadow(0 0 12px hsl(45, 90%, 50%, 0.55))
+    drop-shadow(0 2px 0 hsl(25, 60%, 18%))
+    drop-shadow(0 4px 14px hsl(0, 0%, 0%, 0.7));
+  animation: title-flicker 6s ease-in-out infinite;
+}
+
+.title-sub {
+  color: hsl(45, 80%, 70%);
+  letter-spacing: 0.4em;
+  text-shadow:
+    0 0 6px hsl(45, 90%, 50%, 0.6),
+    0 1px 0 hsl(0, 0%, 0%, 0.8);
+}
+
+.title-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(45, 80%, 55%, 0.8) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px hsl(45, 90%, 55%, 0.5);
+}
+
+@keyframes title-flicker {
+  0%, 100%   { opacity: 1; }
+  47%, 49%   { opacity: 1; }
+  48%        { opacity: 0.78; }
+  52%, 54%   { opacity: 1; }
+  53%        { opacity: 0.85; }
+}
+
+@keyframes title-drop-in {
+  0%   { opacity: 0; transform: translateY(-24px) scale(0.96); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.title-drop-1 { animation: title-drop-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s both; }
+.title-drop-2 { animation: title-drop-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s both; }
+.title-drop-3 { animation: title-drop-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.9s both; }
+
+@keyframes press-start-pulse {
+  0%, 100% {
+    text-shadow: 0 0 6px hsl(45, 95%, 55%, 0.7), 0 0 18px hsl(45, 95%, 50%, 0.4);
+    opacity: 1;
+  }
+  50% {
+    text-shadow: 0 0 14px hsl(45, 95%, 60%, 0.95), 0 0 32px hsl(45, 95%, 55%, 0.6);
+    opacity: 0.85;
+  }
+}
+.press-start-pulse {
+  animation: press-start-pulse 1.8s ease-in-out infinite;
+}
+

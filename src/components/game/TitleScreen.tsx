@@ -177,25 +177,34 @@ export function TitleScreen({
       </div>
 
       {/* Title */}
-      <div className="absolute top-[8%] left-0 right-0 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-wider title-glow text-yellow-400">HOLLYWOOD</h1>
-        <h2 className="text-5xl md:text-7xl font-bold tracking-widest title-glow text-yellow-400 mt-2">
+      <div className="absolute top-[7%] left-0 right-0 text-center px-6">
+        <h1 className="title-drop-1 font-deco title-deco text-5xl md:text-7xl lg:text-8xl tracking-[0.18em] leading-none">
+          HOLLYWOOD
+        </h1>
+
+        <div className="title-drop-2 flex items-center justify-center gap-3 my-3 md:my-4">
+          <div className="title-rule flex-1 max-w-[18%]" />
+          <span className="title-sub font-cinzel text-[10px] md:text-xs uppercase">A Noir Adventure</span>
+          <div className="title-rule flex-1 max-w-[18%]" />
+        </div>
+
+        <h2 className="title-drop-3 font-cinzel title-deco text-3xl md:text-5xl lg:text-6xl font-black tracking-[0.32em] leading-none">
           MURDER MYSTERY
         </h2>
       </div>
 
       {/* Press Start Button */}
-      <div className="absolute top-[52%] left-0 right-0 text-center flex flex-col items-center gap-4">
+      <div className="absolute top-[58%] left-0 right-0 text-center flex flex-col items-center gap-4">
         <button
           onClick={onStart}
-          className="text-2xl md:text-3xl tracking-widest text-yellow-400 pulse-glow hover:scale-105 transition-transform cursor-pointer"
+          className="font-cinzel text-xl md:text-2xl tracking-[0.4em] text-yellow-300 press-start-pulse hover:scale-105 transition-transform cursor-pointer"
         >
           PRESS START
         </button>
         {hasSaveData && onLoadGame && (
           <button
             onClick={onLoadGame}
-            className="text-sm md:text-base tracking-widest text-yellow-400/70 hover:text-yellow-400 hover:scale-105 transition-all cursor-pointer"
+            className="font-cinzel text-xs md:text-sm tracking-[0.4em] text-yellow-300/60 hover:text-yellow-300 hover:scale-105 transition-all cursor-pointer"
           >
             CONTINUE
           </button>
