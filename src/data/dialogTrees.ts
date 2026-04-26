@@ -816,44 +816,44 @@ const ladyRoomTree: DialogTree = {
   'lady-room-luke-handkerchief': {
     id: 'lady-room-luke-handkerchief',
     speaker: 'Lady Fantastica',
-    text: "Luke Adams... that's Carl's real name. He changed it when he came to Hollywood. Said 'Carl' sounded more sophisticated. Nobody was supposed to know about his past. But I found out.",
+    text: "Luke Adams... I knew him years ago. A Nevada money man — fraud charges, ruined investors. He's been sniffing around Hollywood lately, looking for studios to swallow up. If his handkerchief is on this lot, he was HERE tonight.",
     onEnter: { flag: 'lukeAdamsRevealed' },
     options: [
-      { text: "How did you find out?", nextNodeId: 'lady-room-luke-how' },
-      { text: "Why would he hide his real name?", nextNodeId: 'lady-room-luke-why' },
+      { text: "How do you know him?", nextNodeId: 'lady-room-luke-how' },
+      { text: "Why would he be at the party?", nextNodeId: 'lady-room-luke-why' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-luke-vague': {
     id: 'lady-room-luke-vague',
     speaker: 'Lady Fantastica',
-    text: "Don't play coy with me, detective. If you know that name, you know more than you're letting on. Luke Adams is Carl's real name. Before Hollywood. Before the money. Before the lies.",
+    text: "Don't play coy with me, detective. Luke Adams is bad news. Nevada con artist, fraud charges. If his name has come up in this case, you're looking at a very dangerous man.",
     onEnter: { flag: 'lukeAdamsRevealed' },
     options: [
-      { text: "Why would Carl hide his identity?", nextNodeId: 'lady-room-luke-why' },
+      { text: "Why would he be involved with this studio?", nextNodeId: 'lady-room-luke-why' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-luke-how': {
     id: 'lady-room-luke-how',
     speaker: 'Lady Fantastica',
-    text: "I found old documents in the studio safe last year. A birth certificate, a name change filing. 'Luke Adams' became 'Carl' — just Carl, no surname. Like Madonna or Cher, but for a con man. When I confronted him, he threatened to ruin my career if I told anyone.",
+    text: "I did a film in Reno fifteen years ago. He cornered the production with phony 'investment' offers. Threatened anyone who pushed back. I never forgot the face — or the cheap pinstripe suits he always wore. Like a cut-rate gangster trying to look respectable.",
     options: [
-      { text: "He threatened you? That sounds like motive.", nextNodeId: 'lady-room-luke-threat' },
+      { text: "Did he ever threaten Los Cabos?", nextNodeId: 'lady-room-luke-threat' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
   'lady-room-luke-threat': {
     id: 'lady-room-luke-threat',
     speaker: 'Lady Fantastica',
-    text: "Motive for ME? Or motive for HIM? Think about it — if Los Cabos found out Carl was hiding his identity, the partnership would be over. And with the buyout deal... Carl had everything to lose. Everything.",
+    text: "He's been after this studio for months. The buyout offer Los Cabos refused? That was Adams' people. When he doesn't get what he wants through paperwork, he gets it other ways. That's motive, detective. That's MOTIVE.",
     nextNodeId: 'lady-room-root',
   },
   'lady-room-luke-why': {
     id: 'lady-room-luke-why',
     speaker: 'Lady Fantastica',
-    text: "Because Luke Adams has a past. Fraud charges in Nevada. A failed business that bilked investors. He reinvented himself as 'Carl' — mysterious, sophisticated, wealthy. But it's all built on lies. And now someone is dead.",
-    onEnter: { flag: 'carlFraudRevealed' },
+    text: "Because Green Box Studios is exactly the kind of trophy he's been collecting. Los Cabos wouldn't sell, so Adams sent buyout offers, then threats. I never thought he'd actually show his face here. He must have slipped in during the chaos of the party.",
+    onEnter: { flag: 'lukeAdamsMotiveRevealed' },
     nextNodeId: 'lady-room-root',
   },
   // Evidence options when in room
@@ -891,8 +891,8 @@ const ladyRoomTree: DialogTree = {
   'lady-room-photo-react': {
     id: 'lady-room-photo-react',
     speaker: 'Lady Fantastica',
-    text: "That photograph... *takes it gently* This is from the buyout signing meeting. That's Carl — Luke — shaking hands with the buyer. He told Los Cabos the deal fell through. But it didn't, did it? He was working behind Los Cabos' back the whole time.",
-    onEnter: { flag: 'carlBetrayalRevealed' },
+    text: "*takes the photograph and studies it carefully* That suit... the cheap pinstripe, the wide lapels — that's Luke Adams. I'd know that look anywhere. He hasn't changed his style in fifteen years. This was taken at the buyout signing meeting. He WAS here, detective. He was making the deal in person.",
+    onEnter: { flag: 'lukeIdentifiedFromPhoto' },
     nextNodeId: 'lady-room-root',
   },
   'lady-room-money-bag-react': {

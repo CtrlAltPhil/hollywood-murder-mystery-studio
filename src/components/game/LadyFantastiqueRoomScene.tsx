@@ -119,9 +119,9 @@ export function LadyFantastiqueRoomScene({
               pickup: "I can't pick up a person!",
               use: "I should talk to her instead.",
               use_with_monogrammed_handkerchief:
-                '"Those initials... L.A. — that\'s Luke Adams. Carl\'s real name." Lady Fantastica looks away. "He changed it when he came to Hollywood. Nobody was supposed to know."',
+                '"Those initials... L.A. — that\'s Luke Adams." Lady Fantastica goes pale. "He\'s a Nevada con artist who\'s been trying to buy out studios. If his handkerchief turned up here, he was on this lot tonight."',
               use_with_torn_photograph:
-                '"That photograph... I\'ve seen it before. Carl — Luke — he kept it in his office. It was from the buyout deal signing. He was obsessed with that deal."',
+                '"*studies the photo* That cheap pinstripe suit — that\'s Luke Adams. He hasn\'t changed his style in fifteen years. He WAS at the buyout meeting. He came here in person."',
             },
           } as SimpleHotspot,
         ]
