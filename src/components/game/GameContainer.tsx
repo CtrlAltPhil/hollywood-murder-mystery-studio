@@ -4,6 +4,7 @@ import { preloadImages, getAllAssets, getRoomAssets } from '@/utils/preloadAsset
 import { useNotesState } from '@/hooks/useNotesState';
 import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { TitleScreen } from './TitleScreen';
+import { StudioIntro } from './StudioIntro';
 import { IntroSequence } from './IntroSequence';
 import { GameScene } from './GameScene';
 import { HallwayScene } from './HallwayScene';
@@ -483,6 +484,11 @@ export function GameContainer() {
         );
     }
   };
+
+  // Studio intro video
+  if (gameState.phase === 'studio-intro') {
+    return <StudioIntro onComplete={() => setPhase('title')} />;
+  }
 
   // Title screen
   if (gameState.phase === 'title') {

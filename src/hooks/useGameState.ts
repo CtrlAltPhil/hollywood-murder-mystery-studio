@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { GameState, GamePhase, Verb, InventoryItem, Position, DialogNode, Character } from '@/types/game';
 
 const initialGameState: GameState = {
-  phase: 'title',
+  phase: 'studio-intro',
   currentRoom: 'breakroom',
   playerPosition: { x: 400, y: 350 },
   inventory: [],
