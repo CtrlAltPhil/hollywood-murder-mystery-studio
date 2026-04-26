@@ -125,9 +125,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
           {/* Lady Fantastica */}
           <div className="absolute bottom-[3%] left-[8%] z-20">
             <img src={ladySprite} alt="Lady Fantastica" className="h-60 pixelated object-contain" />
-            {dialogue.speaker === "Lady Fantastica" && (
-              <SpeechBubble text={dialogue.text} />
-            )}
+            {dialogue.speaker === "Lady Fantastica" && <SpeechBubble text={dialogue.text} />}
           </div>
 
           {/* Duke Extreme */}
@@ -137,25 +135,19 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
               alt="Duke Extreme"
               className="h-60 pixelated object-contain transition-opacity duration-300"
             />
-            {dialogue.speaker === "Duke Extreme" && (
-              <SpeechBubble text={dialogue.text} />
-            )}
+            {dialogue.speaker === "Duke Extreme" && <SpeechBubble text={dialogue.text} />}
           </div>
 
           {/* Carl */}
           <div className="absolute bottom-[3%] left-[55%] z-20">
             <img src={carlSprite} alt="Carl" className="h-60 pixelated object-contain" />
-            {dialogue.speaker === "Carl" && (
-              <SpeechBubble text={dialogue.text} />
-            )}
+            {dialogue.speaker === "Carl" && <SpeechBubble text={dialogue.text} />}
           </div>
 
           {/* Los Cabos - the future victim, near the far right window */}
           <div className="absolute bottom-[3%] right-[10%] z-20">
             <img src={losCabosSprite} alt="Los Cabos" className="h-60 pixelated object-contain" />
-            {dialogue.speaker === "Los Cabos" && (
-              <SpeechBubble text={dialogue.text} />
-            )}
+            {dialogue.speaker === "Los Cabos" && <SpeechBubble text={dialogue.text} />}
           </div>
         </>
       )}
@@ -166,9 +158,9 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
       {/* Blackout audio cue text */}
       {phase === "blackout" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-          <p className="text-muted-foreground text-base animate-pulse">*the generator groans*</p>
-          <p className="text-muted-foreground text-xs animate-pulse">*fast footsteps cross the room*</p>
-          <p className="text-red-400/70 text-sm animate-pulse">*THUD*</p>
+          <p className="text-muted-foreground text-2xl animate-pulse">*the generator groans*</p>
+          <p className="text-muted-foreground text-2xl animate-pulse">*fast footsteps cross the room*</p>
+          <p className="text-red-400/70 text-3xl animate-pulse">*THUD*</p>
         </div>
       )}
 
