@@ -8,23 +8,23 @@ interface NewspaperEndingProps {
 const LINES: { speaker: string; text: string }[] = [
   {
     speaker: "Headline",
-    text: "STUDIO MOGUL ARRESTED — Nevada con artist Luke Adams charged in the murder of beloved star Los Cabos.",
+    text: "HIRED KILLER UNMASKED — Nevada fixer Luke Adams charged in the murder of beloved star Los Cabos. Studio co-owner Jack Celston named as the man who paid him.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Luke Adams, a Nevada fraudster long suspected of muscling small studios into hostile buyouts, was taken into custody late last night. Detective Stanley Wilson placed him at the scene of the Green Box Studios cast party — where Adams had slipped in unseen during the blackout.",
+    text: "Luke Adams, a Nevada fixer with a long résumé of strong-arm work for hostile studio buyouts, was taken into custody late last night. Detective Stanley Wilson placed him at the scene of the Green Box Studios cast party — where Adams had slipped in unseen during the blackout.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Prosecutors say Adams murdered Los Cabos when the director refused his latest buyout offer. With Los Cabos out of the way, Adams expected the studio to fall into his hands. Instead, it fell into the hands of the law.",
+    text: "Prosecutors say Adams was hired by Jack Celston, Los Cabos' own business partner and co-owner of Green Box Studios. When Los Cabos refused to sell his half of the studio, Celston brought in Adams to make the problem disappear. Celston has also been arrested and charged as the architect of the plot.",
   },
   {
     speaker: "Detective Wilson",
-    text: "It came down to four threads: the inheritance papers in the study, a handkerchief monogrammed 'L.A.' in Duke's trunk, Mr. Cowardly's missing alibi, and the projector reel that caught Adams in the act. Pull on all four and the whole story unraveled.",
+    text: "It came down to four threads: the inheritance papers in the study, a handkerchief monogrammed 'L.A.' in Duke's trunk, Mr. Cowardly's missing alibi, and the projector reel that caught Adams in the act. Pull on all four and the whole story unraveled — right back to Celston's desk.",
   },
   {
     speaker: "The Daily Reel",
-    text: "Adams now awaits trial. Detective Wilson has been commended for closing one of Hollywood's darkest cases. The studio lights, for once, have gone out for good.",
+    text: "Adams and Celston now await trial. Detective Wilson has been commended for closing one of Hollywood's darkest cases. The studio lights, for once, have gone out for good.",
   },
 ];
 
