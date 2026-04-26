@@ -681,6 +681,10 @@ export function GameContainer() {
               if (gameState.selectedVerb === 'look') {
                 setHoverText('');
                 selectVerb(null);
+                if (item.id === 'inheritance_agreement') {
+                  setOpenLetterId('inheritance_agreement');
+                  return;
+                }
                 setActionText(item.description || `It's a ${item.name}.`);
               } else {
                 selectItem(item);
