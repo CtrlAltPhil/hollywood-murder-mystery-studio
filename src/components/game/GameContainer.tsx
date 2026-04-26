@@ -86,6 +86,7 @@ export function GameContainer() {
   const [showAccusationCutscene, setShowAccusationCutscene] = useState(false);
   const [showNewspaperEnding, setShowNewspaperEnding] = useState(false);
   const [hoverText, setHoverText] = useState('');
+  const [openLetterId, setOpenLetterId] = useState<string | null>(null);
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
   const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
 
