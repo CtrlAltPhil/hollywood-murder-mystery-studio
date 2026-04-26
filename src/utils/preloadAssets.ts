@@ -85,7 +85,7 @@ export const assetManifest: Record<string, string[]> = {
   "garden-path": [gardenPathBg],
   "shed-interior": [shedInteriorBg, wireCuttersImg],
   "duke-extreme-room": [dukeRoomBg, moneyBag],
-  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg, lukeAdamsImg],
+  "parking-lot": [parkingLotBg, handkerchiefImg, tornPhotoImg, lukeAdamsImg, lukeAdamsImg2, lukeAdamsSmirkImg],
   // Endgame assets — preloaded globally so the finale never pops in
   _endgame: [lukeAdamsImg, newspaperEndingImg],
 };
