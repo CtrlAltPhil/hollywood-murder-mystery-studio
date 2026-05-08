@@ -785,7 +785,7 @@ const ladyRoomTree: DialogTree = {
     text: "We go back twenty years. He cast me in my first film — 'Stage Presence.' I was nobody, and he made me a star. We built this studio together, really. But as his name grew, mine started to fade. That's Hollywood for you.",
     options: [
       { text: "Did you resent him for that?", nextNodeId: 'lady-room-resent' },
-      { text: "What about his partnership with Carl?", nextNodeId: 'lady-room-carl-partnership' },
+      { text: "What about his partnership with Jack Celston?", nextNodeId: 'lady-room-carl-partnership' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
