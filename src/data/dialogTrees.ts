@@ -732,31 +732,38 @@ const ladyRoomTree: DialogTree = {
       { text: "I'll give you some space.", nextNodeId: null },
     ],
   },
-  'lady-room-why': {
-    id: 'lady-room-why',
-    speaker: 'Lady Fantastica',
-    text: "Because I couldn't stand being in that room anymore. The blood... his body... and the way Carl was just STANDING there. Cold as ice. Like it didn't even bother him.",
-    options: [
-      { text: "You think Carl isn't bothered by the murder?", nextNodeId: 'lady-room-carl-cold' },
-      { text: "Were you and Los Cabos more than colleagues?", nextNodeId: 'lady-room-romantic' },
-      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
-    ],
-  },
-  'lady-room-carl-cold': {
-    id: 'lady-room-carl-cold',
-    speaker: 'Lady Fantastica',
-    text: "Bothered? The man didn't even flinch! His business partner is dead on the floor and Carl's calculating his next move. That's not grief — that's an opportunity to him. It makes me sick.",
-    options: [
-      { text: "Has Carl always been like that?", nextNodeId: 'lady-room-carl-always' },
-      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
-    ],
-  },
-  'lady-room-carl-always': {
-    id: 'lady-room-carl-always',
-    speaker: 'Lady Fantastica',
-    text: "He's always been ruthless, but lately it's been worse. Ever since the buyout offer came in, he's been... different. More secretive. More controlling. Like he was waiting for something to happen.",
-    nextNodeId: 'lady-room-root',
-  },
+   'lady-room-why': {
+     id: 'lady-room-why',
+     speaker: 'Lady Fantastica',
+     text: "Because I couldn't stand being in that room anymore. The blood... his body... and the way Jack just STOOD there. Cold as ice. Like it didn't even bother him.",
+     options: [
+       { text: "You think Jack Celston isn't bothered by the murder?", nextNodeId: 'lady-room-jack-cold' },
+       { text: "Were you and Los Cabos more than colleagues?", nextNodeId: 'lady-room-romantic' },
+       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
+     ],
+   },
+   'lady-room-jack-cold': {
+     id: 'lady-room-jack-cold',
+     speaker: 'Lady Fantastica',
+     text: "Bothered? Jack didn't even flinch. His own headline star is dead on the floor and he's already calculating the next move. Though... I shouldn't only point fingers at him. That janitor — Mr. Cowardly — bolted the second the lights came back. Innocent men don't run like that.",
+     options: [
+       { text: "Has Jack always been like that?", nextNodeId: 'lady-room-jack-always' },
+       { text: "What was Mr. Cowardly doing in there?", nextNodeId: 'lady-room-cowardly' },
+       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
+     ],
+   },
+   'lady-room-jack-always': {
+     id: 'lady-room-jack-always',
+     speaker: 'Lady Fantastica',
+     text: "Jack's always been ambitious, but lately he's been... different. More secretive. Locked drawers, hushed phone calls at odd hours. Whatever he's mixed up in, it's been building for months.",
+     nextNodeId: 'lady-room-root',
+   },
+   'lady-room-cowardly': {
+     id: 'lady-room-cowardly',
+     speaker: 'Lady Fantastica',
+     text: "Mopping, supposedly. But that man is always lurking in doorways, listening. He had a key to every room in this studio, Detective. Every. Single. Room. And he's terrified of his own shadow — exactly the sort someone could lean on to do their dirty work.",
+     nextNodeId: 'lady-room-root',
+   },
   'lady-room-romantic': {
     id: 'lady-room-romantic',
     speaker: 'Lady Fantastica',
