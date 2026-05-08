@@ -798,16 +798,16 @@ const ladyRoomTree: DialogTree = {
   'lady-room-carl-partnership': {
     id: 'lady-room-carl-partnership',
     speaker: 'Lady Fantastica',
-    text: "Carl came along about five years ago. Brought the money. But something was always off about that man. He appeared out of nowhere with deep pockets and a fake smile. Nobody even knows his real background. He just... showed up.",
+    text: "Carl? He's harmless — props and lights, that's his whole world. The real partner that mattered was Jack Celston. Jack put up the money five years ago and quietly took control of everything. Los Cabos was the face; Jack was the wallet.",
     options: [
-      { text: "Fake smile? You don't trust Carl?", nextNodeId: 'lady-room-carl-trust' },
+      { text: "You don't trust Jack Celston?", nextNodeId: 'lady-room-jack-trust' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
-  'lady-room-carl-trust': {
-    id: 'lady-room-carl-trust',
+  'lady-room-jack-trust': {
+    id: 'lady-room-jack-trust',
     speaker: 'Lady Fantastica',
-    text: "Trust him? Nobody should trust Carl. He changes his story depending on who he's talking to. I once heard him on the phone using a completely different name. Like he was someone else entirely. It gave me chills.",
+    text: "Trust him? I don't know what to think anymore. Jack changes his story depending on who's listening. I once overheard him on the phone in a voice I didn't recognize — colder, harder. Like a different man entirely. It gave me chills. But maybe I'm just rattled. Talk to Mr. Cowardly too — he sees more than he lets on.",
     onEnter: { flag: 'ladyMentionedCarlAlias' },
     nextNodeId: 'lady-room-root',
   },
