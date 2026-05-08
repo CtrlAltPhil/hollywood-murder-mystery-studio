@@ -389,13 +389,13 @@ const elFuegoTree: DialogTree = {
   'fuego-dagger-access': {
     id: 'fuego-dagger-access',
     speaker: 'Duke Extreme',
-    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady Fantastica was in and out for costumes! The prop room lock has been broken for months!",
+    text: "*sweating profusely* Access?! EVERYONE had access! Jack Celston owns the place! Lady Fantastica was in and out for costumes! Even Mr. Cowardly mops in there at night! The prop room lock has been broken for months!",
     nextNodeId: 'fuego-root',
   },
   'fuego-dagger-who': {
     id: 'fuego-dagger-who',
     speaker: 'Duke Extreme',
-    text: "Anyone! Carl, Lady Fantastica, even Los Cabos himself had keys. But... Lady Fantastica was on set last week picking up costume pieces. She could have taken it then.",
+    text: "Anyone! Jack Celston, Lady Fantastica, even Los Cabos himself had keys. And Mr. Cowardly's on a key ring of his own — janitor goes everywhere. But Lady Fantastica was on set last week picking up costume pieces. She could have taken it then.",
     nextNodeId: 'fuego-root',
   },
   // Threatening note nodes
