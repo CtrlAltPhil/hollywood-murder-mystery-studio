@@ -389,13 +389,13 @@ const elFuegoTree: DialogTree = {
   'fuego-dagger-access': {
     id: 'fuego-dagger-access',
     speaker: 'Duke Extreme',
-    text: "*sweating profusely* Access?! EVERYONE had access! Carl owns the studio! Lady Fantastica was in and out for costumes! The prop room lock has been broken for months!",
+    text: "*sweating profusely* Access?! EVERYONE had access! Jack Celston owns the place! Lady Fantastica was in and out for costumes! Even Mr. Cowardly mops in there at night! The prop room lock has been broken for months!",
     nextNodeId: 'fuego-root',
   },
   'fuego-dagger-who': {
     id: 'fuego-dagger-who',
     speaker: 'Duke Extreme',
-    text: "Anyone! Carl, Lady Fantastica, even Los Cabos himself had keys. But... Lady Fantastica was on set last week picking up costume pieces. She could have taken it then.",
+    text: "Anyone! Jack Celston, Lady Fantastica, even Los Cabos himself had keys. And Mr. Cowardly's on a key ring of his own — janitor goes everywhere. But Lady Fantastica was on set last week picking up costume pieces. She could have taken it then.",
     nextNodeId: 'fuego-root',
   },
   // Threatening note nodes
@@ -732,31 +732,38 @@ const ladyRoomTree: DialogTree = {
       { text: "I'll give you some space.", nextNodeId: null },
     ],
   },
-  'lady-room-why': {
-    id: 'lady-room-why',
-    speaker: 'Lady Fantastica',
-    text: "Because I couldn't stand being in that room anymore. The blood... his body... and the way Carl was just STANDING there. Cold as ice. Like it didn't even bother him.",
-    options: [
-      { text: "You think Carl isn't bothered by the murder?", nextNodeId: 'lady-room-carl-cold' },
-      { text: "Were you and Los Cabos more than colleagues?", nextNodeId: 'lady-room-romantic' },
-      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
-    ],
-  },
-  'lady-room-carl-cold': {
-    id: 'lady-room-carl-cold',
-    speaker: 'Lady Fantastica',
-    text: "Bothered? The man didn't even flinch! His business partner is dead on the floor and Carl's calculating his next move. That's not grief — that's an opportunity to him. It makes me sick.",
-    options: [
-      { text: "Has Carl always been like that?", nextNodeId: 'lady-room-carl-always' },
-      { text: "Back to questions.", nextNodeId: 'lady-room-root' },
-    ],
-  },
-  'lady-room-carl-always': {
-    id: 'lady-room-carl-always',
-    speaker: 'Lady Fantastica',
-    text: "He's always been ruthless, but lately it's been worse. Ever since the buyout offer came in, he's been... different. More secretive. More controlling. Like he was waiting for something to happen.",
-    nextNodeId: 'lady-room-root',
-  },
+   'lady-room-why': {
+     id: 'lady-room-why',
+     speaker: 'Lady Fantastica',
+     text: "Because I couldn't stand being in that room anymore. The blood... his body... and the way Jack just STOOD there. Cold as ice. Like it didn't even bother him.",
+     options: [
+       { text: "You think Jack Celston isn't bothered by the murder?", nextNodeId: 'lady-room-jack-cold' },
+       { text: "Were you and Los Cabos more than colleagues?", nextNodeId: 'lady-room-romantic' },
+       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
+     ],
+   },
+   'lady-room-jack-cold': {
+     id: 'lady-room-jack-cold',
+     speaker: 'Lady Fantastica',
+     text: "Bothered? Jack didn't even flinch. His own headline star is dead on the floor and he's already calculating the next move. Though... I shouldn't only point fingers at him. That janitor — Mr. Cowardly — bolted the second the lights came back. Innocent men don't run like that.",
+     options: [
+       { text: "Has Jack always been like that?", nextNodeId: 'lady-room-jack-always' },
+       { text: "What was Mr. Cowardly doing in there?", nextNodeId: 'lady-room-cowardly' },
+       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
+     ],
+   },
+   'lady-room-jack-always': {
+     id: 'lady-room-jack-always',
+     speaker: 'Lady Fantastica',
+     text: "Jack's always been ambitious, but lately he's been... different. More secretive. Locked drawers, hushed phone calls at odd hours. Whatever he's mixed up in, it's been building for months.",
+     nextNodeId: 'lady-room-root',
+   },
+   'lady-room-cowardly': {
+     id: 'lady-room-cowardly',
+     speaker: 'Lady Fantastica',
+     text: "Mopping, supposedly. But that man is always lurking in doorways, listening. He had a key to every room in this studio, Detective. Every. Single. Room. And he's terrified of his own shadow — exactly the sort someone could lean on to do their dirty work.",
+     nextNodeId: 'lady-room-root',
+   },
   'lady-room-romantic': {
     id: 'lady-room-romantic',
     speaker: 'Lady Fantastica',
@@ -778,7 +785,7 @@ const ladyRoomTree: DialogTree = {
     text: "We go back twenty years. He cast me in my first film — 'Stage Presence.' I was nobody, and he made me a star. We built this studio together, really. But as his name grew, mine started to fade. That's Hollywood for you.",
     options: [
       { text: "Did you resent him for that?", nextNodeId: 'lady-room-resent' },
-      { text: "What about his partnership with Carl?", nextNodeId: 'lady-room-carl-partnership' },
+      { text: "What about his partnership with Jack Celston?", nextNodeId: 'lady-room-carl-partnership' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
@@ -791,16 +798,16 @@ const ladyRoomTree: DialogTree = {
   'lady-room-carl-partnership': {
     id: 'lady-room-carl-partnership',
     speaker: 'Lady Fantastica',
-    text: "Carl came along about five years ago. Brought the money. But something was always off about that man. He appeared out of nowhere with deep pockets and a fake smile. Nobody even knows his real background. He just... showed up.",
+    text: "Carl? He's harmless — props and lights, that's his whole world. The real partner that mattered was Jack Celston. Jack put up the money five years ago and quietly took control of everything. Los Cabos was the face; Jack was the wallet.",
     options: [
-      { text: "Fake smile? You don't trust Carl?", nextNodeId: 'lady-room-carl-trust' },
+      { text: "You don't trust Jack Celston?", nextNodeId: 'lady-room-jack-trust' },
       { text: "Back to questions.", nextNodeId: 'lady-room-root' },
     ],
   },
-  'lady-room-carl-trust': {
-    id: 'lady-room-carl-trust',
+  'lady-room-jack-trust': {
+    id: 'lady-room-jack-trust',
     speaker: 'Lady Fantastica',
-    text: "Trust him? Nobody should trust Carl. He changes his story depending on who he's talking to. I once heard him on the phone using a completely different name. Like he was someone else entirely. It gave me chills.",
+    text: "Trust him? I don't know what to think anymore. Jack changes his story depending on who's listening. I once overheard him on the phone in a voice I didn't recognize — colder, harder. Like a different man entirely. It gave me chills. But maybe I'm just rattled. Talk to Mr. Cowardly too — he sees more than he lets on.",
     onEnter: { flag: 'ladyMentionedCarlAlias' },
     nextNodeId: 'lady-room-root',
   },
