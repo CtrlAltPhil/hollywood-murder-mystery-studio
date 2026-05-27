@@ -96,7 +96,6 @@ export function readSlot(slot: SaveSlot): SaveData | null {
     if (typeof parsed?.version !== 'number') return null;
     if (parsed.version > SAVE_VERSION) {
       // Future save — refuse rather than corrupt state
-      console.warn(`Save slot ${slot} has version ${parsed.version}, newer than ${SAVE_VERSION}.`);
       return null;
     }
     return parsed;
