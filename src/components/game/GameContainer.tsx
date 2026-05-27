@@ -71,13 +71,18 @@ export function GameContainer() {
     dialogueLog,
     evidenceLog,
     hasUnread,
+    dialogueUnread,
+    evidenceUnread,
     logDialogue,
     checkFlagEvidence,
     checkItemEvidence,
     clearUnread,
+    clearDialogueUnread,
+    clearEvidenceUnread,
     resetNotes,
     restoreNotes,
   } = useNotesState();
+
 
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
@@ -97,8 +102,12 @@ export function GameContainer() {
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const lastLoggedNodeId = useRef<string | null>(null);
   const visitedDialogNodes = useRef<Set<string>>(new Set());
+  const [visitedDialogNodeIds, setVisitedDialogNodeIds] = useState<Set<string>>(new Set());
   const currentDialogSpeaker = useRef<string | null>(null);
   const [isCurrentNodeRevisit, setIsCurrentNodeRevisit] = useState(false);
+  const [recentItemId, setRecentItemId] = useState<string | null>(null);
+  const [hotspotsHighlighted, setHotspotsHighlighted] = useState(false);
+
 
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
