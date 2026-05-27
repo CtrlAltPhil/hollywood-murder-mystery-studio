@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, MessageSquare, Search, Users, Clock } from 'lucide-react';
 import { DialogueEntry, EvidenceEntry, EvidenceCategory } from '@/types/game';
+
 
 interface NotesOverlayProps {
   dialogueLog: DialogueEntry[];
   evidenceLog: EvidenceEntry[];
   onClose: () => void;
+  dialogueUnread?: boolean;
+  evidenceUnread?: boolean;
+  onClearDialogueUnread?: () => void;
+  onClearEvidenceUnread?: () => void;
+  initialTab?: Tab;
 }
 
 type Tab = 'dialogue' | 'evidence';
@@ -13,9 +19,25 @@ type DialogueView = 'character' | 'chronological';
 
 const EVIDENCE_CATEGORIES: EvidenceCategory[] = ['Physical Evidence', 'Documents', 'Testimonies'];
 
-export function NotesOverlay({ dialogueLog, evidenceLog, onClose }: NotesOverlayProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('dialogue');
+export function NotesOverlay({
+  dialogueLog,
+  evidenceLog,
+  onClose,
+  dialogueUnread,
+  evidenceUnread,
+  onClearDialogueUnread,
+  onClearEvidenceUnread,
+  initialTab = 'dialogue',
+}: NotesOverlayProps) {
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const [dialogueView, setDialogueView] = useState<DialogueView>('character');
+
+  // Clear the unread dot for whichever tab the user is currently viewing.
+  useEffect(() => {
+    if (activeTab === 'dialogue') onClearDialogueUnread?.();
+    else onClearEvidenceUnread?.();
+  }, [activeTab, onClearDialogueUnread, onClearEvidenceUnread]);
+
 
   const dialogueByCharacter = dialogueLog.reduce<Record<string, DialogueEntry[]>>((acc, entry) => {
     if (!acc[entry.speaker]) acc[entry.speaker] = [];
@@ -49,7 +71,7 @@ export function NotesOverlay({ dialogueLog, evidenceLog, onClose }: NotesOverlay
           </div>
           <button
             onClick={() => setActiveTab('dialogue')}
-            className={`flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
+            className={`relative flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
               activeTab === 'dialogue'
                 ? 'bg-amber-500/20 text-amber-300 border-r-2 border-amber-400'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
@@ -57,10 +79,13 @@ export function NotesOverlay({ dialogueLog, evidenceLog, onClose }: NotesOverlay
           >
             <MessageSquare className="w-3.5 h-3.5 shrink-0" />
             Dialogue
+            {dialogueUnread && activeTab !== 'dialogue' && (
+              <span className="ml-auto w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            )}
           </button>
           <button
             onClick={() => setActiveTab('evidence')}
-            className={`flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
+            className={`relative flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
               activeTab === 'evidence'
                 ? 'bg-amber-500/20 text-amber-300 border-r-2 border-amber-400'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
@@ -68,7 +93,11 @@ export function NotesOverlay({ dialogueLog, evidenceLog, onClose }: NotesOverlay
           >
             <Search className="w-3.5 h-3.5 shrink-0" />
             Evidence
+            {evidenceUnread && activeTab !== 'evidence' && (
+              <span className="ml-auto w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            )}
           </button>
+
         </div>
 
         {/* Main content */}

@@ -71,13 +71,18 @@ export function GameContainer() {
     dialogueLog,
     evidenceLog,
     hasUnread,
+    dialogueUnread,
+    evidenceUnread,
     logDialogue,
     checkFlagEvidence,
     checkItemEvidence,
     clearUnread,
+    clearDialogueUnread,
+    clearEvidenceUnread,
     resetNotes,
     restoreNotes,
   } = useNotesState();
+
 
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
@@ -97,8 +102,12 @@ export function GameContainer() {
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const lastLoggedNodeId = useRef<string | null>(null);
   const visitedDialogNodes = useRef<Set<string>>(new Set());
+  const [visitedDialogNodeIds, setVisitedDialogNodeIds] = useState<Set<string>>(new Set());
   const currentDialogSpeaker = useRef<string | null>(null);
   const [isCurrentNodeRevisit, setIsCurrentNodeRevisit] = useState(false);
+  const [recentItemId, setRecentItemId] = useState<string | null>(null);
+  const [hotspotsHighlighted, setHotspotsHighlighted] = useState(false);
+
 
   useEffect(() => {
     playBackgroundTrack(gameState.phase);
@@ -132,12 +141,17 @@ export function GameContainer() {
   }, [gameState.phase]);
 
   // Keyboard shortcuts: Esc toggles the pause menu, N opens notes,
-  // 1-8 select verbs during gameplay.
+  // 1-8 select verbs, Tab (hold) highlights all hotspots.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (gameState.phase === 'title' || gameState.phase === 'studio-intro') return;
+      if (e.key === 'Tab' && gameState.phase === 'gameplay') {
+        e.preventDefault();
+        if (!e.repeat) setHotspotsHighlighted(true);
+        return;
+      }
       if (e.key === 'Escape') {
         e.preventDefault();
         if (confirmState) {
@@ -151,10 +165,7 @@ export function GameContainer() {
         }
       } else if ((e.key === 'n' || e.key === 'N') && gameState.phase === 'gameplay' && !isMenuOpen) {
         e.preventDefault();
-        setIsNotesOpen((v) => {
-          if (!v) clearUnread();
-          return !v;
-        });
+        setIsNotesOpen((v) => !v);
       } else if (
         gameState.phase === 'gameplay' &&
         !isMenuOpen &&
@@ -168,8 +179,19 @@ export function GameContainer() {
         selectVerb(VERB_HOTKEY_MAP[e.key]);
       }
     };
+    const upHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') setHotspotsHighlighted(false);
+    };
+    const blurHandler = () => setHotspotsHighlighted(false);
     window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    window.addEventListener('keyup', upHandler);
+    window.addEventListener('blur', blurHandler);
+    return () => {
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('blur', blurHandler);
+    };
+
   }, [gameState.phase, gameState.dialogState.isActive, isMenuOpen, isNotesOpen, saveDialogMode, confirmState, clearUnread, selectVerb]);
 
 
@@ -245,6 +267,7 @@ export function GameContainer() {
       if (currentDialogSpeaker.current !== (character?.id ?? null)) {
         visitedDialogNodes.current = new Set();
         currentDialogSpeaker.current = character?.id ?? null;
+        setVisitedDialogNodeIds(new Set());
       }
 
       // Treat any node sharing the same base id (e.g. "carl-root" vs "carl-root-dynamic") as the same
@@ -252,6 +275,7 @@ export function GameContainer() {
       const wasVisited = visitedDialogNodes.current.has(baseId);
       setIsCurrentNodeRevisit(wasVisited && !!node.shortText);
       visitedDialogNodes.current.add(baseId);
+      setVisitedDialogNodeIds(new Set(visitedDialogNodes.current));
 
       if (node.id !== lastLoggedNodeId.current) {
         lastLoggedNodeId.current = node.id;
@@ -264,7 +288,9 @@ export function GameContainer() {
       visitedDialogNodes.current = new Set();
       currentDialogSpeaker.current = null;
       setIsCurrentNodeRevisit(false);
+      setVisitedDialogNodeIds(new Set());
     }
+
   }, [gameState.dialogState.currentNode, gameState.dialogState.character, logDialogue]);
 
   const handleMusicVolumeChange = (v: number) => {
@@ -582,6 +608,11 @@ export function GameContainer() {
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
     checkItemEvidence(item.id);
     playSfx('pickup');
+    setRecentItemId(item.id);
+    setTimeout(() => {
+      setRecentItemId((current) => (current === item.id ? null : current));
+    }, 2400);
+
   };
 
 
@@ -762,13 +793,13 @@ export function GameContainer() {
   // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
-      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
+      <div className={`relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800 ${hotspotsHighlighted ? 'hotspots-highlight' : ''}`} style={{ filter: `brightness(${brightness})` }}>
         {/* Top-left: Notes icon */}
         <div className="absolute top-4 left-4 z-50">
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => { setIsNotesOpen(true); clearUnread(); }}
+            onClick={() => { setIsNotesOpen(true); }}
             className="text-amber-400/70 hover:text-amber-300 hover:bg-amber-500/10 relative"
           >
             <NotebookPen className="w-6 h-6" />
@@ -790,8 +821,13 @@ export function GameContainer() {
             dialogueLog={dialogueLog}
             evidenceLog={evidenceLog}
             onClose={() => setIsNotesOpen(false)}
+            dialogueUnread={dialogueUnread}
+            evidenceUnread={evidenceUnread}
+            onClearDialogueUnread={clearDialogueUnread}
+            onClearEvidenceUnread={clearEvidenceUnread}
           />
         )}
+
 
         {openLetterId === 'inheritance_agreement' && (
           <LetterOverlay
@@ -891,7 +927,9 @@ export function GameContainer() {
             <DialogBox
               node={gameState.dialogState.currentNode}
               isRevisit={isCurrentNodeRevisit}
+              visitedNodeIds={visitedDialogNodeIds}
               dialogueSpeed={persisted.dialogueSpeed}
+
               onOptionSelect={(option) => {
                 if (option.onSelect) option.onSelect();
                 // Sally gets angry when accused, reverts after 3 seconds
@@ -947,7 +985,9 @@ export function GameContainer() {
               }
             }}
             onItemHover={(text) => sharedHotspotHover(text)}
+            recentItemId={recentItemId}
           />
+
         </div>
       </div>
     </div>

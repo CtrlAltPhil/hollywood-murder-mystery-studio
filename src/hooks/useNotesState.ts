@@ -5,19 +5,22 @@ import { flagEvidenceMap, itemEvidenceMap, flagEvidenceMapExtended } from '@/dat
 export function useNotesState() {
   const [dialogueLog, setDialogueLog] = useState<DialogueEntry[]>([]);
   const [evidenceLog, setEvidenceLog] = useState<EvidenceEntry[]>([]);
-  const [hasUnread, setHasUnread] = useState(false);
+  const [dialogueUnread, setDialogueUnread] = useState(false);
+  const [evidenceUnread, setEvidenceUnread] = useState(false);
   const loggedEvidenceIds = useRef(new Set<string>());
+
+  const hasUnread = dialogueUnread || evidenceUnread;
 
   const logDialogue = useCallback((speaker: string, text: string) => {
     setDialogueLog(prev => [...prev, { speaker, text, timestamp: Date.now() }]);
-    setHasUnread(true);
+    setDialogueUnread(true);
   }, []);
 
   const logEvidence = useCallback((entry: EvidenceEntry) => {
     if (loggedEvidenceIds.current.has(entry.id)) return;
     loggedEvidenceIds.current.add(entry.id);
     setEvidenceLog(prev => [...prev, entry]);
-    setHasUnread(true);
+    setEvidenceUnread(true);
   }, []);
 
   const checkFlagEvidence = useCallback((flag: string) => {
@@ -31,13 +34,18 @@ export function useNotesState() {
   }, [logEvidence]);
 
   const clearUnread = useCallback(() => {
-    setHasUnread(false);
+    // Kept for back-compat with code paths that close/open notes;
+    // individual tab dots are cleared via clearDialogueUnread/clearEvidenceUnread.
   }, []);
+
+  const clearDialogueUnread = useCallback(() => setDialogueUnread(false), []);
+  const clearEvidenceUnread = useCallback(() => setEvidenceUnread(false), []);
 
   const resetNotes = useCallback(() => {
     setDialogueLog([]);
     setEvidenceLog([]);
-    setHasUnread(false);
+    setDialogueUnread(false);
+    setEvidenceUnread(false);
     loggedEvidenceIds.current.clear();
   }, []);
 
@@ -45,18 +53,23 @@ export function useNotesState() {
     setDialogueLog(savedDialogue);
     setEvidenceLog(savedEvidence);
     loggedEvidenceIds.current = new Set(savedEvidence.map(e => e.id));
-    setHasUnread(false);
+    setDialogueUnread(false);
+    setEvidenceUnread(false);
   }, []);
 
   return {
     dialogueLog,
     evidenceLog,
     hasUnread,
+    dialogueUnread,
+    evidenceUnread,
     logDialogue,
     logEvidence,
     checkFlagEvidence,
     checkItemEvidence,
     clearUnread,
+    clearDialogueUnread,
+    clearEvidenceUnread,
     resetNotes,
     restoreNotes,
   };

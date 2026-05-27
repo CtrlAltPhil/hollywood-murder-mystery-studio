@@ -237,3 +237,24 @@
   animation: press-start-pulse 1.8s ease-in-out infinite;
 }
 
+/* Tab-held hotspot reveal: outlines every hotspot div across all scenes */
+.hotspots-highlight .cursor-inherit {
+  outline: 2px dashed hsl(45 95% 60% / 0.85);
+  outline-offset: -2px;
+  background-color: hsl(45 95% 60% / 0.12) !important;
+  border-radius: 4px;
+  box-shadow: 0 0 10px hsl(45 95% 55% / 0.35);
+}
+
+/* Recently picked up inventory slot flash */
+@keyframes inventory-pickup-flash {
+  0%   { box-shadow: 0 0 0 0 hsl(45 95% 60% / 0.9), inset 0 0 12px hsl(45 95% 60% / 0.6); background-color: hsl(45 95% 60% / 0.35); }
+  60%  { box-shadow: 0 0 18px 6px hsl(45 95% 60% / 0.5), inset 0 0 10px hsl(45 95% 60% / 0.3); background-color: hsl(45 95% 60% / 0.18); }
+  100% { box-shadow: 0 0 0 0 hsl(45 95% 60% / 0); background-color: transparent; }
+}
+.inventory-flash {
+  animation: inventory-pickup-flash 2.2s ease-out;
+  border-color: hsl(45 95% 60%) !important;
+}
+
+
