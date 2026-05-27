@@ -130,6 +130,49 @@ export function GameContainer() {
     }
   }, [gameState.phase]);
 
+  // Keyboard shortcuts: Esc toggles the pause menu, N opens notes.
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (gameState.phase === 'title' || gameState.phase === 'studio-intro') return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        if (confirmState) {
+          setConfirmState(null);
+        } else if (saveDialogMode) {
+          setSaveDialogMode(null);
+        } else if (isNotesOpen) {
+          setIsNotesOpen(false);
+        } else {
+          setIsMenuOpen((v) => !v);
+        }
+      } else if ((e.key === 'n' || e.key === 'N') && gameState.phase === 'gameplay' && !isMenuOpen) {
+        e.preventDefault();
+        setIsNotesOpen((v) => {
+          if (!v) clearUnread();
+          return !v;
+        });
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [gameState.phase, isMenuOpen, isNotesOpen, saveDialogMode, confirmState, clearUnread]);
+
+  // Warn the player before they close the window mid-game.
+  useEffect(() => {
+    if (gameState.phase === 'title' || gameState.phase === 'studio-intro' || gameState.phase === 'credits') {
+      return;
+    }
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [gameState.phase]);
+
+
 
   // Preload all game assets while on title screen
   useEffect(() => {
