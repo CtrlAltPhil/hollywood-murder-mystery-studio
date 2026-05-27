@@ -1046,7 +1046,7 @@ const lukeTree: DialogTree = {
   'luke-inheritance-react': {
     id: 'luke-inheritance-react',
     speaker: 'Luke Adams',
-    text: "*tightens jaw, looks past you* I don't know what you're talking about. That document is private. You shouldn't have it.",
+    text: "*expression doesn't change* Celston's business is Celston's business. I just work here, Detective. Whatever paper he keeps in his desk is none of my concern.",
     nextNodeId: 'luke-root',
   },
   'luke-accuse': {
@@ -1063,7 +1063,7 @@ const cowardlyEvidenceOptions: EvidenceOption[] = [];
 const lukeEvidenceOptions: EvidenceOption[] = [
   { flag: 'readyToAccuse', option: { text: "Luke Adams, you're under arrest for murder.", nextNodeId: 'luke-accuse' } },
   { flag: 'handkerchiefTaken', option: { text: '"L.A." monogrammed handkerchief — yours?', nextNodeId: 'luke-handkerchief-react' } },
-  { flag: 'inheritanceFound', option: { text: "I found the Talent Inheritance Agreement. You inherit everything.", nextNodeId: 'luke-inheritance-react' } },
+  { flag: 'inheritanceFound', option: { text: "I found the Talent Inheritance Agreement. Celston inherits everything — and he hired you to make it happen.", nextNodeId: 'luke-inheritance-react' } },
 ];
 
 /**

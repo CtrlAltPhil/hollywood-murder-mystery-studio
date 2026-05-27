@@ -9,10 +9,10 @@ interface AccusationCutsceneProps {
 // gathered enough evidence to identify Luke Adams as the killer.
 // Lines auto-advance; the player can also click to skip ahead.
 const LINES: { speaker: string; text: string }[] = [
-  { speaker: "Detective Wilson", text: "It's over, Luke. The inheritance papers, the handkerchief in Duke's trunk, your missing alibi — it all points to you." },
-  { speaker: "Luke Adams", text: "...You think you're clever, Detective. But you have no idea what Los Cabos took from me." },
-  { speaker: "Detective Wilson", text: "I have enough. Stand against the wall. You're under arrest for the murder of Los Cabos." },
-  { speaker: "Luke Adams", text: "Fine. But this story isn't over." },
+  { speaker: "Detective Wilson", text: "It's over, Luke. The handkerchief in Duke's trunk, Cowardly's description, your phantom alibi — and Celston's inheritance papers tying it all together." },
+  { speaker: "Luke Adams", text: "*flat* It was a job, Detective. Nothing personal. Celston paid, I delivered. That's the whole story." },
+  { speaker: "Detective Wilson", text: "Then you can tell it again downtown. Stand against the wall. You're under arrest for the murder of Los Cabos." },
+  { speaker: "Luke Adams", text: "*shrugs* Celston has lawyers. I'll be out before the ink dries." },
 ];
 
 export function AccusationCutscene({ onComplete }: AccusationCutsceneProps) {
