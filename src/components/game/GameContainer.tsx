@@ -793,13 +793,13 @@ export function GameContainer() {
   // Main gameplay
   return (
     <div className="w-full h-screen bg-black flex items-center justify-center p-4 overflow-hidden">
-      <div className="relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800" style={{ filter: `brightness(${brightness})` }}>
+      <div className={`relative w-full max-w-5xl aspect-[4/3] bg-zinc-900 shadow-2xl flex flex-col border-2 border-zinc-800 ${hotspotsHighlighted ? 'hotspots-highlight' : ''}`} style={{ filter: `brightness(${brightness})` }}>
         {/* Top-left: Notes icon */}
         <div className="absolute top-4 left-4 z-50">
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => { setIsNotesOpen(true); clearUnread(); }}
+            onClick={() => { setIsNotesOpen(true); }}
             className="text-amber-400/70 hover:text-amber-300 hover:bg-amber-500/10 relative"
           >
             <NotebookPen className="w-6 h-6" />
@@ -821,8 +821,13 @@ export function GameContainer() {
             dialogueLog={dialogueLog}
             evidenceLog={evidenceLog}
             onClose={() => setIsNotesOpen(false)}
+            dialogueUnread={dialogueUnread}
+            evidenceUnread={evidenceUnread}
+            onClearDialogueUnread={clearDialogueUnread}
+            onClearEvidenceUnread={clearEvidenceUnread}
           />
         )}
+
 
         {openLetterId === 'inheritance_agreement' && (
           <LetterOverlay
@@ -922,7 +927,9 @@ export function GameContainer() {
             <DialogBox
               node={gameState.dialogState.currentNode}
               isRevisit={isCurrentNodeRevisit}
+              visitedNodeIds={visitedDialogNodeIds}
               dialogueSpeed={persisted.dialogueSpeed}
+
               onOptionSelect={(option) => {
                 if (option.onSelect) option.onSelect();
                 // Sally gets angry when accused, reverts after 3 seconds
