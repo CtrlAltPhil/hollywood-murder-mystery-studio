@@ -23,25 +23,25 @@ export const flagEvidenceMap: Record<string, EvidenceEntry> = {
   inheritanceFound: {
     id: 'inheritance-agreement',
     title: 'Talent Inheritance Agreement',
-    description: "Sealed envelope from Jack Celston's desk drawer. Assigns ALL of Los Cabos' studio assets — contracts, residuals, and IP — to Luke Adams in the event of Los Cabos' death. Direct financial motive.",
+    description: "Sealed envelope from Jack Celston's desk drawer. Assigns ALL of Los Cabos' studio assets — contracts, residuals, and IP — to Jack Celston himself in the event of Los Cabos' death. Direct financial motive for the studio owner.",
     category: 'Documents',
   },
   cowardlyStrangerSeen: {
     id: 'cowardly-stranger-testimony',
     title: "Cowardly's Testimony",
-    description: "The janitor saw a tall, dark-haired man in a black suit walk into the party room about a minute before the lights cut out. Not catering staff. Cold eyes.",
+    description: "The janitor saw a tall, dark-haired man in a black suit walk into the party room about a minute before the lights cut out. Not catering staff. Cold eyes. Notably, Cowardly himself was the only staff member with keys to the breaker room.",
     category: 'Testimonies',
   },
   lukeAlibiGiven: {
     id: 'luke-alibi',
     title: "Luke Adams' Alibi",
-    description: "Luke claims he was alone in the storage room looking for a power strip when the murder happened. No witnesses. Suspiciously composed.",
+    description: "Luke claims he was alone in the storage room looking for a power strip when the murder happened. No witnesses. Suspiciously composed for a man with no one to vouch for him.",
     category: 'Testimonies',
   },
   caseSolved: {
     id: 'case-solved',
     title: 'CASE CLOSED',
-    description: 'Luke Adams confessed to murdering Los Cabos to claim the inherited studio assets. Justice served.',
+    description: "Luke Adams was arrested as the killer — a hired hand on Jack Celston's payroll. Celston stood to inherit Los Cabos' entire catalogue and contracted Adams to make it happen. Justice served.",
     category: 'Testimonies',
   },
 };
