@@ -213,11 +213,18 @@ export function GameContainer() {
   const handleMusicVolumeChange = (v: number) => {
     setMusicVolume(v);
     setMusicVolumeState(v);
+    persisted.setMusicVolume(v);
   };
 
   const handleSfxVolumeChange = (v: number) => {
     setSfxVolume(v);
     setSfxVolumeState(v);
+    persisted.setSfxVolume(v);
+  };
+
+  const handleBrightnessChange = (v: number) => {
+    setBrightnessLocal(v);
+    persisted.setBrightness(v);
   };
 
   const handleStart = () => {
@@ -225,6 +232,8 @@ export function GameContainer() {
     // shock reactions + Stanley Wilson intro on the first gameplay scene.
     resetGame();
     resetNotes();
+    // Reset crash SFX gate so the blackout cue replays on a new playthrough.
+    setCrashPlayed(false);
     setPhase('intro');
   };
 
@@ -237,15 +246,9 @@ export function GameContainer() {
     checkFlagEvidence(flag);
   };
 
-  const handleSave = () => {
-    // Warn if overriding an existing save
-    if (hasSaveData) {
-      if (!confirm('This will overwrite your previous save. Continue?')) {
-        return;
-      }
-    }
+  const performSave = (slot: SaveSlot) => {
     try {
-      const saveData = {
+      writeSlot(slot, {
         gameState: {
           ...gameState,
           selectedVerb: null,
@@ -254,52 +257,97 @@ export function GameContainer() {
           dialogState: { isActive: false, currentNode: null, character: null },
         },
         notes: { dialogueLog, evidenceLog },
-        savedAt: Date.now(),
-      };
-      localStorage.setItem('hmm_save_game', JSON.stringify(saveData));
-      setHasSaveData(true);
-      alert('Game Saved Successfully!');
+      });
+      setSavePresent(true);
+      toast.success(`Saved to Slot ${slot}`);
     } catch {
-      alert('Failed to save game.');
+      toast.error('Failed to save game.');
     }
+    setSaveDialogMode(null);
     setIsMenuOpen(false);
   };
 
-  const handleLoadGame = () => {
-    const raw = localStorage.getItem('hmm_save_game');
-    if (!raw) {
-      alert('No save data found.');
+  const handleSaveSlotSelected = (slot: SaveSlot) => {
+    const slots = listSlots();
+    const target = slots.find((s) => s.slot === slot);
+    if (target?.exists) {
+      setConfirmState({
+        title: 'Overwrite Save?',
+        message: `Slot ${slot} already contains a saved game. This cannot be undone.`,
+        confirmLabel: 'OVERWRITE',
+        destructive: true,
+        onConfirm: () => {
+          setConfirmState(null);
+          performSave(slot);
+        },
+      });
+    } else {
+      performSave(slot);
+    }
+  };
+
+  const performLoad = (slot: SaveSlot) => {
+    const data = readSlot(slot);
+    if (!data) {
+      toast.error('Save data is missing or corrupted.');
       return;
     }
     try {
-      const parsed = JSON.parse(raw);
-      const savedGameState = parsed.gameState || parsed;
-      restoreState(savedGameState);
-      if (parsed.notes) {
-        restoreNotes(parsed.notes.dialogueLog || [], parsed.notes.evidenceLog || []);
+      restoreState(data.gameState);
+      if (data.notes) {
+        restoreNotes(data.notes.dialogueLog || [], data.notes.evidenceLog || []);
       }
+      setSaveDialogMode(null);
       setIsMenuOpen(false);
       setCrashPlayed(true);
+      toast.success(`Loaded Slot ${slot}`);
     } catch {
-      alert('Failed to load save data. The save file may be corrupted.');
+      toast.error('Failed to load save data.');
     }
+  };
+
+  const handleQuickLoad = () => {
+    const mostRecent = getMostRecentSlot();
+    if (mostRecent) {
+      performLoad(mostRecent);
+    } else {
+      setSaveDialogMode('load');
+    }
+  };
+
+  const handleSlotDelete = (slot: SaveSlot) => {
+    setConfirmState({
+      title: 'Delete Save?',
+      message: `Permanently delete the save in Slot ${slot}? This cannot be undone.`,
+      confirmLabel: 'DELETE',
+      destructive: true,
+      onConfirm: () => {
+        deleteSlot(slot);
+        setSavePresent(hasAnySave());
+        setConfirmState(null);
+        toast.success(`Slot ${slot} deleted`);
+      },
+    });
   };
 
   const handleRestart = () => {
-    if (confirm('Return to title screen? Unsaved progress will be lost.')) {
-      resetGame();
-      resetNotes();
-      setIsMenuOpen(false);
-      setPhase('title');
-    }
+    setConfirmState({
+      title: 'Return to Title?',
+      message: 'Unsaved progress will be lost.',
+      confirmLabel: 'RETURN',
+      destructive: true,
+      onConfirm: () => {
+        resetGame();
+        resetNotes();
+        setCrashPlayed(false);
+        setIsMenuOpen(false);
+        setConfirmState(null);
+        setPhase('title');
+      },
+    });
   };
 
-  const handleDeleteSave = () => {
-    if (confirm('Delete your saved game? This cannot be undone.')) {
-      localStorage.removeItem('hmm_save_game');
-      setHasSaveData(false);
-    }
-  };
+
 
   const handleChangeRoom = (roomId: string) => {
     setRoomTransition(true);
