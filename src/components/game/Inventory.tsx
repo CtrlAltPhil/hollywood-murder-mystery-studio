@@ -55,14 +55,6 @@ export function Inventory({ items, selectedItem, onItemSelect, onItemHover }: In
               aria-label={item.name}
             >
               <img src={item.image} alt={item.name} className="w-10 h-10 object-contain pixelated" />
-              {hoveredId === item.id && (
-                <div
-                  className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap bg-zinc-900 border border-amber-500/60 text-amber-200 text-[9px] px-2 py-1 rounded shadow-lg"
-                  style={{ fontFamily: '"Press Start 2P", monospace' }}
-                >
-                  {item.name}
-                </div>
-              )}
             </button>
           ))}
           {Array.from({ length: emptySlots }).map((_, i) => (
