@@ -310,13 +310,16 @@ export function GameContainer() {
     persisted.setBrightness(v);
   };
 
-  const beginNewGame = () => {
+  const beginNewGame = async () => {
     // Reset all flags/inventory so a fresh playthrough always re-plays the
     // shock reactions + Stanley Wilson intro on the first gameplay scene.
     resetGame();
     resetNotes();
     // Reset crash SFX gate so the blackout cue replays on a new playthrough.
     setCrashPlayed(false);
+    // Make sure the breakroom party assets are decoded before we reveal the
+    // intro — otherwise characters like Los Cabos can pop in a beat late.
+    await preloadImages(getRoomAssets('breakroom'));
     setPhase('intro');
   };
 
