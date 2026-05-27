@@ -509,7 +509,7 @@ export function GameContainer() {
     brightness,
     onMusicVolumeChange: handleMusicVolumeChange,
     onSfxVolumeChange: handleSfxVolumeChange,
-    onBrightnessChange: setBrightness,
+    onBrightnessChange: handleBrightnessChange,
     debugMode,
     onDebugModeToggle: setDebugMode,
   };
@@ -581,8 +581,9 @@ export function GameContainer() {
         <div className="w-full max-w-5xl aspect-[4/3]">
           <TitleScreen 
             onStart={handleStart}
-            onLoadGame={hasSaveData ? handleLoadGame : undefined}
+            onLoadGame={savePresent ? handleQuickLoad : undefined}
             {...menuProps}
+
           />
         </div>
       </div>
@@ -603,11 +604,14 @@ export function GameContainer() {
           {isMenuOpen && (
             <GameMenu 
               onResume={() => setIsMenuOpen(false)}
-              onSave={handleSave}
+              onSave={() => setSaveDialogMode('save')}
               onRestart={handleRestart}
+              hasAnySave={savePresent}
+              onLoadGame={savePresent ? () => setSaveDialogMode('load') : undefined}
               {...menuProps}
             />
           )}
+
 
           <div className="w-full aspect-video relative">
             <IntroSequence 
@@ -627,9 +631,10 @@ export function GameContainer() {
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
         <div className="relative w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden" style={{ filter: `brightness(${brightness})` }}>
           <CreditsScreen
-            onRestart={() => { resetGame(); resetNotes(); setPhase('title'); }}
-            onLoadGame={hasSaveData ? handleLoadGame : undefined}
+            onRestart={() => { resetGame(); resetNotes(); setCrashPlayed(false); setPhase('title'); }}
+            onLoadGame={savePresent ? handleQuickLoad : undefined}
           />
+
         </div>
       </div>
     );
@@ -689,13 +694,37 @@ export function GameContainer() {
         {isMenuOpen && (
           <GameMenu 
             onResume={() => setIsMenuOpen(false)}
-            onSave={handleSave}
+            onSave={() => setSaveDialogMode('save')}
             onRestart={handleRestart}
-            onLoadGame={hasSaveData ? handleLoadGame : undefined}
-            onDeleteSave={hasSaveData ? handleDeleteSave : undefined}
+            hasAnySave={savePresent}
+            onLoadGame={savePresent ? () => setSaveDialogMode('load') : undefined}
             {...menuProps}
           />
         )}
+
+        {saveDialogMode && (
+          <SaveSlotsDialog
+            mode={saveDialogMode}
+            onSelect={(slot) => {
+              if (saveDialogMode === 'save') handleSaveSlotSelected(slot);
+              else performLoad(slot);
+            }}
+            onDelete={handleSlotDelete}
+            onClose={() => setSaveDialogMode(null)}
+          />
+        )}
+
+        {confirmState && (
+          <ConfirmDialog
+            title={confirmState.title}
+            message={confirmState.message}
+            confirmLabel={confirmState.confirmLabel}
+            destructive={confirmState.destructive}
+            onConfirm={confirmState.onConfirm}
+            onCancel={() => setConfirmState(null)}
+          />
+        )}
+
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
