@@ -199,18 +199,25 @@ export function TitleScreen({
         />
       )}
 
-      {/* Car Silhouette */}
-      <div className="absolute bottom-[2%] h-16 transition-none" style={{ left: carPosition }}>
-        <div className="relative">
-          <div className="w-48 h-12 bg-[hsl(220,20%,15%)] rounded-t-xl relative">
-            <div className="absolute -top-6 left-8 w-28 h-8 bg-[hsl(220,20%,12%)] rounded-t-lg" />
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-yellow-300 rounded-full opacity-80" />
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full opacity-80" />
-          </div>
-          <div className="absolute -bottom-4 left-6 w-8 h-8 bg-[hsl(220,10%,10%)] rounded-full" />
-          <div className="absolute -bottom-4 right-6 w-8 h-8 bg-[hsl(220,10%,10%)] rounded-full" />
-        </div>
-      </div>
+      {/* Cars — randomized variant, color, direction, lane */}
+      {cars.map((car) => (
+        <Car
+          key={car.id}
+          variant={car.variant}
+          bodyHsl={car.bodyHsl}
+          trimHsl={car.trimHsl}
+          direction={car.direction}
+          x={car.x}
+          bottomPct={car.bottomPct}
+          scale={car.scale}
+        />
+      ))}
+
+      {/* Lightning bolts (rendered above the sky, below the title) */}
+      {bolts.map((b) => (
+        <LightningBolt key={b.id} xPct={b.xPct} endYPct={b.endYPct} seed={b.seed} opacity={b.opacity} />
+      ))}
+
 
       {/* Title */}
       <div className="absolute top-[7%] left-0 right-0 text-center px-6">
