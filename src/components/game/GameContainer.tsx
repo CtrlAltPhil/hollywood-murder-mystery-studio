@@ -267,6 +267,7 @@ export function GameContainer() {
       if (currentDialogSpeaker.current !== (character?.id ?? null)) {
         visitedDialogNodes.current = new Set();
         currentDialogSpeaker.current = character?.id ?? null;
+        setVisitedDialogNodeIds(new Set());
       }
 
       // Treat any node sharing the same base id (e.g. "carl-root" vs "carl-root-dynamic") as the same
@@ -274,6 +275,7 @@ export function GameContainer() {
       const wasVisited = visitedDialogNodes.current.has(baseId);
       setIsCurrentNodeRevisit(wasVisited && !!node.shortText);
       visitedDialogNodes.current.add(baseId);
+      setVisitedDialogNodeIds(new Set(visitedDialogNodes.current));
 
       if (node.id !== lastLoggedNodeId.current) {
         lastLoggedNodeId.current = node.id;
@@ -286,7 +288,9 @@ export function GameContainer() {
       visitedDialogNodes.current = new Set();
       currentDialogSpeaker.current = null;
       setIsCurrentNodeRevisit(false);
+      setVisitedDialogNodeIds(new Set());
     }
+
   }, [gameState.dialogState.currentNode, gameState.dialogState.character, logDialogue]);
 
   const handleMusicVolumeChange = (v: number) => {
