@@ -28,8 +28,9 @@ const SECRET_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft'
 export function GameMenu({ 
   onResume, onSave, onRestart, onLoadGame, onDeleteSave, musicVolume, sfxVolume, brightness, 
   onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange, isTitleScreen,
-  debugMode, onDebugModeToggle
+  debugMode, onDebugModeToggle, hasAnySave
 }: GameMenuProps) {
+
   const [codeProgress, setCodeProgress] = useState(0);
   const [debugUnlocked, setDebugUnlocked] = useState(false);
   const [showCodeFlash, setShowCodeFlash] = useState(false);
