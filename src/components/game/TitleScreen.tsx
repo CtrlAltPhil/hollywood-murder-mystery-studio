@@ -6,6 +6,8 @@ import { Settings } from "lucide-react";
 import { hasAnySave } from "@/utils/saveSystem";
 import { Car, spawnRandomCar, SpawnedCar } from "./title/Car";
 import { LightningBolt } from "./title/LightningBolt";
+import { APP_VERSION } from "@/lib/version";
+import type { DialogueSpeed } from "@/hooks/usePersistedSettings";
 
 
 
@@ -18,6 +20,8 @@ interface TitleScreenProps {
   onMusicVolumeChange: (v: number) => void;
   onSfxVolumeChange: (v: number) => void;
   onBrightnessChange: (v: number) => void;
+  dialogueSpeed: DialogueSpeed;
+  onDialogueSpeedChange: (v: DialogueSpeed) => void;
   debugMode: boolean;
   onDebugModeToggle: (v: boolean) => void;
 }
@@ -31,6 +35,8 @@ export function TitleScreen({
   onMusicVolumeChange,
   onSfxVolumeChange,
   onBrightnessChange,
+  dialogueSpeed,
+  onDialogueSpeedChange,
   debugMode,
   onDebugModeToggle,
 }: TitleScreenProps) {
@@ -70,7 +76,6 @@ export function TitleScreen({
       flickerTimeouts.forEach(clearTimeout);
       flickerTimeouts = [];
 
-      // Optionally spawn a visible bolt (most strikes are just sky flashes)
       const includeBolt = Math.random() < 0.65;
       if (includeBolt) {
         const id = ++boltIdCounter;
@@ -82,14 +87,12 @@ export function TitleScreen({
           opacity: 0.85 + Math.random() * 0.15,
         };
         setBolts((prev) => [...prev, newBolt]);
-        // Bolt fades within ~220ms
         const fade = setTimeout(() => {
           setBolts((prev) => prev.filter((b) => b.id !== id));
         }, 220);
         flickerTimeouts.push(fade);
       }
 
-      // Flash flicker
       setShowLightning(true);
       const t1 = setTimeout(() => setShowLightning(false), 120);
       const t2 = setTimeout(() => {
@@ -128,7 +131,6 @@ export function TitleScreen({
         setCars((prev) => [...prev.slice(-4), car]);
         lastSpawnAt = now;
         nextSpawnGap = 2200 + Math.random() * 5500;
-        // Alternate lane with some randomness so it doesn't feel scripted
         nextLane = Math.random() < 0.65 ? (nextLane === "near" ? "far" : "near") : nextLane;
       }
 
@@ -177,6 +179,7 @@ export function TitleScreen({
           size="icon"
           onClick={() => setIsMenuOpen(true)}
           className="text-white/50 hover:text-white hover:bg-white/10"
+          aria-label="Settings"
         >
           <Settings className="w-6 h-6" />
         </Button>
@@ -195,6 +198,8 @@ export function TitleScreen({
           onMusicVolumeChange={onMusicVolumeChange}
           onSfxVolumeChange={onSfxVolumeChange}
           onBrightnessChange={onBrightnessChange}
+          dialogueSpeed={dialogueSpeed}
+          onDialogueSpeedChange={onDialogueSpeedChange}
           isTitleScreen
           debugMode={debugMode}
           onDebugModeToggle={onDebugModeToggle}
@@ -223,7 +228,6 @@ export function TitleScreen({
 
       {/* Title */}
       <div className="absolute top-[7%] left-0 right-0 text-center px-6">
-        {/* Dark backdrop to separate title from the gold GB Studios sign */}
         <div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[260%] pointer-events-none"
           style={{
@@ -333,6 +337,11 @@ export function TitleScreen({
 
       {/* Scanlines */}
       <div className="absolute inset-0 scanlines pointer-events-none" />
+
+      {/* Version stamp */}
+      <div className="absolute bottom-2 right-3 z-30 text-[10px] tracking-widest text-yellow-300/40 font-pixel select-none pointer-events-none">
+        v{APP_VERSION}
+      </div>
     </div>
   );
 }
