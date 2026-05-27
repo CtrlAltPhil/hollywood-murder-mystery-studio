@@ -1,9 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import gbStudiosBackground from "@/assets/backgrounds/gb-studios.jpg";
 import { GameMenu } from "./GameMenu";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { hasAnySave } from "@/utils/saveSystem";
+import { Car, spawnRandomCar, SpawnedCar } from "./title/Car";
+import { LightningBolt } from "./title/LightningBolt";
+
 
 
 interface TitleScreenProps {
