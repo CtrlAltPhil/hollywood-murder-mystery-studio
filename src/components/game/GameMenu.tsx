@@ -18,7 +18,9 @@ interface GameMenuProps {
   isTitleScreen?: boolean;
   debugMode: boolean;
   onDebugModeToggle: (v: boolean) => void;
+  hasAnySave?: boolean;
 }
+
 
 // Secret code: ↑ ↑ ↓ ↓ ← → ← → B A
 const SECRET_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
