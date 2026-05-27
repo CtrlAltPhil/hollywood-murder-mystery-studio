@@ -71,7 +71,7 @@ export function NotesOverlay({
           </div>
           <button
             onClick={() => setActiveTab('dialogue')}
-            className={`flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
+            className={`relative flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
               activeTab === 'dialogue'
                 ? 'bg-amber-500/20 text-amber-300 border-r-2 border-amber-400'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
@@ -79,10 +79,13 @@ export function NotesOverlay({
           >
             <MessageSquare className="w-3.5 h-3.5 shrink-0" />
             Dialogue
+            {dialogueUnread && activeTab !== 'dialogue' && (
+              <span className="ml-auto w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            )}
           </button>
           <button
             onClick={() => setActiveTab('evidence')}
-            className={`flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
+            className={`relative flex items-center gap-2 px-3 py-3 text-[8px] text-left transition-colors ${
               activeTab === 'evidence'
                 ? 'bg-amber-500/20 text-amber-300 border-r-2 border-amber-400'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
@@ -90,7 +93,11 @@ export function NotesOverlay({
           >
             <Search className="w-3.5 h-3.5 shrink-0" />
             Evidence
+            {evidenceUnread && activeTab !== 'evidence' && (
+              <span className="ml-auto w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            )}
           </button>
+
         </div>
 
         {/* Main content */}
