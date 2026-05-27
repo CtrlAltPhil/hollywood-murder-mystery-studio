@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import gbStudiosBackground from "@/assets/backgrounds/gb-studios.jpg";
 import { GameMenu } from "./GameMenu";
 import { Button } from "@/components/ui/button";
@@ -37,8 +37,6 @@ export function TitleScreen({
   const [showLightning, setShowLightning] = useState(false);
   const [bolts, setBolts] = useState<Array<{ id: number; xPct: number; endYPct: number; seed: number; opacity: number }>>([]);
   const [cars, setCars] = useState<SpawnedCar[]>([]);
-  const carsRef = useRef<SpawnedCar[]>([]);
-  carsRef.current = cars;
   const [easterEggVisible, setEasterEggVisible] = useState(false);
   const [fireflyClickCount, setFireflyClickCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
