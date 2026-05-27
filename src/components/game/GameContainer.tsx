@@ -80,6 +80,19 @@ export function GameContainer() {
 
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
+  // Persisted audio + brightness settings
+  const persisted = usePersistedSettings();
+  const [musicVolumeState, setMusicVolumeState] = useState(persisted.musicVolume);
+  const [sfxVolumeState, setSfxVolumeState] = useState(persisted.sfxVolume);
+  const [brightness, setBrightnessLocal] = useState(persisted.brightness);
+
+  // Sync persisted values into the audio engine on mount
+  useEffect(() => {
+    setMusicVolume(persisted.musicVolume);
+    setSfxVolume(persisted.sfxVolume);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const lastLoggedNodeId = useRef<string | null>(null);
   const visitedDialogNodes = useRef<Set<string>>(new Set());
@@ -91,9 +104,6 @@ export function GameContainer() {
   }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [musicVolumeState, setMusicVolumeState] = useState(0.3);
-  const [sfxVolumeState, setSfxVolumeState] = useState(0.5);
-  const [brightness, setBrightness] = useState(1);
   const [crashPlayed, setCrashPlayed] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
@@ -103,14 +113,23 @@ export function GameContainer() {
   const [hoverText, setHoverText] = useState('');
   const [openLetterId, setOpenLetterId] = useState<string | null>(null);
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
-  const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
+  const [savePresent, setSavePresent] = useState(() => hasAnySave());
+  const [saveDialogMode, setSaveDialogMode] = useState<'save' | 'load' | null>(null);
+  const [confirmState, setConfirmState] = useState<null | {
+    title: string;
+    message: string;
+    destructive?: boolean;
+    confirmLabel?: string;
+    onConfirm: () => void;
+  }>(null);
 
   // Re-check save data whenever we return to the title screen
   useEffect(() => {
     if (gameState.phase === 'title') {
-      setHasSaveData(!!localStorage.getItem('hmm_save_game'));
+      setSavePresent(hasAnySave());
     }
   }, [gameState.phase]);
+
 
   // Preload all game assets while on title screen
   useEffect(() => {
