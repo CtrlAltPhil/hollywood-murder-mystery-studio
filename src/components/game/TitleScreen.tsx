@@ -62,29 +62,50 @@ export function TitleScreen({
     }
   };
 
-  // Lightning effect
+  // Lightning effect — random flash + forked bolt
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    let flickerTimeouts: NodeJS.Timeout[] = [];
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let flickerTimeouts: Array<ReturnType<typeof setTimeout>> = [];
+    let boltIdCounter = 0;
 
     const triggerLightning = () => {
-      setShowLightning(true);
       flickerTimeouts.forEach(clearTimeout);
       flickerTimeouts = [];
 
-      const t1 = setTimeout(() => setShowLightning(false), 150);
+      // Optionally spawn a visible bolt (most strikes are just sky flashes)
+      const includeBolt = Math.random() < 0.65;
+      if (includeBolt) {
+        const id = ++boltIdCounter;
+        const newBolt = {
+          id,
+          xPct: 10 + Math.random() * 80,
+          endYPct: 35 + Math.random() * 35,
+          seed: Math.floor(Math.random() * 1_000_000),
+          opacity: 0.85 + Math.random() * 0.15,
+        };
+        setBolts((prev) => [...prev, newBolt]);
+        // Bolt fades within ~220ms
+        const fade = setTimeout(() => {
+          setBolts((prev) => prev.filter((b) => b.id !== id));
+        }, 220);
+        flickerTimeouts.push(fade);
+      }
+
+      // Flash flicker
+      setShowLightning(true);
+      const t1 = setTimeout(() => setShowLightning(false), 120);
       const t2 = setTimeout(() => {
         setShowLightning(true);
-        const t3 = setTimeout(() => setShowLightning(false), 100);
+        const t3 = setTimeout(() => setShowLightning(false), 80);
         flickerTimeouts.push(t3);
-      }, 200);
-
+      }, 180);
       flickerTimeouts.push(t1, t2);
-      const nextDelay = 2000 + Math.random() * 5000;
+
+      const nextDelay = 3500 + Math.random() * 6500;
       timeoutId = setTimeout(triggerLightning, nextDelay);
     };
 
-    const initialDelay = 1000 + Math.random() * 2000;
+    const initialDelay = 1500 + Math.random() * 2500;
     timeoutId = setTimeout(triggerLightning, initialDelay);
 
     return () => {
@@ -93,29 +114,36 @@ export function TitleScreen({
     };
   }, []);
 
-  // Car animation
+  // Car animation — randomized variant, color, direction, lane, speed
   useEffect(() => {
     let animationFrameId: number;
-    let lastSpawnTime = performance.now();
-    const SPAWN_INTERVAL = 10000;
+    let lastSpawnAt = performance.now();
+    let nextSpawnGap = 3500;
 
     const animate = () => {
       const now = performance.now();
-      if (now - lastSpawnTime > SPAWN_INTERVAL) {
-        setCarPosition(-250);
-        lastSpawnTime = now;
-      } else {
-        setCarPosition((prev) => {
-          if (prev > window.innerWidth + 250) return prev;
-          return prev + 3;
-        });
+      const vw = window.innerWidth;
+
+      if (now - lastSpawnAt > nextSpawnGap) {
+        const car = spawnRandomCar(vw);
+        setCars((prev) => [...prev.slice(-3), car]);
+        lastSpawnAt = now;
+        nextSpawnGap = 2500 + Math.random() * 6000;
       }
+
+      setCars((prev) =>
+        prev
+          .map((c) => ({ ...c, x: c.x + c.speed }))
+          .filter((c) => (c.speed > 0 ? c.x < vw + 320 : c.x > -320))
+      );
+
       animationFrameId = requestAnimationFrame(animate);
     };
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
+
 
   const hasSaveData = hasAnySave();
 
