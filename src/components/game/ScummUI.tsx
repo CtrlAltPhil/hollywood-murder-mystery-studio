@@ -145,14 +145,6 @@ export function ScummUI({
                   alt={item.name}
                   className="w-full h-full object-contain pixelated p-0.5"
                 />
-                {hoveredId === item.id && (
-                  <div
-                    className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap bg-zinc-900 border border-[hsl(60,90%,70%)] text-[hsl(60,90%,80%)] text-[9px] px-2 py-1 rounded shadow-lg"
-                    style={{ fontFamily: '"Press Start 2P", monospace' }}
-                  >
-                    {item.name}
-                  </div>
-                )}
               </button>
             ))}
             {/* Empty Slots */}
