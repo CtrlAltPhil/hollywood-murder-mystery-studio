@@ -985,7 +985,9 @@ export function GameContainer() {
               }
             }}
             onItemHover={(text) => sharedHotspotHover(text)}
+            recentItemId={recentItemId}
           />
+
         </div>
       </div>
     </div>
