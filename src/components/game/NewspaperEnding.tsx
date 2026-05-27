@@ -8,7 +8,7 @@ interface NewspaperEndingProps {
 const LINES: { speaker: string; text: string }[] = [
   {
     speaker: "Headline",
-    text: "HIRED KILLER UNMASKED — Nevada fixer Luke Adams charged in the murder of beloved star Los Cabos. Studio co-owner Jack Celston named as the man who paid him.",
+    text: "HIRED KILLER UNMASKED — Nevada fixer Luke Adams charged in the murder of beloved star Los Cabos. Studio partner Jack Celston, who quietly held controlling interest, named as the man who paid him.",
   },
   {
     speaker: "The Daily Reel",
