@@ -48,6 +48,17 @@ export function TitleScreen({
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setIsMenuOpen((v) => !v);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   const FIREFLY_MESSAGES = [
     "It's just a firefly.",
     "Yep... still a firefly.",
