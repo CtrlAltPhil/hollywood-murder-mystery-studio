@@ -112,27 +112,30 @@ export function TitleScreen({
     };
   }, []);
 
-  // Car animation — randomized variant, color, direction, lane, speed
+  // Car animation — two strict lanes (near = →, far = ←)
   useEffect(() => {
     let animationFrameId: number;
     let lastSpawnAt = performance.now();
-    let nextSpawnGap = 3500;
+    let nextSpawnGap = 3000;
+    let nextLane: "near" | "far" = Math.random() < 0.5 ? "near" : "far";
 
     const animate = () => {
       const now = performance.now();
       const vw = window.innerWidth;
 
       if (now - lastSpawnAt > nextSpawnGap) {
-        const car = spawnRandomCar(vw);
-        setCars((prev) => [...prev.slice(-3), car]);
+        const car = spawnRandomCar(vw, nextLane);
+        setCars((prev) => [...prev.slice(-4), car]);
         lastSpawnAt = now;
-        nextSpawnGap = 2500 + Math.random() * 6000;
+        nextSpawnGap = 2200 + Math.random() * 5500;
+        // Alternate lane with some randomness so it doesn't feel scripted
+        nextLane = Math.random() < 0.65 ? (nextLane === "near" ? "far" : "near") : nextLane;
       }
 
       setCars((prev) =>
         prev
           .map((c) => ({ ...c, x: c.x + c.speed }))
-          .filter((c) => (c.speed > 0 ? c.x < vw + 320 : c.x > -320))
+          .filter((c) => (c.speed > 0 ? c.x < vw + 400 : c.x > -400))
       );
 
       animationFrameId = requestAnimationFrame(animate);
@@ -141,6 +144,7 @@ export function TitleScreen({
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
+
 
 
   const hasSaveData = hasAnySave();
