@@ -505,7 +505,7 @@ export function GameContainer() {
           if (typeof result === 'string') setActionText(result);
         }
       } else {
-        setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
+        setActionText(getCantUseResponse(item.id, hotspot.name));
       }
       selectVerb(null);
       return;
