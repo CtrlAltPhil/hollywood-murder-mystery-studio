@@ -36,6 +36,7 @@ import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
 import { SaveSlotsDialog } from './SaveSlotsDialog';
 import { usePersistedSettings } from '@/hooks/usePersistedSettings';
+import { getCantUseResponse } from '@/utils/useItemResponses';
 import {
   listSlots,
   readSlot,
