@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Volume2, VolumeX, Sun, Bug } from "lucide-react";
+import { Volume2, VolumeX, Sun, Bug, MessageSquare } from "lucide-react";
+import { DialogueSpeed } from "@/hooks/usePersistedSettings";
 
 interface GameMenuProps {
   onResume: () => void;
@@ -15,6 +16,8 @@ interface GameMenuProps {
   onMusicVolumeChange: (v: number) => void;
   onSfxVolumeChange: (v: number) => void;
   onBrightnessChange: (v: number) => void;
+  dialogueSpeed: DialogueSpeed;
+  onDialogueSpeedChange: (v: DialogueSpeed) => void;
   isTitleScreen?: boolean;
   debugMode: boolean;
   onDebugModeToggle: (v: boolean) => void;
@@ -25,9 +28,18 @@ interface GameMenuProps {
 // Secret code: ↑ ↑ ↓ ↓ ← → ← → B A
 const SECRET_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
-export function GameMenu({ 
-  onResume, onSave, onRestart, onLoadGame, onDeleteSave, musicVolume, sfxVolume, brightness, 
-  onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange, isTitleScreen,
+const SPEED_OPTIONS: { value: DialogueSpeed; label: string }[] = [
+  { value: 'slow', label: 'Slow' },
+  { value: 'normal', label: 'Normal' },
+  { value: 'fast', label: 'Fast' },
+  { value: 'instant', label: 'Instant' },
+];
+
+export function GameMenu({
+  onResume, onSave, onRestart, onLoadGame, onDeleteSave, musicVolume, sfxVolume, brightness,
+  onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange,
+  dialogueSpeed, onDialogueSpeedChange,
+  isTitleScreen,
   debugMode, onDebugModeToggle, hasAnySave
 }: GameMenuProps) {
 
@@ -75,14 +87,14 @@ export function GameMenu({
         <div className="mb-6 space-y-4 border border-zinc-700 rounded-lg p-4">
           <h3 className="text-sm font-bold text-yellow-400/80 uppercase tracking-wider">Audio</h3>
           <div className="flex items-center gap-3">
-            <button onClick={() => onMusicVolumeChange(musicVolume > 0 ? 0 : 0.3)} className="text-zinc-400 hover:text-white cursor-pointer">
+            <button onClick={() => onMusicVolumeChange(musicVolume > 0 ? 0 : 0.3)} className="text-zinc-400 hover:text-white cursor-pointer" aria-label={musicVolume > 0 ? 'Mute music' : 'Unmute music'}>
               {musicVolume > 0 ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
             <span className="text-zinc-400 text-xs w-14">Music</span>
             <Slider value={[musicVolume * 100]} max={100} step={1} onValueChange={([v]) => onMusicVolumeChange(v / 100)} className="flex-1" />
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={() => onSfxVolumeChange(sfxVolume > 0 ? 0 : 0.5)} className="text-zinc-400 hover:text-white cursor-pointer">
+            <button onClick={() => onSfxVolumeChange(sfxVolume > 0 ? 0 : 0.5)} className="text-zinc-400 hover:text-white cursor-pointer" aria-label={sfxVolume > 0 ? 'Mute sound effects' : 'Unmute sound effects'}>
               {sfxVolume > 0 ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
             <span className="text-zinc-400 text-xs w-14">SFX</span>
@@ -90,7 +102,7 @@ export function GameMenu({
           </div>
         </div>
 
-        {/* Brightness Settings */}
+        {/* Display Settings */}
         <div className="mb-6 space-y-4 border border-zinc-700 rounded-lg p-4">
           <h3 className="text-sm font-bold text-yellow-400/80 uppercase tracking-wider">Display</h3>
           <div className="flex items-center gap-3">
@@ -98,6 +110,32 @@ export function GameMenu({
             <span className="text-zinc-400 text-xs w-14">Bright</span>
             <Slider value={[brightness * 100]} min={30} max={150} step={1} onValueChange={([v]) => onBrightnessChange(v / 100)} className="flex-1" />
           </div>
+        </div>
+
+        {/* Dialogue Settings */}
+        <div className="mb-6 space-y-3 border border-zinc-700 rounded-lg p-4">
+          <h3 className="text-sm font-bold text-yellow-400/80 uppercase tracking-wider flex items-center gap-2">
+            <MessageSquare className="w-4 h-4" /> Dialogue
+          </h3>
+          <div className="flex items-center gap-2">
+            <span className="text-zinc-400 text-xs w-14">Speed</span>
+            <div className="flex-1 grid grid-cols-4 gap-1">
+              {SPEED_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  onClick={() => onDialogueSpeedChange(opt.value)}
+                  className={`px-2 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                    dialogueSpeed === opt.value
+                      ? 'bg-yellow-500 text-black'
+                      : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p className="text-zinc-500 text-[10px]">Controls typewriter speed. "Instant" shows full text immediately.</p>
         </div>
 
         {/* Debug Mode (hidden until unlocked) */}
@@ -111,8 +149,8 @@ export function GameMenu({
               <button
                 onClick={() => onDebugModeToggle(!debugMode)}
                 className={`px-3 py-1 rounded text-xs font-bold transition-colors cursor-pointer ${
-                  debugMode 
-                    ? 'bg-green-600 text-white' 
+                  debugMode
+                    ? 'bg-green-600 text-white'
                     : 'bg-zinc-700 text-zinc-400 hover:bg-zinc-600'
                 }`}
               >
@@ -126,13 +164,13 @@ export function GameMenu({
         <div className="flex flex-col gap-3">
           {!isTitleScreen && (
             <>
-              <Button 
+              <Button
                 onClick={onResume}
                 className="w-full text-lg py-6 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 transition-all hover:scale-105"
               >
                 RESUME
               </Button>
-              <Button 
+              <Button
                 onClick={onSave}
                 className="w-full text-lg py-6 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 transition-all hover:scale-105"
               >
@@ -141,7 +179,7 @@ export function GameMenu({
             </>
           )}
           {onLoadGame && (
-            <Button 
+            <Button
               onClick={onLoadGame}
               className="w-full text-lg py-6 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 transition-all hover:scale-105"
             >
@@ -149,7 +187,7 @@ export function GameMenu({
             </Button>
           )}
           {!isTitleScreen && (
-            <Button 
+            <Button
               onClick={onRestart}
               className="w-full text-lg py-6 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 transition-all hover:scale-105"
             >
@@ -157,7 +195,7 @@ export function GameMenu({
             </Button>
           )}
           {onDeleteSave && (
-            <Button 
+            <Button
               onClick={onDeleteSave}
               variant="destructive"
               className="w-full text-lg py-6 border border-red-900 transition-all hover:scale-105 hover:bg-red-900/50"
@@ -166,7 +204,7 @@ export function GameMenu({
             </Button>
           )}
           {isTitleScreen && (
-            <Button 
+            <Button
               onClick={onResume}
               className="w-full text-lg py-6 bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 transition-all hover:scale-105"
             >
