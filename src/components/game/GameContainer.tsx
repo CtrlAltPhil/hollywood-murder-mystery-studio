@@ -654,17 +654,27 @@ export function GameContainer() {
   if (gameState.phase === 'title') {
     return (
       <div className="w-full h-screen bg-black flex items-center justify-center">
-        <div className="w-full max-w-5xl aspect-[4/3]">
-          <TitleScreen 
+        <div className="relative w-full max-w-5xl aspect-[4/3]">
+          <TitleScreen
             onStart={handleStart}
             onLoadGame={savePresent ? handleQuickLoad : undefined}
             {...menuProps}
-
           />
+          {confirmState && (
+            <ConfirmDialog
+              title={confirmState.title}
+              message={confirmState.message}
+              confirmLabel={confirmState.confirmLabel}
+              destructive={confirmState.destructive}
+              onConfirm={confirmState.onConfirm}
+              onCancel={() => setConfirmState(null)}
+            />
+          )}
         </div>
       </div>
     );
   }
+
 
   // Intro sequence
   if (['intro', 'party', 'blackout'].includes(gameState.phase)) {
