@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { DialogNode, DialogOption } from '@/types/game';
+import { DialogueSpeed, dialogueSpeedToMs } from '@/hooks/usePersistedSettings';
 
 interface DialogBoxProps {
   node: DialogNode;
@@ -7,17 +8,24 @@ interface DialogBoxProps {
   onOptionSelect: (option: DialogOption) => void;
   onContinue: () => void;
   playDialogBlip?: (speaker: string) => void;
+  dialogueSpeed?: DialogueSpeed;
 }
 
-export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDialogBlip }: DialogBoxProps) {
+export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDialogBlip, dialogueSpeed = 'normal' }: DialogBoxProps) {
   // Use shortText on revisit if available
   const activeText = isRevisit && node.shortText ? node.shortText : node.text;
 
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
+  const tickMs = dialogueSpeedToMs(dialogueSpeed);
+  const [displayedText, setDisplayedText] = useState(tickMs === 0 ? activeText : '');
+  const [isTyping, setIsTyping] = useState(tickMs !== 0);
 
   // Typewriter effect
   useEffect(() => {
+    if (tickMs === 0) {
+      setDisplayedText(activeText);
+      setIsTyping(false);
+      return;
+    }
     setDisplayedText('');
     setIsTyping(true);
     let index = 0;
@@ -31,9 +39,9 @@ export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDia
         clearInterval(interval);
         setIsTyping(false);
       }
-    }, 30);
+    }, tickMs);
     return () => clearInterval(interval);
-  }, [node.id, activeText]);
+  }, [node.id, activeText, tickMs]);
 
   const skipTyping = useCallback(() => {
     if (isTyping) {
@@ -41,6 +49,33 @@ export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDia
       setIsTyping(false);
     }
   }, [isTyping, activeText]);
+
+  // Keyboard support: 1-9 picks options, Enter/Space advances when not typing
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (isTyping) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          skipTyping();
+        }
+        return;
+      }
+      if (node.options && node.options.length > 0) {
+        const n = parseInt(e.key, 10);
+        if (!isNaN(n) && n >= 1 && n <= node.options.length) {
+          e.preventDefault();
+          onOptionSelect(node.options[n - 1]);
+        }
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onContinue();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [isTyping, node, onOptionSelect, onContinue, skipTyping]);
 
   const hasOptions = node.options && node.options.length > 0;
 
@@ -92,7 +127,7 @@ export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDia
                 className="block w-full text-center px-3 py-2 text-amber-400 hover:text-amber-200 animate-pulse"
                 style={{ fontFamily: '"Press Start 2P", monospace', fontSize: '9px' }}
               >
-                ▸ Click to continue ◂
+                ▸ Click or press Enter to continue ◂
               </button>
             )}
           </div>
