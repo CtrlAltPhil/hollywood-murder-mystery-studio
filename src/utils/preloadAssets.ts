@@ -72,7 +72,7 @@ import newspaperEndingImg from "@/assets/newspaper-ending.png";
 export const assetManifest: Record<string, string[]> = {
   breakroom: [
     breakroomBg, carlImg, elFuegoImg, elFuegoImg2, ladyImg,
-    losCabosDeadImg, tableImg, wineGlassesImg, daggerImg, charcuterieImg,
+    losCabosImg, losCabosDeadImg, tableImg, wineGlassesImg, daggerImg, charcuterieImg,
   ],
   hallway: [hallwayBg, mrCowardlyImg, mrCowardlyScaredImg],
   "hallway-kitchen": [hallwayKitchenBg],
