@@ -152,7 +152,7 @@ export function TitleScreen({
   const hasSaveData = hasAnySave();
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-background">
+    <div className="relative w-full h-full overflow-hidden bg-background" style={{ filter: `brightness(${brightness})` }}>
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center pixelated"
