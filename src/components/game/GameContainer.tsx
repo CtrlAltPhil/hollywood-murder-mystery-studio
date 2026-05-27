@@ -23,7 +23,7 @@ import { ParkingLotScene } from './ParkingLotScene';
 import { AccusationCutscene } from './AccusationCutscene';
 import { NewspaperEnding } from './NewspaperEnding';
 import { CreditsScreen } from './CreditsScreen';
-import { ScummUI } from './ScummUI';
+import { ScummUI, VERB_HOTKEY_MAP } from './ScummUI';
 import { GameMenu } from './GameMenu';
 import { DialogBox } from './DialogBox';
 import { DebugGrid } from './DebugGrid';
@@ -130,7 +130,8 @@ export function GameContainer() {
     }
   }, [gameState.phase]);
 
-  // Keyboard shortcuts: Esc toggles the pause menu, N opens notes.
+  // Keyboard shortcuts: Esc toggles the pause menu, N opens notes,
+  // 1-8 select verbs during gameplay.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
@@ -153,11 +154,23 @@ export function GameContainer() {
           if (!v) clearUnread();
           return !v;
         });
+      } else if (
+        gameState.phase === 'gameplay' &&
+        !isMenuOpen &&
+        !isNotesOpen &&
+        !saveDialogMode &&
+        !confirmState &&
+        !gameState.dialogState.isActive &&
+        VERB_HOTKEY_MAP[e.key]
+      ) {
+        e.preventDefault();
+        selectVerb(VERB_HOTKEY_MAP[e.key]);
       }
     };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [gameState.phase, isMenuOpen, isNotesOpen, saveDialogMode, confirmState, clearUnread]);
+  }, [gameState.phase, gameState.dialogState.isActive, isMenuOpen, isNotesOpen, saveDialogMode, confirmState, clearUnread, selectVerb]);
+
 
   // Warn the player before they close the window mid-game.
   useEffect(() => {
@@ -270,7 +283,7 @@ export function GameContainer() {
     persisted.setBrightness(v);
   };
 
-  const handleStart = () => {
+  const beginNewGame = () => {
     // Reset all flags/inventory so a fresh playthrough always re-plays the
     // shock reactions + Stanley Wilson intro on the first gameplay scene.
     resetGame();
@@ -279,6 +292,23 @@ export function GameContainer() {
     setCrashPlayed(false);
     setPhase('intro');
   };
+
+  const handleStart = () => {
+    if (hasAnySave()) {
+      setConfirmState({
+        title: 'Start a new game?',
+        message: 'You have existing saved games. Starting fresh will not delete them — your saves remain in their slots.',
+        confirmLabel: 'NEW GAME',
+        onConfirm: () => {
+          setConfirmState(null);
+          beginNewGame();
+        },
+      });
+    } else {
+      beginNewGame();
+    }
+  };
+
 
   const handleIntroComplete = async () => {
     // Preload breakroom assets before revealing gameplay (screen is black during blackout)
@@ -553,9 +583,12 @@ export function GameContainer() {
     onMusicVolumeChange: handleMusicVolumeChange,
     onSfxVolumeChange: handleSfxVolumeChange,
     onBrightnessChange: handleBrightnessChange,
+    dialogueSpeed: persisted.dialogueSpeed,
+    onDialogueSpeedChange: persisted.setDialogueSpeed,
     debugMode,
     onDebugModeToggle: setDebugMode,
   };
+
 
   // Wrapped setFlag that also logs evidence
   const setFlagWithEvidence = (flag: string, value: boolean) => {
