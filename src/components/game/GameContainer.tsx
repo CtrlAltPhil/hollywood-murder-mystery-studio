@@ -141,12 +141,17 @@ export function GameContainer() {
   }, [gameState.phase]);
 
   // Keyboard shortcuts: Esc toggles the pause menu, N opens notes,
-  // 1-8 select verbs during gameplay.
+  // 1-8 select verbs, Tab (hold) highlights all hotspots.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
       if (gameState.phase === 'title' || gameState.phase === 'studio-intro') return;
+      if (e.key === 'Tab' && gameState.phase === 'gameplay') {
+        e.preventDefault();
+        if (!e.repeat) setHotspotsHighlighted(true);
+        return;
+      }
       if (e.key === 'Escape') {
         e.preventDefault();
         if (confirmState) {
@@ -160,10 +165,7 @@ export function GameContainer() {
         }
       } else if ((e.key === 'n' || e.key === 'N') && gameState.phase === 'gameplay' && !isMenuOpen) {
         e.preventDefault();
-        setIsNotesOpen((v) => {
-          if (!v) clearUnread();
-          return !v;
-        });
+        setIsNotesOpen((v) => !v);
       } else if (
         gameState.phase === 'gameplay' &&
         !isMenuOpen &&
@@ -177,8 +179,19 @@ export function GameContainer() {
         selectVerb(VERB_HOTKEY_MAP[e.key]);
       }
     };
+    const upHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') setHotspotsHighlighted(false);
+    };
+    const blurHandler = () => setHotspotsHighlighted(false);
     window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
+    window.addEventListener('keyup', upHandler);
+    window.addEventListener('blur', blurHandler);
+    return () => {
+      window.removeEventListener('keydown', handler);
+      window.removeEventListener('keyup', upHandler);
+      window.removeEventListener('blur', blurHandler);
+    };
+
   }, [gameState.phase, gameState.dialogState.isActive, isMenuOpen, isNotesOpen, saveDialogMode, confirmState, clearUnread, selectVerb]);
 
 
