@@ -109,10 +109,10 @@ export function StudyScene({
       width: 8,
       height: 16,
       interactions: {
-        look: "A metal waste bin. There's crumpled paper inside.",
-        open: 'I dig through the trash. A torn note reads: "...can\'t let him leave. The studio depends on—" The rest is missing.',
+        look: "A metal waste bin. Empty, save for some dust.",
+        open: "Nothing inside but dust and a faint smell of old cigar ash.",
         pickup: "I don't want to carry a trash can.",
-        use: "I fish out the note. Could be important.",
+        use: "Nothing in here worth using.",
       },
     },
     {
