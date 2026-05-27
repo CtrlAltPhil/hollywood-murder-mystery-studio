@@ -9,9 +9,11 @@ interface DialogBoxProps {
   onContinue: () => void;
   playDialogBlip?: (speaker: string) => void;
   dialogueSpeed?: DialogueSpeed;
+  visitedNodeIds?: Set<string>;
 }
 
-export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDialogBlip, dialogueSpeed = 'normal' }: DialogBoxProps) {
+export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDialogBlip, dialogueSpeed = 'normal', visitedNodeIds }: DialogBoxProps) {
+
   // Use shortText on revisit if available
   const activeText = isRevisit && node.shortText ? node.shortText : node.text;
 
@@ -111,16 +113,26 @@ export function DialogBox({ node, isRevisit, onOptionSelect, onContinue, playDia
         {!isTyping && (
           <div className="space-y-1">
             {hasOptions ? (
-              node.options!.map((option, i) => (
-                <button
-                  key={i}
-                  onClick={() => onOptionSelect(option)}
-                  className="block w-full text-left px-3 py-2 text-amber-300 hover:text-amber-100 hover:bg-amber-500/20 rounded transition-colors"
-                  style={{ fontFamily: '"Press Start 2P", monospace', fontSize: '9px', lineHeight: '1.6' }}
-                >
-                  {`${i + 1}. ${option.text}`}
-                </button>
-              ))
+              node.options!.map((option, i) => {
+                const baseId = option.nextNodeId?.replace(/-dynamic$/, '') ?? '';
+                const explored = !!baseId && !!visitedNodeIds?.has(baseId);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => onOptionSelect(option)}
+                    className={`block w-full text-left px-3 py-2 rounded transition-colors ${
+                      explored
+                        ? 'text-amber-300/40 hover:text-amber-200/70 hover:bg-amber-500/10'
+                        : 'text-amber-300 hover:text-amber-100 hover:bg-amber-500/20'
+                    }`}
+                    style={{ fontFamily: '"Press Start 2P", monospace', fontSize: '9px', lineHeight: '1.6' }}
+                    title={explored ? 'Already explored' : undefined}
+                  >
+                    {`${i + 1}. ${option.text}`}
+                  </button>
+                );
+              })
+
             ) : (
               <button
                 onClick={onContinue}
