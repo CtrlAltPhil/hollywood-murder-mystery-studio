@@ -608,6 +608,11 @@ export function GameContainer() {
     addToInventory({ ...item, description: descriptions[item.id] || `It's a ${item.name}.` });
     checkItemEvidence(item.id);
     playSfx('pickup');
+    setRecentItemId(item.id);
+    setTimeout(() => {
+      setRecentItemId((current) => (current === item.id ? null : current));
+    }, 2400);
+
   };
 
 
