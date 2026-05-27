@@ -1,9 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import gbStudiosBackground from "@/assets/backgrounds/gb-studios.jpg";
 import { GameMenu } from "./GameMenu";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
 import { hasAnySave } from "@/utils/saveSystem";
+import { Car, spawnRandomCar, SpawnedCar } from "./title/Car";
+import { LightningBolt } from "./title/LightningBolt";
+
 
 
 interface TitleScreenProps {
@@ -32,7 +35,8 @@ export function TitleScreen({
   onDebugModeToggle,
 }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
-  const [carPosition, setCarPosition] = useState(-250);
+  const [bolts, setBolts] = useState<Array<{ id: number; xPct: number; endYPct: number; seed: number; opacity: number }>>([]);
+  const [cars, setCars] = useState<SpawnedCar[]>([]);
   const [easterEggVisible, setEasterEggVisible] = useState(false);
   const [fireflyClickCount, setFireflyClickCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
@@ -56,29 +60,50 @@ export function TitleScreen({
     }
   };
 
-  // Lightning effect
+  // Lightning effect — random flash + forked bolt
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    let flickerTimeouts: NodeJS.Timeout[] = [];
+    let timeoutId: ReturnType<typeof setTimeout>;
+    let flickerTimeouts: Array<ReturnType<typeof setTimeout>> = [];
+    let boltIdCounter = 0;
 
     const triggerLightning = () => {
-      setShowLightning(true);
       flickerTimeouts.forEach(clearTimeout);
       flickerTimeouts = [];
 
-      const t1 = setTimeout(() => setShowLightning(false), 150);
+      // Optionally spawn a visible bolt (most strikes are just sky flashes)
+      const includeBolt = Math.random() < 0.65;
+      if (includeBolt) {
+        const id = ++boltIdCounter;
+        const newBolt = {
+          id,
+          xPct: 10 + Math.random() * 80,
+          endYPct: 35 + Math.random() * 35,
+          seed: Math.floor(Math.random() * 1_000_000),
+          opacity: 0.85 + Math.random() * 0.15,
+        };
+        setBolts((prev) => [...prev, newBolt]);
+        // Bolt fades within ~220ms
+        const fade = setTimeout(() => {
+          setBolts((prev) => prev.filter((b) => b.id !== id));
+        }, 220);
+        flickerTimeouts.push(fade);
+      }
+
+      // Flash flicker
+      setShowLightning(true);
+      const t1 = setTimeout(() => setShowLightning(false), 120);
       const t2 = setTimeout(() => {
         setShowLightning(true);
-        const t3 = setTimeout(() => setShowLightning(false), 100);
+        const t3 = setTimeout(() => setShowLightning(false), 80);
         flickerTimeouts.push(t3);
-      }, 200);
-
+      }, 180);
       flickerTimeouts.push(t1, t2);
-      const nextDelay = 2000 + Math.random() * 5000;
+
+      const nextDelay = 3500 + Math.random() * 6500;
       timeoutId = setTimeout(triggerLightning, nextDelay);
     };
 
-    const initialDelay = 1000 + Math.random() * 2000;
+    const initialDelay = 1500 + Math.random() * 2500;
     timeoutId = setTimeout(triggerLightning, initialDelay);
 
     return () => {
@@ -87,29 +112,36 @@ export function TitleScreen({
     };
   }, []);
 
-  // Car animation
+  // Car animation — randomized variant, color, direction, lane, speed
   useEffect(() => {
     let animationFrameId: number;
-    let lastSpawnTime = performance.now();
-    const SPAWN_INTERVAL = 10000;
+    let lastSpawnAt = performance.now();
+    let nextSpawnGap = 3500;
 
     const animate = () => {
       const now = performance.now();
-      if (now - lastSpawnTime > SPAWN_INTERVAL) {
-        setCarPosition(-250);
-        lastSpawnTime = now;
-      } else {
-        setCarPosition((prev) => {
-          if (prev > window.innerWidth + 250) return prev;
-          return prev + 3;
-        });
+      const vw = window.innerWidth;
+
+      if (now - lastSpawnAt > nextSpawnGap) {
+        const car = spawnRandomCar(vw);
+        setCars((prev) => [...prev.slice(-3), car]);
+        lastSpawnAt = now;
+        nextSpawnGap = 2500 + Math.random() * 6000;
       }
+
+      setCars((prev) =>
+        prev
+          .map((c) => ({ ...c, x: c.x + c.speed }))
+          .filter((c) => (c.speed > 0 ? c.x < vw + 320 : c.x > -320))
+      );
+
       animationFrameId = requestAnimationFrame(animate);
     };
 
     animationFrameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
+
 
   const hasSaveData = hasAnySave();
 
@@ -165,18 +197,25 @@ export function TitleScreen({
         />
       )}
 
-      {/* Car Silhouette */}
-      <div className="absolute bottom-[2%] h-16 transition-none" style={{ left: carPosition }}>
-        <div className="relative">
-          <div className="w-48 h-12 bg-[hsl(220,20%,15%)] rounded-t-xl relative">
-            <div className="absolute -top-6 left-8 w-28 h-8 bg-[hsl(220,20%,12%)] rounded-t-lg" />
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-yellow-300 rounded-full opacity-80" />
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-red-500 rounded-full opacity-80" />
-          </div>
-          <div className="absolute -bottom-4 left-6 w-8 h-8 bg-[hsl(220,10%,10%)] rounded-full" />
-          <div className="absolute -bottom-4 right-6 w-8 h-8 bg-[hsl(220,10%,10%)] rounded-full" />
-        </div>
-      </div>
+      {/* Cars — randomized variant, color, direction, lane */}
+      {cars.map((car) => (
+        <Car
+          key={car.id}
+          variant={car.variant}
+          bodyHsl={car.bodyHsl}
+          trimHsl={car.trimHsl}
+          direction={car.direction}
+          x={car.x}
+          bottomPct={car.bottomPct}
+          scale={car.scale}
+        />
+      ))}
+
+      {/* Lightning bolts (rendered above the sky, below the title) */}
+      {bolts.map((b) => (
+        <LightningBolt key={b.id} xPct={b.xPct} endYPct={b.endYPct} seed={b.seed} opacity={b.opacity} />
+      ))}
+
 
       {/* Title */}
       <div className="absolute top-[7%] left-0 right-0 text-center px-6">
