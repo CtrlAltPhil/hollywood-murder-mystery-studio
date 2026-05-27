@@ -3,6 +3,8 @@ import gbStudiosBackground from "@/assets/backgrounds/gb-studios.jpg";
 import { GameMenu } from "./GameMenu";
 import { Button } from "@/components/ui/button";
 import { Settings } from "lucide-react";
+import { hasAnySave } from "@/utils/saveSystem";
+
 
 interface TitleScreenProps {
   onStart: () => void;
@@ -109,7 +111,7 @@ export function TitleScreen({
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const hasSaveData = !!localStorage.getItem("hmm_save_game");
+  const hasSaveData = hasAnySave();
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-background">
