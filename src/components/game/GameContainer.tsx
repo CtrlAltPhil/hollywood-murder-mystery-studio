@@ -32,6 +32,20 @@ import { LetterOverlay } from './LetterOverlay';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings, NotebookPen } from 'lucide-react';
+import { toast } from 'sonner';
+import { ConfirmDialog } from './ConfirmDialog';
+import { SaveSlotsDialog } from './SaveSlotsDialog';
+import { usePersistedSettings } from '@/hooks/usePersistedSettings';
+import {
+  listSlots,
+  readSlot,
+  writeSlot,
+  deleteSlot,
+  hasAnySave,
+  getMostRecentSlot,
+  SaveSlot,
+} from '@/utils/saveSystem';
+
 
 
 export function GameContainer() {
