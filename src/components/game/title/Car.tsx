@@ -273,7 +273,7 @@ export function spawnRandomCar(viewportWidth: number, lane: "near" | "far"): Spa
 
   const isNear = lane === "near";
   const direction: "ltr" | "rtl" = isNear ? "ltr" : "rtl";
-  const bottomPct = isNear ? 1.5 : 5.5;
+  const bottomPct = isNear ? 1.5 : 7.5;
   const scale = 1.35;
   const baseSpeed = 2.2; // constant — both lanes match so cars don't clip past each other
   const startX = direction === "ltr" ? -320 : viewportWidth + 60;
