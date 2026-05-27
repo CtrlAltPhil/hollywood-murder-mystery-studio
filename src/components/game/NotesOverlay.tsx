@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, MessageSquare, Search, Users, Clock } from 'lucide-react';
 import { DialogueEntry, EvidenceEntry, EvidenceCategory } from '@/types/game';
+
 
 interface NotesOverlayProps {
   dialogueLog: DialogueEntry[];
   evidenceLog: EvidenceEntry[];
   onClose: () => void;
+  dialogueUnread?: boolean;
+  evidenceUnread?: boolean;
+  onClearDialogueUnread?: () => void;
+  onClearEvidenceUnread?: () => void;
+  initialTab?: Tab;
 }
 
 type Tab = 'dialogue' | 'evidence';
@@ -13,9 +19,25 @@ type DialogueView = 'character' | 'chronological';
 
 const EVIDENCE_CATEGORIES: EvidenceCategory[] = ['Physical Evidence', 'Documents', 'Testimonies'];
 
-export function NotesOverlay({ dialogueLog, evidenceLog, onClose }: NotesOverlayProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('dialogue');
+export function NotesOverlay({
+  dialogueLog,
+  evidenceLog,
+  onClose,
+  dialogueUnread,
+  evidenceUnread,
+  onClearDialogueUnread,
+  onClearEvidenceUnread,
+  initialTab = 'dialogue',
+}: NotesOverlayProps) {
+  const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const [dialogueView, setDialogueView] = useState<DialogueView>('character');
+
+  // Clear the unread dot for whichever tab the user is currently viewing.
+  useEffect(() => {
+    if (activeTab === 'dialogue') onClearDialogueUnread?.();
+    else onClearEvidenceUnread?.();
+  }, [activeTab, onClearDialogueUnread, onClearEvidenceUnread]);
+
 
   const dialogueByCharacter = dialogueLog.reduce<Record<string, DialogueEntry[]>>((acc, entry) => {
     if (!acc[entry.speaker]) acc[entry.speaker] = [];

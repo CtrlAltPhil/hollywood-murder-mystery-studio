@@ -10,7 +10,9 @@ interface ScummUIProps {
   selectedItem: InventoryItem | null;
   onItemSelect: (item: InventoryItem) => void;
   onItemHover?: (text: string) => void;
+  recentItemId?: string | null;
 }
+
 
 // Display order in the 4x2 grid, with the keyboard hotkey for each verb.
 // Hotkeys (1-8) match left-to-right, top-to-bottom reading order.
@@ -40,6 +42,7 @@ export function ScummUI({
   selectedItem,
   onItemSelect,
   onItemHover,
+  recentItemId,
 }: ScummUIProps) {
   const [scrollOffset, setScrollOffset] = useState(0);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -49,6 +52,7 @@ export function ScummUI({
 
   const visibleItems = items.slice(scrollOffset, scrollOffset + INVENTORY_SLOTS);
   const emptySlots = INVENTORY_SLOTS - visibleItems.length;
+
 
   return (
     <div className="h-full w-full bg-[hsl(280,40%,15%)] border-t-4 border-[hsl(280,30%,10%)] flex flex-col font-mono">
@@ -137,8 +141,10 @@ export function ScummUI({
                     ? 'border-[hsl(60,90%,70%)] bg-[hsl(280,50%,30%)]'
                     : 'border-[hsl(280,50%,30%)] hover:border-[hsl(320,80%,70%)]'
                   }
+                  ${recentItemId === item.id ? 'inventory-flash' : ''}
                 `}
                 aria-label={item.name}
+
               >
                 <img
                   src={item.image}
