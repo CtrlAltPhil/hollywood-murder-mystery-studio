@@ -18,7 +18,9 @@ interface GameMenuProps {
   isTitleScreen?: boolean;
   debugMode: boolean;
   onDebugModeToggle: (v: boolean) => void;
+  hasAnySave?: boolean;
 }
+
 
 // Secret code: ↑ ↑ ↓ ↓ ← → ← → B A
 const SECRET_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -26,8 +28,9 @@ const SECRET_CODE = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft'
 export function GameMenu({ 
   onResume, onSave, onRestart, onLoadGame, onDeleteSave, musicVolume, sfxVolume, brightness, 
   onMusicVolumeChange, onSfxVolumeChange, onBrightnessChange, isTitleScreen,
-  debugMode, onDebugModeToggle
+  debugMode, onDebugModeToggle, hasAnySave
 }: GameMenuProps) {
+
   const [codeProgress, setCodeProgress] = useState(0);
   const [debugUnlocked, setDebugUnlocked] = useState(false);
   const [showCodeFlash, setShowCodeFlash] = useState(false);

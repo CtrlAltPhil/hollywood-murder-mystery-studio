@@ -32,6 +32,20 @@ import { LetterOverlay } from './LetterOverlay';
 import { getDialogTree, getDialogNodeById } from '@/data/dialogTrees';
 import { Button } from '@/components/ui/button';
 import { Settings, NotebookPen } from 'lucide-react';
+import { toast } from 'sonner';
+import { ConfirmDialog } from './ConfirmDialog';
+import { SaveSlotsDialog } from './SaveSlotsDialog';
+import { usePersistedSettings } from '@/hooks/usePersistedSettings';
+import {
+  listSlots,
+  readSlot,
+  writeSlot,
+  deleteSlot,
+  hasAnySave,
+  getMostRecentSlot,
+  SaveSlot,
+} from '@/utils/saveSystem';
+
 
 
 export function GameContainer() {
@@ -66,6 +80,19 @@ export function GameContainer() {
 
   const { playBackgroundTrack, playRoomAmbience, playDialogBlip, playSfx, setMusicVolume, setSfxVolume } = useAudioEngine();
 
+  // Persisted audio + brightness settings
+  const persisted = usePersistedSettings();
+  const [musicVolumeState, setMusicVolumeState] = useState(persisted.musicVolume);
+  const [sfxVolumeState, setSfxVolumeState] = useState(persisted.sfxVolume);
+  const [brightness, setBrightnessLocal] = useState(persisted.brightness);
+
+  // Sync persisted values into the audio engine on mount
+  useEffect(() => {
+    setMusicVolume(persisted.musicVolume);
+    setSfxVolume(persisted.sfxVolume);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const lastLoggedNodeId = useRef<string | null>(null);
   const visitedDialogNodes = useRef<Set<string>>(new Set());
@@ -77,9 +104,6 @@ export function GameContainer() {
   }, [gameState.phase, playBackgroundTrack]);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [musicVolumeState, setMusicVolumeState] = useState(0.3);
-  const [sfxVolumeState, setSfxVolumeState] = useState(0.5);
-  const [brightness, setBrightness] = useState(1);
   const [crashPlayed, setCrashPlayed] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
   const [roomTransition, setRoomTransition] = useState(false);
@@ -89,14 +113,66 @@ export function GameContainer() {
   const [hoverText, setHoverText] = useState('');
   const [openLetterId, setOpenLetterId] = useState<string | null>(null);
   const [assetsPreloaded, setAssetsPreloaded] = useState(false);
-  const [hasSaveData, setHasSaveData] = useState(() => !!localStorage.getItem('hmm_save_game'));
+  const [savePresent, setSavePresent] = useState(() => hasAnySave());
+  const [saveDialogMode, setSaveDialogMode] = useState<'save' | 'load' | null>(null);
+  const [confirmState, setConfirmState] = useState<null | {
+    title: string;
+    message: string;
+    destructive?: boolean;
+    confirmLabel?: string;
+    onConfirm: () => void;
+  }>(null);
 
   // Re-check save data whenever we return to the title screen
   useEffect(() => {
     if (gameState.phase === 'title') {
-      setHasSaveData(!!localStorage.getItem('hmm_save_game'));
+      setSavePresent(hasAnySave());
     }
   }, [gameState.phase]);
+
+  // Keyboard shortcuts: Esc toggles the pause menu, N opens notes.
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if (gameState.phase === 'title' || gameState.phase === 'studio-intro') return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        if (confirmState) {
+          setConfirmState(null);
+        } else if (saveDialogMode) {
+          setSaveDialogMode(null);
+        } else if (isNotesOpen) {
+          setIsNotesOpen(false);
+        } else {
+          setIsMenuOpen((v) => !v);
+        }
+      } else if ((e.key === 'n' || e.key === 'N') && gameState.phase === 'gameplay' && !isMenuOpen) {
+        e.preventDefault();
+        setIsNotesOpen((v) => {
+          if (!v) clearUnread();
+          return !v;
+        });
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [gameState.phase, isMenuOpen, isNotesOpen, saveDialogMode, confirmState, clearUnread]);
+
+  // Warn the player before they close the window mid-game.
+  useEffect(() => {
+    if (gameState.phase === 'title' || gameState.phase === 'studio-intro' || gameState.phase === 'credits') {
+      return;
+    }
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [gameState.phase]);
+
+
 
   // Preload all game assets while on title screen
   useEffect(() => {
@@ -180,11 +256,18 @@ export function GameContainer() {
   const handleMusicVolumeChange = (v: number) => {
     setMusicVolume(v);
     setMusicVolumeState(v);
+    persisted.setMusicVolume(v);
   };
 
   const handleSfxVolumeChange = (v: number) => {
     setSfxVolume(v);
     setSfxVolumeState(v);
+    persisted.setSfxVolume(v);
+  };
+
+  const handleBrightnessChange = (v: number) => {
+    setBrightnessLocal(v);
+    persisted.setBrightness(v);
   };
 
   const handleStart = () => {
@@ -192,6 +275,8 @@ export function GameContainer() {
     // shock reactions + Stanley Wilson intro on the first gameplay scene.
     resetGame();
     resetNotes();
+    // Reset crash SFX gate so the blackout cue replays on a new playthrough.
+    setCrashPlayed(false);
     setPhase('intro');
   };
 
@@ -204,15 +289,9 @@ export function GameContainer() {
     checkFlagEvidence(flag);
   };
 
-  const handleSave = () => {
-    // Warn if overriding an existing save
-    if (hasSaveData) {
-      if (!confirm('This will overwrite your previous save. Continue?')) {
-        return;
-      }
-    }
+  const performSave = (slot: SaveSlot) => {
     try {
-      const saveData = {
+      writeSlot(slot, {
         gameState: {
           ...gameState,
           selectedVerb: null,
@@ -221,52 +300,97 @@ export function GameContainer() {
           dialogState: { isActive: false, currentNode: null, character: null },
         },
         notes: { dialogueLog, evidenceLog },
-        savedAt: Date.now(),
-      };
-      localStorage.setItem('hmm_save_game', JSON.stringify(saveData));
-      setHasSaveData(true);
-      alert('Game Saved Successfully!');
+      });
+      setSavePresent(true);
+      toast.success(`Saved to Slot ${slot}`);
     } catch {
-      alert('Failed to save game.');
+      toast.error('Failed to save game.');
     }
+    setSaveDialogMode(null);
     setIsMenuOpen(false);
   };
 
-  const handleLoadGame = () => {
-    const raw = localStorage.getItem('hmm_save_game');
-    if (!raw) {
-      alert('No save data found.');
+  const handleSaveSlotSelected = (slot: SaveSlot) => {
+    const slots = listSlots();
+    const target = slots.find((s) => s.slot === slot);
+    if (target?.exists) {
+      setConfirmState({
+        title: 'Overwrite Save?',
+        message: `Slot ${slot} already contains a saved game. This cannot be undone.`,
+        confirmLabel: 'OVERWRITE',
+        destructive: true,
+        onConfirm: () => {
+          setConfirmState(null);
+          performSave(slot);
+        },
+      });
+    } else {
+      performSave(slot);
+    }
+  };
+
+  const performLoad = (slot: SaveSlot) => {
+    const data = readSlot(slot);
+    if (!data) {
+      toast.error('Save data is missing or corrupted.');
       return;
     }
     try {
-      const parsed = JSON.parse(raw);
-      const savedGameState = parsed.gameState || parsed;
-      restoreState(savedGameState);
-      if (parsed.notes) {
-        restoreNotes(parsed.notes.dialogueLog || [], parsed.notes.evidenceLog || []);
+      restoreState(data.gameState);
+      if (data.notes) {
+        restoreNotes(data.notes.dialogueLog || [], data.notes.evidenceLog || []);
       }
+      setSaveDialogMode(null);
       setIsMenuOpen(false);
       setCrashPlayed(true);
+      toast.success(`Loaded Slot ${slot}`);
     } catch {
-      alert('Failed to load save data. The save file may be corrupted.');
+      toast.error('Failed to load save data.');
     }
+  };
+
+  const handleQuickLoad = () => {
+    const mostRecent = getMostRecentSlot();
+    if (mostRecent) {
+      performLoad(mostRecent);
+    } else {
+      setSaveDialogMode('load');
+    }
+  };
+
+  const handleSlotDelete = (slot: SaveSlot) => {
+    setConfirmState({
+      title: 'Delete Save?',
+      message: `Permanently delete the save in Slot ${slot}? This cannot be undone.`,
+      confirmLabel: 'DELETE',
+      destructive: true,
+      onConfirm: () => {
+        deleteSlot(slot);
+        setSavePresent(hasAnySave());
+        setConfirmState(null);
+        toast.success(`Slot ${slot} deleted`);
+      },
+    });
   };
 
   const handleRestart = () => {
-    if (confirm('Return to title screen? Unsaved progress will be lost.')) {
-      resetGame();
-      resetNotes();
-      setIsMenuOpen(false);
-      setPhase('title');
-    }
+    setConfirmState({
+      title: 'Return to Title?',
+      message: 'Unsaved progress will be lost.',
+      confirmLabel: 'RETURN',
+      destructive: true,
+      onConfirm: () => {
+        resetGame();
+        resetNotes();
+        setCrashPlayed(false);
+        setIsMenuOpen(false);
+        setConfirmState(null);
+        setPhase('title');
+      },
+    });
   };
 
-  const handleDeleteSave = () => {
-    if (confirm('Delete your saved game? This cannot be undone.')) {
-      localStorage.removeItem('hmm_save_game');
-      setHasSaveData(false);
-    }
-  };
+
 
   const handleChangeRoom = (roomId: string) => {
     setRoomTransition(true);
@@ -428,7 +552,7 @@ export function GameContainer() {
     brightness,
     onMusicVolumeChange: handleMusicVolumeChange,
     onSfxVolumeChange: handleSfxVolumeChange,
-    onBrightnessChange: setBrightness,
+    onBrightnessChange: handleBrightnessChange,
     debugMode,
     onDebugModeToggle: setDebugMode,
   };
@@ -500,8 +624,9 @@ export function GameContainer() {
         <div className="w-full max-w-5xl aspect-[4/3]">
           <TitleScreen 
             onStart={handleStart}
-            onLoadGame={hasSaveData ? handleLoadGame : undefined}
+            onLoadGame={savePresent ? handleQuickLoad : undefined}
             {...menuProps}
+
           />
         </div>
       </div>
@@ -522,11 +647,38 @@ export function GameContainer() {
           {isMenuOpen && (
             <GameMenu 
               onResume={() => setIsMenuOpen(false)}
-              onSave={handleSave}
+              onSave={() => setSaveDialogMode('save')}
               onRestart={handleRestart}
+              hasAnySave={savePresent}
+              onLoadGame={savePresent ? () => setSaveDialogMode('load') : undefined}
               {...menuProps}
             />
           )}
+
+          {saveDialogMode && (
+            <SaveSlotsDialog
+              mode={saveDialogMode}
+              onSelect={(slot) => {
+                if (saveDialogMode === 'save') handleSaveSlotSelected(slot);
+                else performLoad(slot);
+              }}
+              onDelete={handleSlotDelete}
+              onClose={() => setSaveDialogMode(null)}
+            />
+          )}
+
+          {confirmState && (
+            <ConfirmDialog
+              title={confirmState.title}
+              message={confirmState.message}
+              confirmLabel={confirmState.confirmLabel}
+              destructive={confirmState.destructive}
+              onConfirm={confirmState.onConfirm}
+              onCancel={() => setConfirmState(null)}
+            />
+          )}
+
+
 
           <div className="w-full aspect-video relative">
             <IntroSequence 
@@ -546,9 +698,10 @@ export function GameContainer() {
       <div className="w-full h-screen bg-black flex items-center justify-center p-4">
         <div className="relative w-full max-w-5xl aspect-[4/3] bg-black shadow-2xl border-2 border-zinc-800 overflow-hidden" style={{ filter: `brightness(${brightness})` }}>
           <CreditsScreen
-            onRestart={() => { resetGame(); resetNotes(); setPhase('title'); }}
-            onLoadGame={hasSaveData ? handleLoadGame : undefined}
+            onRestart={() => { resetGame(); resetNotes(); setCrashPlayed(false); setPhase('title'); }}
+            onLoadGame={savePresent ? handleQuickLoad : undefined}
           />
+
         </div>
       </div>
     );
@@ -608,13 +761,37 @@ export function GameContainer() {
         {isMenuOpen && (
           <GameMenu 
             onResume={() => setIsMenuOpen(false)}
-            onSave={handleSave}
+            onSave={() => setSaveDialogMode('save')}
             onRestart={handleRestart}
-            onLoadGame={hasSaveData ? handleLoadGame : undefined}
-            onDeleteSave={hasSaveData ? handleDeleteSave : undefined}
+            hasAnySave={savePresent}
+            onLoadGame={savePresent ? () => setSaveDialogMode('load') : undefined}
             {...menuProps}
           />
         )}
+
+        {saveDialogMode && (
+          <SaveSlotsDialog
+            mode={saveDialogMode}
+            onSelect={(slot) => {
+              if (saveDialogMode === 'save') handleSaveSlotSelected(slot);
+              else performLoad(slot);
+            }}
+            onDelete={handleSlotDelete}
+            onClose={() => setSaveDialogMode(null)}
+          />
+        )}
+
+        {confirmState && (
+          <ConfirmDialog
+            title={confirmState.title}
+            message={confirmState.message}
+            confirmLabel={confirmState.confirmLabel}
+            destructive={confirmState.destructive}
+            onConfirm={confirmState.onConfirm}
+            onCancel={() => setConfirmState(null)}
+          />
+        )}
+
         
         <div className="relative w-full aspect-video bg-black overflow-hidden border-b-4 border-black">
           {renderCurrentRoom()}
