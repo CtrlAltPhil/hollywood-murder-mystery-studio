@@ -35,7 +35,10 @@ export function TitleScreen({
   onDebugModeToggle,
 }: TitleScreenProps) {
   const [showLightning, setShowLightning] = useState(false);
-  const [carPosition, setCarPosition] = useState(-250);
+  const [bolts, setBolts] = useState<Array<{ id: number; xPct: number; endYPct: number; seed: number; opacity: number }>>([]);
+  const [cars, setCars] = useState<SpawnedCar[]>([]);
+  const carsRef = useRef<SpawnedCar[]>([]);
+  carsRef.current = cars;
   const [easterEggVisible, setEasterEggVisible] = useState(false);
   const [fireflyClickCount, setFireflyClickCount] = useState(0);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
