@@ -36,7 +36,7 @@ import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
 import { SaveSlotsDialog } from './SaveSlotsDialog';
 import { usePersistedSettings } from '@/hooks/usePersistedSettings';
-import { getCantUseResponse } from '@/utils/useItemResponses';
+import { getCantUseResponse, getCharacterItemResponse } from '@/utils/useItemResponses';
 import {
   listSlots,
   readSlot,
@@ -505,7 +505,15 @@ export function GameContainer() {
           if (typeof result === 'string') setActionText(result);
         }
       } else {
-        setActionText(getCantUseResponse(item.id, hotspot.name));
+        // If the hotspot is a character (has a talk dialog), route to the
+        // NPC-aware response system so the character or player reacts in kind.
+        const talkInteraction = hotspot.interactions?.talk;
+        if (typeof talkInteraction === 'string' && talkInteraction.startsWith('__DIALOG__')) {
+          const characterId = talkInteraction.replace('__DIALOG__', '');
+          setActionText(getCharacterItemResponse(characterId, hotspot.name, item.id));
+        } else {
+          setActionText(getCantUseResponse(item.id, hotspot.name));
+        }
       }
       selectVerb(null);
       return;
