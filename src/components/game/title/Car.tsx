@@ -227,32 +227,10 @@ function renderVariant(variant: CarVariant, body: string, trim: string) {
         </div>
       );
 
-    case "limo":
-      // Extra long sedan with three windows
-      return (
-        <div className="relative w-[230px] h-[44px]">
-          <div
-            className="absolute top-0 left-[34px] right-[34px] h-[20px] rounded-t-[10px]"
-            style={{ background: trimBg, boxShadow: `inset 0 -3px 0 ${shadow}` }}
-          />
-          <div className="absolute top-[4px] left-[46px] w-[40px] h-[12px] rounded-sm" style={{ background: "hsl(210 30% 22%)" }} />
-          <div className="absolute top-[4px] left-[96px] w-[40px] h-[12px] rounded-sm" style={{ background: "hsl(210 30% 22%)" }} />
-          <div className="absolute top-[4px] right-[46px] w-[40px] h-[12px] rounded-sm" style={{ background: "hsl(210 30% 22%)" }} />
-          <div
-            className="absolute bottom-0 left-0 right-0 h-[22px] rounded-md"
-            style={{ background: bodyBg, boxShadow: `inset 0 -4px 0 ${shadow}` }}
-          >
-            {Lamps}
-          </div>
-          <Wheel left={22} />
-          <Wheel left={120} />
-          <Wheel left={194} />
-        </div>
-      );
   }
 }
 
-const VARIANTS: CarVariant[] = ["sedan", "coupe", "roadster", "truck", "taxi", "limo"];
+const VARIANTS: CarVariant[] = ["sedan", "coupe", "roadster", "truck", "taxi"];
 const BODY_PALETTE = [
   "220 20% 14%", // near-black
   "0 45% 22%",   // oxblood
@@ -283,18 +261,23 @@ export interface SpawnedCar {
 
 let nextCarId = 1;
 
-export function spawnRandomCar(viewportWidth: number): SpawnedCar {
+/**
+ * Two-lane road: near lane (bottom) flows left→right, far lane (slightly
+ * higher) flows right→left. Every car is the same scale so the eye reads
+ * them as the same depth — no fake perspective shrinking.
+ */
+export function spawnRandomCar(viewportWidth: number, lane: "near" | "far"): SpawnedCar {
   const variant = VARIANTS[Math.floor(Math.random() * VARIANTS.length)];
-  // Taxi keeps its branded palette; others randomize
   const bodyHsl = variant === "taxi" ? "45 85% 45%" : BODY_PALETTE[Math.floor(Math.random() * BODY_PALETTE.length)];
   const trimHsl = TRIM_PALETTE[Math.floor(Math.random() * TRIM_PALETTE.length)];
-  const direction: "ltr" | "rtl" = Math.random() < 0.5 ? "ltr" : "rtl";
-  // Two lanes: far lane slightly higher and smaller (cheap perspective)
-  const farLane = Math.random() < 0.45;
-  const bottomPct = farLane ? 5.5 : 2;
-  const scale = farLane ? 0.7 : 1;
-  const speed = (1.6 + Math.random() * 1.8) * (farLane ? 0.75 : 1);
-  const startX = direction === "ltr" ? -280 : viewportWidth + 40;
+
+  const isNear = lane === "near";
+  const direction: "ltr" | "rtl" = isNear ? "ltr" : "rtl";
+  const bottomPct = isNear ? 1.5 : 5.5;
+  const scale = 1.35;
+  const baseSpeed = 1.8 + Math.random() * 1.4;
+  const startX = direction === "ltr" ? -320 : viewportWidth + 60;
+
   return {
     id: nextCarId++,
     variant,
@@ -304,6 +287,7 @@ export function spawnRandomCar(viewportWidth: number): SpawnedCar {
     x: startX,
     bottomPct,
     scale,
-    speed: direction === "ltr" ? speed : -speed,
+    speed: direction === "ltr" ? baseSpeed : -baseSpeed,
   };
 }
+
