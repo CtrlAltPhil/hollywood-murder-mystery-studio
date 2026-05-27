@@ -83,25 +83,19 @@ const itemSpecificResponses: Record<string, string[]> = {
   ],
 };
 
-function pickRandom(arr: string[]): string {
+function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 /**
  * Returns a witty, randomized response for failing to use an inventory item on something.
- * @param itemId — the inventory item's id
- * @param targetName — optional name of the target hotspot (e.g. "the locked door")
  */
 export function getCantUseResponse(itemId: string, targetName?: string): string {
   const responses = itemSpecificResponses[itemId] ?? genericResponses;
   let response = pickRandom(responses);
 
-  // If there's a target name, try to inject it where it makes sense.
-  // Some responses already have "that" baked in; for others we could substitute,
-  // but to keep it simple we just append context when it feels natural.
   if (targetName && Math.random() > 0.5) {
     const lowerTarget = targetName.toLowerCase();
-    // If the response ends with a period, add a follow-up quip
     const followUps = [
       ` Especially not on the ${lowerTarget}.`,
       ` The ${lowerTarget} certainly won't help.`,
@@ -112,3 +106,79 @@ export function getCantUseResponse(itemId: string, targetName?: string): string 
 
   return response;
 }
+
+// ============================================================
+// Using inventory items ON characters (NPCs)
+// ============================================================
+
+const playerOnCharacterGeneric: ((name: string) => string)[] = [
+  (n) => `Waving this in ${n}'s face won't get me any closer to the truth.`,
+  (n) => `${n} would just laugh me out of the room.`,
+  (n) => `That's a great way to end this conversation before it starts.`,
+  (n) => `${n} doesn't strike me as the type who'd appreciate that.`,
+  (n) => `I'd rather not show my hand to ${n} just yet.`,
+  (n) => `Pulling that out in front of ${n}? Bad move, detective.`,
+];
+
+const characterReactions: Record<string, string[]> = {
+  luke: [
+    'Luke Adams: "Put that away, gumshoe. You\'re embarrassing yourself."',
+    'Luke Adams: "*exhales smoke* That supposed to mean something to me?"',
+    'Luke Adams: "Cute. Now ask me a real question."',
+    'Luke Adams: "I\'ve had bigger things waved at me by smaller men."',
+    'Luke Adams: "*flat stare* No."',
+  ],
+  cowardly: [
+    'Mr. Cowardly: "P-please, put that away! I don\'t want any trouble!"',
+    'Mr. Cowardly: "Oh dear, oh dear — is that really necessary?"',
+    'Mr. Cowardly: "I\'ll talk! I\'ll talk! Just — not with THAT in my face!"',
+    'Mr. Cowardly: "*whimpers* What did I do to deserve this?"',
+  ],
+  lady: [
+    'Lady Fantastica: "Darling, this isn\'t a prop department. Put it away."',
+    'Lady Fantastica: "I\'ve been handed worse by better men, detective."',
+    'Lady Fantastica: "*arches an eyebrow* Is this your idea of charm?"',
+    'Lady Fantastica: "If you wanted my attention, you\'ve certainly got it. Just not the way you hoped."',
+  ],
+  'el-fuego': [
+    'Duke Extreme: "*scoffs* Try that again and you\'ll be picking your teeth off the asphalt."',
+    'Duke Extreme: "I do my own stunts, pal. Yours need work."',
+    'Duke Extreme: "That the best you got, detective?"',
+    'Duke Extreme: "*cracks knuckles* You sure you want to play it like that?"',
+  ],
+  carl: [
+    'Carl: "Hey man, I just park cars. Don\'t bring me into whatever that is."',
+    'Carl: "*shrugs* Not really my department, dude."',
+    'Carl: "Whoa whoa whoa — keep that thing away from the keys."',
+    'Carl: "I\'m just trying to finish my shift, alright?"',
+  ],
+  'chef-allegro': [
+    'Chef Allegro: "Mamma mia! Get that out of my kitchen!"',
+    'Chef Allegro: "*waves a ladle* You bring THAT in here? Out, out!"',
+    'Chef Allegro: "I cook with passion, not with whatever that is."',
+    'Chef Allegro: "This is a kitchen, detective, not a pawn shop."',
+  ],
+  'sous-chef-sally': [
+    'Sous-Chef Sally: "Uh, I\'m just trying to finish prep here."',
+    'Sous-Chef Sally: "*nervous laugh* Yeah, no thanks, detective."',
+    'Sous-Chef Sally: "Please don\'t put that on the cutting board."',
+    'Sous-Chef Sally: "I really don\'t get paid enough for this."',
+  ],
+};
+
+/**
+ * Response for using an inventory item on a character (NPC). Alternates between
+ * the player's internal refusal and the NPC's snappy reaction.
+ */
+export function getCharacterItemResponse(
+  characterId: string,
+  characterName: string,
+  _itemId: string,
+): string {
+  const npcLines = characterReactions[characterId];
+  if (npcLines && Math.random() < 0.6) {
+    return pickRandom(npcLines);
+  }
+  return pickRandom(playerOnCharacterGeneric)(characterName);
+}
+
