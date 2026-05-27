@@ -45,7 +45,6 @@ export function StudioIntro({ onComplete }: StudioIntroProps) {
     // the user on a black screen.
     const watchdog = window.setTimeout(() => {
       if (!completedRef.current && video.readyState < 3) {
-        console.warn('[StudioIntro] watchdog tripped — skipping intro');
         safeComplete('watchdog');
       }
     }, WATCHDOG_MS);
@@ -59,8 +58,7 @@ export function StudioIntro({ onComplete }: StudioIntroProps) {
         .then(() => {
           try { video.muted = false; } catch { /* ignore */ }
         })
-        .catch((err) => {
-          console.warn('[StudioIntro] autoplay blocked:', err);
+        .catch(() => {
           setNeedsTap(true);
         });
     }
@@ -99,12 +97,9 @@ export function StudioIntro({ onComplete }: StudioIntroProps) {
         muted
         preload="auto"
         onEnded={() => safeComplete('ended')}
-        onError={(e) => {
-          console.error('[StudioIntro] video error:', e);
+        onError={() => {
           setHasError(true);
         }}
-        onStalled={() => console.warn('[StudioIntro] stalled')}
-        onSuspend={() => console.warn('[StudioIntro] suspend')}
         className="w-full h-full object-contain"
       />
 
