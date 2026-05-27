@@ -97,12 +97,9 @@ export function StudioIntro({ onComplete }: StudioIntroProps) {
         muted
         preload="auto"
         onEnded={() => safeComplete('ended')}
-        onError={(e) => {
-          console.error('[StudioIntro] video error:', e);
+        onError={() => {
           setHasError(true);
         }}
-        onStalled={() => console.warn('[StudioIntro] stalled')}
-        onSuspend={() => console.warn('[StudioIntro] suspend')}
         className="w-full h-full object-contain"
       />
 
