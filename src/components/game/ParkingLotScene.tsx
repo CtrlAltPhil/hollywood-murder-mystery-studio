@@ -157,9 +157,9 @@ export function ParkingLotScene({
     {
       id: "luke-adams",
       name: "Luke Adams",
-      position: { x: 14, y: 90 },
-      width: 8,
-      height: 22,
+      position: { x: 10, y: 74 },
+      width: 12,
+      height: 26,
       interactions: {
         look: "A man in a sharp suit, leaning against the wall and smoking. He's been watching me. He must be Luke Adams — the name on the handkerchief.",
         talk: "__DIALOG__luke",
