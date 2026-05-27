@@ -36,6 +36,7 @@ import { toast } from 'sonner';
 import { ConfirmDialog } from './ConfirmDialog';
 import { SaveSlotsDialog } from './SaveSlotsDialog';
 import { usePersistedSettings } from '@/hooks/usePersistedSettings';
+import { getCantUseResponse } from '@/utils/useItemResponses';
 import {
   listSlots,
   readSlot,
@@ -504,7 +505,7 @@ export function GameContainer() {
           if (typeof result === 'string') setActionText(result);
         }
       } else {
-        setActionText(`I can't use the ${item.name} with ${hotspot.name}.`);
+        setActionText(getCantUseResponse(item.id, hotspot.name));
       }
       selectVerb(null);
       return;
