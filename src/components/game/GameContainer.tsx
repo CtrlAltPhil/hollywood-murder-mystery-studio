@@ -655,6 +655,30 @@ export function GameContainer() {
             />
           )}
 
+          {saveDialogMode && (
+            <SaveSlotsDialog
+              mode={saveDialogMode}
+              onSelect={(slot) => {
+                if (saveDialogMode === 'save') handleSaveSlotSelected(slot);
+                else performLoad(slot);
+              }}
+              onDelete={handleSlotDelete}
+              onClose={() => setSaveDialogMode(null)}
+            />
+          )}
+
+          {confirmState && (
+            <ConfirmDialog
+              title={confirmState.title}
+              message={confirmState.message}
+              confirmLabel={confirmState.confirmLabel}
+              destructive={confirmState.destructive}
+              onConfirm={confirmState.onConfirm}
+              onCancel={() => setConfirmState(null)}
+            />
+          )}
+
+
 
           <div className="w-full aspect-video relative">
             <IntroSequence 
