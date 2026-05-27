@@ -41,9 +41,7 @@ export function useBackgroundMusic(phase: string) {
     if (track && !audio.src.endsWith(track)) {
       audio.src = track;
       audio.play().catch(() => {
-        // Auto-play was prevented. 
-        // This is normal until the user interacts with the page.
-        console.log("Audio waiting for interaction...");
+        // Auto-play blocked until user interacts; the click listener below recovers.
       });
     } else if (!track) {
       audio.pause();
