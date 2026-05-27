@@ -45,7 +45,6 @@ export function StudioIntro({ onComplete }: StudioIntroProps) {
     // the user on a black screen.
     const watchdog = window.setTimeout(() => {
       if (!completedRef.current && video.readyState < 3) {
-        console.warn('[StudioIntro] watchdog tripped — skipping intro');
         safeComplete('watchdog');
       }
     }, WATCHDOG_MS);
