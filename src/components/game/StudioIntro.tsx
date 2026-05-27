@@ -58,8 +58,7 @@ export function StudioIntro({ onComplete }: StudioIntroProps) {
         .then(() => {
           try { video.muted = false; } catch { /* ignore */ }
         })
-        .catch((err) => {
-          console.warn('[StudioIntro] autoplay blocked:', err);
+        .catch(() => {
           setNeedsTap(true);
         });
     }
