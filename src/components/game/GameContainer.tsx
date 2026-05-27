@@ -882,6 +882,7 @@ export function GameContainer() {
             <DialogBox
               node={gameState.dialogState.currentNode}
               isRevisit={isCurrentNodeRevisit}
+              dialogueSpeed={persisted.dialogueSpeed}
               onOptionSelect={(option) => {
                 if (option.onSelect) option.onSelect();
                 // Sally gets angry when accused, reverts after 3 seconds
