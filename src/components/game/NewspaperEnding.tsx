@@ -16,7 +16,7 @@ const LINES: { speaker: string; text: string }[] = [
   },
   {
     speaker: "The Daily Reel",
-    text: "Prosecutors say Adams was hired by Jack Celston, Los Cabos' own business partner and co-owner of Green Box Studios. When Los Cabos refused to sell his half of the studio, Celston brought in Adams to make the problem disappear. Celston has also been arrested and charged as the architect of the plot.",
+    text: "Prosecutors say Adams was hired by Jack Celston, Los Cabos' business partner and the quiet controlling shareholder of Green Box Studios. When Los Cabos refused to sell his stake, Celston brought in Adams to make the problem disappear. Celston has also been arrested and charged as the architect of the plot.",
   },
   {
     speaker: "Detective Wilson",
