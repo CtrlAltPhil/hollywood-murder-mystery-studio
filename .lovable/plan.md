@@ -1,26 +1,33 @@
-# Art Deco Title Screen Makeover
+## Goal
+Every time the player uses an inventory item on a character or object, they should get a response — either a witty refusal from the detective or a snappy reaction from the NPC. Right now, clicking Luke Adams with a photograph selected produces no response at all, and the response library is thin.
 
-Transform the bland "HOLLYWOOD MURDER MYSTERY" title into a period-accurate Old Hollywood marquee.
+## Root cause of the silent Luke bug
+In `src/hooks/useGameState.ts`, `selectItem()` sets `selectedItem` but leaves `selectedVerb` as `null` (unlike SCUMM, which auto-picks the "Use" verb). In `GameContainer.sharedHotspotClick`, the item-on-target branch only fires when `verb === 'use' && item`. With verb=null, the click falls through to `else if (verb)` which is also false — so nothing happens.
 
-## What you'll see
+## Changes
 
-- **"HOLLYWOOD"** in **Limelight** — the iconic 1930s Deco display face used on vintage movie posters
-- **"MURDER MYSTERY"** in **Cinzel Black** — a tall, chiseled Roman serif with wide letter-spacing, evoking carved stone and film credits
-- A thin **"— A NOIR ADVENTURE —"** subtitle between the two lines, framed by glowing horizontal rules
-- **Gold gradient fill** (pale gold → amber → bronze) instead of flat yellow, with a layered drop shadow for marquee-bulb depth
-- **Staggered drop-in animation** on load — "HOLLYWOOD" lands first, then the subtitle rule sweeps in, then "MURDER MYSTERY" drops
-- **Subtle flicker** on the title (like a worn neon sign), independent of the existing lightning
-- Updated **PRESS START / CONTINUE** to use Cinzel with a softer pulsing gold glow that matches
+### 1. Auto-select the "Use" verb when picking an inventory item
+`src/hooks/useGameState.ts` — in `selectItem`, when an item is passed in and no verb is currently selected, set `selectedVerb: 'use'` and update `actionText` to `Use <Item>`. Clearing the item (`null`) leaves the verb alone.
 
-## Technical changes
+### 2. Guarantee a response for item-on-anything
+`src/components/game/GameContainer.tsx` — in `sharedHotspotClick`, when an item is selected but no verb (safety net for any lingering path), treat it as `use`. Ensure the branch always calls `setActionText(...)` and clears `selectedItem` after firing (so the player isn't stuck holding the item). Also route to `getCharacterItemResponse` whenever the target hotspot has a `talk: "__DIALOG__..."` interaction, even if the character also happens to have an unrelated `use_with_...` mapping.
 
-1. **`index.html`** — add Google Fonts preconnect + `<link>` for `Limelight` and `Cinzel` (weights 500/700/900)
-2. **`src/index.css`** — add:
-   - `.font-deco` / `.font-cinzel` font-family utilities
-   - `.title-deco` (gradient text + layered drop-shadows + flicker animation)
-   - `.title-sub` and `.title-rule` for the framed subtitle
-   - `@keyframes title-flicker`, `title-drop-in`, `press-start-pulse`
-   - Three staggered `.title-drop-1/2/3` classes
-3. **`src/components/game/TitleScreen.tsx`** — replace the title `<div>` block (lines 179–203) with the new structure: HOLLYWOOD heading, decorative rule + subtitle, MURDER MYSTERY heading, restyled PRESS START / CONTINUE buttons. The previously-referenced `title-glow` and `pulse-glow` classes were never defined in CSS, so this also fixes that.
+### 3. Expand the response library
+`src/utils/useItemResponses.ts`:
+- Add per-character × per-item combos in a nested map `characterItemCombos[characterId][itemId]` for the memorable pairings (dagger + Luke/Duke/Cowardly/Lady, torn photograph + Luke, inheritance agreement + Luke, handkerchief + Luke, money bag + Duke/Carl, wine glass + Lady, meat stick + Carl/Cowardly, wire cutters + Duke, etc.). These take priority over generic character lines.
+- Fill in reactions for missing NPCs: `duke` (currently only keyed as `el-fuego`), `jack` (Jack Celston), `los-cabos` (if reachable). Verify the exact character IDs from `dialogTrees.ts` / scene hotspots and key the map to those.
+- Grow `itemSpecificResponses` for objects with 2-3 more witty lines per item so repeat failures don't loop.
+- Add a small pool of target-aware detective quips for common object categories (car, door, painting, corpse, food, drink) picked by simple keyword match on `targetName`.
+- Selection order in `getCharacterItemResponse(characterId, itemId)`:
+  1. combo line (character + item) if defined
+  2. character-specific reaction (60% weight, as today)
+  3. detective refusal that names the character
 
-No changes to game logic, layout positioning of other elements (car, fireflies, lightning, vignette), or any other screens.
+### 4. Widen Luke's hitbox already fine, but double-check
+No change needed unless verification shows the click isn't landing. If needed, nudge the hotspot width/height in `ParkingLotScene.tsx`.
+
+## Verification
+- Select torn photograph → click Luke → see a Luke-specific line about the photo.
+- Select dagger → click car / painting / koi pond → see a themed refusal.
+- Repeat the same combo 3× → see different lines.
+- Selecting an item without first clicking Use still works (verb auto-becomes Use, action bar reads "Use <Item>").
