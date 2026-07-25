@@ -29,7 +29,10 @@ export function useGameState() {
       ...prev,
       selectedVerb: verb,
       selectedItem: null,
-      actionText: verb ? getVerbDisplayName(verb) : '',
+      // Only overwrite actionText when a verb is being SET. Clearing selection
+      // must preserve any response text the caller just wrote (e.g. item-on-NPC
+      // reactions), otherwise the response flashes and disappears.
+      actionText: verb ? getVerbDisplayName(verb) : prev.actionText,
     }));
   }, []);
 
