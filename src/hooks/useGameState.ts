@@ -34,13 +34,19 @@ export function useGameState() {
   }, []);
 
   const selectItem = useCallback((item: InventoryItem | null) => {
-    setGameState(prev => ({
-      ...prev,
-      selectedItem: item,
-      actionText: prev.selectedVerb 
-        ? `${getVerbDisplayName(prev.selectedVerb)} ${item?.name || ''}` 
-        : '',
-    }));
+    setGameState(prev => {
+      // Picking up an item auto-selects the "Use" verb (classic SCUMM behavior)
+      // so the very next click on any hotspot triggers a "use <item> with X" response.
+      const nextVerb = item ? (prev.selectedVerb ?? 'use') : prev.selectedVerb;
+      return {
+        ...prev,
+        selectedItem: item,
+        selectedVerb: nextVerb,
+        actionText: nextVerb
+          ? `${getVerbDisplayName(nextVerb)} ${item?.name || ''}`
+          : '',
+      };
+    });
   }, []);
 
   const setActionText = useCallback((text: string) => {
