@@ -57,7 +57,7 @@ export function ScummUI({
   return (
     <div className="h-full w-full bg-[hsl(280,40%,15%)] border-t-4 border-[hsl(280,30%,10%)] flex flex-col font-mono">
       {/* Action Text Line - Classic single line feedback */}
-      <div className="min-h-8 flex-shrink-0 flex items-center justify-center bg-black/30 border-b border-[hsl(280,30%,25%)] px-3 py-1">
+      <div className="h-10 flex-shrink-0 flex items-center justify-center bg-black/30 border-b border-[hsl(280,30%,25%)] px-3 overflow-hidden">
         <span className="text-[hsl(320,80%,70%)] text-xs lg:text-sm font-bold tracking-wider uppercase drop-shadow-md text-center leading-tight line-clamp-2">
           {actionText || ' '}
         </span>
