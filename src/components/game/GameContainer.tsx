@@ -490,7 +490,9 @@ export function GameContainer() {
     const verb = gameState.selectedVerb ?? hotspot.__defaultVerb ?? null;
     const item = gameState.selectedItem;
 
-    if (verb === 'use' && item) {
+    // If the player has an item selected, treat the click as "use <item> with X"
+    // regardless of whether the verb was explicitly set — guarantees a response.
+    if (item && (verb === 'use' || !verb)) {
       const useWithKey = `use_with_${item.id}`;
       const interaction = hotspot.interactions[useWithKey];
       if (interaction) {
@@ -534,8 +536,7 @@ export function GameContainer() {
           if (typeof result === 'string') setActionText(result);
         }
       } else {
-        // If the hotspot is a character (has a talk dialog), route to the
-        // NPC-aware response system so the character or player reacts in kind.
+        // No scripted combo — react as either the NPC or the detective.
         const talkInteraction = hotspot.interactions?.talk;
         if (typeof talkInteraction === 'string' && talkInteraction.startsWith('__DIALOG__')) {
           const characterId = talkInteraction.replace('__DIALOG__', '');
