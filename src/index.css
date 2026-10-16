@@ -86,6 +86,11 @@
   cursor: default;
 }
 
+/* Pixel-art hourglass while the opening cinematic is running. */
+.cursor-hourglass {
+  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' shape-rendering='crispEdges'><path fill='black' d='M7 2h18v5h-2v5l-5 4 5 4v5h2v5H7v-5h2v-5l5-4-5-4V7H7z'/><path fill='white' d='M9 4h14v2H9zm2 4h10v3l-5 4-5-4zm5 9 5 4v4H11v-4zM9 26h14v2H9z'/><path fill='black' d='M12 9h8v2l-4 3-4-3zm4 11 3 3h-6z'/></svg>") 16 16, wait;
+}
+
 /* Look at (Magnifying Glass) */
 .cursor-look {
   cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' style='fill:white;stroke:black;stroke-width:1'><path d='M10 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm0-2a8 8 0 1 0 4.906 14.32l4.387 4.387a1 1 0 0 0 1.414-1.414l-4.387-4.387A8 8 0 0 0 10 2z'/></svg>") 10 10, auto;
