@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { GameState, Verb } from "@/types/game";
 import { SimpleHotspot, getCursorClass, handleSceneHotspotClick } from "@/utils/sceneHelpers";
+import { BREAKROOM_LAYOUT } from "@/utils/breakroomLayout";
 
 // Import assets
 import breakroomBackground from "@/assets/backgrounds/breakroom.jpg";
@@ -339,7 +340,7 @@ export function GameScene({
   return (
     <div
       ref={sceneRef}
-      className={`relative w-full h-full ${inputLocked ? "cursor-none" : cursorClass}`}
+      className={`relative w-full h-full ${inputLocked ? (showStanleyCard ? "cursor-default" : "cursor-hourglass") : cursorClass}`}
       onClick={() => {
         if (!inputLocked) onEmptyClick?.();
       }}
@@ -352,21 +353,21 @@ export function GameScene({
         src={tableImage}
         alt="Party Table"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "18%", top: "60%", width: "25%", height: "42%" }}
+        style={BREAKROOM_LAYOUT.table}
       />
       {/* Wine glasses on table */}
       <img
         src={wineGlassesImage}
         alt="Wine Glasses"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "23%", top: "66%", width: "9%", height: "15%" }}
+        style={BREAKROOM_LAYOUT.wine}
       />
       {/* Charcuterie board on table */}
       <img
         src={charcuterieBoardImage}
         alt="Charcuterie Board"
         className="absolute z-10 pointer-events-none pixelated object-contain"
-        style={{ left: "31%", top: "66%", width: "10%", height: "18%" }}
+        style={BREAKROOM_LAYOUT.food}
       />
 
       {/* Los Cabos - Dead on the floor */}
@@ -419,7 +420,7 @@ export function GameScene({
       {!gameState.flags.handkerchiefTaken && (
         <div
           className={`absolute z-20 pointer-events-none ${tempReaction.ladyNervous ? "animate-nervous-shake" : "animate-breathing"}`}
-          style={{ left: "8%", bottom: "2%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
+          style={{ ...BREAKROOM_LAYOUT.lady, transformOrigin: "bottom center" }}
         >
           <img
             src={tempReaction.ladyNervous ? ladyNervousImage : ladyImage}
@@ -438,7 +439,7 @@ export function GameScene({
       {/* Duke Extreme */}
       <div
         className={`absolute z-20 pointer-events-none ${tempReaction.dukePanicked ? "animate-nervous-shake" : "animate-sway"}`}
-        style={{ left: "38%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
+        style={{ ...BREAKROOM_LAYOUT.duke, transformOrigin: "bottom center" }}
       >
         <img
           src={tempReaction.dukePanicked ? elFuegoPanickedImage : elFuegoPose === 0 ? elFuegoImage : elFuegoImage2}
@@ -456,7 +457,7 @@ export function GameScene({
       {/* Carl */}
       <div
         className={`absolute z-20 pointer-events-none ${tempReaction.carlSmirking ? "" : "animate-weight-shift"}`}
-        style={{ left: "53%", bottom: "1%", width: "auto", height: "45%", transformOrigin: "bottom center" }}
+        style={{ ...BREAKROOM_LAYOUT.carl, transformOrigin: "bottom center" }}
       >
         <img
           src={tempReaction.carlSmirking ? carlSmirkingImage : carlImage}
@@ -494,7 +495,7 @@ export function GameScene({
       {/* Input lock overlay — swallows clicks/hovers during shock reactions and Stanley intro */}
       {inputLocked && (
         <div
-          className="absolute inset-0 z-40 cursor-none"
+          className="absolute inset-0 z-40 cursor-inherit"
           onClick={(e) => e.stopPropagation()}
           onMouseMove={(e) => e.stopPropagation()}
         />

@@ -6,7 +6,7 @@ import elFuegoSprite2 from "@/assets/characters/el-fuego-2.png";
 import ladySprite from "@/assets/characters/lady.png";
 import losCabosSprite from "@/assets/characters/los-cabos.png";
 import carlSprite from "@/assets/characters/carl.png";
-import daggerImage from "@/assets/props/dagger.png";
+import { BREAKROOM_LAYOUT } from "@/utils/breakroomLayout";
 import wineGlassesImage from "@/assets/props/wine-glasses.png";
 import tableImage from "@/assets/props/table.png";
 import charcuterieBoardImage from "@/assets/charcuterie_board.png";
@@ -89,7 +89,7 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
   const isPartyScene = (phase === "party" || phase === "intro") && fadeState !== "black";
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-black">
+    <div className="relative w-full h-full overflow-hidden bg-black cursor-hourglass">
       {/* Background */}
       {fadeState !== "black" && (
         <div
@@ -106,47 +106,41 @@ export function IntroSequence({ phase, setPhase, onComplete }: IntroSequenceProp
 
       {/* Table with food and drinks - near Lady and Duke Extreme */}
       {isPartyScene && (
-        <div className="absolute bottom-[1%] left-[20%] z-10">
-          <img src={tableImage} alt="Party Table" className="h-48 pixelated object-contain" />
-          {/* Wine glasses centered on table */}
-          <div className="absolute top-[10%] left-[0%]">
-            <img src={wineGlassesImage} alt="Wine Glasses" className="h-20 pixelated object-contain" />
-          </div>
-          {/* Charcuterie board sitting above table */}
-          <div className="absolute top-[10%] left-[40%]">
-            <img src={charcuterieBoardImage} alt="Charcuterie Board" className="h-18 pixelated object-contain" />
-          </div>
-        </div>
+        <>
+          <img src={tableImage} alt="Party Table" className="absolute z-10 pixelated object-contain pointer-events-none" style={BREAKROOM_LAYOUT.table} />
+          <img src={wineGlassesImage} alt="Wine Glasses" className="absolute z-10 pixelated object-contain pointer-events-none" style={BREAKROOM_LAYOUT.wine} />
+          <img src={charcuterieBoardImage} alt="Charcuterie Board" className="absolute z-10 pixelated object-contain pointer-events-none" style={BREAKROOM_LAYOUT.food} />
+        </>
       )}
 
       {/* Characters at the party - positioned on the floor */}
       {isPartyScene && (
         <>
           {/* Lady Fantastica */}
-          <div className="absolute bottom-[3%] left-[8%] z-20">
-            <img src={ladySprite} alt="Lady Fantastica" className="h-60 pixelated object-contain" />
+          <div className="absolute z-20 pointer-events-none" style={BREAKROOM_LAYOUT.lady}>
+            <img src={ladySprite} alt="Lady Fantastica" className="w-full h-full pixelated object-contain" />
             {dialogue.speaker === "Lady Fantastica" && <SpeechBubble text={dialogue.text} />}
           </div>
 
           {/* Duke Extreme */}
-          <div className="absolute bottom-[3%] left-[35%] z-20">
+          <div className="absolute z-20 pointer-events-none" style={BREAKROOM_LAYOUT.duke}>
             <img
               src={elFuegoPose === 0 ? elFuegoSprite : elFuegoSprite2}
               alt="Duke Extreme"
-              className="h-60 pixelated object-contain transition-opacity duration-300"
+              className="w-full h-full pixelated object-contain transition-opacity duration-300"
             />
             {dialogue.speaker === "Duke Extreme" && <SpeechBubble text={dialogue.text} />}
           </div>
 
           {/* Carl */}
-          <div className="absolute bottom-[3%] left-[55%] z-20">
-            <img src={carlSprite} alt="Carl" className="h-60 pixelated object-contain" />
+          <div className="absolute z-20 pointer-events-none" style={BREAKROOM_LAYOUT.carl}>
+            <img src={carlSprite} alt="Carl" className="w-full h-full pixelated object-contain" />
             {dialogue.speaker === "Carl" && <SpeechBubble text={dialogue.text} />}
           </div>
 
           {/* Los Cabos - the future victim, near the far right window */}
-          <div className="absolute bottom-[3%] right-[10%] z-20">
-            <img src={losCabosSprite} alt="Los Cabos" className="h-60 pixelated object-contain" />
+          <div className="absolute z-20 pointer-events-none" style={BREAKROOM_LAYOUT.losCabos}>
+            <img src={losCabosSprite} alt="Los Cabos" className="w-full h-full pixelated object-contain" />
             {dialogue.speaker === "Los Cabos" && <SpeechBubble text={dialogue.text} />}
           </div>
         </>
